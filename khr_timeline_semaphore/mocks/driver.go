@@ -7,9 +7,9 @@ package mock_timeline_semaphore
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_timeline_semaphore_driver "github.com/CannibalVox/VKng/extensions/khr_timeline_semaphore/driver"
+	common "github.com/vkngwrapper/core/common"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/khr_timeline_semaphore/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

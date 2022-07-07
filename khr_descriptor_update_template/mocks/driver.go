@@ -8,9 +8,9 @@ import (
 	reflect "reflect"
 	unsafe "unsafe"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_descriptor_update_template_driver "github.com/CannibalVox/VKng/extensions/khr_descriptor_update_template/driver"
+	common "github.com/vkngwrapper/core/common"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/khr_descriptor_update_template/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

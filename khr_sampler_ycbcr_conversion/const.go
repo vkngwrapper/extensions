@@ -6,7 +6,7 @@ package khr_sampler_ycbcr_conversion
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/core1_0"
+	"github.com/vkngwrapper/core/core1_0"
 )
 
 type ChromaLocation int32

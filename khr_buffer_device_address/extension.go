@@ -1,10 +1,10 @@
 package khr_buffer_device_address
 
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/core1_0"
-	khr_buffer_device_address_driver "github.com/CannibalVox/VKng/extensions/khr_buffer_device_address/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/core1_0"
+	khr_buffer_device_address_driver "github.com/vkngwrapper/extensions/khr_buffer_device_address/driver"
 )
 
 type VulkanExtension struct {

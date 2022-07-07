@@ -16,8 +16,8 @@ VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
 	"runtime/cgo"
 	"unsafe"
 )

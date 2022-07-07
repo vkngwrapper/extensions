@@ -1,8 +1,8 @@
 package mock_surface
 
 import (
-	ext_driver "github.com/CannibalVox/VKng/extensions/khr_surface/driver"
 	"github.com/golang/mock/gomock"
+	ext_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
 	"math/rand"
 	"unsafe"
 )

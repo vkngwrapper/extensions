@@ -1,9 +1,9 @@
 package khr_draw_indirect_count
 
 import (
-	"github.com/CannibalVox/VKng/core/core1_0"
-	"github.com/CannibalVox/VKng/core/driver"
-	khr_draw_indirect_count_driver "github.com/CannibalVox/VKng/extensions/khr_draw_indirect_count/driver"
+	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/core/driver"
+	khr_draw_indirect_count_driver "github.com/vkngwrapper/extensions/khr_draw_indirect_count/driver"
 )
 
 type VulkanExtension struct {

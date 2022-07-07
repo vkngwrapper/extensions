@@ -7,9 +7,9 @@ package mock_sampler_ycbcr_conversion
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_sampler_ycbcr_conversion_driver "github.com/CannibalVox/VKng/extensions/khr_sampler_ycbcr_conversion/driver"
+	common "github.com/vkngwrapper/core/common"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/khr_sampler_ycbcr_conversion/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

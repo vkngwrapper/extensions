@@ -6,8 +6,8 @@ package khr_8bit_storage
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
 	"unsafe"
 )
 

@@ -6,9 +6,9 @@ package khr_external_semaphore
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/extensions/khr_external_semaphore_capabilities"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/extensions/khr_external_semaphore_capabilities"
 	"unsafe"
 )
 

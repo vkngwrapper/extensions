@@ -6,8 +6,8 @@ package khr_buffer_device_address
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
 	"unsafe"
 )
 

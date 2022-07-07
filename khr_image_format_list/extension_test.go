@@ -1,15 +1,15 @@
 package khr_image_format_list
 
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/common/extensions"
-	"github.com/CannibalVox/VKng/core/core1_0"
-	"github.com/CannibalVox/VKng/core/driver"
-	mock_driver "github.com/CannibalVox/VKng/core/driver/mocks"
-	"github.com/CannibalVox/VKng/core/mocks"
-	khr_image_format_list_driver "github.com/CannibalVox/VKng/extensions/khr_image_format_list/driver"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/common/extensions"
+	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/core/driver"
+	mock_driver "github.com/vkngwrapper/core/driver/mocks"
+	"github.com/vkngwrapper/core/mocks"
+	khr_image_format_list_driver "github.com/vkngwrapper/extensions/khr_image_format_list/driver"
 	"reflect"
 	"testing"
 	"unsafe"

@@ -8,12 +8,12 @@ package vkng_surface_sdl2
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/core1_0"
-	"github.com/CannibalVox/VKng/extensions/khr_surface"
-	khr_surface_driver "github.com/CannibalVox/VKng/extensions/khr_surface/driver"
 	"github.com/cockroachdb/errors"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/extensions/khr_surface"
+	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
 	"unsafe"
 )
 

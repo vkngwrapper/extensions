@@ -7,10 +7,10 @@ package mock_descriptor_update_template
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_descriptor_update_template "github.com/CannibalVox/VKng/extensions/khr_descriptor_update_template"
-	khr_descriptor_update_template_driver "github.com/CannibalVox/VKng/extensions/khr_descriptor_update_template/driver"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_descriptor_update_template "github.com/vkngwrapper/extensions/khr_descriptor_update_template"
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/khr_descriptor_update_template/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

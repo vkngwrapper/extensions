@@ -1,13 +1,13 @@
 package khr_maintenance1_test
 
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	mock_driver "github.com/CannibalVox/VKng/core/driver/mocks"
-	"github.com/CannibalVox/VKng/core/mocks"
-	"github.com/CannibalVox/VKng/extensions/khr_maintenance1"
-	khr_maintenance1_driver "github.com/CannibalVox/VKng/extensions/khr_maintenance1/driver"
-	mock_maintenance1 "github.com/CannibalVox/VKng/extensions/khr_maintenance1/mocks"
 	"github.com/golang/mock/gomock"
+	"github.com/vkngwrapper/core/common"
+	mock_driver "github.com/vkngwrapper/core/driver/mocks"
+	"github.com/vkngwrapper/core/mocks"
+	"github.com/vkngwrapper/extensions/khr_maintenance1"
+	khr_maintenance1_driver "github.com/vkngwrapper/extensions/khr_maintenance1/driver"
+	mock_maintenance1 "github.com/vkngwrapper/extensions/khr_maintenance1/mocks"
 	"testing"
 )
 

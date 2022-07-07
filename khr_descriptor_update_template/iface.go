@@ -1,9 +1,9 @@
 package khr_descriptor_update_template
 
 import (
-	"github.com/CannibalVox/VKng/core/core1_0"
-	"github.com/CannibalVox/VKng/core/driver"
-	khr_descriptor_update_template_driver "github.com/CannibalVox/VKng/extensions/khr_descriptor_update_template/driver"
+	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/core/driver"
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/khr_descriptor_update_template/driver"
 )
 
 //go:generate mockgen -source iface.go -destination ./mocks/extension.go -package mock_descriptor_update_template

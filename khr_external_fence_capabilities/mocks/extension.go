@@ -7,8 +7,8 @@ package mock_external_fence_capabilities
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	khr_external_fence_capabilities "github.com/CannibalVox/VKng/extensions/khr_external_fence_capabilities"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	khr_external_fence_capabilities "github.com/vkngwrapper/extensions/khr_external_fence_capabilities"
 	gomock "github.com/golang/mock/gomock"
 )
 

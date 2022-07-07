@@ -5,7 +5,7 @@ package khr_swapchain1_1
 #include "vulkan/vulkan.h"
 */
 import "C"
-import "github.com/CannibalVox/VKng/core/common"
+import "github.com/vkngwrapper/core/common"
 
 type DeviceGroupPresentModeFlags int32
 

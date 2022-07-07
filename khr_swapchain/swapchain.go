@@ -8,12 +8,12 @@ package khr_swapchain
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/common/extensions"
-	"github.com/CannibalVox/VKng/core/core1_0"
-	"github.com/CannibalVox/VKng/core/driver"
-	khr_swapchain_driver "github.com/CannibalVox/VKng/extensions/khr_swapchain/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/common/extensions"
+	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/core/driver"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/khr_swapchain/driver"
 	"time"
 	"unsafe"
 )

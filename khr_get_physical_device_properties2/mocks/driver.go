@@ -7,9 +7,9 @@ package mock_get_physical_device_properties2
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_get_physical_device_properties2_driver "github.com/CannibalVox/VKng/extensions/khr_get_physical_device_properties2/driver"
+	common "github.com/vkngwrapper/core/common"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/khr_get_physical_device_properties2/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

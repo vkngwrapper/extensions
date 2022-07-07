@@ -10,8 +10,8 @@ package ext_debug_utils
 import "C"
 import (
 	"fmt"
-	"github.com/CannibalVox/VKng/core/driver"
-	ext_driver "github.com/CannibalVox/VKng/extensions/ext_debug_utils/driver"
+	"github.com/vkngwrapper/core/driver"
+	ext_driver "github.com/vkngwrapper/extensions/ext_debug_utils/driver"
 	"runtime/cgo"
 	"unsafe"
 )

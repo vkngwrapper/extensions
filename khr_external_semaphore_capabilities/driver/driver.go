@@ -10,8 +10,8 @@ void cgoGetPhysicalDeviceExternalSemaphorePropertiesKHR(PFN_vkGetPhysicalDeviceE
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/driver"
 	"unsafe"
 )
 

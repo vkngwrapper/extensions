@@ -5,7 +5,7 @@ package khr_timeline_semaphore
 #include "vulkan/vulkan.h"
 */
 import "C"
-import "github.com/CannibalVox/VKng/core/common"
+import "github.com/vkngwrapper/core/common"
 
 type SemaphoreType int32
 

@@ -7,10 +7,10 @@ package mock_device_group
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	khr_device_group "github.com/CannibalVox/VKng/extensions/khr_device_group"
-	khr_surface "github.com/CannibalVox/VKng/extensions/khr_surface"
+	common "github.com/vkngwrapper/core/common"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	khr_device_group "github.com/vkngwrapper/extensions/khr_device_group"
+	khr_surface "github.com/vkngwrapper/extensions/khr_surface"
 	gomock "github.com/golang/mock/gomock"
 )
 

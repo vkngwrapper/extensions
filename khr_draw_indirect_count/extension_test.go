@@ -1,10 +1,10 @@
 package khr_draw_indirect_count
 
 import (
-	"github.com/CannibalVox/VKng/core/driver"
-	"github.com/CannibalVox/VKng/core/mocks"
-	mock_draw_indirect_count "github.com/CannibalVox/VKng/extensions/khr_draw_indirect_count/mocks"
 	"github.com/golang/mock/gomock"
+	"github.com/vkngwrapper/core/driver"
+	"github.com/vkngwrapper/core/mocks"
+	mock_draw_indirect_count "github.com/vkngwrapper/extensions/khr_draw_indirect_count/mocks"
 	"testing"
 )
 

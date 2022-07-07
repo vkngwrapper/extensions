@@ -7,7 +7,7 @@ package mock_draw_indirect_count
 import (
 	reflect "reflect"
 
-	driver "github.com/CannibalVox/VKng/core/driver"
+	driver "github.com/vkngwrapper/core/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

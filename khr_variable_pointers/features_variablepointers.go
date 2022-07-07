@@ -6,8 +6,8 @@ package khr_variable_pointers
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
 	"unsafe"
 )
 

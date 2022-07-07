@@ -34,10 +34,10 @@ VkResult cgoAcquireNextImage2KHRDeviceGroup(PFN_vkAcquireNextImage2KHR fn, VkDev
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/driver"
-	khr_surface_driver "github.com/CannibalVox/VKng/extensions/khr_surface/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
 	"unsafe"
 )
 

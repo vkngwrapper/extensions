@@ -7,10 +7,10 @@ package mock_swapchain
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	khr_surface "github.com/CannibalVox/VKng/extensions/khr_surface"
-	khr_swapchain1_1 "github.com/CannibalVox/VKng/extensions/khr_swapchain/khr_swapchain1_1"
+	common "github.com/vkngwrapper/core/common"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	khr_surface "github.com/vkngwrapper/extensions/khr_surface"
+	khr_swapchain1_1 "github.com/vkngwrapper/extensions/khr_swapchain/khr_swapchain1_1"
 	gomock "github.com/golang/mock/gomock"
 )
 

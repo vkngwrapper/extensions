@@ -1,8 +1,8 @@
 package mock_descriptor_update_template
 
 import (
-	khr_descriptor_update_template_driver "github.com/CannibalVox/VKng/extensions/khr_descriptor_update_template/driver"
 	"github.com/golang/mock/gomock"
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/khr_descriptor_update_template/driver"
 	"math/rand"
 	"unsafe"
 )

@@ -7,8 +7,8 @@ package mock_maintenance3
 import (
 	reflect "reflect"
 
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_maintenance3_driver "github.com/CannibalVox/VKng/extensions/khr_maintenance3/driver"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_maintenance3_driver "github.com/vkngwrapper/extensions/khr_maintenance3/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

@@ -14,8 +14,8 @@ void cgoCmdDrawIndirectCountKHR(PFN_vkCmdDrawIndirectCountKHR fn, VkCommandBuffe
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/driver"
 	"unsafe"
 )
 

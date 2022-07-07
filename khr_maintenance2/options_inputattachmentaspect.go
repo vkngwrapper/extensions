@@ -6,9 +6,9 @@ package khr_maintenance2
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
 	"github.com/CannibalVox/cgoparam"
 	"github.com/cockroachdb/errors"
+	"github.com/vkngwrapper/core/common"
 	"unsafe"
 )
 

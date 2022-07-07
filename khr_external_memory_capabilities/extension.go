@@ -1,10 +1,10 @@
 package khr_external_memory_capabilities
 
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/core1_0"
-	khr_external_memory_capabilities_driver "github.com/CannibalVox/VKng/extensions/khr_external_memory_capabilities/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/core1_0"
+	khr_external_memory_capabilities_driver "github.com/vkngwrapper/extensions/khr_external_memory_capabilities/driver"
 )
 
 type VulkanExtension struct {

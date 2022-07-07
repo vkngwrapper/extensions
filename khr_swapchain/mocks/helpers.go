@@ -1,8 +1,8 @@
 package mock_swapchain
 
 import (
-	khr_swapchain_driver "github.com/CannibalVox/VKng/extensions/khr_swapchain/driver"
 	"github.com/golang/mock/gomock"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/khr_swapchain/driver"
 	"math/rand"
 	"unsafe"
 )

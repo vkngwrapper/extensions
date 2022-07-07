@@ -5,7 +5,7 @@ package khr_separate_depth_stencil_layouts
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/CannibalVox/VKng/core/core1_0"
+import "github.com/vkngwrapper/core/core1_0"
 
 const (
 	ExtensionName string = C.VK_KHR_SEPARATE_DEPTH_STENCIL_LAYOUTS_EXTENSION_NAME

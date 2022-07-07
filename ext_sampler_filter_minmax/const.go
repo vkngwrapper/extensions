@@ -5,7 +5,7 @@ package ext_sampler_filter_minmax
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/CannibalVox/VKng/core/core1_0"
+import "github.com/vkngwrapper/core/core1_0"
 
 type SamplerReductionMode int32
 

@@ -1,8 +1,8 @@
 package mock_debugutils
 
 import (
-	ext_driver "github.com/CannibalVox/VKng/extensions/ext_debug_utils/driver"
 	"github.com/golang/mock/gomock"
+	ext_driver "github.com/vkngwrapper/extensions/ext_debug_utils/driver"
 	"math/rand"
 	"unsafe"
 )

@@ -7,8 +7,8 @@ package mock_external_semaphore_capabilities
 import (
 	reflect "reflect"
 
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_external_semaphore_capabilities_driver "github.com/CannibalVox/VKng/extensions/khr_external_semaphore_capabilities/driver"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_external_semaphore_capabilities_driver "github.com/vkngwrapper/extensions/khr_external_semaphore_capabilities/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

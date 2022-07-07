@@ -6,9 +6,9 @@ package khr_device_group
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/extensions/khr_device_group_creation"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/extensions/khr_device_group_creation"
 	"unsafe"
 )
 

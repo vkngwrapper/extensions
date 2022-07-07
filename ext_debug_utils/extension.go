@@ -2,11 +2,11 @@ package ext_debug_utils
 
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/core1_0"
-	"github.com/CannibalVox/VKng/core/driver"
-	ext_driver "github.com/CannibalVox/VKng/extensions/ext_debug_utils/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/core/driver"
+	ext_driver "github.com/vkngwrapper/extensions/ext_debug_utils/driver"
 )
 
 //go:generate mockgen -source extension.go -destination ./mocks/extension.go -package mock_debugutils

@@ -7,10 +7,10 @@ package mock_debugutils
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	ext_debug_utils "github.com/CannibalVox/VKng/extensions/ext_debug_utils"
+	common "github.com/vkngwrapper/core/common"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	driver "github.com/vkngwrapper/core/driver"
+	ext_debug_utils "github.com/vkngwrapper/extensions/ext_debug_utils"
 	gomock "github.com/golang/mock/gomock"
 )
 

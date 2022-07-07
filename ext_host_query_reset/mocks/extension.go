@@ -7,7 +7,7 @@ package mock_host_query_reset
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
 	gomock "github.com/golang/mock/gomock"
 )
 

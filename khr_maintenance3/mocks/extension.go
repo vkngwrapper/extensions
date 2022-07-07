@@ -7,8 +7,8 @@ package mock_maintenance3
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	khr_maintenance3 "github.com/CannibalVox/VKng/extensions/khr_maintenance3"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	khr_maintenance3 "github.com/vkngwrapper/extensions/khr_maintenance3"
 	gomock "github.com/golang/mock/gomock"
 )
 

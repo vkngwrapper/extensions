@@ -7,9 +7,9 @@ package mock_surface
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_surface_driver "github.com/CannibalVox/VKng/extensions/khr_surface/driver"
+	common "github.com/vkngwrapper/core/common"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

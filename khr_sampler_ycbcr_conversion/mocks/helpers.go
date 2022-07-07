@@ -1,8 +1,8 @@
 package mock_sampler_ycbcr_conversion
 
 import (
-	khr_sampler_ycbcr_conversion_driver "github.com/CannibalVox/VKng/extensions/khr_sampler_ycbcr_conversion/driver"
 	"github.com/golang/mock/gomock"
+	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/khr_sampler_ycbcr_conversion/driver"
 	"math/rand"
 	"unsafe"
 )

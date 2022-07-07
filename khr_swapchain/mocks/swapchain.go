@@ -8,10 +8,10 @@ import (
 	reflect "reflect"
 	time "time"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_swapchain_driver "github.com/CannibalVox/VKng/extensions/khr_swapchain/driver"
+	common "github.com/vkngwrapper/core/common"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/khr_swapchain/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 

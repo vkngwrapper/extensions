@@ -7,8 +7,8 @@ package mock_buffer_device_address
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	khr_buffer_device_address "github.com/CannibalVox/VKng/extensions/khr_buffer_device_address"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	khr_buffer_device_address "github.com/vkngwrapper/extensions/khr_buffer_device_address"
 	gomock "github.com/golang/mock/gomock"
 )
 

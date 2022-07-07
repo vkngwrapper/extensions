@@ -18,8 +18,8 @@ void cgoGetImageSparseMemoryRequirements2KHR(PFN_vkGetImageSparseMemoryRequireme
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/driver"
 	"unsafe"
 )
 

@@ -6,8 +6,8 @@ package khr_descriptor_update_template
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/core1_0"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/core1_0"
 	"unsafe"
 )
 

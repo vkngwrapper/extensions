@@ -7,8 +7,8 @@ package mock_get_memory_requirements2
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	khr_get_memory_requirements2 "github.com/CannibalVox/VKng/extensions/khr_get_memory_requirements2"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	khr_get_memory_requirements2 "github.com/vkngwrapper/extensions/khr_get_memory_requirements2"
 	gomock "github.com/golang/mock/gomock"
 )
 

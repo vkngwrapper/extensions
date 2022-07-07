@@ -7,9 +7,9 @@ package mock_device_group_creation
 import (
 	reflect "reflect"
 
-	common "github.com/CannibalVox/VKng/core/common"
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
-	khr_device_group_creation "github.com/CannibalVox/VKng/extensions/khr_device_group_creation"
+	common "github.com/vkngwrapper/core/common"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
+	khr_device_group_creation "github.com/vkngwrapper/extensions/khr_device_group_creation"
 	gomock "github.com/golang/mock/gomock"
 )
 

@@ -6,11 +6,11 @@ package khr_device_group_creation
 */
 import "C"
 import (
-	"github.com/CannibalVox/VKng/core/common"
-	"github.com/CannibalVox/VKng/core/core1_0"
-	"github.com/CannibalVox/VKng/core/driver"
-	khr_device_group_creation_driver "github.com/CannibalVox/VKng/extensions/khr_device_group_creation/driver"
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/common"
+	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/core/driver"
+	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/khr_device_group_creation/driver"
 	"unsafe"
 )
 

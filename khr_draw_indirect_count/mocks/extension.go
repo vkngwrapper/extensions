@@ -7,7 +7,7 @@ package mock_draw_indirect_count
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/CannibalVox/VKng/core/core1_0"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
 	gomock "github.com/golang/mock/gomock"
 )
 

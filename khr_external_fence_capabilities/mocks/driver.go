@@ -7,8 +7,8 @@ package mock_external_fence_capabilities
 import (
 	reflect "reflect"
 
-	driver "github.com/CannibalVox/VKng/core/driver"
-	khr_external_fence_capabilities_driver "github.com/CannibalVox/VKng/extensions/khr_external_fence_capabilities/driver"
+	driver "github.com/vkngwrapper/core/driver"
+	khr_external_fence_capabilities_driver "github.com/vkngwrapper/extensions/khr_external_fence_capabilities/driver"
 	gomock "github.com/golang/mock/gomock"
 )
 
