@@ -2,7 +2,6 @@ cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 github.com/AndreasBriese/bbloom v0.0.0-20190306092124-e2d15f34fcf9/go.mod h1:bOvUY6CB00SOBii9/FifXqc0awNKxLFCL/+pkDPuyl8=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/CannibalVox/VKng v0.0.0-20220707035000-0931f864c378 h1:VT+Uklgvu+BMI2MLouYtTd/HL7uqE/ds3n9yeP8bj8I=
-github.com/CannibalVox/VKng v0.0.0-20220707035000-0931f864c378/go.mod h1:5+7U/5AcpGEUXyh1bz8L8XipbKPxmZr3gKxZou6nXlo=
 github.com/CannibalVox/cgoparam v1.0.0 h1:m6nDpYuGGi4COcwv3dEfvDc0pgiphDU/LWhBFBfEN2w=
 github.com/CannibalVox/cgoparam v1.0.0/go.mod h1:9LDFLuHVgE+IIBDd1QFN3dPqmGQN9bS6H+NPizMv2fA=
 github.com/CloudyKit/fastprinter v0.0.0-20170127035650-74b38d55f37a/go.mod h1:EFZQ978U7x8IRnstaskI3IysnWY5Ao3QgZUKOXlsAdw=
@@ -238,8 +237,6 @@ github.com/valyala/fasthttp v1.6.0/go.mod h1:FstJa9V+Pj9vQ7OJie2qMHdwemEDaDiSdBn
 github.com/valyala/fasttemplate v1.0.1/go.mod h1:UQGH1tvbgY+Nz5t2n7tXsz52dQxojPUpymEIMZ47gx8=
 github.com/valyala/fasttemplate v1.2.1/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
 github.com/valyala/tcplisten v0.0.0-20161114210144-ceec8f93295a/go.mod h1:v3UYOV9WzVtRmSR+PDvWpU/qWl4Wa5LApYYX4ZtKbio=
-github.com/vkngwrapper/core v0.0.0-20220707035000-5ae1f4d28e8f h1:C8z4/fSeHNPFBu/XEQmo5QKP+roX+aHpe2schuqcJDw=
-github.com/vkngwrapper/core v0.0.0-20220707035000-5ae1f4d28e8f/go.mod h1:v+l93Apm8OtQl7y5WUDNJxLj99NGzgiXvJ8PV6gEUG8=
 github.com/vkngwrapper/core v0.1.0 h1://aBBI2JuzjG2pliiZ5wU513RFVVIPPDo+RQIuhiyJ0=
 github.com/vkngwrapper/core v0.1.0/go.mod h1:3hudUEjqwovDdFdauZjfILI1kTu1pv8IfS07z+gPMzE=
 github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f/go.mod h1:N2zxlSyiKSe5eX1tZViRH5QA0qijqEDrYZiPEAiq3wU=

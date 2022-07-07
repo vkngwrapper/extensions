@@ -11,7 +11,6 @@ require (
 )
 
 require (
-	github.com/CannibalVox/VKng v0.0.0-20220707035000-0931f864c378 // indirect
 	github.com/cockroachdb/errors v1.9.0 // indirect
 	github.com/cockroachdb/logtags v0.0.0-20211118104740-dabe8e521a4f // indirect
 	github.com/cockroachdb/redact v1.1.3 // indirect
