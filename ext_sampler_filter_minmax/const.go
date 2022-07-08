@@ -6,6 +6,7 @@ package ext_sampler_filter_minmax
 */
 import "C"
 import "github.com/vkngwrapper/core/core1_0"
+import _ "github.com/vkngwrapper/extensions/vulkan"
 
 type SamplerReductionMode int32
 

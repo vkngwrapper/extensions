@@ -5,6 +5,7 @@ package ext_descriptor_indexing_driver
 #include "../../vulkan/vulkan.h"
 */
 import "C"
+import _ "github.com/vkngwrapper/extensions/vulkan"
 
 type VkDescriptorSetVariableDescriptorCountAllocateInfoEXT C.VkDescriptorSetVariableDescriptorCountAllocateInfoEXT
 type VkDescriptorSetLayoutBindingFlagsCreateInfoEXT C.VkDescriptorSetLayoutBindingFlagsCreateInfoEXT

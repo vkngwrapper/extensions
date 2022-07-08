@@ -10,6 +10,7 @@ import (
 	core_mocks "github.com/vkngwrapper/core/mocks"
 	"github.com/vkngwrapper/extensions/khr_surface"
 	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
+	"github.com/vkngwrapper/extensions/khr_surface/mocks"
 	"reflect"
 	"testing"
 	"unsafe"

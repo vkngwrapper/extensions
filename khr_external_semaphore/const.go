@@ -6,6 +6,7 @@ package khr_external_semaphore
 */
 import "C"
 import "github.com/vkngwrapper/core/common"
+import _ "github.com/vkngwrapper/extensions/vulkan"
 
 type SemaphoreImportFlags int32
 

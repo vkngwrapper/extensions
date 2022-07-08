@@ -6,6 +6,7 @@ package khr_depth_stencil_resolve
 */
 import "C"
 import "github.com/vkngwrapper/core/common"
+import _ "github.com/vkngwrapper/extensions/vulkan"
 
 type ResolveModeFlags int32
 

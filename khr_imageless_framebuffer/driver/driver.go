@@ -5,6 +5,7 @@ package khr_imageless_framebuffer_driver
 #include "../../vulkan/vulkan.h"
 */
 import "C"
+import _ "github.com/vkngwrapper/extensions/vulkan"
 
 type VkFramebufferAttachmentImageInfoKHR C.VkFramebufferAttachmentImageInfoKHR
 type VkFramebufferAttachmentsCreateInfoKHR C.VkFramebufferAttachmentsCreateInfoKHR

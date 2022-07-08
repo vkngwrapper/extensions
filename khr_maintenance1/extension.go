@@ -4,6 +4,7 @@ package khr_maintenance1
 
 import (
 	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/extensions/khr_maintenance1/driver"
 )
 
 type Extension interface {

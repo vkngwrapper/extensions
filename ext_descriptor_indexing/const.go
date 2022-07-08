@@ -8,6 +8,7 @@ import "C"
 import (
 	"github.com/vkngwrapper/core/common"
 	"github.com/vkngwrapper/core/core1_0"
+	_ "github.com/vkngwrapper/extensions/vulkan"
 )
 
 type DescriptorBindingFlags int32

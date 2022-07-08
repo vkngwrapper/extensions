@@ -6,6 +6,7 @@ package khr_multiview
 */
 import "C"
 import "github.com/vkngwrapper/core/core1_0"
+import _ "github.com/vkngwrapper/extensions/vulkan"
 
 const (
 	ExtensionName string = C.VK_KHR_MULTIVIEW_EXTENSION_NAME

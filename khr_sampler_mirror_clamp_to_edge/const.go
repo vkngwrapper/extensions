@@ -7,6 +7,7 @@ package khr_sampler_mirror_clamp_to_edge
 import "C"
 import (
 	"github.com/vkngwrapper/core/core1_0"
+	_ "github.com/vkngwrapper/extensions/vulkan"
 )
 
 const (

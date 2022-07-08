@@ -38,6 +38,7 @@ import (
 	"github.com/vkngwrapper/core/common"
 	"github.com/vkngwrapper/core/driver"
 	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
+	_ "github.com/vkngwrapper/extensions/vulkan"
 	"unsafe"
 )
 
