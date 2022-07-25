@@ -22,11 +22,19 @@ import (
 	"unsafe"
 )
 
+// DebugUtilsMessengerCreateInfo specifies parameters of a newly-created DebugUtilsMessenger
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessengerCreateInfoEXT.html
 type DebugUtilsMessengerCreateInfo struct {
-	Flags           CallbackDataFlags
-	MessageSeverity MessageSeverities
-	MessageType     MessageTypes
-	UserCallback    CallbackFunction
+	// Flags is reserved for future use
+	Flags DebugUtilsMessengerCreateFlags
+	// MessageSeverity specifies which severity of event(s) will cause this callback
+	// to be called
+	MessageSeverity DebugUtilsMessageSeverityFlags
+	// MessageType specifies which type of event(s) will cause this callback to be called
+	MessageType DebugUtilsMessageTypeFlags
+	// UserCallback is the application callback function to call
+	UserCallback CallbackFunction
 
 	common.NextOptions
 }

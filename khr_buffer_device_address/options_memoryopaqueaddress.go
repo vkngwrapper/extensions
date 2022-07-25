@@ -11,7 +11,11 @@ import (
 	"unsafe"
 )
 
+// MemoryOpaqueCaptureAddressAllocateInfo requests a specific address for a memory allocation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkMemoryOpaqueCaptureAddressAllocateInfoKHR.html
 type MemoryOpaqueCaptureAddressAllocateInfo struct {
+	// OpaqueCaptureAddress is the opaque capture address requested for the memory allocation
 	OpaqueCaptureAddress uint64
 
 	common.NextOptions

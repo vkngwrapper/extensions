@@ -11,10 +11,21 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceBufferDeviceAddressFeatures describes Buffer address features that can
+// be supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceBufferDeviceAddressFeatures.html
 type PhysicalDeviceBufferDeviceAddressFeatures struct {
-	BufferDeviceAddress              bool
+	// BufferDeviceAddress indicates that the implementation supports accessing Buffer memory
+	// in shaders as storage Buffer objects via an address queried from Device.GetBufferDeviceAddress
+	BufferDeviceAddress bool
+	// BufferDeviceAddressCaptureReplay indicates that the implementation supports saving and
+	// reusing Buffer and Device addresses, e.g. for trace capture and replay
 	BufferDeviceAddressCaptureReplay bool
-	BufferDeviceAddressMultiDevice   bool
+	// BufferDeviceAddressMultiDevice indicates that the implementation supports the
+	// BufferDeviceAddress, RayTracingPipeline, and RayQuery features for logical Device objects
+	// created with multiple PhysicalDevice objects
+	BufferDeviceAddressMultiDevice bool
 
 	common.NextOptions
 	common.NextOutData

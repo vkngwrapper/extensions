@@ -11,7 +11,11 @@ import (
 	"unsafe"
 )
 
+// BufferOpaqueCaptureAddressCreateInfo requests a specific address for a Buffer
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBufferOpaqueCaptureAddressCreateInfo.html
 type BufferOpaqueCaptureAddressCreateInfo struct {
+	// OpaqueCaptureAddress is the opaque capture address requested for the Buffer
 	OpaqueCaptureAddress uint64
 
 	common.NextOptions

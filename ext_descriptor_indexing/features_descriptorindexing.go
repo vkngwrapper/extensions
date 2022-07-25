@@ -11,27 +11,71 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceDescriptorIndexingFeatures describes descriptor indexing
+// features that can be supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceDescriptorIndexingFeatures.html
 type PhysicalDeviceDescriptorIndexingFeatures struct {
-	ShaderInputAttachmentArrayDynamicIndexing          bool
-	ShaderUniformTexelBufferArrayDynamicIndexing       bool
-	ShaderStorageTexelBufferArrayDynamicIndexing       bool
-	ShaderUniformBufferArrayNonUniformIndexing         bool
-	ShaderSampledImageArrayNonUniformIndexing          bool
-	ShaderStorageBufferArrayNonUniformIndexing         bool
-	ShaderStorageImageArrayNonUniformIndexing          bool
-	ShaderInputAttachmentArrayNonUniformIndexing       bool
-	ShaderUniformTexelBufferArrayNonUniformIndexing    bool
-	ShaderStorageTexelBufferArrayNonUniformIndexing    bool
-	DescriptorBindingUniformBufferUpdateAfterBind      bool
-	DescriptorBindingSampledImageUpdateAfterBind       bool
-	DescriptorBindingStorageImageUpdateAfterBind       bool
-	DescriptorBindingStorageBufferUpdateAfterBind      bool
+	// ShaderInputAttachmentArrayDynamicIndexing indicates whether arrays of input attachments
+	// can be indexed by dynamically uniform integer expressions in shader code
+	ShaderInputAttachmentArrayDynamicIndexing bool
+	// ShaderUniformTexelBufferArrayDynamicIndexing indicates whether arrays of uniform texel
+	// Buffer objects can be indexed by dynamically uniform integer expressions in shader code
+	ShaderUniformTexelBufferArrayDynamicIndexing bool
+	// ShaderStorageTexelBufferArrayDynamicIndexing indicates whether arrays of storage texel
+	// Buffer objects can be indexed by dynamically uniform integer expressions in shader code
+	ShaderStorageTexelBufferArrayDynamicIndexing bool
+	// ShaderUniformBufferArrayNonUniformIndexing indicates whether arrays of uniform Buffer objects
+	// can be indexed by non-uniform integer expressions in shader code.
+	ShaderUniformBufferArrayNonUniformIndexing bool
+	// ShaderSampledImageArrayNonUniformIndexing indicates whether arrays of Sampler objects or sampled
+	// Image objects can be indexed by non-uniform integer expressions in shader code
+	ShaderSampledImageArrayNonUniformIndexing bool
+	// ShaderStorageBufferArrayNonUniformIndexing indicates whether arrays of storage buffers
+	// can be indexed by non-uniform integer expressions in shader code
+	ShaderStorageBufferArrayNonUniformIndexing bool
+	// ShaderStorageImageArrayNonUniformIndexing indicates whether arrays of storage Image objects can
+	// be indexed by non-uniform integer expressions in shader code
+	ShaderStorageImageArrayNonUniformIndexing bool
+	// ShaderInputAttachmentArrayNonUniformIndexing indicates whether arrays of input attachments
+	// can be indexed by non-uniform integer expressions in shader code
+	ShaderInputAttachmentArrayNonUniformIndexing bool
+	// ShaderUniformTexelBufferArrayNonUniformIndexing indicates whether arrays of uniform texel
+	// Buffer objects can be indexed by non-uniform integer expressions in shader code
+	ShaderUniformTexelBufferArrayNonUniformIndexing bool
+	// ShaderStorageTexelBufferArrayNonUniformIndexing indicates whether arrays of storage texel
+	// Buffer objects can be indexed by non-uniform integer expressions in shader code
+	ShaderStorageTexelBufferArrayNonUniformIndexing bool
+	// DescriptorBindingUniformBufferUpdateAfterBind indicates whether the implementation supports
+	// updating uniform Buffer descriptors after a set is bound
+	DescriptorBindingUniformBufferUpdateAfterBind bool
+	// DescriptorBindingSampledImageUpdateAfterBind indicates whether the implementation supports
+	// updating sampled Image descriptors after a set is bound
+	DescriptorBindingSampledImageUpdateAfterBind bool
+	// DescriptorBindingStorageImageUpdateAfterBind indicates whether the implementation supports
+	// updating storage Image descriptors after a set is bound
+	DescriptorBindingStorageImageUpdateAfterBind bool
+	// DescriptorBindingStorageBufferUpdateAfterBind indicates whether the implementation
+	// supports updating storage Buffer descriptors after a set is bound
+	DescriptorBindingStorageBufferUpdateAfterBind bool
+	// DescriptorBindingUniformTexelBufferUpdateAfterBind indicates whether the implementation
+	// supports updating uniform texel Buffer descriptors after a set is bound
 	DescriptorBindingUniformTexelBufferUpdateAfterBind bool
+	// DescriptorBindingStorageTexelBufferUpdateAfterBind indicates whether the impelementation
+	// supports updating storage texel Buffer descriptors after a set is bound
 	DescriptorBindingStorageTexelBufferUpdateAfterBind bool
-	DescriptorBindingUpdateUnusedWhilePending          bool
-	DescriptorBindingPartiallyBound                    bool
-	DescriptorBindingVariableDescriptorCount           bool
-	RuntimeDescriptorArray                             bool
+	// DescriptorBindingUpdateUnusedWhilePending indicates whether the implementation supports
+	// updating descriptors while the set is in use
+	DescriptorBindingUpdateUnusedWhilePending bool
+	// DescriptorBindingPartiallyBound indicates whether the implementation supports statically
+	// using a DescriptorSet binding in which some descriptors are not valid
+	DescriptorBindingPartiallyBound bool
+	// DescriptorBindingVariableDescriptorCount indicates whether the implementation supports
+	// DescriptorSet object with a variable-sized last binding
+	DescriptorBindingVariableDescriptorCount bool
+	// RuntimeDescriptorArray indicates whether the implementation supports the SPIR-V
+	// RuntimeDescriptorArray capability
+	RuntimeDescriptorArray bool
 
 	common.NextOptions
 	common.NextOutData

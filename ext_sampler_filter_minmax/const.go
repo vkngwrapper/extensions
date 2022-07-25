@@ -8,6 +8,9 @@ import "C"
 import "github.com/vkngwrapper/core/core1_0"
 import _ "github.com/vkngwrapper/extensions/vulkan"
 
+// SamplerReductionMode specifies reduction mode for texture filtering
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerReductionMode.html
 type SamplerReductionMode int32
 
 var samplerReductionModeMapping = make(map[SamplerReductionMode]string)
@@ -23,12 +26,29 @@ func (e SamplerReductionMode) String() string {
 ////
 
 const (
+	// ExtensionName is "ext_sampler_filter_minmax"
 	ExtensionName string = C.VK_EXT_SAMPLER_FILTER_MINMAX_EXTENSION_NAME
 
+	// FormatFeatureSampledImageFilterMinmax specifies the Image can be used as a sampled Image
+	// with a min or max SamplerReductionMode
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkFormatFeatureFlagBits.html
 	FormatFeatureSampledImageFilterMinmax core1_0.FormatFeatureFlags = C.VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_MINMAX_BIT_EXT
 
-	SamplerReductionModeMax             SamplerReductionMode = C.VK_SAMPLER_REDUCTION_MODE_MAX_EXT
-	SamplerReductionModeMin             SamplerReductionMode = C.VK_SAMPLER_REDUCTION_MODE_MIN_EXT
+	// SamplerReductionModeMax specifies that texel values are combined by taking
+	// the component-wise maximum of values in the footprint with non-zero weights
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerReductionMode.html
+	SamplerReductionModeMax SamplerReductionMode = C.VK_SAMPLER_REDUCTION_MODE_MAX_EXT
+	// SamplerReductionModeMin specifies that texel values are combined by taking the
+	// component-wise minimum of values in the footprint with non-zero weights
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerReductionMode.html
+	SamplerReductionModeMin SamplerReductionMode = C.VK_SAMPLER_REDUCTION_MODE_MIN_EXT
+	// SamplerReductionModeWeightedAverage specifies that texel values are combined by
+	// computing a weighted average of values in the footprint
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerReductionMode.html
 	SamplerReductionModeWeightedAverage SamplerReductionMode = C.VK_SAMPLER_REDUCTION_MODE_WEIGHTED_AVERAGE_EXT
 )
 

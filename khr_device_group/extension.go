@@ -16,6 +16,8 @@ import (
 	"unsafe"
 )
 
+// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
 	driver        khr_device_group_driver.Driver
 	withSurface   *VulkanExtensionWithKHRSurface
@@ -33,6 +35,8 @@ func CreateExtensionFromDevice(device core1_0.Device, instance core1_0.Instance)
 	return CreateExtensionFromDriver(khr_device_group_driver.CreateDriverFromCore(device.Driver()), surfaceInteraction, swapchainInteraction)
 }
 
+// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// used in tests to build an Extension from mock drivers
 func CreateExtensionFromDriver(driver khr_device_group_driver.Driver, khrSurfaceInteraction bool, khrSwapchainInteraction bool) *VulkanExtension {
 	ext := &VulkanExtension{
 		driver: driver,

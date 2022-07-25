@@ -781,7 +781,7 @@ func TestDeviceGroupBindSparseOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	_, err := queue.BindSparse(fence, []core1_0.BindSparseOptions{
+	_, err := queue.BindSparse(fence, []core1_0.BindSparseInfo{
 		{
 			WaitSemaphores:   []core1_0.Semaphore{semaphore1},
 			SignalSemaphores: []core1_0.Semaphore{semaphore2, semaphore3},
@@ -832,7 +832,7 @@ func TestImageSwapchainCreateOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	image, _, err := device.CreateImage(nil, core1_0.ImageCreateOptions{
+	image, _, err := device.CreateImage(nil, core1_0.ImageCreateInfo{
 		MipLevels:   1,
 		ArrayLayers: 3,
 		NextOptions: common.NextOptions{

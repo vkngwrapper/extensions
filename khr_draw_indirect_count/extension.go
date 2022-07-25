@@ -6,6 +6,8 @@ import (
 	khr_draw_indirect_count_driver "github.com/vkngwrapper/extensions/khr_draw_indirect_count/driver"
 )
 
+// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
 	driver khr_draw_indirect_count_driver.Driver
 }
@@ -18,6 +20,8 @@ func CreateExtensionFromDevice(device core1_0.Device, instance core1_0.Instance)
 	return CreateExtensionFromDriver(khr_draw_indirect_count_driver.CreateDriverFromCore(device.Driver()))
 }
 
+// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// used in tests to build an Extension from mock drivers
 func CreateExtensionFromDriver(driver khr_draw_indirect_count_driver.Driver) *VulkanExtension {
 	ext := &VulkanExtension{
 		driver: driver,

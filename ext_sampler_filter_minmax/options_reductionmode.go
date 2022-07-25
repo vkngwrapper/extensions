@@ -11,7 +11,11 @@ import (
 	"unsafe"
 )
 
+// SamplerReductionModeCreateInfo specifies a Sampler reduction mode
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerReductionModeCreateInfoEXT.html
 type SamplerReductionModeCreateInfo struct {
+	// ReductionMode controls how texture filtering combines texel values
 	ReductionMode SamplerReductionMode
 
 	common.NextOptions

@@ -16,6 +16,8 @@ import (
 	"unsafe"
 )
 
+// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
 	khr_swapchain.Extension
 
@@ -34,6 +36,8 @@ func PromoteExtension(extension khr_swapchain.Extension) *VulkanExtension {
 	}
 }
 
+// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// used in tests to build an Extension from mock drivers
 func CreateExtensionFromDriver(driver khr_swapchain_driver.Driver) *VulkanExtension {
 	return &VulkanExtension{
 		Extension: khr_swapchain.CreateExtensionFromDriver(driver),

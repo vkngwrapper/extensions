@@ -78,10 +78,10 @@ func (mr *MockExtensionMockRecorder) CmdInsertLabel(commandBuffer, label interfa
 }
 
 // CreateMessenger mocks base method.
-func (m *MockExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, allocation *driver.AllocationCallbacks, o ext_debug_utils.DebugUtilsMessengerCreateInfo) (ext_debug_utils.Messenger, common.VkResult, error) {
+func (m *MockExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, allocation *driver.AllocationCallbacks, o ext_debug_utils.DebugUtilsMessengerCreateInfo) (ext_debug_utils.DebugUtilsMessenger, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateDebugUtilsMessenger", instance, allocation, o)
-	ret0, _ := ret[0].(ext_debug_utils.Messenger)
+	ret0, _ := ret[0].(ext_debug_utils.DebugUtilsMessenger)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
@@ -164,7 +164,7 @@ func (mr *MockExtensionMockRecorder) SetObjectTag(instance, tag interface{}) *go
 }
 
 // SubmitMessage mocks base method.
-func (m *MockExtension) SubmitDebugUtilsMessage(instance core1_0.Instance, severity ext_debug_utils.MessageSeverities, types ext_debug_utils.MessageTypes, data ext_debug_utils.DebugUtilsMessengerCallbackData) error {
+func (m *MockExtension) SubmitDebugUtilsMessage(instance core1_0.Instance, severity ext_debug_utils.DebugUtilsMessageSeverityFlags, types ext_debug_utils.DebugUtilsMessageTypeFlags, data ext_debug_utils.DebugUtilsMessengerCallbackData) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SubmitDebugUtilsMessage", instance, severity, types, data)
 	ret0, _ := ret[0].(error)

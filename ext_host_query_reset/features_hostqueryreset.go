@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceHostQueryResetFeatures describes whether queries can be reset from the host
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceHostQueryResetFeatures.html
 type PhysicalDeviceHostQueryResetFeatures struct {
+	// HostQueryReset indicates that hte implementation supports resetting queries from the host
+	// with QueryPool.Reset
 	HostQueryReset bool
 
 	common.NextOptions

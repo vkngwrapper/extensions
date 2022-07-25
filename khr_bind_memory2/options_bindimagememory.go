@@ -12,9 +12,13 @@ import (
 	"unsafe"
 )
 
+// BindImageMemoryInfo specifies how to bind an Image to DeviceMemory
 type BindImageMemoryInfo struct {
-	Image        core1_0.Image
-	Memory       core1_0.DeviceMemory
+	// Image is the image to be attached to DeviceMemory
+	Image core1_0.Image
+	// Memory describes the DeviceMemory to attach
+	Memory core1_0.DeviceMemory
+	// MemoryOffset is the start offset of the region of DeviceMemory to be bound to the Image
 	MemoryOffset uint64
 
 	common.NextOptions

@@ -12,13 +12,17 @@ import (
 	"unsafe"
 )
 
-type DeviceMemoryOpaqueAddressInfo struct {
+// DeviceMemoryOpaqueCaptureAddressInfo specifies the DeviceMemory object to query an address for
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceMemoryOpaqueCaptureAddressInfo.html
+type DeviceMemoryOpaqueCaptureAddressInfo struct {
+	// Memory specifies the DeviceMemory whose address is being queried
 	Memory core1_0.DeviceMemory
 
 	common.NextOptions
 }
 
-func (o DeviceMemoryOpaqueAddressInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
+func (o DeviceMemoryOpaqueCaptureAddressInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
 	if preallocatedPointer == nil {
 		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkDeviceMemoryOpaqueCaptureAddressInfoKHR{})))
 	}

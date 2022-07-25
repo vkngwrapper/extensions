@@ -54,7 +54,7 @@ func TestImageFormatListCreateOptions(t *testing.T) {
 
 	image, _, err := device.CreateImage(
 		nil,
-		core1_0.ImageCreateOptions{
+		core1_0.ImageCreateInfo{
 			NextOptions: common.NextOptions{
 				ImageFormatListCreateInfo{
 					ViewFormats: []core1_0.Format{

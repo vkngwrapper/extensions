@@ -11,7 +11,14 @@ import (
 	"unsafe"
 )
 
+// DescriptorSetVariableDescriptorCountAllocateInfo specifies additional allocation parameters
+// for DescriptorSet objects
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorSetVariableDescriptorCountAllocateInfo.html
 type DescriptorSetVariableDescriptorCountAllocateInfo struct {
+	// DescriptorCounts is a slice of descriptor counts, with each member specifying the number
+	// of descriptors in a variable-sized descriptor binding in the corresponding DescriptorSet
+	// being allocated
 	DescriptorCounts []int
 
 	common.NextOptions

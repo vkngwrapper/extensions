@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceScalarBlockLayoutFeatures indicates support for scalar block layouts
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceScalarBlockLayoutFeatures.html
 type PhysicalDeviceScalarBlockLayoutFeatures struct {
+	// ScalarBlockLayout indicates that the implementation supports the layout of resource blocks
+	// in shaders using scalar alignment
 	ScalarBlockLayout bool
 
 	common.NextOptions

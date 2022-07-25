@@ -112,7 +112,7 @@ func TestVulkanExtension_GetDeviceMemoryOpaqueCaptureAddress(t *testing.T) {
 
 	address, err := extension.GetDeviceMemoryOpaqueCaptureAddress(
 		device,
-		khr_buffer_device_address.DeviceMemoryOpaqueAddressInfo{
+		khr_buffer_device_address.DeviceMemoryOpaqueCaptureAddressInfo{
 			Memory: deviceMemory,
 		})
 	require.NoError(t, err)

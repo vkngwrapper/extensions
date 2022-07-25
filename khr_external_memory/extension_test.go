@@ -103,7 +103,7 @@ func TestExternalMemoryImageOptions(t *testing.T) {
 
 	image, _, err := device.CreateImage(
 		nil,
-		core1_0.ImageCreateOptions{
+		core1_0.ImageCreateInfo{
 			MipLevels:   1,
 			ArrayLayers: 3,
 

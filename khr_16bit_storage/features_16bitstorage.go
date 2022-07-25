@@ -11,11 +11,23 @@ import (
 	"unsafe"
 )
 
+// PhysicalDevice16BitStorageFeatures describes features supported by khr_16bit_storage
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDevice16BitStorageFeatures.html
 type PhysicalDevice16BitStorageFeatures struct {
-	StorageBuffer16BitAccess           bool
+	// StorageBuffer16BitAccess specifies whether objects in the StorageBuffer, ShaderRecordBufferKHR,
+	// or PhysicalStorageBuffer storage class with the Block decoration can have 16-bit integer and
+	// 16-bit floating-point members
+	StorageBuffer16BitAccess bool
+	// UniformAndStorageBuffer16BitAccess specifies whether objects in the Uniform storage class with
+	// the Block decoration can have 16-bit integer and 16-bit floating-point members
 	UniformAndStorageBuffer16BitAccess bool
-	StoragePushConstant16              bool
-	StorageInputOutput16               bool
+	// StoragePushConstant16 specifies whether objects in the PushConstant storage class can have
+	// 16-bit integer and 16-bit floating-point members
+	StoragePushConstant16 bool
+	// StorageInputOutput16 specifies whether objects in the Input and Output storage classes can
+	// have 16-bit integer and 16-bit floating-point members
+	StorageInputOutput16 bool
 
 	common.NextOptions
 	common.NextOutData

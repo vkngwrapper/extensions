@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// ImageStencilUsageCreateInfo specifies separate usage flags for the stencil aspect of a
+// depth-stencil Image
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkImageStencilUsageCreateInfo.html
 type ImageStencilUsageCreateInfo struct {
+	// StencilUsage describes the intended usage of the stencil aspect of the Image
 	StencilUsage core1_0.ImageUsageFlags
 
 	common.NextOptions

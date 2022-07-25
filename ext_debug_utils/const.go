@@ -10,57 +10,98 @@ import (
 	"github.com/vkngwrapper/core/core1_0"
 )
 
-type MessageTypes int32
+// DebugUtilsMessageTypeFlags specifies which types of events cause a debug messenger callback
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageTypeFlagBitsEXT.html
+type DebugUtilsMessageTypeFlags int32
 
-var messageTypesMapping = common.NewFlagStringMapping[MessageTypes]()
+var messageTypesMapping = common.NewFlagStringMapping[DebugUtilsMessageTypeFlags]()
 
-func (f MessageTypes) Register(str string) {
+func (f DebugUtilsMessageTypeFlags) Register(str string) {
 	messageTypesMapping.Register(f, str)
 }
-func (f MessageTypes) String() string {
+func (f DebugUtilsMessageTypeFlags) String() string {
 	return messageTypesMapping.FlagsToString(f)
 }
 
 ////
 
-type MessageSeverities int32
+// DebugUtilsMessageSeverityFlags specifies which severities of events cause a debug messenger
+// callback
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageSeverityFlagBitsEXT.html
+type DebugUtilsMessageSeverityFlags int32
 
-var messageSeveritiesMapping = common.NewFlagStringMapping[MessageSeverities]()
+var messageSeveritiesMapping = common.NewFlagStringMapping[DebugUtilsMessageSeverityFlags]()
 
-func (f MessageSeverities) Register(str string) {
+func (f DebugUtilsMessageSeverityFlags) Register(str string) {
 	messageSeveritiesMapping.Register(f, str)
 }
-func (f MessageSeverities) String() string {
+func (f DebugUtilsMessageSeverityFlags) String() string {
 	return messageSeveritiesMapping.FlagsToString(f)
 }
 
 ////
 
-type CallbackDataFlags int32
+// DebugUtilsMessengerCreateFlags is reserved for future use
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessengerCreateFlagsEXT.html
+type DebugUtilsMessengerCreateFlags int32
 
-var callbackDataFlagsMapping = common.NewFlagStringMapping[CallbackDataFlags]()
+var callbackDataFlagsMapping = common.NewFlagStringMapping[DebugUtilsMessengerCreateFlags]()
 
-func (f CallbackDataFlags) Register(str string) {
+func (f DebugUtilsMessengerCreateFlags) Register(str string) {
 	callbackDataFlagsMapping.Register(f, str)
 }
-func (f CallbackDataFlags) String() string {
+func (f DebugUtilsMessengerCreateFlags) String() string {
 	return callbackDataFlagsMapping.FlagsToString(f)
 }
 
 ////
 
 const (
+	// ExtensionName is "ext_debug_utils"
 	ExtensionName string = C.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 
-	TypeGeneral     MessageTypes = C.VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT
-	TypeValidation  MessageTypes = C.VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
-	TypePerformance MessageTypes = C.VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT
+	// TypeGeneral specifies that some general event has occurred
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageTypeFlagBitsEXT.html
+	TypeGeneral DebugUtilsMessageTypeFlags = C.VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT
+	// TypeValidation specifies that something has occurred during validation against
+	// the Vulkan specification that may indicate invalid behavior
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageTypeFlagBitsEXT.html
+	TypeValidation DebugUtilsMessageTypeFlags = C.VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
+	// TypePerformance specifies a potentially non-optimal use of Vulkan, e.g. using
+	// CommandBuffer.CmdClearColorImage when setting AttachmentDescription.LoadOp to
+	// AttachmentLoadOpClear would have worked
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageTypeFlagBitsEXT.html
+	TypePerformance DebugUtilsMessageTypeFlags = C.VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT
 
-	SeverityVerbose MessageSeverities = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT
-	SeverityInfo    MessageSeverities = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT
-	SeverityWarning MessageSeverities = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
-	SeverityError   MessageSeverities = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT
+	// SeverityVerbose specifies the most verbose output indicating all diagnostic messages
+	// from the Vulkan loader, layers, and drivers should be captured
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageSeverityFlagBitsEXT.html
+	SeverityVerbose DebugUtilsMessageSeverityFlags = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT
+	// SeverityInfo specifies an informational message such as resource details that may be
+	// handy when debugging an application
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageSeverityFlagBitsEXT.html
+	SeverityInfo DebugUtilsMessageSeverityFlags = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT
+	// SeverityWarning specifies use of Vulkan that may expose an app bug
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageSeverityFlagBitsEXT.html
+	SeverityWarning DebugUtilsMessageSeverityFlags = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
+	// SeverityError specifies that the application has violated a valid usage condition
+	// of the specification
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessageSeverityFlagBitsEXT.html
+	SeverityError DebugUtilsMessageSeverityFlags = C.VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT
 
+	// ObjectTypeDebugUtilsMessenger specifies a DebugUtilsMessenger handle
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkObjectType.html
 	ObjectTypeDebugUtilsMessenger core1_0.ObjectType = C.VK_OBJECT_TYPE_DEBUG_UTILS_MESSENGER_EXT
 )
 
@@ -74,5 +115,5 @@ func init() {
 	SeverityWarning.Register("Warning")
 	SeverityError.Register("Error")
 
-	ObjectTypeDebugUtilsMessenger.Register("Debug Utils Messenger")
+	ObjectTypeDebugUtilsMessenger.Register("Debug Utils DebugUtilsMessenger")
 }

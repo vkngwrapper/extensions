@@ -11,10 +11,19 @@ import (
 	"unsafe"
 )
 
+// PhysicalDevice8BitStorageFeatures describes features supported by khr_8bit_storage
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDevice8BitStorageFeatures.html
 type PhysicalDevice8BitStorageFeatures struct {
-	StorageBuffer8BitAccess           bool
+	// StorageBuffer8BitAccess indicates whether objects in the StorageBuffer, ShaderRecordBufferKHR,
+	// or PhysicalStorageBuffer storage class with the Block decoration can have 8-bit integer members
+	StorageBuffer8BitAccess bool
+	// UniformAndStorageBuffer8BitAccess indicates whether objects in the Uniform storage class
+	// with the Block decoration can have 8-bit integer members
 	UniformAndStorageBuffer8BitAccess bool
-	StoragePushConstant8              bool
+	// StoragePushConstant8 indicates whether objects in the PushConstant storage class can have 8-bit
+	// integer members
+	StoragePushConstant8 bool
 
 	common.NextOptions
 	common.NextOutData

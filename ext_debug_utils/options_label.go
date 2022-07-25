@@ -12,9 +12,14 @@ import (
 	"unsafe"
 )
 
+// DebugUtilsLabel specifies parameters of a label region
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsLabelEXT.html
 type DebugUtilsLabel struct {
+	// LabelName is a string containing the name of the label
 	LabelName string
-	Color     color.Color
+	// Color is an optional color value that can be associated with the label
+	Color color.Color
 
 	common.NextOptions
 }

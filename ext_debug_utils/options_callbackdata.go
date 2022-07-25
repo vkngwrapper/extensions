@@ -11,16 +11,30 @@ import (
 	"unsafe"
 )
 
+// DebugUtilsMessengerCallbackData specifies parameters returned to the callback
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessengerCallbackDataEXT.html
 type DebugUtilsMessengerCallbackData struct {
-	Flags CallbackDataFlags
+	// Flags is reserved for future use
+	Flags DebugUtilsMessengerCreateFlags
 
-	MessageIDName   string
+	// MessageIDName is a string identifying the particular message ID that is associated
+	// with the provided message
+	MessageIDName string
+	// MessageIDNumber is the ID number of the triggering message
 	MessageIDNumber int
-	Message         string
+	// Message is a string detailing the trigger conditions
+	Message string
 
-	QueueLabels  []DebugUtilsLabel
+	// QueueLabels is a slice of DebugUtilsLabel structures active in the current Queue
+	// at the time the callback was triggered
+	QueueLabels []DebugUtilsLabel
+	// CmdBufLabels is a slice of DebugUtilsLabel structures active in the current
+	// CommandBuffer at the time the callback was triggered
 	CmdBufLabels []DebugUtilsLabel
-	Objects      []DebugUtilsObjectNameInfo
+	// Objects is a slice of DebugUtilsObjectNameInfo structures representing objects
+	// related to the detected issue
+	Objects []DebugUtilsObjectNameInfo
 
 	common.NextOptions
 }

@@ -54,7 +54,7 @@ func TestVulkanExtension_CreateMessenger(t *testing.T) {
 	instance := mocks.EasyMockInstance(ctrl, coreDriver)
 
 	calledRightFunction := false
-	var cb ext_debug_utils.CallbackFunction = func(msgType ext_debug_utils.MessageTypes, severity ext_debug_utils.MessageSeverities, data *ext_debug_utils.DebugUtilsMessengerCallbackData) bool {
+	var cb ext_debug_utils.CallbackFunction = func(msgType ext_debug_utils.DebugUtilsMessageTypeFlags, severity ext_debug_utils.DebugUtilsMessageSeverityFlags, data *ext_debug_utils.DebugUtilsMessengerCallbackData) bool {
 		calledRightFunction = true
 		return true
 	}

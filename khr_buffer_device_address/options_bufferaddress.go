@@ -13,7 +13,11 @@ import (
 	"unsafe"
 )
 
+// BufferDeviceAddressInfo specifies the Buffer to query an address for
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBufferDeviceAddressInfo.html
 type BufferDeviceAddressInfo struct {
+	// Buffer specifies the Buffer whose address is being queried
 	Buffer core1_0.Buffer
 
 	common.NextOptions

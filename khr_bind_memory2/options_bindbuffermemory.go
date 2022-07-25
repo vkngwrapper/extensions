@@ -12,9 +12,15 @@ import (
 	"unsafe"
 )
 
+// BindBufferMemoryInfo specifies how to bind a Buffer to DeviceMemory
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBindBufferMemoryInfo.html
 type BindBufferMemoryInfo struct {
-	Buffer       core1_0.Buffer
-	Memory       core1_0.DeviceMemory
+	// Buffer is the Buffer to be attached to memory
+	Buffer core1_0.Buffer
+	// Memory describes the DeviceMemory object to attach
+	Memory core1_0.DeviceMemory
+	// MemoryOffset is the start offset of the region of memory which is to be bound to the Buffer
 	MemoryOffset int
 
 	common.NextOptions

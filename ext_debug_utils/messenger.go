@@ -16,33 +16,45 @@ import (
 	"unsafe"
 )
 
-type Messenger interface {
-	Destroy(callbacks *driver.AllocationCallbacks)
+// DebugUtilsMessenger is a messenger object which handles passing along debug
+// messages to a provided debug callback
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessengerEXT.html
+type DebugUtilsMessenger interface {
+	// Handle is the internal Vulkan object handle for this DebugUtilsMessenger
 	Handle() ext_driver.VkDebugUtilsMessengerEXT
+
+	// Destroy destroys the DebugUtilsMessenger object and the underlying structures. **Warning** after
+	// destruction, this object will continue to exist, but the Vulkan object handle that backs it will
+	// be invalid. Do not call further methods on this object.
+	Destroy(callbacks *driver.AllocationCallbacks)
 }
 
-type vulkanMessenger struct {
+// VulkanDebugUtilsMessenger is an implementation of the DebugUtilsMessenger interface that actually communicates with Vulkan. This
+// is the default implementation. See the interface for more documentation.
+type VulkanDebugUtilsMessenger struct {
 	instance   driver.VkInstance
 	handle     ext_driver.VkDebugUtilsMessengerEXT
 	coreDriver driver.Driver
 	driver     ext_driver.Driver
 }
 
-func (m *vulkanMessenger) Destroy(callbacks *driver.AllocationCallbacks) {
+func (m *VulkanDebugUtilsMessenger) Destroy(callbacks *driver.AllocationCallbacks) {
 	m.driver.VkDestroyDebugUtilsMessengerEXT(m.instance, m.handle, callbacks.Handle())
 	m.coreDriver.ObjectStore().Delete(driver.VulkanHandle(m.handle))
 }
 
-func (m *vulkanMessenger) Handle() ext_driver.VkDebugUtilsMessengerEXT {
+func (m *VulkanDebugUtilsMessenger) Handle() ext_driver.VkDebugUtilsMessengerEXT {
 	return m.handle
 }
 
-type CallbackFunction func(msgType MessageTypes, severity MessageSeverities, data *DebugUtilsMessengerCallbackData) bool
+// CallbackFunction is the application callback function type
+type CallbackFunction func(msgType DebugUtilsMessageTypeFlags, severity DebugUtilsMessageSeverityFlags, data *DebugUtilsMessengerCallbackData) bool
 
 //export goDebugCallback
 func goDebugCallback(messageSeverity C.VkDebugUtilsMessageSeverityFlagBitsEXT, messageType C.VkDebugUtilsMessageTypeFlagsEXT, data *C.VkDebugUtilsMessengerCallbackDataEXT, userData unsafe.Pointer) C.VkBool32 {
-	severity := MessageSeverities(messageSeverity)
-	msgType := MessageTypes(messageType)
+	severity := DebugUtilsMessageSeverityFlags(messageSeverity)
+	msgType := DebugUtilsMessageTypeFlags(messageType)
 
 	callbackData := &DebugUtilsMessengerCallbackData{}
 

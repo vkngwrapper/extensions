@@ -11,9 +11,17 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceSamplerFilterMinmaxProperties describes Sampler filter minmax limits that can
+// be supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceSamplerFilterMinmaxProperties.html
 type PhysicalDeviceSamplerFilterMinmaxProperties struct {
+	// FilterMinmaxSingleComponentFormats indicates whether a minimum set of required formats
+	// support min/max filtering
 	FilterMinmaxSingleComponentFormats bool
-	FilterMinmaxImageComponentMapping  bool
+	// FilterMinmaxImageComponentMapping indicates whether the implementation support non-identity
+	// component mapping of the Image when doing min/max filtering
+	FilterMinmaxImageComponentMapping bool
 
 	common.NextOutData
 }

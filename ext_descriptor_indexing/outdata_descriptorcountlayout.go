@@ -11,7 +11,13 @@ import (
 	"unsafe"
 )
 
+// DescriptorSetVariableDescriptorCountLayoutSupport returns information about whether a
+// DescriptorSetLayout can be supported
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorSetVariableDescriptorCountLayoutSupport.html
 type DescriptorSetVariableDescriptorCountLayoutSupport struct {
+	// MaxVariableDescriptorCount indicates the maximum number of descriptors supported in the
+	// highest numbered binding of the layout, if that binding is variable-sized
 	MaxVariableDescriptorCount int
 
 	common.NextOutData

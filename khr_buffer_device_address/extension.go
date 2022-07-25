@@ -7,10 +7,14 @@ import (
 	khr_buffer_device_address_driver "github.com/vkngwrapper/extensions/khr_buffer_device_address/driver"
 )
 
+// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
 	driver khr_buffer_device_address_driver.Driver
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_buffer_device_address loaded
 func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
@@ -18,6 +22,8 @@ func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	return CreateExtensionFromDriver(khr_buffer_device_address_driver.CreateDriverFromCore(device.Driver()))
 }
 
+// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// used in tests to build an Extension from mock drivers
 func CreateExtensionFromDriver(driver khr_buffer_device_address_driver.Driver) *VulkanExtension {
 	return &VulkanExtension{
 		driver: driver,
