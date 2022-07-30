@@ -12,8 +12,13 @@ import (
 	"unsafe"
 )
 
+// BindImageMemorySwapchainInfo specifies swapchain Image memory to bind to
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBindImageMemorySwapchainInfoKHR.html
 type BindImageMemorySwapchainInfo struct {
-	Swapchain  khr_swapchain.Swapchain
+	// Swapchain is the khr_swapchain.Swapchain whose Image memory will be bound
+	Swapchain khr_swapchain.Swapchain
+	// ImageIndex is an Image index within Swapchain
 	ImageIndex int
 
 	common.NextOptions

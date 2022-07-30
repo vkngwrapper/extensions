@@ -11,9 +11,14 @@ import (
 	"unsafe"
 )
 
+// SemaphoreTypeCreateInfo specifies the type of a newly-created Semaphore
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSemaphoreTypeCreateInfo.html
 type SemaphoreTypeCreateInfo struct {
+	// SemaphoreType specifies the type of the Semaphore
 	SemaphoreType SemaphoreType
-	InitialValue  uint64
+	// InitialValue is the initial payload value if SemaphoreType is SemaphoreTypeTimeline
+	InitialValue uint64
 
 	common.NextOptions
 }

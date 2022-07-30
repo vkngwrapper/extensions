@@ -11,8 +11,16 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceMaintenance3Properties describes DescriptorSet properties
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceMaintenance3Properties.html
 type PhysicalDeviceMaintenance3Properties struct {
-	MaxPerSetDescriptors    int
+	// MaxPerSetDescriptors is a maximum number of descriptors in a single DescriptorSet that is
+	// guaranteed to satisfy any implementation-dependent constraints on the size of a
+	// DescriptorSet itself
+	MaxPerSetDescriptors int
+	// MaxMemoryAllocationSize is the maximum size of a memory allocation that can be created,
+	// even if the is more space available in the heap
 	MaxMemoryAllocationSize int
 
 	common.NextOutData

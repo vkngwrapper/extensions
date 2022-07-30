@@ -15,6 +15,8 @@ type VulkanExtension struct {
 	driver khr_create_renderpass2_driver.Driver
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_create_renderpass2 loaded
 func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil

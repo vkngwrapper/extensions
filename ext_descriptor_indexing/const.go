@@ -28,7 +28,7 @@ func (f DescriptorBindingFlags) String() string {
 ////
 
 const (
-	// ExtensionName is "ext_descriptor_indexing"
+	// ExtensionName is "VK_EXT_descriptor_indexing"
 	ExtensionName string = C.VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME
 
 	// DescriptorBindingPartiallyBound indicates that descriptors in this binding that are

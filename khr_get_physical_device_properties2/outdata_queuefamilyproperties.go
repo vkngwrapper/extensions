@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// QueueFamilyProperties2 provides information about a Queue family
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkQueueFamilyProperties2KHR.html
 type QueueFamilyProperties2 struct {
+	// QueueFamilyProperties is populated with the same values as in
+	// PhysicalDevice.QueueFamilyProperties
 	QueueFamilyProperties core1_0.QueueFamilyProperties
 
 	common.NextOutData

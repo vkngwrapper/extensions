@@ -12,12 +12,20 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceSparseImageFormatInfo2 specifies sparse Image format inputs
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceSparseImageFormatInfo2KHR.html
 type PhysicalDeviceSparseImageFormatInfo2 struct {
-	Format  core1_0.Format
-	Type    core1_0.ImageType
+	// Format is the Image format
+	Format core1_0.Format
+	// Type is the dimensionality of the Image
+	Type core1_0.ImageType
+	// Samples specifies the number of samples per texel
 	Samples core1_0.SampleCountFlags
-	Usage   core1_0.ImageUsageFlags
-	Tiling  core1_0.ImageTiling
+	// Usage describes the intended usage of the Image
+	Usage core1_0.ImageUsageFlags
+	// Tiling is the tiling arrangement of the texel blocks in memory
+	Tiling core1_0.ImageTiling
 
 	common.NextOptions
 }

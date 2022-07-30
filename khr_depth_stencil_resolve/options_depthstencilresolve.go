@@ -12,9 +12,17 @@ import (
 	"unsafe"
 )
 
+// SubpassDescriptionDepthStencilResolve specifies depth/stencil resolve operations for
+// a subpass
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSubpassDescriptionDepthStencilResolve.html
 type SubpassDescriptionDepthStencilResolve struct {
-	DepthResolveMode              ResolveModeFlags
-	StencilResolveMode            ResolveModeFlags
+	// DepthResolveMode describes the depth resolve mode
+	DepthResolveMode ResolveModeFlags
+	// StencilResolveMode describes the stencil resolve mode
+	StencilResolveMode ResolveModeFlags
+	// DepthStencilResolveAttachment defines the depth/stencil resolve attachment
+	// for this subpass and its layout
 	DepthStencilResolveAttachment *khr_create_renderpass2.AttachmentReference2
 
 	common.NextOptions

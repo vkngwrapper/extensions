@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// DescriptorSetLayoutSupport returns information about whether a DescriptorSetLayout can be
+// supported
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorSetLayoutSupport.html
 type DescriptorSetLayoutSupport struct {
+	// Supported specifies whether the DescriptorSetLayout can be created
 	Supported bool
 
 	common.NextOutData

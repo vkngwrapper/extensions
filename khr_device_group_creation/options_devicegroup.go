@@ -13,7 +13,11 @@ import (
 	"unsafe"
 )
 
+// DeviceGroupDeviceCreateInfo creates a logical Device from multiple PhysicalDevice objects
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceGroupDeviceCreateInfo.html
 type DeviceGroupDeviceCreateInfo struct {
+	// PhysicalDevices is a slice of PhysicalDevice objects belonging to the same Device group
 	PhysicalDevices []core1_0.PhysicalDevice
 
 	common.NextOptions

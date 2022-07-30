@@ -11,7 +11,11 @@ import (
 	"unsafe"
 )
 
+// SamplerYcbcrConversionInfo specifies a Y'CbCr conversion to a Sampler or ImageView
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerYcbcrConversionInfo.html
 type SamplerYcbcrConversionInfo struct {
+	// Conversion is a SamplerYcbcrConversion object created from the Device
 	Conversion SamplerYcbcrConversion
 
 	common.NextOptions

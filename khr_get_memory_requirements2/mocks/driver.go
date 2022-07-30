@@ -7,9 +7,9 @@ package mock_get_memory_requirements2
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_get_memory_requirements2_driver "github.com/vkngwrapper/extensions/khr_get_memory_requirements2/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockDriver is a mock of Driver interface.

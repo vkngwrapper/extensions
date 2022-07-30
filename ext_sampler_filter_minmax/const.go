@@ -26,7 +26,7 @@ func (e SamplerReductionMode) String() string {
 ////
 
 const (
-	// ExtensionName is "ext_sampler_filter_minmax"
+	// ExtensionName is "VK_EXT_sampler_filter_minmax"
 	ExtensionName string = C.VK_EXT_SAMPLER_FILTER_MINMAX_EXTENSION_NAME
 
 	// FormatFeatureSampledImageFilterMinmax specifies the Image can be used as a sampled Image

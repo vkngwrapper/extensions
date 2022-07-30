@@ -15,11 +15,22 @@ import (
 	"unsafe"
 )
 
+// AcquireNextImageInfo specifies parameters of the acquire operation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkAcquireNextImageInfoKHR.html
 type AcquireNextImageInfo struct {
-	Swapchain  khr_swapchain.Swapchain
-	Timeout    time.Duration
-	Semaphore  core1_0.Semaphore
-	Fence      core1_0.Fence
+	// Swapchain is the khr_swapchain.Swapchain from which an Image is acquired
+	Swapchain khr_swapchain.Swapchain
+	// Timeout is how long to wait, in nanoseconds, if no Image is available, before returning core1_0.VKTimeout.
+	// May be common.NoTimeout to wait indefinitely. The timeout is adjusted to the closest value allowed by the
+	// implementation timeout accuracy, which may be substantially longer than the requested timeout.
+	Timeout time.Duration
+	// Semaphore is, optionally, a Semaphore to signal when acquisition is complete
+	Semaphore core1_0.Semaphore
+	// Fence is, optionally, a Fence to signal when acquisition is complete
+	Fence core1_0.Fence
+	// DeviceMask is a mask of PhysicalDevice objects for which the khr_swapchain.Swapchain Image will be
+	// ready to use when the Semaphore or Fence is signaled
 	DeviceMask uint32
 
 	common.NextOptions

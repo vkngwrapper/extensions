@@ -10,10 +10,18 @@ import (
 	"unsafe"
 )
 
+// ExternalMemoryProperties specifies external memory handle type capabilities
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalMemoryProperties.html
 type ExternalMemoryProperties struct {
-	ExternalMemoryFeatures        ExternalMemoryFeatureFlags
+	// ExternalMemoryFeatures specifies the features of the handle type
+	ExternalMemoryFeatures ExternalMemoryFeatureFlags
+	// ExportFromImportedHandleTypes specifies which types of imported handle the handle type can
+	// be exported from
 	ExportFromImportedHandleTypes ExternalMemoryHandleTypeFlags
-	CompatibleHandleTypes         ExternalMemoryHandleTypeFlags
+	// CompatibleHandleTypes specifies handle types which can be specified at the same time as the
+	// handle type which creating an Image compatible with external memory
+	CompatibleHandleTypes ExternalMemoryHandleTypeFlags
 }
 
 func (o ExternalMemoryProperties) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer) (unsafe.Pointer, error) {

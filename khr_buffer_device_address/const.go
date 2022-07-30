@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	// ExtensionName is "khr_buffer_device_address"
+	// ExtensionName is "VK_KHR_buffer_device_address"
 	ExtensionName string = C.VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME
 
 	// BufferCreateDeviceAddressCaptureReplay specifies that the Buffer object's address can

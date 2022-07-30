@@ -12,8 +12,13 @@ import (
 	"unsafe"
 )
 
+// MemoryRequirements2 specifies memory requirements
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkMemoryRequirements2.html
 type MemoryRequirements2 struct {
+	// MemoryRequirements describes the memory requirements of the resource
 	MemoryRequirements core1_0.MemoryRequirements
+
 	common.NextOutData
 }
 

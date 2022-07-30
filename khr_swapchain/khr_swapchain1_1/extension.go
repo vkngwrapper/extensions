@@ -24,6 +24,8 @@ type VulkanExtension struct {
 	driver khr_swapchain_driver.Driver
 }
 
+// PromoteExtension accepts a khr_swapchain.Extension object from core 1.0. If provided an Extension
+// that supports at least core 1.1, it will return a core1_1.Extension. Otherwise, it will return nil.
 func PromoteExtension(extension khr_swapchain.Extension) *VulkanExtension {
 	if extension == nil || !extension.APIVersion().IsAtLeast(common.Vulkan1_1) {
 		return nil

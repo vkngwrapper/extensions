@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// ExternalImageFormatProperties specifies supported external handle properties
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalImageFormatProperties.html
 type ExternalImageFormatProperties struct {
+	// ExternalMemoryProperties specifies various capabilities of the external handle type when used
+	// with the specified Image creation parameters
 	ExternalMemoryProperties ExternalMemoryProperties
 
 	common.NextOutData

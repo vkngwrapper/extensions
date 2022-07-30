@@ -11,7 +11,13 @@ import (
 	"unsafe"
 )
 
+// SamplerYcbcrConversionImageFormatProperties specifies combined Image sampler descriptor
+// count for multi-planar images
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerYcbcrConversionImageFormatProperties.html
 type SamplerYcbcrConversionImageFormatProperties struct {
+	// CombinedImageSamplerDescriptorCount is the number of combined Image sampler descriptors that
+	// the implementation uses to access the format
 	CombinedImageSamplerDescriptorCount int
 
 	common.NextOutData

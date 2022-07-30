@@ -11,8 +11,15 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceMultiviewProperties describes multiview limits that can be supported by an
+// implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceMultiviewProperties.html
 type PhysicalDeviceMultiviewProperties struct {
-	MaxMultiviewViewCount     int
+	// MaxMultiviewViewCount is one greater than the maximum view index that can be used in
+	// a subpass
+	MaxMultiviewViewCount int
+	// MaxMultiviewInstanceIndex is the maximum
 	MaxMultiviewInstanceIndex int
 
 	common.NextOutData

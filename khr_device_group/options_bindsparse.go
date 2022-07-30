@@ -11,9 +11,14 @@ import (
 	"unsafe"
 )
 
+// DeviceGroupBindSparseInfo indicates which instances are bound
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceGroupBindSparseInfo.html
 type DeviceGroupBindSparseInfo struct {
+	// ResourceDeviceIndex is a Device index indicating which instance of the resource is bound
 	ResourceDeviceIndex int
-	MemoryDeviceIndex   int
+	// MemoryDeviceIndex is a Device index indicating which instance of the memory the resource instance is bound to
+	MemoryDeviceIndex int
 
 	common.NextOptions
 }

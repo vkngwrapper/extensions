@@ -13,9 +13,14 @@ import (
 	"unsafe"
 )
 
+// SemaphoreSignalInfo contains information about a Semaphore signal operation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSemaphoreSignalInfo.html
 type SemaphoreSignalInfo struct {
+	// Semaphore is the Semaphore object to signal
 	Semaphore core1_0.Semaphore
-	Value     uint64
+	// Value is the value to signal
+	Value uint64
 
 	common.NextOptions
 }

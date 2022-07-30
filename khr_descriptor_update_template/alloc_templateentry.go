@@ -11,14 +11,24 @@ import (
 	"unsafe"
 )
 
+// DescriptorUpdateTemplateEntry describes a single descriptor update of the DescriptorUpdateTemplate
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorUpdateTemplateEntry.html
 type DescriptorUpdateTemplateEntry struct {
-	DstBinding      int
+	// DstBinding is the descriptor binding to update when using this DescriptorUpdateTemplate
+	DstBinding int
+	// DstArrayElement is the starting element in the array belonging to DstBinding
 	DstArrayElement int
+	// DescriptorCount is the number of descriptors to update
 	DescriptorCount int
 
+	// DescriptorType specifies the type of the descriptor
 	DescriptorType core1_0.DescriptorType
 
+	// Offset is the offset in bytes of the first binding in the raw data structure
 	Offset int
+	// Stride is the stride in bytes between two consecutive array elements of the
+	// descriptor update informations in the raw data structure
 	Stride int
 }
 

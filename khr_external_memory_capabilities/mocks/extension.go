@@ -7,9 +7,9 @@ package mock_external_memory_capabilities
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_external_memory_capabilities "github.com/vkngwrapper/extensions/khr_external_memory_capabilities"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -35,7 +35,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 	return m.recorder
 }
 
-// ExternalBufferProperties mocks base method.
+// PhysicalDeviceExternalBufferProperties mocks base method.
 func (m *MockExtension) PhysicalDeviceExternalBufferProperties(physicalDevice core1_0.PhysicalDevice, o khr_external_memory_capabilities.PhysicalDeviceExternalBufferInfo, outData *khr_external_memory_capabilities.ExternalBufferProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PhysicalDeviceExternalBufferProperties", physicalDevice, o, outData)
@@ -43,8 +43,8 @@ func (m *MockExtension) PhysicalDeviceExternalBufferProperties(physicalDevice co
 	return ret0
 }
 
-// ExternalBufferProperties indicates an expected call of ExternalBufferProperties.
-func (mr *MockExtensionMockRecorder) ExternalBufferProperties(physicalDevice, o, outData interface{}) *gomock.Call {
+// PhysicalDeviceExternalBufferProperties indicates an expected call of PhysicalDeviceExternalBufferProperties.
+func (mr *MockExtensionMockRecorder) PhysicalDeviceExternalBufferProperties(physicalDevice, o, outData interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceExternalBufferProperties", reflect.TypeOf((*MockExtension)(nil).PhysicalDeviceExternalBufferProperties), physicalDevice, o, outData)
 }

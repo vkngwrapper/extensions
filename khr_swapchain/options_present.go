@@ -13,17 +13,31 @@ import (
 	"unsafe"
 )
 
+// PresentOutData represents optionally-returned data from the Extension.QueuePresent command
 type PresentOutData struct {
+	// Results is a slice of status codes, one for each Swapchain provided in PresentInfo.
+	// This slice allows the caller to inspect the results of each individual Swapchain presentation
+	// executed by Extension.QueuePresent
 	Results []common.VkResult
 }
 
+// PresentInfo describes parameters of a Queue presentation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPresentInfoKHR.html
 type PresentInfo struct {
+	// WaitSemaphores is a slice of Semaphore objects to wait for before issuing the present request
 	WaitSemaphores []core1_0.Semaphore
-	Swapchains     []Swapchain
-	ImageIndices   []int
+	// Swapchains is a slice of Swapchain objects being presented to by this command
+	Swapchains []Swapchain
+	// ImageIndices is a slice of indices into the array of each Swapchain object's presentable Image objects.
+	// Each entry in this slice identifies the Image to present on the corresponding entry in the Swapchains
+	// slice.
+	ImageIndices []int
 
 	common.NextOptions
 
+	// OutData is a struct whose contents will be populated by the present command. It may be left nil
+	// if the caller is uninterested in this data.
 	OutData *PresentOutData
 }
 

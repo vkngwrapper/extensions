@@ -12,8 +12,14 @@ import (
 	"unsafe"
 )
 
+// BindImageMemoryDeviceGroupInfo specifies Device within a group to bind to
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBindImageMemoryDeviceGroupInfo.html
 type BindImageMemoryDeviceGroupInfo struct {
-	DeviceIndices            []int
+	// DeviceIndices is a slice of Device indices
+	DeviceIndices []int
+	// SplitInstanceBindRegions is a slice of Rect2D structures describing which regions of
+	// the Image are attached to each instance of DeviceMemory
 	SplitInstanceBindRegions []core1_0.Rect2D
 
 	common.NextOptions

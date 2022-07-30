@@ -8,11 +8,11 @@ import (
 	reflect "reflect"
 	time "time"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/khr_swapchain/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockSwapchain is a mock of Swapchain interface.
@@ -80,7 +80,7 @@ func (mr *MockSwapchainMockRecorder) Handle() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockSwapchain)(nil).Handle))
 }
 
-// Images mocks base method.
+// SwapchainImages mocks base method.
 func (m *MockSwapchain) SwapchainImages() ([]core1_0.Image, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SwapchainImages")
@@ -90,8 +90,8 @@ func (m *MockSwapchain) SwapchainImages() ([]core1_0.Image, common.VkResult, err
 	return ret0, ret1, ret2
 }
 
-// Images indicates an expected call of Images.
-func (mr *MockSwapchainMockRecorder) Images() *gomock.Call {
+// SwapchainImages indicates an expected call of SwapchainImages.
+func (mr *MockSwapchainMockRecorder) SwapchainImages() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SwapchainImages", reflect.TypeOf((*MockSwapchain)(nil).SwapchainImages))
 }

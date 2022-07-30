@@ -31,5 +31,5 @@ type Extension interface {
 	// o - Specifies the DeviceMemory object to retrieve an address for
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkGetDeviceMemoryOpaqueCaptureAddress.html
-	GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o DeviceMemoryOpaqueAddressInfo) (uint64, error)
+	GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error)
 }

@@ -14,7 +14,9 @@ import (
 	"unsafe"
 )
 
-type vulkanDescriptorUpdateTemplate struct {
+// VulkanDescriptorUpdateTemplate is an implementation of the DescriptorUpdateTemplate interface that actually communicates
+// with Vulkan. This is the default implementation. See the interface for more documentation.
+type VulkanDescriptorUpdateTemplate struct {
 	coreDriver               driver.Driver
 	driver                   khr_descriptor_update_template_driver.Driver
 	device                   driver.VkDevice
@@ -23,15 +25,15 @@ type vulkanDescriptorUpdateTemplate struct {
 	maximumAPIVersion common.APIVersion
 }
 
-func (t *vulkanDescriptorUpdateTemplate) Handle() khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR {
+func (t *VulkanDescriptorUpdateTemplate) Handle() khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR {
 	return t.descriptorTemplateHandle
 }
 
-func (t *vulkanDescriptorUpdateTemplate) Destroy(allocator *driver.AllocationCallbacks) {
+func (t *VulkanDescriptorUpdateTemplate) Destroy(allocator *driver.AllocationCallbacks) {
 	t.driver.VkDestroyDescriptorUpdateTemplateKHR(t.device, t.descriptorTemplateHandle, allocator.Handle())
 }
 
-func (t *vulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromImage(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorImageInfo) {
+func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromImage(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorImageInfo) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -49,7 +51,7 @@ func (t *vulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromImage(descriptor
 	)
 }
 
-func (t *vulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromBuffer(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorBufferInfo) {
+func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromBuffer(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorBufferInfo) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -67,7 +69,7 @@ func (t *vulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromBuffer(descripto
 	)
 }
 
-func (t *vulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromObjectHandle(descriptorSet core1_0.DescriptorSet, data driver.VulkanHandle) {
+func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromObjectHandle(descriptorSet core1_0.DescriptorSet, data driver.VulkanHandle) {
 	t.driver.VkUpdateDescriptorSetWithTemplateKHR(
 		t.device,
 		descriptorSet.Handle(),

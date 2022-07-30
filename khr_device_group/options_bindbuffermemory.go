@@ -11,7 +11,11 @@ import (
 	"unsafe"
 )
 
+// BindBufferMemoryDeviceGroupInfo specifies Device within a group to bind to
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBindBufferMemoryDeviceGroupInfo.html
 type BindBufferMemoryDeviceGroupInfo struct {
+	// DeviceIndices is a slice of Device indices
 	DeviceIndices []int
 
 	common.NextOptions

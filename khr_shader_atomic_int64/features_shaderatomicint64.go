@@ -11,8 +11,15 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceShaderAtomicInt64Features describes features supported by khr_shader_atomic_int64
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceShaderAtomicInt64Features.html
 type PhysicalDeviceShaderAtomicInt64Features struct {
+	// ShaderBufferInt64Atomics indicates whether shaders can perform 64-bit unsigned and signed
+	// integer atomic operations on Buffer objects
 	ShaderBufferInt64Atomics bool
+	// ShaderSharedInt64Atomics indicates whether shaders can 64-bit unsigned and signed integer
+	// atomic operations on shared memory
 	ShaderSharedInt64Atomics bool
 
 	common.NextOptions

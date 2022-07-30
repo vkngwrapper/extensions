@@ -7,10 +7,10 @@ package mock_bind_memory2
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_bind_memory2 "github.com/vkngwrapper/extensions/khr_bind_memory2"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -36,7 +36,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 	return m.recorder
 }
 
-// BindBufferMemory mocks base method.
+// BindBufferMemory2 mocks base method.
 func (m *MockExtension) BindBufferMemory2(device core1_0.Device, options []khr_bind_memory2.BindBufferMemoryInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BindBufferMemory2", device, options)
@@ -45,13 +45,13 @@ func (m *MockExtension) BindBufferMemory2(device core1_0.Device, options []khr_b
 	return ret0, ret1
 }
 
-// BindBufferMemory indicates an expected call of BindBufferMemory.
-func (mr *MockExtensionMockRecorder) BindBufferMemory(device, options interface{}) *gomock.Call {
+// BindBufferMemory2 indicates an expected call of BindBufferMemory2.
+func (mr *MockExtensionMockRecorder) BindBufferMemory2(device, options interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BindBufferMemory2", reflect.TypeOf((*MockExtension)(nil).BindBufferMemory2), device, options)
 }
 
-// BindImageMemory mocks base method.
+// BindImageMemory2 mocks base method.
 func (m *MockExtension) BindImageMemory2(device core1_0.Device, options []khr_bind_memory2.BindImageMemoryInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BindImageMemory2", device, options)
@@ -60,8 +60,8 @@ func (m *MockExtension) BindImageMemory2(device core1_0.Device, options []khr_bi
 	return ret0, ret1
 }
 
-// BindImageMemory indicates an expected call of BindImageMemory.
-func (mr *MockExtensionMockRecorder) BindImageMemory(device, options interface{}) *gomock.Call {
+// BindImageMemory2 indicates an expected call of BindImageMemory2.
+func (mr *MockExtensionMockRecorder) BindImageMemory2(device, options interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BindImageMemory2", reflect.TypeOf((*MockExtension)(nil).BindImageMemory2), device, options)
 }

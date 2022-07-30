@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// BufferMemoryRequirementsInfo2 has no documentation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBufferMemoryRequirementsInfo2.html
 type BufferMemoryRequirementsInfo2 struct {
+	// Buffer is the Buffer to query
 	Buffer core1_0.Buffer
 
 	common.NextOptions

@@ -24,6 +24,8 @@ type VulkanExtension struct {
 	withSwapchain *VulkanExtensionWithKHRSwapchain
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_device_group loaded
 func CreateExtensionFromDevice(device core1_0.Device, instance core1_0.Instance) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
@@ -53,6 +55,7 @@ func CreateExtensionFromDriver(driver khr_device_group_driver.Driver, khrSurface
 	return ext
 }
 
+// WithKHRSurface returns nil if khr_surface is not currently active, or
 func (v *VulkanExtension) WithKHRSurface() ExtensionWithKHRSurface {
 	return v.withSurface
 }
@@ -75,7 +78,7 @@ func (v *VulkanExtension) CmdSetDeviceMask(commandBuffer core1_0.CommandBuffer, 
 	v.driver.VkCmdSetDeviceMaskKHR(commandBuffer.Handle(), driver.Uint32(deviceMask))
 }
 
-func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatures {
+func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -89,7 +92,7 @@ func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, h
 		featuresPtr,
 	)
 
-	return PeerMemoryFeatures(*featuresPtr)
+	return PeerMemoryFeatureFlags(*featuresPtr)
 }
 
 type VulkanExtensionWithKHRSurface struct {

@@ -12,9 +12,16 @@ import (
 	"unsafe"
 )
 
+// AttachmentDescriptionStencilLayout specifies an attachment description
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkAttachmentDescriptionStencilLayout.html
 type AttachmentDescriptionStencilLayout struct {
+	// StencilInitialLayout is the layout of the stencil aspect of the attachment Image
+	// subresource will be in when a RenderPass instance begins
 	StencilInitialLayout core1_0.ImageLayout
-	StencilFinalLayout   core1_0.ImageLayout
+	// StencilFinalLayout is the layout the stencil aspect of the attachment Image subresource
+	// will be transitioned to when a RenderPass instance ends
+	StencilFinalLayout core1_0.ImageLayout
 
 	common.NextOptions
 }

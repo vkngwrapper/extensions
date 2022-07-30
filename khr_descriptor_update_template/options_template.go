@@ -12,16 +12,28 @@ import (
 	"unsafe"
 )
 
+// DescriptorUpdateTemplateCreateInfo specifies parameters of a newly-created Descriptor Update
+// Template
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorUpdateTemplateCreateInfo.html
 type DescriptorUpdateTemplateCreateInfo struct {
-	Flags                   DescriptorUpdateTemplateFlags
+	// Flags is reserved for future use
+	Flags DescriptorUpdateTemplateCreateFlags
+	// DescriptorUpdateEntries is a slice of DescriptorUpdateTemplateEntry structures describing
+	// the descriptors to be updated by the DescriptorUpdateTEmplate
 	DescriptorUpdateEntries []DescriptorUpdateTemplateEntry
-	TemplateType            DescriptorUpdateTemplateType
+	// TemplateType specifies the type of the DescriptorUpdateTemplate
+	TemplateType DescriptorUpdateTemplateType
 
+	// DescriptorSetLayout is the DescriptorSetLayout used to build the DescriptorUpdateTemplate
 	DescriptorSetLayout core1_0.DescriptorSetLayout
 
+	// PipelineBindPoint indicates the type of the Pipeline that will use the descriptors
 	PipelineBindPoint core1_0.PipelineBindPoint
-	PipelineLayout    core1_0.PipelineLayout
-	Set               int
+	// PipelineLayout is a PipelineLayout object used to program the bindings
+	PipelineLayout core1_0.PipelineLayout
+	// Set is the set number of the DescriptorSet in the PipelineLayout that will be updated
+	Set int
 
 	common.NextOptions
 }

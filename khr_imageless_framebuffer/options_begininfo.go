@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// RenderPassAttachmentBeginInfo specifies Image objects to be used as Framebuffer attachments
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkRenderPassAttachmentBeginInfo.html
 type RenderPassAttachmentBeginInfo struct {
+	// Attachments is a slice of ImageView objects, each of which will be used as the corresponding
+	// attachment in the RenderPass instance
 	Attachments []core1_0.ImageView
 
 	common.NextOptions

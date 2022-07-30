@@ -20,6 +20,8 @@ type VulkanExtension struct {
 	driver khr_get_memory_requirements2_driver.Driver
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_get_memory_requirements2 loaded
 func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil

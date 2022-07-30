@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// ImageFormatListCreateInfo specifies that an Image can be used with a particular set of formats
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkImageFormatListCreateInfo.html
 type ImageFormatListCreateInfo struct {
+	// ViewFormats is a slice of core1_0.Format values specifying all formats which can be used
+	// when creating views of this Image
 	ViewFormats []core1_0.Format
 
 	common.NextOptions

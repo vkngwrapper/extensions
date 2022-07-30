@@ -7,9 +7,9 @@ package mock_buffer_device_address
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_buffer_device_address "github.com/vkngwrapper/extensions/khr_buffer_device_address"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -66,7 +66,7 @@ func (mr *MockExtensionMockRecorder) GetBufferOpaqueCaptureAddress(device, o int
 }
 
 // GetDeviceMemoryOpaqueCaptureAddress mocks base method.
-func (m *MockExtension) GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o khr_buffer_device_address.DeviceMemoryOpaqueAddressInfo) (uint64, error) {
+func (m *MockExtension) GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o khr_buffer_device_address.DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetDeviceMemoryOpaqueCaptureAddress", device, o)
 	ret0, _ := ret[0].(uint64)

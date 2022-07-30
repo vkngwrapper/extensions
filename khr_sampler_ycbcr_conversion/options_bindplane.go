@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// BindImagePlaneMemoryInfo specifies how to bind an Image plane to DeviceMemory
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBindImagePlaneMemoryInfo.html
 type BindImagePlaneMemoryInfo struct {
+	// PlaneAspect specifies the aspect of the disjoint Image plane to bind
 	PlaneAspect core1_0.ImageAspectFlags
 
 	common.NextOptions

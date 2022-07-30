@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// RenderPassInputAttachmentAspectCreateInfo specifies, for a given subpass/input attachment
+// pair, which aspect can be read
 type RenderPassInputAttachmentAspectCreateInfo struct {
+	// AspectReferences is a slice of InputAttachmentAspectReference structures containing
+	// a mask describing which aspect(s) can be accessed for a given input attachment within a
+	// given subpass
 	AspectReferences []InputAttachmentAspectReference
 
 	common.NextOptions

@@ -12,9 +12,16 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceExternalBufferInfo specifies Buffer creation parameters
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceExternalBufferInfo.html
 type PhysicalDeviceExternalBufferInfo struct {
-	Flags      core1_0.BufferCreateFlags
-	Usage      core1_0.BufferUsageFlags
+	// Flags describes additional parameters of the Buffer, corresponding to BufferCreateInfo.Flags
+	Flags core1_0.BufferCreateFlags
+	// Usage describes the intended usage of the Buffer, corresponding to BufferCreateInfo.Usage
+	Usage core1_0.BufferUsageFlags
+	// HandleType specifies the memory handle type that will be used with the memory
+	// associated with the Buffer
 	HandleType ExternalMemoryHandleTypeFlags
 
 	common.NextOptions

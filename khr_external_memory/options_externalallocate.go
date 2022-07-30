@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// ExportMemoryAllocateInfo specifies exportable handle types for a DeviceMemory object
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExportMemoryAllocateInfo.html
 type ExportMemoryAllocateInfo struct {
+	// HandleTypes specifies one or more memory handle types the application can export from
+	// the resulting allocation
 	HandleTypes khr_external_memory_capabilities.ExternalMemoryHandleTypeFlags
 
 	common.NextOptions

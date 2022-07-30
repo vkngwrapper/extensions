@@ -7,10 +7,10 @@ package mock_timeline_semaphore
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/khr_timeline_semaphore/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockDriver is a mock of Driver interface.

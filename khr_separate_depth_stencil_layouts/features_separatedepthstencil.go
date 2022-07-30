@@ -11,7 +11,16 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceSeparateDepthStencilLayoutsFeatures describes whether the implementation
+// can do depth and stencil Image barriers separately
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures.html
 type PhysicalDeviceSeparateDepthStencilLayoutsFeatures struct {
+	// SeparateDepthStencilLayouts indicates whether the implementation supports an
+	// ImageMemoryBarrier for a depth/stencil Image with only one of core1_0.ImageAspectDepth or
+	// core1_0.ImageAspectStencil, and whether ImageLayoutDepthAttachmentOptimal,
+	// ImageLayoutDepthReadOnlyOptimal, ImageLayoutStencilAttachmentOptimal, or
+	// ImageLayoutStencilReadOnlyOptimal can be used
 	SeparateDepthStencilLayouts bool
 
 	common.NextOptions

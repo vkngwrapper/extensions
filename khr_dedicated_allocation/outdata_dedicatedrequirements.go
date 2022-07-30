@@ -12,8 +12,16 @@ import (
 	"unsafe"
 )
 
+// MemoryDedicatedRequirements describes dedicated allocation requirements of Buffer and Image
+// resources
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkMemoryDedicatedRequirements.html
 type MemoryDedicatedRequirements struct {
-	PrefersDedicatedAllocation  bool
+	// PrefersDedicatedAllocation specifies that the implementation would prefer a dedicated
+	// allocation for this resource. The application is still free to suballocate the resource
+	// but it may get better performance if a dedicated allocation is used
+	PrefersDedicatedAllocation bool
+	// RequiresDedicatedAllocation specifies that a dedicated allocation is required for this resource
 	RequiresDedicatedAllocation bool
 
 	common.NextOutData

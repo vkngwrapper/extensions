@@ -11,11 +11,22 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceDepthStencilResolveProperties describes depth/stencil resolve properties that can
+// be supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceDepthStencilResolveProperties.html
 type PhysicalDeviceDepthStencilResolveProperties struct {
-	SupportedDepthResolveModes   ResolveModeFlags
+	// SupportedDepthResolveModes indicates the set of supported depth resolve modes
+	SupportedDepthResolveModes ResolveModeFlags
+	// SupportedStencilResolveModes indicates the set of supported stencil resolve modes
 	SupportedStencilResolveModes ResolveModeFlags
-	IndependentResolveNone       bool
-	IndependentResolve           bool
+	// IndependentResolveNone is true if the implementation supports setting the depth
+	// and stencil resolve modes to different values when one of those modes is ResolveModeNone
+	IndependentResolveNone bool
+	// IndependentResolve is true if the implementation supports all combinations of the supported
+	// depth and stencil resolve modes, including setting either depth or stencil resolve mode to
+	// ResolveModeNone
+	IndependentResolve bool
 
 	common.NextOutData
 }

@@ -7,12 +7,12 @@ package mock_swapchain
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_swapchain "github.com/vkngwrapper/extensions/khr_swapchain"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/khr_swapchain/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -82,7 +82,7 @@ func (mr *MockExtensionMockRecorder) Driver() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Driver", reflect.TypeOf((*MockExtension)(nil).Driver))
 }
 
-// PresentToQueue mocks base method.
+// QueuePresent mocks base method.
 func (m *MockExtension) QueuePresent(queue core1_0.Queue, o khr_swapchain.PresentInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "QueuePresent", queue, o)
@@ -91,8 +91,8 @@ func (m *MockExtension) QueuePresent(queue core1_0.Queue, o khr_swapchain.Presen
 	return ret0, ret1
 }
 
-// PresentToQueue indicates an expected call of PresentToQueue.
-func (mr *MockExtensionMockRecorder) PresentToQueue(queue, o interface{}) *gomock.Call {
+// QueuePresent indicates an expected call of QueuePresent.
+func (mr *MockExtensionMockRecorder) QueuePresent(queue, o interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueuePresent", reflect.TypeOf((*MockExtension)(nil).QueuePresent), queue, o)
 }

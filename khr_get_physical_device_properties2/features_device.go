@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceFeatures2 describes the fine-grained features that can be supported
+// by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceFeatures2.html
 type PhysicalDeviceFeatures2 struct {
+	// Features describes the fine-grained features of the Vulkan 1.0 API
 	Features core1_0.PhysicalDeviceFeatures
 
 	common.NextOptions

@@ -7,7 +7,17 @@ import (
 	"github.com/vkngwrapper/extensions/khr_maintenance1/driver"
 )
 
+// Extension contains all commands for the khr_maintenance1 extension
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_maintenance1.html
 type Extension interface {
+	// TrimCommandPool trims a CommandPool
+	//
+	// commandPool - The CommandPool to trim
+	//
+	// flags - Reserved for future use
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkTrimCommandPool.html
 	TrimCommandPool(commandPool core1_0.CommandPool, flags CommandPoolTrimFlags)
 }
 
@@ -17,6 +27,8 @@ type VulkanExtension struct {
 	driver khr_maintenance1_driver.Driver
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_maintenance1 loaded
 func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil

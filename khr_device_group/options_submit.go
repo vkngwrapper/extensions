@@ -11,9 +11,19 @@ import (
 	"unsafe"
 )
 
+// DeviceGroupSubmitInfo indicates which PhysicalDevice objects execute Semaphore operations
+// and CommandBuffer objects
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceGroupSubmitInfo.html
 type DeviceGroupSubmitInfo struct {
-	WaitSemaphoreDeviceIndices   []int
-	CommandBufferDeviceMasks     []uint32
+	// WaitSemaphoreDeviceIndices is a slice of Device indices indicating which PhysicalDevice
+	// executes the Semaphore wait operation in the corresponding element of SubmitInfo.WaitSemaphores
+	WaitSemaphoreDeviceIndices []int
+	// CommandBufferDeviceMasks is a slice of Device masks indicating which PhysicalDevice objects
+	// execute the CommandBuffer in teh corresponding element of SubmitInfo.CommandBuffers
+	CommandBufferDeviceMasks []uint32
+	// SignalSemaphoreDeviceIndices is a slice of Device indices indicating which PhysicalDevice
+	// executes the Semaphore signal operation in the SubmitInfo.SignalSemaphores
 	SignalSemaphoreDeviceIndices []int
 
 	common.NextOptions

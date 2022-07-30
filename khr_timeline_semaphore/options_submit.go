@@ -11,8 +11,15 @@ import (
 	"unsafe"
 )
 
+// TimelineSemaphoreSubmitInfo specifies signal and wait values for timeline Semaphore objects
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkTimelineSemaphoreSubmitInfoKHR.html
 type TimelineSemaphoreSubmitInfo struct {
-	WaitSemaphoreValues   []uint64
+	// WaitSemaphoreValues is a slice of values for the corresponding Semaphore objects in
+	// SubmitInfo.WaitSemaphores to wait for
+	WaitSemaphoreValues []uint64
+	// SignalSemaphoreValues is a slice of values for the corresponding Semaphore objects in
+	// SubmitInfo.SignalSemaphores to set when signaled
 	SignalSemaphoreValues []uint64
 
 	common.NextOptions

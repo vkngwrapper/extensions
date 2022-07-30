@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// AttachmentReferenceStencilLayout specifies an attachment description
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkAttachmentReferenceStencilLayout.html
 type AttachmentReferenceStencilLayout struct {
+	// StencilLayout specifies the layout the stencil aspect of the attachment uses during hte subpass
 	StencilLayout core1_0.ImageLayout
 
 	common.NextOptions

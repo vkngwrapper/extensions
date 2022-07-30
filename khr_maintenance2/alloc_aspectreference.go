@@ -11,10 +11,15 @@ import (
 	"unsafe"
 )
 
+// InputAttachmentAspectReference specifies a subpass/input attachment pair and an aspect mask that
+// can be read
 type InputAttachmentAspectReference struct {
-	Subpass              int
+	// Subpass is an index into RenderPassCreateInfo.Subpasses
+	Subpass int
+	// InputAttachmentIndex is an index into the InputAttachments of the specified subpass
 	InputAttachmentIndex int
-	AspectMask           core1_0.ImageAspectFlags
+	// AspectMask is a mask of which aspect(s) can be accessed within the specified subpass
+	AspectMask core1_0.ImageAspectFlags
 }
 
 func (ref InputAttachmentAspectReference) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer) (unsafe.Pointer, error) {

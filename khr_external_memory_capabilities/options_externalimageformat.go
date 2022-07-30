@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceExternalImageFormatInfo specifies external Image creation parameters
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceExternalImageFormatInfo.html
 type PhysicalDeviceExternalImageFormatInfo struct {
+	// HandleType specifies the memory handle type that will be used with the memory associated
+	// with the Image
 	HandleType ExternalMemoryHandleTypeFlags
 
 	common.NextOptions

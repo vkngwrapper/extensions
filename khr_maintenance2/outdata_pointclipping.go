@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDevicePointClippingProperties describes the point clipping behavior supported
+// by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDevicePointClippingProperties.html
 type PhysicalDevicePointClippingProperties struct {
+	// PointClippingBehavior specifies the point clipping behavior supported by the implementation
 	PointClippingBehavior PointClippingBehavior
 
 	common.NextOutData

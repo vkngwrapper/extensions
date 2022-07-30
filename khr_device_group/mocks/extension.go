@@ -7,11 +7,11 @@ package mock_device_group
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_device_group "github.com/vkngwrapper/extensions/khr_device_group"
 	khr_surface "github.com/vkngwrapper/extensions/khr_surface"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -62,10 +62,10 @@ func (mr *MockExtensionMockRecorder) CmdSetDeviceMask(commandBuffer, deviceMask 
 }
 
 // DeviceGroupPeerMemoryFeatures mocks base method.
-func (m *MockExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) khr_device_group.PeerMemoryFeatures {
+func (m *MockExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) khr_device_group.PeerMemoryFeatureFlags {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeviceGroupPeerMemoryFeatures", device, heapIndex, localDeviceIndex, remoteDeviceIndex)
-	ret0, _ := ret[0].(khr_device_group.PeerMemoryFeatures)
+	ret0, _ := ret[0].(khr_device_group.PeerMemoryFeatureFlags)
 	return ret0
 }
 
@@ -196,7 +196,7 @@ func (m *MockExtensionWithKHRSwapchain) EXPECT() *MockExtensionWithKHRSwapchainM
 	return m.recorder
 }
 
-// AcquireNextImage mocks base method.
+// AcquireNextImage2 mocks base method.
 func (m *MockExtensionWithKHRSwapchain) AcquireNextImage2(device core1_0.Device, o khr_device_group.AcquireNextImageInfo) (int, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AcquireNextImage2", device, o)
@@ -206,8 +206,8 @@ func (m *MockExtensionWithKHRSwapchain) AcquireNextImage2(device core1_0.Device,
 	return ret0, ret1, ret2
 }
 
-// AcquireNextImage indicates an expected call of AcquireNextImage.
-func (mr *MockExtensionWithKHRSwapchainMockRecorder) AcquireNextImage(device, o interface{}) *gomock.Call {
+// AcquireNextImage2 indicates an expected call of AcquireNextImage2.
+func (mr *MockExtensionWithKHRSwapchainMockRecorder) AcquireNextImage2(device, o interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AcquireNextImage2", reflect.TypeOf((*MockExtensionWithKHRSwapchain)(nil).AcquireNextImage2), device, o)
 }

@@ -7,10 +7,10 @@ package mock_sampler_ycbcr_conversion
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/khr_sampler_ycbcr_conversion/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockDriver is a mock of Driver interface.

@@ -11,9 +11,17 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceVulkanMemoryModelFeatures describes features supported by the memory model
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceVulkanMemoryModelFeatures.html
 type PhysicalDeviceVulkanMemoryModelFeatures struct {
-	VulkanMemoryModel                             bool
-	VulkanMemoryModelDeviceScope                  bool
+	// VulkanMemoryModel indicates whether the Vulkan Memory Model is supported
+	VulkanMemoryModel bool
+	// VulkanMemoryModelDeviceScope indicates whether the Vulkan Memory Model can use Device
+	// scope synchronization
+	VulkanMemoryModelDeviceScope bool
+	// VulkanMemoryModelAvailabilityVisibilityChains indicates whether the Vulkan Memory Model
+	// can use available and visibility chains with more than one element
 	VulkanMemoryModelAvailabilityVisibilityChains bool
 
 	common.NextOptions

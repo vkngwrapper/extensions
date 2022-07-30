@@ -278,7 +278,7 @@ func TestVulkanExtension_SetObjectName(t *testing.T) {
 
 	objectName := ext_debug_utils.DebugUtilsObjectNameInfo{
 		ObjectName:   "someCommandBuffer",
-		ObjectHandle: uintptr(unsafe.Pointer(commandBuffer.Handle())),
+		ObjectHandle: driver.VulkanHandle(commandBuffer.Handle()),
 		ObjectType:   core1_0.ObjectTypeCommandBuffer,
 	}
 
@@ -317,7 +317,7 @@ func TestVulkanExtension_SetObjectTag(t *testing.T) {
 
 	objectTag := ext_debug_utils.DebugUtilsObjectTagInfo{
 		ObjectType:   core1_0.ObjectTypeQueryPool,
-		ObjectHandle: uintptr(unsafe.Pointer(queryPool.Handle())),
+		ObjectHandle: driver.VulkanHandle(queryPool.Handle()),
 		TagName:      53,
 		Tag:          []byte("some tag data"),
 	}
@@ -374,7 +374,7 @@ func TestVulkanExtension_SubmitMessage(t *testing.T) {
 			{
 				ObjectName:   "a object",
 				ObjectType:   core1_0.ObjectTypePipeline,
-				ObjectHandle: uintptr(unsafe.Pointer(pipeline.Handle())),
+				ObjectHandle: driver.VulkanHandle(pipeline.Handle()),
 			},
 		},
 	}

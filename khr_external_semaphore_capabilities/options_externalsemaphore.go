@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceExternalSemaphoreInfo specifies Semaphore creation parameters
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceExternalSemaphoreInfo.html
 type PhysicalDeviceExternalSemaphoreInfo struct {
+	// HandleType specifies the external Semaphore handle type for which capabilities will
+	// be returned
 	HandleType ExternalSemaphoreHandleTypeFlags
 
 	common.NextOptions

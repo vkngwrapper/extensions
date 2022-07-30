@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// SubpassBeginInfo specifies subpass begin information
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSubpassBeginInfoKHR.html
 type SubpassBeginInfo struct {
+	// Contents specifies how the commands in the next subpass will be provided
 	Contents core1_0.SubpassContents
 
 	common.NextOptions

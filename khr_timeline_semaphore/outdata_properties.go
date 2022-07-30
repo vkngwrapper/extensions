@@ -11,7 +11,14 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceTimelineSemaphoreProperties describes timeline Semaphore properties that
+// can be supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceTimelineSemaphoreProperties.html
 type PhysicalDeviceTimelineSemaphoreProperties struct {
+	// MaxTimelineSemaphoreValueDifference indicates the maximum difference allowed by the
+	// implementation between the current value of a timeline Semaphore and any pending signal or
+	// wait operations
 	MaxTimelineSemaphoreValueDifference uint64
 
 	common.NextOutData

@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// ExternalBufferProperties specifies supported external handle capabilities
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalBufferProperties.html
 type ExternalBufferProperties struct {
+	// ExternalMemoryProperties specifies various capabilities of the external handle type when
+	// used with the specified Buffer creation parameters
 	ExternalMemoryProperties ExternalMemoryProperties
 
 	common.NextOutData

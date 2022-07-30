@@ -12,15 +12,29 @@ import (
 	"unsafe"
 )
 
+// SubpassDependency2 specifies a subpass dependency
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSubpassDependency2.html
 type SubpassDependency2 struct {
-	SrcSubpass      int
-	DstSubpass      int
-	SrcStageMask    core1_0.PipelineStageFlags
-	DstStageMask    core1_0.PipelineStageFlags
-	SrcAccessMask   core1_0.AccessFlags
-	DstAccessMask   core1_0.AccessFlags
+	// SrcSubpass is the subpass index of the first subpass in the dependency, or
+	// core1_0.SubpassExternal
+	SrcSubpass int
+	// DstSubpass is the subpass index of the second subpass in the dependency, or
+	// core1_0.SubpassExternal
+	DstSubpass int
+	// SrcStageMask specifies the source stage mask
+	SrcStageMask core1_0.PipelineStageFlags
+	// DstStageMask specifies the destination stage mask
+	DstStageMask core1_0.PipelineStageFlags
+	// SrcAccessMask specifies a source access mask
+	SrcAccessMask core1_0.AccessFlags
+	// DstAccessMask specifies a source access mask
+	DstAccessMask core1_0.AccessFlags
+	// DependencyFlags is a set of dependency flags
 	DependencyFlags core1_0.DependencyFlags
-	ViewOffset      int
+	// ViewOffset controls which views in the source subpass the views in the destination
+	// subpass depend on
+	ViewOffset int
 
 	common.NextOptions
 }

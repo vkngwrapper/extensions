@@ -14,6 +14,8 @@ type VulkanExtension struct {
 	driver khr_descriptor_update_template_driver.Driver
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_descriptor_update_template loaded
 func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
@@ -50,7 +52,7 @@ func (e *VulkanExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, 
 
 	descriptorTemplate := device.Driver().ObjectStore().GetOrCreate(driver.VulkanHandle(templateHandle), driver.Core1_1,
 		func() any {
-			template := &vulkanDescriptorUpdateTemplate{
+			template := &VulkanDescriptorUpdateTemplate{
 				driver:                   e.driver,
 				coreDriver:               device.Driver(),
 				device:                   device.Handle(),
@@ -59,7 +61,7 @@ func (e *VulkanExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, 
 			}
 
 			return template
-		}).(*vulkanDescriptorUpdateTemplate)
+		}).(*VulkanDescriptorUpdateTemplate)
 	device.Driver().ObjectStore().SetParent(driver.VulkanHandle(device.Handle()), driver.VulkanHandle(templateHandle))
 
 	return descriptorTemplate, res, nil

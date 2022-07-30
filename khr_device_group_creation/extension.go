@@ -20,6 +20,8 @@ type VulkanExtension struct {
 	driver khr_device_group_creation_driver.Driver
 }
 
+// CreateExtensionFromInstance produces an Extension object from an Instance with
+// khr_device_group_creation loaded
 func CreateExtensionFromInstance(instance core1_0.Instance) *VulkanExtension {
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil
@@ -89,7 +91,7 @@ func (e *VulkanExtension) attemptEnumeratePhysicalDeviceGroups(instance core1_0.
 	return outDataSlice, res, nil
 }
 
-func (e *VulkanExtension) PhysicalDeviceGroups(instance core1_0.Instance, outDataFactory func() *PhysicalDeviceGroupProperties) ([]*PhysicalDeviceGroupProperties, common.VkResult, error) {
+func (e *VulkanExtension) EnumeratePhysicalDeviceGroups(instance core1_0.Instance, outDataFactory func() *PhysicalDeviceGroupProperties) ([]*PhysicalDeviceGroupProperties, common.VkResult, error) {
 	var outData []*PhysicalDeviceGroupProperties
 	var result common.VkResult
 	var err error

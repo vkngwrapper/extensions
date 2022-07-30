@@ -11,9 +11,17 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceVariablePointersFeatures describes variable pointer features that can be
+// supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceVariablePointersFeatures.html
 type PhysicalDeviceVariablePointersFeatures struct {
+	// VariablePointersStorageBuffer specifies whether the implementation supports the SPIR-V
+	// VariablePointersStorageBuffer capability
 	VariablePointersStorageBuffer bool
-	VariablePointers              bool
+	// VariablePointers specifies whether the implementation supports the SPIR-V VariablePointers
+	// capability
+	VariablePointers bool
 
 	common.NextOptions
 	common.NextOutData

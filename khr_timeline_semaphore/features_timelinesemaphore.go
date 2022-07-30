@@ -11,7 +11,13 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceTimelineSemaphoreFeatures describes timeline Semaphore features that can be
+// supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceTimelineSemaphoreFeatures.html
 type PhysicalDeviceTimelineSemaphoreFeatures struct {
+	// TimelineSemaphore indicates whether Semaphore objects created with a SemaphoreType
+	// of SemaphoreTypeTimeline are supported
 	TimelineSemaphore bool
 
 	common.NextOptions

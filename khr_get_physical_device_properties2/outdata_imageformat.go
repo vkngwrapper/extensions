@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// ImageFormatProperties2 specifies image format properties
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkImageFormatProperties2KHR.html
 type ImageFormatProperties2 struct {
+	// ImageFormatProperties is a structure in which capabilities are returned
 	ImageFormatProperties core1_0.ImageFormatProperties
 
 	common.NextOutData

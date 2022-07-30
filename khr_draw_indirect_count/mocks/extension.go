@@ -7,8 +7,8 @@ package mock_draw_indirect_count
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/vkngwrapper/core/core1_0"
 	gomock "github.com/golang/mock/gomock"
+	core1_0 "github.com/vkngwrapper/core/core1_0"
 )
 
 // MockExtension is a mock of Extension interface.

@@ -7,9 +7,9 @@ package mock_external_fence_capabilities
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_external_fence_capabilities "github.com/vkngwrapper/extensions/khr_external_fence_capabilities"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -35,7 +35,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 	return m.recorder
 }
 
-// ExternalFenceProperties mocks base method.
+// PhysicalDeviceExternalFenceProperties mocks base method.
 func (m *MockExtension) PhysicalDeviceExternalFenceProperties(physicalDevice core1_0.PhysicalDevice, o khr_external_fence_capabilities.PhysicalDeviceExternalFenceInfo, outData *khr_external_fence_capabilities.ExternalFenceProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PhysicalDeviceExternalFenceProperties", physicalDevice, o, outData)
@@ -43,8 +43,8 @@ func (m *MockExtension) PhysicalDeviceExternalFenceProperties(physicalDevice cor
 	return ret0
 }
 
-// ExternalFenceProperties indicates an expected call of ExternalFenceProperties.
-func (mr *MockExtensionMockRecorder) ExternalFenceProperties(physicalDevice, o, outData interface{}) *gomock.Call {
+// PhysicalDeviceExternalFenceProperties indicates an expected call of PhysicalDeviceExternalFenceProperties.
+func (mr *MockExtensionMockRecorder) PhysicalDeviceExternalFenceProperties(physicalDevice, o, outData interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceExternalFenceProperties", reflect.TypeOf((*MockExtension)(nil).PhysicalDeviceExternalFenceProperties), physicalDevice, o, outData)
 }

@@ -8,5 +8,8 @@ import "C"
 import _ "github.com/vkngwrapper/extensions/vulkan"
 
 const (
+	// ExtensionName is "VK_KHR_shader_draw_parameters"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_shader_draw_parameters.html
 	ExtensionName string = C.VK_KHR_SHADER_DRAW_PARAMETERS_EXTENSION_NAME
 )

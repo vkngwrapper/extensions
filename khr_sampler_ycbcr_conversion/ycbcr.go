@@ -6,7 +6,9 @@ import (
 	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/khr_sampler_ycbcr_conversion/driver"
 )
 
-type vulkanSamplerYcbcrConversion struct {
+// VulkanSamplerYcbcrConversion is an implementation of the SamplerYcbcrConversion interface that actually communicates
+// with Vulkan. This is the default implementation. See the interface for more documentation.
+type VulkanSamplerYcbcrConversion struct {
 	coreDriver  driver.Driver
 	driver      khr_sampler_ycbcr_conversion_driver.Driver
 	device      driver.VkDevice
@@ -15,10 +17,10 @@ type vulkanSamplerYcbcrConversion struct {
 	maximumAPIVersion common.APIVersion
 }
 
-func (y *vulkanSamplerYcbcrConversion) Handle() khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionKHR {
+func (y *VulkanSamplerYcbcrConversion) Handle() khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionKHR {
 	return y.ycbcrHandle
 }
 
-func (y *vulkanSamplerYcbcrConversion) Destroy(allocator *driver.AllocationCallbacks) {
+func (y *VulkanSamplerYcbcrConversion) Destroy(allocator *driver.AllocationCallbacks) {
 	y.driver.VkDestroySamplerYcbcrConversionKHR(y.device, y.ycbcrHandle, allocator.Handle())
 }

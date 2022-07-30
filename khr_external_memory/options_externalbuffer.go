@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// ExternalMemoryBufferCreateInfo specifies that a Buffer may be backed by external memory
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalMemoryBufferCreateInfo.html
 type ExternalMemoryBufferCreateInfo struct {
+	// HandleTypes specifies one or more external memory handle types
 	HandleTypes khr_external_memory_capabilities.ExternalMemoryHandleTypeFlags
 
 	common.NextOptions

@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceSamplerYcbcrConversionFeatures describes Y'CbCr conversion features that can
+// be supported by an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceSamplerYcbcrConversionFeatures.html
 type PhysicalDeviceSamplerYcbcrConversionFeatures struct {
+	// SamplerYcbcrConversion specifies whether the implementation support sampler Y'CbCr conversion.
 	SamplerYcbcrConversion bool
 
 	common.NextOptions

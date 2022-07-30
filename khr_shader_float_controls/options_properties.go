@@ -11,25 +11,62 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceFloatControlsProperties describes properties supported by khr_shader_float_controls
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceFloatControlsProperties.html
 type PhysicalDeviceFloatControlsProperties struct {
+	// DenormBehaviorIndependence indicates whether, and how, denorm behavior can be
+	// set independently for different bit widths
 	DenormBehaviorIndependence ShaderFloatControlsIndependence
-	RoundingMoundIndependence  ShaderFloatControlsIndependence
+	// RoundingModeIndependence indicates whether, and how, rounding modes can be set indpendently
+	// for different bit widths
+	RoundingModeIndependence ShaderFloatControlsIndependence
 
+	// ShaderSignedZeroInfNanPreserveFloat16 indicates whether the sign of zero, NaN, and +/- infinity
+	// can be preserved in 16-bit floating-point computations
 	ShaderSignedZeroInfNanPreserveFloat16 bool
+	// ShaderSignedZeroInfNanPreserveFloat32 indicates whether the sign of zero, NaN, and +/- infinity
+	// can be preserved in 32-bit floating-point computations
 	ShaderSignedZeroInfNanPreserveFloat32 bool
+	// ShaderSignedZeroInfNanPreserveFloat64 indicates whether the sign of zero, NaN, and +/- infinity
+	// can be preserved in 64-bit floating-point computations
 	ShaderSignedZeroInfNanPreserveFloat64 bool
-	ShaderDenormPreserveFloat16           bool
-	ShaderDenormPreserveFloat32           bool
-	ShaderDenormPreserveFloat64           bool
-	ShaderDenormFlushToZeroFloat16        bool
-	ShaderDenormFlushToZeroFloat32        bool
-	ShaderDenormFlushToZeroFloat64        bool
-	ShaderRoundingModeRTEFloat16          bool
-	ShaderRoundingModeRTEFloat32          bool
-	ShaderRoundingModeRTEFloat64          bool
-	ShaderRoundingModeRTZFloat16          bool
-	ShaderRoundingModeRTZFloat32          bool
-	ShaderRoundingModeRTZFloat64          bool
+	// ShaderDenormPreserveFloat16 indicates whether denormals can be preserved in 16-bit floating-point
+	// computations
+	ShaderDenormPreserveFloat16 bool
+	// ShaderDenormPreserveFloat32 indicates whether denormals can be preserved in 32-bit floating-point
+	// computations
+	ShaderDenormPreserveFloat32 bool
+	// ShaderDenormPreserveFloat64 indicates whether denormals can be preserved in 64-bit floating-point
+	// computations
+	ShaderDenormPreserveFloat64 bool
+	// ShaderDenormFlushToZeroFloat16 indicates whether denormals can be flushed to zero in 16-bit
+	// floating-point computations
+	ShaderDenormFlushToZeroFloat16 bool
+	// ShaderDenormFlushToZeroFloat32 indicates whether denormals can be flushed to zero in 32-bit
+	// floating-point computations
+	ShaderDenormFlushToZeroFloat32 bool
+	// ShaderDenormFlushToZeroFloat64 indicates whether denormals can be flushed to zero in 64-bit
+	// floating-point computations
+	ShaderDenormFlushToZeroFloat64 bool
+	// ShaderRoundingModeRTEFloat16 indicates whether an implementation supports the round-to-nearest-even
+	// rounding mode for 16-bit floating-point arithmetic and conversion instructions
+	ShaderRoundingModeRTEFloat16 bool
+	// ShaderRoundingModeRTEFloat32 indicates whether an implementation supports the round-to-nearest-even
+	// rounding mode for 32-bit floating-point arithmetic and conversion instructions
+	ShaderRoundingModeRTEFloat32 bool
+	// ShaderRoundingModeRTEFloat64 indicates whether an implementation supports the round-to-nearest-even
+	// rounding mode for 64-bit floating-point arithmetic and conversion instructions
+	ShaderRoundingModeRTEFloat64 bool
+	// ShaderRoundingModeRTZFloat16 indicates whether an implementation supports the round-toward-zero
+	// rounding mode for 16-bit floating-point arithmetic and conversion instructions
+	ShaderRoundingModeRTZFloat16 bool
+	// ShaderRoundingModeRTZFloat32 indicates whether an implementation supports the round-toward-zero
+	// rounding mode for 32-bit floating-point arithmetic and conversion instructions
+	ShaderRoundingModeRTZFloat32 bool
+	// ShaderRoundingModeRTZFloat64 indicates whether an implementation supports the round-toward-zero
+	// rounding mode for 64-bit floating-point arithmetic and conversion instructions
+	ShaderRoundingModeRTZFloat64 bool
 
 	common.NextOutData
 }
@@ -50,7 +87,7 @@ func (o *PhysicalDeviceFloatControlsProperties) PopulateOutData(cDataPointer uns
 	info := (*C.VkPhysicalDeviceFloatControlsPropertiesKHR)(cDataPointer)
 
 	o.DenormBehaviorIndependence = ShaderFloatControlsIndependence(info.denormBehaviorIndependence)
-	o.RoundingMoundIndependence = ShaderFloatControlsIndependence(info.roundingModeIndependence)
+	o.RoundingModeIndependence = ShaderFloatControlsIndependence(info.roundingModeIndependence)
 	o.ShaderSignedZeroInfNanPreserveFloat16 = info.shaderSignedZeroInfNanPreserveFloat16 != C.VkBool32(0)
 	o.ShaderSignedZeroInfNanPreserveFloat32 = info.shaderSignedZeroInfNanPreserveFloat32 != C.VkBool32(0)
 	o.ShaderSignedZeroInfNanPreserveFloat64 = info.shaderSignedZeroInfNanPreserveFloat64 != C.VkBool32(0)

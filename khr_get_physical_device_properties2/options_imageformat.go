@@ -12,12 +12,20 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceImageFormatInfo2 specifies Image creation parameters
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceImageFormatInfo2KHR.html
 type PhysicalDeviceImageFormatInfo2 struct {
+	// Format indicates the Image format, corresponding to ImageCreateInfo.Format
 	Format core1_0.Format
-	Type   core1_0.ImageType
+	// Type indicates the ImageType, corresponding to ImageCreateInfo.ImageType
+	Type core1_0.ImageType
+	// Tiling indicates the Image tiling, corresponding to ImageCreateInfo.Tiling
 	Tiling core1_0.ImageTiling
-	Usage  core1_0.ImageUsageFlags
-	Flags  core1_0.ImageCreateFlags
+	// Usage indicates the intended usage of the Image, corresponding to ImageCreateInfo.Usage
+	Usage core1_0.ImageUsageFlags
+	// Flags indicates additional parameters of the Image, corresponding to ImageCreateInfo.Flags
+	Flags core1_0.ImageCreateFlags
 
 	common.NextOptions
 }

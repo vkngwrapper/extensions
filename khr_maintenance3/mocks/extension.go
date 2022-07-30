@@ -7,9 +7,9 @@ package mock_maintenance3
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_maintenance3 "github.com/vkngwrapper/extensions/khr_maintenance3"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -36,15 +36,15 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // DescriptorSetLayoutSupport mocks base method.
-func (m *MockExtension) DescriptorSetLayoutSupport(device core1_0.Device, setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, support *khr_maintenance3.DescriptorSetLayoutSupport) error {
+func (m *MockExtension) DescriptorSetLayoutSupport(device core1_0.Device, setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, outData *khr_maintenance3.DescriptorSetLayoutSupport) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DescriptorSetLayoutSupport", device, setLayoutOptions, support)
+	ret := m.ctrl.Call(m, "DescriptorSetLayoutSupport", device, setLayoutOptions, outData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DescriptorSetLayoutSupport indicates an expected call of DescriptorSetLayoutSupport.
-func (mr *MockExtensionMockRecorder) DescriptorSetLayoutSupport(device, setLayoutOptions, support interface{}) *gomock.Call {
+func (mr *MockExtensionMockRecorder) DescriptorSetLayoutSupport(device, setLayoutOptions, outData interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescriptorSetLayoutSupport", reflect.TypeOf((*MockExtension)(nil).DescriptorSetLayoutSupport), device, setLayoutOptions, support)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescriptorSetLayoutSupport", reflect.TypeOf((*MockExtension)(nil).DescriptorSetLayoutSupport), device, setLayoutOptions, outData)
 }

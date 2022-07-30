@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// ExportFenceCreateInfo specifies handle types that can be exported from a Fence
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExportFenceCreateInfo.html
 type ExportFenceCreateInfo struct {
+	// HandleTypes specifies one or more Fence handle types the application can export from
+	// the resulting Fence
 	HandleTypes khr_external_fence_capabilities.ExternalFenceHandleTypeFlags
 
 	common.NextOptions

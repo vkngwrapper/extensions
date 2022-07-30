@@ -7,12 +7,12 @@ package mock_surface
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_surface "github.com/vkngwrapper/extensions/khr_surface"
 	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockSurface is a mock of Surface interface.
@@ -38,22 +38,6 @@ func (m *MockSurface) EXPECT() *MockSurfaceMockRecorder {
 	return m.recorder
 }
 
-// Capabilities mocks base method.
-func (m *MockSurface) PhysicalDeviceSurfaceCapabilities(device core1_0.PhysicalDevice) (*khr_surface.Capabilities, common.VkResult, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PhysicalDeviceSurfaceCapabilities", device)
-	ret0, _ := ret[0].(*khr_surface.Capabilities)
-	ret1, _ := ret[1].(common.VkResult)
-	ret2, _ := ret[2].(error)
-	return ret0, ret1, ret2
-}
-
-// Capabilities indicates an expected call of Capabilities.
-func (mr *MockSurfaceMockRecorder) Capabilities(device interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceSurfaceCapabilities", reflect.TypeOf((*MockSurface)(nil).PhysicalDeviceSurfaceCapabilities), device)
-}
-
 // Destroy mocks base method.
 func (m *MockSurface) Destroy(callbacks *driver.AllocationCallbacks) {
 	m.ctrl.T.Helper()
@@ -64,22 +48,6 @@ func (m *MockSurface) Destroy(callbacks *driver.AllocationCallbacks) {
 func (mr *MockSurfaceMockRecorder) Destroy(callbacks interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockSurface)(nil).Destroy), callbacks)
-}
-
-// Formats mocks base method.
-func (m *MockSurface) PhysicalDeviceSurfaceFormats(device core1_0.PhysicalDevice) ([]khr_surface.Format, common.VkResult, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PhysicalDeviceSurfaceFormats", device)
-	ret0, _ := ret[0].([]khr_surface.Format)
-	ret1, _ := ret[1].(common.VkResult)
-	ret2, _ := ret[2].(error)
-	return ret0, ret1, ret2
-}
-
-// Formats indicates an expected call of Formats.
-func (mr *MockSurfaceMockRecorder) Formats(device interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceSurfaceFormats", reflect.TypeOf((*MockSurface)(nil).PhysicalDeviceSurfaceFormats), device)
 }
 
 // Handle mocks base method.
@@ -96,7 +64,39 @@ func (mr *MockSurfaceMockRecorder) Handle() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockSurface)(nil).Handle))
 }
 
-// PresentModes mocks base method.
+// PhysicalDeviceSurfaceCapabilities mocks base method.
+func (m *MockSurface) PhysicalDeviceSurfaceCapabilities(device core1_0.PhysicalDevice) (*khr_surface.SurfaceCapabilities, common.VkResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PhysicalDeviceSurfaceCapabilities", device)
+	ret0, _ := ret[0].(*khr_surface.SurfaceCapabilities)
+	ret1, _ := ret[1].(common.VkResult)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// PhysicalDeviceSurfaceCapabilities indicates an expected call of PhysicalDeviceSurfaceCapabilities.
+func (mr *MockSurfaceMockRecorder) PhysicalDeviceSurfaceCapabilities(device interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceSurfaceCapabilities", reflect.TypeOf((*MockSurface)(nil).PhysicalDeviceSurfaceCapabilities), device)
+}
+
+// PhysicalDeviceSurfaceFormats mocks base method.
+func (m *MockSurface) PhysicalDeviceSurfaceFormats(device core1_0.PhysicalDevice) ([]khr_surface.SurfaceFormat, common.VkResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PhysicalDeviceSurfaceFormats", device)
+	ret0, _ := ret[0].([]khr_surface.SurfaceFormat)
+	ret1, _ := ret[1].(common.VkResult)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// PhysicalDeviceSurfaceFormats indicates an expected call of PhysicalDeviceSurfaceFormats.
+func (mr *MockSurfaceMockRecorder) PhysicalDeviceSurfaceFormats(device interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceSurfaceFormats", reflect.TypeOf((*MockSurface)(nil).PhysicalDeviceSurfaceFormats), device)
+}
+
+// PhysicalDeviceSurfacePresentModes mocks base method.
 func (m *MockSurface) PhysicalDeviceSurfacePresentModes(device core1_0.PhysicalDevice) ([]khr_surface.PresentMode, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PhysicalDeviceSurfacePresentModes", device)
@@ -106,13 +106,13 @@ func (m *MockSurface) PhysicalDeviceSurfacePresentModes(device core1_0.PhysicalD
 	return ret0, ret1, ret2
 }
 
-// PresentModes indicates an expected call of PresentModes.
-func (mr *MockSurfaceMockRecorder) PresentModes(device interface{}) *gomock.Call {
+// PhysicalDeviceSurfacePresentModes indicates an expected call of PhysicalDeviceSurfacePresentModes.
+func (mr *MockSurfaceMockRecorder) PhysicalDeviceSurfacePresentModes(device interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceSurfacePresentModes", reflect.TypeOf((*MockSurface)(nil).PhysicalDeviceSurfacePresentModes), device)
 }
 
-// SupportsDevice mocks base method.
+// PhysicalDeviceSurfaceSupport mocks base method.
 func (m *MockSurface) PhysicalDeviceSurfaceSupport(physicalDevice core1_0.PhysicalDevice, queueFamilyIndex int) (bool, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PhysicalDeviceSurfaceSupport", physicalDevice, queueFamilyIndex)
@@ -122,8 +122,8 @@ func (m *MockSurface) PhysicalDeviceSurfaceSupport(physicalDevice core1_0.Physic
 	return ret0, ret1, ret2
 }
 
-// SupportsDevice indicates an expected call of SupportsDevice.
-func (mr *MockSurfaceMockRecorder) SupportsDevice(physicalDevice, queueFamilyIndex interface{}) *gomock.Call {
+// PhysicalDeviceSurfaceSupport indicates an expected call of PhysicalDeviceSurfaceSupport.
+func (mr *MockSurfaceMockRecorder) PhysicalDeviceSurfaceSupport(physicalDevice, queueFamilyIndex interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceSurfaceSupport", reflect.TypeOf((*MockSurface)(nil).PhysicalDeviceSurfaceSupport), physicalDevice, queueFamilyIndex)
 }

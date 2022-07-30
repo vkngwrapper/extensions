@@ -25,7 +25,9 @@ func TestVulkanSurface_PresentModes(t *testing.T) {
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
 	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
 
-	surface, _, err := khr_surface.CreateSurface(nil, instance, surfaceDriver)
+	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+
+	surface, err := extension.CreateSurface(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfacePresentModesKHR(
@@ -71,7 +73,9 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
 	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
 
-	surface, _, err := khr_surface.CreateSurface(nil, instance, surfaceDriver)
+	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+
+	surface, err := extension.CreateSurface(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfacePresentModesKHR(
@@ -142,7 +146,9 @@ func TestVulkanSurface_SupportsDevice(t *testing.T) {
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
 	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
 
-	surface, _, err := khr_surface.CreateSurface(nil, instance, surfaceDriver)
+	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+
+	surface, err := extension.CreateSurface(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceSupportKHR(
@@ -171,7 +177,9 @@ func TestVulkanSurface_Capabilities(t *testing.T) {
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
 	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
 
-	surface, _, err := khr_surface.CreateSurface(nil, instance, surfaceDriver)
+	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+
+	surface, err := extension.CreateSurface(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceCapabilitiesKHR(
@@ -222,7 +230,7 @@ func TestVulkanSurface_Capabilities(t *testing.T) {
 	require.Equal(t, 23, capabilities.MinImageExtent.Height)
 	require.Equal(t, khr_surface.TransformHorizontalMirror, capabilities.SupportedTransforms)
 	require.Equal(t, khr_surface.CompositeAlphaPreMultiplied, capabilities.SupportedCompositeAlpha)
-	require.Equal(t, core1_0.ImageUsageTransferDst, capabilities.SupportedImageUsage)
+	require.Equal(t, core1_0.ImageUsageTransferDst, capabilities.SupportedUsageFlags)
 }
 
 func TestVulkanSurface_Formats(t *testing.T) {
@@ -234,7 +242,9 @@ func TestVulkanSurface_Formats(t *testing.T) {
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
 	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
 
-	surface, _, err := khr_surface.CreateSurface(nil, instance, surfaceDriver)
+	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+
+	surface, err := extension.CreateSurface(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceFormatsKHR(
@@ -292,7 +302,9 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
 	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
 
-	surface, _, err := khr_surface.CreateSurface(nil, instance, surfaceDriver)
+	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+
+	surface, err := extension.CreateSurface(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceFormatsKHR(

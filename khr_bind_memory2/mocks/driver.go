@@ -7,10 +7,10 @@ package mock_bind_memory2
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_bind_memory2_driver "github.com/vkngwrapper/extensions/khr_bind_memory2/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockDriver is a mock of Driver interface.

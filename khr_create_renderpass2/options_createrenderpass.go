@@ -12,13 +12,24 @@ import (
 	"unsafe"
 )
 
+// RenderPassCreateInfo2 specifies parameters of a newly-created RenderPass
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkRenderPassCreateInfo2.html
 type RenderPassCreateInfo2 struct {
+	// Flags is reserved for future use
 	Flags core1_0.RenderPassCreateFlags
 
-	Attachments  []AttachmentDescription2
-	Subpasses    []SubpassDescription2
+	// Attachments is a slice of AttachmentDescription2 structures describing the attachments
+	// used by the RenderPass
+	Attachments []AttachmentDescription2
+	// Subpasses is a slice of SubpassDescription2 structures describing each subpass
+	Subpasses []SubpassDescription2
+	// Dependencies is a slice of SubpassDependency2 structures describing dependencies
+	// between pairs of subpasses
 	Dependencies []SubpassDependency2
 
+	// CorrelatedViewMasks is a slice of view masks indicating sets of views that may be
+	// more efficient to render concurrently
 	CorrelatedViewMasks []uint32
 
 	common.NextOptions

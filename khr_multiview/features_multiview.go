@@ -11,9 +11,20 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceMultiviewFeatures describes multiview features that can be supported by
+// an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceMultiviewFeatures.html
 type PhysicalDeviceMultiviewFeatures struct {
-	Multiview                   bool
-	MultiviewGeometryShader     bool
+	// Multiview specifies whether the implementation supports multiview rendering within a
+	// RenderPass. If this feature is not enabled, the view mask of each subpass must always
+	// be zero
+	Multiview bool
+	// MultiviewGeometryShader specifies whether the implementation supports multiview rendering
+	// within a RenderPass, with geometry shaders
+	MultiviewGeometryShader bool
+	// MultiviewTessellationShader specifies whether the implementation supports multiview rendering
+	// within a RenderPass, with tessellation shaders
 	MultiviewTessellationShader bool
 
 	common.NextOptions

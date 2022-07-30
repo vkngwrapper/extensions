@@ -18,7 +18,9 @@ import (
 	"unsafe"
 )
 
-type vulkanSwapchain struct {
+// VulkanSwapchain is an implementation of the Swapchain interface that actually communicates
+// with Vulkan. This is the default implementation. See the interface for more documentation.
+type VulkanSwapchain struct {
 	handle     khr_swapchain_driver.VkSwapchainKHR
 	device     driver.VkDevice
 	driver     khr_swapchain_driver.Driver
@@ -27,24 +29,50 @@ type vulkanSwapchain struct {
 	minimumAPIVersion common.APIVersion
 }
 
+// Swapchain provides the ability to present rendering results to a Surface
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSwapchainKHR.html
 type Swapchain interface {
+	// Handle is the internal Vulkan object handle for this Swapchain
 	Handle() khr_swapchain_driver.VkSwapchainKHR
 
+	// Destroy deletes this Swapchain and underlying structures from the device. **Warning**
+	// after destruction, this object will still exist, but the Vulkan object handle
+	// that backs it will be invalid. Do not call further methods on this object.
+	//
+	// callbacks - A set of allocation callbacks to control the memory free behavior of this command
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkDestroySwapchainKHR.html
 	Destroy(callbacks *driver.AllocationCallbacks)
+	// SwapchainImages obtains a slice of the presentable Image objects associated with this Swapchain
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetSwapchainImagesKHR.html
 	SwapchainImages() ([]core1_0.Image, common.VkResult, error)
+	// AcquireNextImage retrieves the index of the next available presentable Image
+	//
+	// timeout - Specifies how long the function waits, in nanoseconds, if no Image is available, before
+	// returning core1_0.VKTimeout. May be common.NoTimeout to wait indefinitely. The timeout is adjusted
+	// to the closest value allowed by the implementation timeout accuracy, which may be substantially
+	// longer than the requested timeout.
+	//
+	// semaphore - Optionally, a Semaphore to signal when the Image is acquired
+	//
+	// fence - Optionally, a Fence to signal when the Image is acquired
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkAcquireNextImageKHR.html
 	AcquireNextImage(timeout time.Duration, semaphore core1_0.Semaphore, fence core1_0.Fence) (int, common.VkResult, error)
 }
 
-func (s *vulkanSwapchain) Handle() khr_swapchain_driver.VkSwapchainKHR {
+func (s *VulkanSwapchain) Handle() khr_swapchain_driver.VkSwapchainKHR {
 	return s.handle
 }
 
-func (s *vulkanSwapchain) Destroy(callbacks *driver.AllocationCallbacks) {
+func (s *VulkanSwapchain) Destroy(callbacks *driver.AllocationCallbacks) {
 	s.driver.VkDestroySwapchainKHR(s.device, s.handle, callbacks.Handle())
 	s.coreDriver.ObjectStore().Delete(driver.VulkanHandle(s.handle))
 }
 
-func (s *vulkanSwapchain) attemptImages() ([]core1_0.Image, common.VkResult, error) {
+func (s *VulkanSwapchain) attemptImages() ([]core1_0.Image, common.VkResult, error) {
 	allocator := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(allocator)
 
@@ -79,7 +107,7 @@ func (s *vulkanSwapchain) attemptImages() ([]core1_0.Image, common.VkResult, err
 	return result, res, nil
 }
 
-func (s *vulkanSwapchain) SwapchainImages() ([]core1_0.Image, common.VkResult, error) {
+func (s *VulkanSwapchain) SwapchainImages() ([]core1_0.Image, common.VkResult, error) {
 	var result []core1_0.Image
 	var res common.VkResult
 	var err error
@@ -91,7 +119,7 @@ func (s *vulkanSwapchain) SwapchainImages() ([]core1_0.Image, common.VkResult, e
 	return result, res, err
 }
 
-func (s *vulkanSwapchain) AcquireNextImage(timeout time.Duration, semaphore core1_0.Semaphore, fence core1_0.Fence) (int, common.VkResult, error) {
+func (s *VulkanSwapchain) AcquireNextImage(timeout time.Duration, semaphore core1_0.Semaphore, fence core1_0.Fence) (int, common.VkResult, error) {
 	var imageIndex driver.Uint32
 
 	var semaphoreHandle driver.VkSemaphore

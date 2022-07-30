@@ -12,7 +12,9 @@ import (
 	"unsafe"
 )
 
+// SparseImageFormatProperties2 specifies sparse Image format properties
 type SparseImageFormatProperties2 struct {
+	// Properties is populated with the same values as in PhysicalDevice.SparseImageFormatProperties
 	Properties core1_0.SparseImageFormatProperties
 	common.NextOutData
 }

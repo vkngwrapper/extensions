@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// ExternalMemoryImageCreateInfo specifies that an Image may be backed by external memory
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalMemoryImageCreateInfo.html
 type ExternalMemoryImageCreateInfo struct {
+	// HandleTypes specifies one or more external memory handle types
 	HandleTypes khr_external_memory_capabilities.ExternalMemoryHandleTypeFlags
 
 	common.NextOptions

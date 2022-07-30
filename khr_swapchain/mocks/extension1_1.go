@@ -7,11 +7,11 @@ package mock_swapchain
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_surface "github.com/vkngwrapper/extensions/khr_surface"
 	khr_swapchain1_1 "github.com/vkngwrapper/extensions/khr_swapchain/khr_swapchain1_1"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension1_1 is a mock of Extension interface.
@@ -37,7 +37,7 @@ func (m *MockExtension1_1) EXPECT() *MockExtension1_1MockRecorder {
 	return m.recorder
 }
 
-// AcquireNextImage mocks base method.
+// AcquireNextImage2 mocks base method.
 func (m *MockExtension1_1) AcquireNextImage2(device core1_0.Device, o khr_swapchain1_1.AcquireNextImageInfo) (int, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AcquireNextImage2", device, o)
@@ -47,8 +47,8 @@ func (m *MockExtension1_1) AcquireNextImage2(device core1_0.Device, o khr_swapch
 	return ret0, ret1, ret2
 }
 
-// AcquireNextImage indicates an expected call of AcquireNextImage.
-func (mr *MockExtension1_1MockRecorder) AcquireNextImage(device, o interface{}) *gomock.Call {
+// AcquireNextImage2 indicates an expected call of AcquireNextImage2.
+func (mr *MockExtension1_1MockRecorder) AcquireNextImage2(device, o interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AcquireNextImage2", reflect.TypeOf((*MockExtension1_1)(nil).AcquireNextImage2), device, o)
 }

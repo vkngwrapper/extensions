@@ -60,7 +60,7 @@ func (f DebugUtilsMessengerCreateFlags) String() string {
 ////
 
 const (
-	// ExtensionName is "ext_debug_utils"
+	// ExtensionName is "VK_EXT_debug_utils"
 	ExtensionName string = C.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 
 	// TypeGeneral specifies that some general event has occurred

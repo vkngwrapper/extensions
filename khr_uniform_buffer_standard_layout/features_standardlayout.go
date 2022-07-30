@@ -11,7 +11,13 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceUniformBufferStandardLayoutFeatures indicates support for std430-like
+// packing in uniform Buffer objects
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceUniformBufferStandardLayoutFeatures.html
 type PhysicalDeviceUniformBufferStandardLayoutFeatures struct {
+	// UniformBufferStandardLayout indicates that the implementation supports the same layouts
+	// for uniform Buffer objects as for storage and other kinds of Buffer objects
 	UniformBufferStandardLayout bool
 
 	common.NextOptions

@@ -7,48 +7,48 @@ package mock_debugutils
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	driver "github.com/vkngwrapper/core/driver"
 	ext_debug_utils_driver "github.com/vkngwrapper/extensions/ext_debug_utils/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
-// MockMessenger is a mock of Messenger interface.
-type MockMessenger struct {
+// MockDebugUtilsMessenger is a mock of DebugUtilsMessenger interface.
+type MockDebugUtilsMessenger struct {
 	ctrl     *gomock.Controller
-	recorder *MockMessengerMockRecorder
+	recorder *MockDebugUtilsMessengerMockRecorder
 }
 
-// MockMessengerMockRecorder is the mock recorder for MockMessenger.
-type MockMessengerMockRecorder struct {
-	mock *MockMessenger
+// MockDebugUtilsMessengerMockRecorder is the mock recorder for MockDebugUtilsMessenger.
+type MockDebugUtilsMessengerMockRecorder struct {
+	mock *MockDebugUtilsMessenger
 }
 
-// NewMockMessenger creates a new mock instance.
-func NewMockMessenger(ctrl *gomock.Controller) *MockMessenger {
-	mock := &MockMessenger{ctrl: ctrl}
-	mock.recorder = &MockMessengerMockRecorder{mock}
+// NewMockDebugUtilsMessenger creates a new mock instance.
+func NewMockDebugUtilsMessenger(ctrl *gomock.Controller) *MockDebugUtilsMessenger {
+	mock := &MockDebugUtilsMessenger{ctrl: ctrl}
+	mock.recorder = &MockDebugUtilsMessengerMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockMessenger) EXPECT() *MockMessengerMockRecorder {
+func (m *MockDebugUtilsMessenger) EXPECT() *MockDebugUtilsMessengerMockRecorder {
 	return m.recorder
 }
 
 // Destroy mocks base method.
-func (m *MockMessenger) Destroy(callbacks *driver.AllocationCallbacks) {
+func (m *MockDebugUtilsMessenger) Destroy(callbacks *driver.AllocationCallbacks) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Destroy", callbacks)
 }
 
 // Destroy indicates an expected call of Destroy.
-func (mr *MockMessengerMockRecorder) Destroy(callbacks interface{}) *gomock.Call {
+func (mr *MockDebugUtilsMessengerMockRecorder) Destroy(callbacks interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockMessenger)(nil).Destroy), callbacks)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockDebugUtilsMessenger)(nil).Destroy), callbacks)
 }
 
 // Handle mocks base method.
-func (m *MockMessenger) Handle() ext_debug_utils_driver.VkDebugUtilsMessengerEXT {
+func (m *MockDebugUtilsMessenger) Handle() ext_debug_utils_driver.VkDebugUtilsMessengerEXT {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Handle")
 	ret0, _ := ret[0].(ext_debug_utils_driver.VkDebugUtilsMessengerEXT)
@@ -56,7 +56,7 @@ func (m *MockMessenger) Handle() ext_debug_utils_driver.VkDebugUtilsMessengerEXT
 }
 
 // Handle indicates an expected call of Handle.
-func (mr *MockMessengerMockRecorder) Handle() *gomock.Call {
+func (mr *MockDebugUtilsMessengerMockRecorder) Handle() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockMessenger)(nil).Handle))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockDebugUtilsMessenger)(nil).Handle))
 }

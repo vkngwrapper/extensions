@@ -7,11 +7,11 @@ package mock_descriptor_update_template
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/khr_descriptor_update_template"
 	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/khr_descriptor_update_template/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockDescriptorUpdateTemplate is a mock of DescriptorUpdateTemplate interface.

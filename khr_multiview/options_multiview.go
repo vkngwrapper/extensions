@@ -11,9 +11,18 @@ import (
 	"unsafe"
 )
 
+// RenderPassMultiviewCreateInfo contains multiview information for all subpasses
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkRenderPassMultiviewCreateInfo.html
 type RenderPassMultiviewCreateInfo struct {
-	ViewMasks        []uint32
-	ViewOffsets      []int
+	// ViewMasks is a slice of view masks, where each mask is a bitfield of view indices describing
+	// which views rendering is broadcast to in each subpass, when multiview is enabled
+	ViewMasks []uint32
+	// ViewOffsets is a slice of view offsets, one for each subpass dependency. Each view offset
+	// controls which view in the source subpass the views in the destination subpass depends on.
+	ViewOffsets []int
+	// CorrelationMasks is a slice of view masks indicating stes of views that may be
+	// more efficient to render concurrently
 	CorrelationMasks []uint32
 
 	common.NextOptions

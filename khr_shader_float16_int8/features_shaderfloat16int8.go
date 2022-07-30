@@ -12,9 +12,15 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceShaderFloat16Int8Features describes features supported by khr_shader_float16_int8
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceShaderFloat16Int8Features.html
 type PhysicalDeviceShaderFloat16Int8Features struct {
+	// ShaderFloat16 indicates whether 16-bit floats (halfs) are supported in shader code
 	ShaderFloat16 bool
-	ShaderInt8    bool
+	// ShaderInt8 indicates whether 8-bit integer (signed and unsigned) are supported in
+	// shader code
+	ShaderInt8 bool
 
 	common.NextOptions
 	common.NextOutData

@@ -8,7 +8,7 @@ import "C"
 import "github.com/vkngwrapper/core/core1_0"
 
 const (
-	// ExtensionName is "khr_bind_memory2"
+	// ExtensionName is "VK_KHR_bind_memory2"
 	ExtensionName string = C.VK_KHR_BIND_MEMORY_2_EXTENSION_NAME
 
 	// ImageCreateAlias specifies that two Image objects created with the same creation parameters

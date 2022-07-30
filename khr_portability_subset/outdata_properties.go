@@ -13,7 +13,11 @@ import (
 	"unsafe"
 )
 
+// PhysicalDevicePortabilitySubsetProperties describes additional properties supported by a portable implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDevicePortabilitySubsetPropertiesKHR.html
 type PhysicalDevicePortabilitySubsetProperties struct {
+	// MinVertexInputBindingStrideAlignment indicates the minimum alignment for vertex input strides
 	MinVertexInputBindingStrideAlignment int
 
 	common.NextOutData

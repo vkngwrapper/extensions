@@ -11,7 +11,14 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceShaderSubgroupExtendedTypesFeatures describes the extended types subgroups
+// support feature for an implementation
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures.html
 type PhysicalDeviceShaderSubgroupExtendedTypesFeatures struct {
+	// ShaderSubgroupExtendedTypes specifies whether subgroup operations can use 8-bit integer,
+	// 16-bit integer, 64-bit integer, 16-bit floating-point, and vectors of these types
+	// in group operations with subgroup scope, if the implementation supports the types
 	ShaderSubgroupExtendedTypes bool
 
 	common.NextOptions

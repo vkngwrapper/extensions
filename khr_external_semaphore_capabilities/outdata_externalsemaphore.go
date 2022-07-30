@@ -11,10 +11,18 @@ import (
 	"unsafe"
 )
 
+// ExternalSemaphoreProperties describes supported external Semaphore handle features
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalSemaphoreProperties.html
 type ExternalSemaphoreProperties struct {
+	// ExportFromImportedHandleTypes specifies which types of imported handle HandleType can
+	// be exported from
 	ExportFromImportedHandleTypes ExternalSemaphoreHandleTypeFlags
-	CompatibleHandleTypes         ExternalSemaphoreHandleTypeFlags
-	ExternalSemaphoreFeatures     ExternalSemaphoreFeatureFlags
+	// CompatibleHandleTypes specifies handle types which can be specified at the same time as
+	// HandleType when creating a Semaphore
+	CompatibleHandleTypes ExternalSemaphoreHandleTypeFlags
+	// ExternalSemaphoreFeatures describes the features of HandleType
+	ExternalSemaphoreFeatures ExternalSemaphoreFeatureFlags
 
 	common.NextOutData
 }

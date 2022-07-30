@@ -14,6 +14,8 @@ type VulkanExtension struct {
 	driver khr_sampler_ycbcr_conversion_driver.Driver
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_sampler_ycbcr_conversion loaded
 func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
@@ -54,14 +56,14 @@ func (e *VulkanExtension) CreateSamplerYcbcrConversion(device core1_0.Device, o 
 
 	ycbcr := device.Driver().ObjectStore().GetOrCreate(driver.VulkanHandle(ycbcrHandle), driver.Core1_1,
 		func() any {
-			return &vulkanSamplerYcbcrConversion{
+			return &VulkanSamplerYcbcrConversion{
 				coreDriver:        device.Driver(),
 				driver:            e.driver,
 				device:            device.Handle(),
 				ycbcrHandle:       ycbcrHandle,
 				maximumAPIVersion: device.APIVersion(),
 			}
-		}).(*vulkanSamplerYcbcrConversion)
+		}).(*VulkanSamplerYcbcrConversion)
 
 	return ycbcr, res, nil
 }

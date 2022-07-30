@@ -7,8 +7,8 @@ package mock_draw_indirect_count
 import (
 	reflect "reflect"
 
-	driver "github.com/vkngwrapper/core/driver"
 	gomock "github.com/golang/mock/gomock"
+	driver "github.com/vkngwrapper/core/driver"
 )
 
 // MockDriver is a mock of Driver interface.

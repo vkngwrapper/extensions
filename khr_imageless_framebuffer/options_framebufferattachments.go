@@ -11,7 +11,13 @@ import (
 	"unsafe"
 )
 
+// FramebufferAttachmentsCreateInfo specifies parameters of Image objects that will be used with
+// a Framebuffer
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkFramebufferAttachmentsCreateInfo.html
 type FramebufferAttachmentsCreateInfo struct {
+	// AttachmentImageInfos is a slice of FramebufferAttachmentInfo structures, each structure
+	// describing a number of parameters of the corresponding attachment in a RenderPass instance
 	AttachmentImageInfos []FramebufferAttachmentImageInfo
 
 	common.NextOptions

@@ -62,7 +62,7 @@ func (e *VulkanExtension) GetBufferOpaqueCaptureAddress(device core1_0.Device, o
 	return uint64(address), nil
 }
 
-func (e *VulkanExtension) GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o DeviceMemoryOpaqueAddressInfo) (uint64, error) {
+func (e *VulkanExtension) GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

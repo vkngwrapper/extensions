@@ -8,10 +8,10 @@ import (
 	reflect "reflect"
 	time "time"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_timeline_semaphore "github.com/vkngwrapper/extensions/khr_timeline_semaphore"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.

@@ -12,7 +12,11 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceProperties2 specifies PhysicalDevice properties
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceProperties2.html
 type PhysicalDeviceProperties2 struct {
+	// Properties describes properties of the PhysicalDevice
 	Properties core1_0.PhysicalDeviceProperties
 
 	common.NextOutData

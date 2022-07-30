@@ -12,7 +12,9 @@ import (
 	"unsafe"
 )
 
+// ImageSwapchainCreateInfo specifies that an Image will be bound to swapchain memory
 type ImageSwapchainCreateInfo struct {
+	// Swapchain is a khr_swapchain.Swapchain object that the Image will be bound to
 	Swapchain khr_swapchain.Swapchain
 
 	common.NextOptions

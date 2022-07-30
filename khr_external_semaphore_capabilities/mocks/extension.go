@@ -7,9 +7,9 @@ package mock_external_semaphore_capabilities
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	khr_external_semaphore_capabilities "github.com/vkngwrapper/extensions/khr_external_semaphore_capabilities"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.
@@ -35,7 +35,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 	return m.recorder
 }
 
-// ExternalSemaphoreProperties mocks base method.
+// PhysicalDeviceExternalSemaphoreProperties mocks base method.
 func (m *MockExtension) PhysicalDeviceExternalSemaphoreProperties(physicalDevice core1_0.PhysicalDevice, o khr_external_semaphore_capabilities.PhysicalDeviceExternalSemaphoreInfo, outData *khr_external_semaphore_capabilities.ExternalSemaphoreProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PhysicalDeviceExternalSemaphoreProperties", physicalDevice, o, outData)
@@ -43,8 +43,8 @@ func (m *MockExtension) PhysicalDeviceExternalSemaphoreProperties(physicalDevice
 	return ret0
 }
 
-// ExternalSemaphoreProperties indicates an expected call of ExternalSemaphoreProperties.
-func (mr *MockExtensionMockRecorder) ExternalSemaphoreProperties(physicalDevice, o, outData interface{}) *gomock.Call {
+// PhysicalDeviceExternalSemaphoreProperties indicates an expected call of PhysicalDeviceExternalSemaphoreProperties.
+func (mr *MockExtensionMockRecorder) PhysicalDeviceExternalSemaphoreProperties(physicalDevice, o, outData interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDeviceExternalSemaphoreProperties", reflect.TypeOf((*MockExtension)(nil).PhysicalDeviceExternalSemaphoreProperties), physicalDevice, o, outData)
 }

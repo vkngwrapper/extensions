@@ -7,11 +7,11 @@ package mock_create_renderpass2
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	common "github.com/vkngwrapper/core/common"
 	core1_0 "github.com/vkngwrapper/core/core1_0"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_create_renderpass2 "github.com/vkngwrapper/extensions/khr_create_renderpass2"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockExtension is a mock of Extension interface.

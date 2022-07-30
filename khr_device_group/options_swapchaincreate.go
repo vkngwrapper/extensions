@@ -11,7 +11,11 @@ import (
 	"unsafe"
 )
 
+// DeviceGroupSwapchainCreateInfo specifies parameters of a newly-created khr_swapchain.Swapchain object
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceGroupSwapchainCreateInfoKHR.html
 type DeviceGroupSwapchainCreateInfo struct {
+	// Modes is a set of modes that the khr_swapchain.Swapchain can be used with
 	Modes DeviceGroupPresentModeFlags
 
 	common.NextOptions

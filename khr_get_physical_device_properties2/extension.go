@@ -20,6 +20,8 @@ type VulkanExtension struct {
 	driver ext_driver.Driver
 }
 
+// CreateExtensionFromInstance produces an Extension object from an Instance with
+// khr_get_physical_device_properties2 loaded
 func CreateExtensionFromInstance(instance core1_0.Instance) *VulkanExtension {
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil

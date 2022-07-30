@@ -11,9 +11,14 @@ import (
 	"unsafe"
 )
 
+// DeviceGroupPresentInfo controls which PhysicalDevice objects' Image objects are presented
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceGroupPresentInfoKHR.html
 type DeviceGroupPresentInfo struct {
+	// DeviceMasks is a slice of Device masks, one for each element of khr_swapchain.PresentInfo.Swapchains
 	DeviceMasks []uint32
-	Mode        DeviceGroupPresentModeFlags
+	// Mode specifies the Device group present mode that will be used for this present
+	Mode DeviceGroupPresentModeFlags
 
 	common.NextOptions
 }

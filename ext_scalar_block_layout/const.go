@@ -8,6 +8,6 @@ import "C"
 import _ "github.com/vkngwrapper/extensions/vulkan"
 
 const (
-	// ExtensionName is "ext_scalar_block_layout"
+	// ExtensionName is "VK_EXT_scalar_block_layout"
 	ExtensionName string = C.VK_EXT_SCALAR_BLOCK_LAYOUT_EXTENSION_NAME
 )

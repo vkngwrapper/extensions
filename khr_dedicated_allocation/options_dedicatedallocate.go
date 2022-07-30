@@ -13,8 +13,13 @@ import (
 	"unsafe"
 )
 
+// MemoryDedicatedAllocateInfo specifies a dedicated memory allocation resource
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkMemoryDedicatedAllocateInfo.html
 type MemoryDedicatedAllocateInfo struct {
-	Image  core1_0.Image
+	// Image is nil or the Image object which this memory will be bound to
+	Image core1_0.Image
+	// Buffer is nil or the Buffer object this memory will be bound to
 	Buffer core1_0.Buffer
 
 	common.NextOptions

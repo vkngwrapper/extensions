@@ -12,9 +12,17 @@ import (
 	"unsafe"
 )
 
+// AttachmentReference2 specifies an attachment reference
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkAttachmentReference2.html
 type AttachmentReference2 struct {
+	// Attachment identifies an attachment at the corresponding index in
+	// RenderPassCreateInfo2.Attachments, or core1_0.AttachmentUnused
 	Attachment int
-	Layout     core1_0.ImageLayout
+	// Layout specifies the layout the attachment uses during the subpass
+	Layout core1_0.ImageLayout
+	// AspectMask is a mask of which aspect(s) can be accessed within the specified
+	// subpass as an input attachment
 	AspectMask core1_0.ImageAspectFlags
 
 	common.NextOptions

@@ -12,14 +12,30 @@ import (
 	"unsafe"
 )
 
+// SamplerYcbcrConversionCreateInfo specifies the parameters of the newly-created conversion
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerYcbcrConversionCreateInfo.html
 type SamplerYcbcrConversionCreateInfo struct {
-	Format                      core1_0.Format
-	YcbcrModel                  SamplerYcbcrModelConversion
-	YcbcrRange                  SamplerYcbcrRange
-	Components                  core1_0.ComponentMapping
-	XChromaOffset               ChromaLocation
-	YChromaOffset               ChromaLocation
-	ChromaFilter                core1_0.Filter
+	// Format is the format of the Image from which color information will be retrieved
+	Format core1_0.Format
+	// YcbcrModel describes the color matrix for conversion between color models
+	YcbcrModel SamplerYcbcrModelConversion
+	// YcbcrRange describes whether the encoded values have headroom and foot room, or whether
+	// the encoding uses the full numerical range
+	YcbcrRange SamplerYcbcrRange
+	// Components applies a swizzle based on core1_0.ComponentSwizzle enums prior to range
+	// expansion and color model conversion
+	Components core1_0.ComponentMapping
+	// XChromaOffset describes the sample location associated with downsampled chroma components
+	// in the x dimension
+	XChromaOffset ChromaLocation
+	// YChromaOffset describes the sample location associated with downsampled chroma components
+	// in the y dimension
+	YChromaOffset ChromaLocation
+	// ChromaFilter is the filter for chroma reconstruction
+	ChromaFilter core1_0.Filter
+	// ForceExplicitReconstruction can be used to ensure that reconstruction is done explicitly,
+	// if supported
 	ForceExplicitReconstruction bool
 
 	common.NextOptions

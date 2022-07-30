@@ -13,10 +13,16 @@ import (
 	"unsafe"
 )
 
+// SemaphoreWaitInfo contains information about the Semaphore wait condition
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSemaphoreWaitInfo.html
 type SemaphoreWaitInfo struct {
-	Flags      SemaphoreWaitFlags
+	// Flags specifies additional parameters for the Semaphore wait operation
+	Flags SemaphoreWaitFlags
+	// Semaphores is a slice of Semaphore objects to wait on
 	Semaphores []core1_0.Semaphore
-	Values     []uint64
+	// Values is a slice of timeline Semaphore values
+	Values []uint64
 
 	common.NextOptions
 }

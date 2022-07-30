@@ -12,8 +12,15 @@ import (
 	"unsafe"
 )
 
+// DeviceGroupRenderPassBeginInfo sets the initial Device mask and render areas for a RenderPass
+// instance
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceGroupRenderPassBeginInfo.html
 type DeviceGroupRenderPassBeginInfo struct {
-	DeviceMask        uint32
+	// DeviceMask is the deivce mask for the RenderPass instance
+	DeviceMask uint32
+	// DeviceRenderAreas is a slice of Rect2D structures defining the render area for each
+	// PhysicalDevice
 	DeviceRenderAreas []core1_0.Rect2D
 
 	common.NextOptions

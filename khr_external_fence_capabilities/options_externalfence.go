@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceExternalFenceInfo specifies Fence creation parameters
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceExternalFenceInfo.html
 type PhysicalDeviceExternalFenceInfo struct {
+	// HandleType specifies an external Fence handle type for which capabilities will be
+	// returned
 	HandleType ExternalFenceHandleTypeFlags
 
 	common.NextOptions

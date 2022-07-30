@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceMemoryProperties2 specifies PhysicalDevice memory properties
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceMemoryProperties2.html
 type PhysicalDeviceMemoryProperties2 struct {
+	// MemoryProperties is a structure which is populated with the same values as in
+	// PhysicalDevice.MemoryProperties
 	MemoryProperties core1_0.PhysicalDeviceMemoryProperties
 
 	common.NextOutData

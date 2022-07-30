@@ -13,11 +13,20 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceIDProperties speicifes IDs related to the PhysicalDevice
 type PhysicalDeviceIDProperties struct {
-	DeviceUUID      uuid.UUID
-	DriverUUID      uuid.UUID
-	DeviceLUID      uint64
-	DeviceNodeMask  uint32
+	// DeviceUUID represents a universally-unique identifier for the device
+	DeviceUUID uuid.UUID
+	// DriverUUID represents a universally-unique identifier for the driver build
+	// in use by the device
+	DriverUUID uuid.UUID
+	// DeviceLUID represents a locally-unique identifier for the device
+	DeviceLUID uint64
+	// DeviceNodeMask identifies the node within a linked device adapter corresponding to the
+	// Device
+	DeviceNodeMask uint32
+	// DeviceLUIDValid is true if DeviceLUID contains a valid LUID and DeviceNodeMask contains
+	// a valid node mask
 	DeviceLUIDValid bool
 
 	common.NextOutData

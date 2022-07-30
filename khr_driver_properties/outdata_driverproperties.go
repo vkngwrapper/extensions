@@ -11,10 +11,18 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceDriverProperties contains driver identification information
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceDriverProperties.html
 type PhysicalDeviceDriverProperties struct {
-	DriverID           DriverID
-	DriverName         string
-	DriverInfo         string
+	// DriverID is a unique identifier for the driver of the PhysicalDevice
+	DriverID DriverID
+	// DriverName is a string which is the name of the driver
+	DriverName string
+	// DriverInfo is a string with additional information about the driver
+	DriverInfo string
+	// ConformanceVersion is the version of the Vulkan conformance test thsi driver is conformant
+	// against
 	ConformanceVersion ConformanceVersion
 
 	common.NextOutData

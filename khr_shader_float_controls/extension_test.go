@@ -71,7 +71,7 @@ func TestPhysicalDeviceFloatControlsOutData(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, khr_shader_float_controls.PhysicalDeviceFloatControlsProperties{
 		DenormBehaviorIndependence: khr_shader_float_controls.ShaderFloatControlsIndependence32BitOnly,
-		RoundingMoundIndependence:  khr_shader_float_controls.ShaderFloatControlsIndependenceAll,
+		RoundingModeIndependence:   khr_shader_float_controls.ShaderFloatControlsIndependenceAll,
 
 		ShaderSignedZeroInfNanPreserveFloat16: true,
 		ShaderSignedZeroInfNanPreserveFloat32: false,

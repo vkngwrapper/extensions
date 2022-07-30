@@ -7,9 +7,9 @@ package mock_buffer_device_address
 import (
 	reflect "reflect"
 
+	gomock "github.com/golang/mock/gomock"
 	driver "github.com/vkngwrapper/core/driver"
 	khr_buffer_device_address_driver "github.com/vkngwrapper/extensions/khr_buffer_device_address/driver"
-	gomock "github.com/golang/mock/gomock"
 )
 
 // MockDriver is a mock of Driver interface.

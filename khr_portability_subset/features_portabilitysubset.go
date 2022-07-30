@@ -13,22 +13,58 @@ import (
 	"unsafe"
 )
 
+// PhysicalDevicePortabilitySubsetFeatures describes the features that may not be supported by
+// an implementation of the Vulkan 1.0 Portability Subset
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDevicePortabilitySubsetFeaturesKHR.html
 type PhysicalDevicePortabilitySubsetFeatures struct {
-	ConstantAlphaColorBlendFactors          bool
-	Events                                  bool
-	ImageViewFormatReinterpretation         bool
-	ImageViewFormatSwizzle                  bool
-	ImageView2DOn3DImage                    bool
-	MultisampleArrayImage                   bool
-	MutableComparisonSamplers               bool
-	PointPolygons                           bool
-	SamplerMipLodBias                       bool
-	SeparateStencilMaskRef                  bool
+	// ConstantAlphaColorBlendFactors indicates whether this implementation supports constant alpha
+	// blend factors used as a source or destination color
+	ConstantAlphaColorBlendFactors bool
+	// Events indicates whether this implementation supports synchronization using Event objects
+	Events bool
+	// ImageViewFormatReinterpretation indicates whether this implementation supports an ImageView being
+	// created with a texel format containing a different number of components, or a different number
+	// of bits in each component, than the texel format of the underlying Image
+	ImageViewFormatReinterpretation bool
+	// ImageViewFormatSwizzle indicates whether this implementation supports remapping format components
+	// using ImageViewCreateInfo.Components
+	ImageViewFormatSwizzle bool
+	// ImageView2DOn3DImage indicates whether this implementation supports an Image being created with
+	// ImageCreate2DArrayCompatible set, permitting a 2D or 2D array ImageView to be created on a 3D
+	// Image
+	ImageView2DOn3DImage bool
+	// MultisampleArrayImage indicates whether this implementation supports an Image being created as
+	// a 2D array with multiple samples per texel
+	MultisampleArrayImage bool
+	// MutableComparisonSamplers indicates whether this implementation allows descriptors with comparison
+	// samplers to be updated
+	MutableComparisonSamplers bool
+	// PointPolygons indicates whether this implementation supports rasterization using a point
+	// polygon mode
+	PointPolygons bool
+	// SamplerMipLodBias indicates whether this implementation supports setting a mipmap LOD bias value
+	// when creating a Sampler
+	SamplerMipLodBias bool
+	// SeparateStencilMaskRef indicates whether this implementation supports separate front and back
+	// stencil ops reference values
+	SeparateStencilMaskRef bool
+	// ShaderSamplerRateInterpolationFunctions indicates whether this implementation supports fragment
+	// shaders which use the InterpolationFunction capability and the extended instructions
+	// InterpolateAtCentroid, InterpolateAtOffset, and InterpolateAtSample from the GLSL.std.450
+	// extended instruction set
 	ShaderSamplerRateInterpolationFunctions bool
-	TessellationIsolines                    bool
-	TessellationPointMode                   bool
-	TriangleFans                            bool
-	VertexAttributeAccessBeyondStride       bool
+	// TessellationIsolines indicates whether this implementation supports isoline output from the
+	// tessellation stage of a graphics Pipeline
+	TessellationIsolines bool
+	// TessellationPointMode indicates whether this implementation supports point output from the tessellation
+	// stage of a graphics Pipeline
+	TessellationPointMode bool
+	// TriangleFans indicates whether this implementation supports triangle fans primitive topology
+	TriangleFans bool
+	// VertexAttributeAccessBeyondStride indicates whether this implementation supports accessing a vertex
+	// input attribute beyond the stride of the corresponding vertex input binding
+	VertexAttributeAccessBeyondStride bool
 
 	common.NextOptions
 	common.NextOutData

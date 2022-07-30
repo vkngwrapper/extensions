@@ -10,6 +10,9 @@ import (
 	"github.com/vkngwrapper/core/core1_0"
 )
 
+// DescriptorUpdateTemplateType indicates the valid usage of the DescriptorUpdateTemplate
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorUpdateTemplateType.html
 type DescriptorUpdateTemplateType int32
 
 var descriptorTemplateTypeMapping = make(map[DescriptorUpdateTemplateType]string)
@@ -24,24 +27,34 @@ func (e DescriptorUpdateTemplateType) String() string {
 
 ////
 
-type DescriptorUpdateTemplateFlags int32
+// DescriptorUpdateTemplateCreateFlags is reserved for future use
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorUpdateTemplateCreateFlags.html
+type DescriptorUpdateTemplateCreateFlags int32
 
-var descriptorTemplateFlagsMapping = common.NewFlagStringMapping[DescriptorUpdateTemplateFlags]()
+var descriptorTemplateFlagsMapping = common.NewFlagStringMapping[DescriptorUpdateTemplateCreateFlags]()
 
-func (f DescriptorUpdateTemplateFlags) Register(str string) {
+func (f DescriptorUpdateTemplateCreateFlags) Register(str string) {
 	descriptorTemplateFlagsMapping.Register(f, str)
 }
-func (f DescriptorUpdateTemplateFlags) String() string {
+func (f DescriptorUpdateTemplateCreateFlags) String() string {
 	return descriptorTemplateFlagsMapping.FlagsToString(f)
 }
 
 ////
 
 const (
+	// ExtensionName is "VK_KHR_descriptor_update_template"
 	ExtensionName string = C.VK_KHR_DESCRIPTOR_UPDATE_TEMPLATE_EXTENSION_NAME
 
+	// DescriptorUpdateTemplateTypeDescriptorSet indicates the valid usage of the DescriptorUpdateTemplate
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDescriptorUpdateTemplateType.html
 	DescriptorUpdateTemplateTypeDescriptorSet DescriptorUpdateTemplateType = C.VK_DESCRIPTOR_UPDATE_TEMPLATE_TYPE_DESCRIPTOR_SET_KHR
 
+	// ObjectTypeDescriptorUpdateTemplate specifies a DescriptorUpdateTemplate handle
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkObjectType.html
 	ObjectTypeDescriptorUpdateTemplate core1_0.ObjectType = C.VK_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_KHR
 )
 

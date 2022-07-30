@@ -12,7 +12,12 @@ import (
 	"unsafe"
 )
 
+// ExportSemaphoreCreateInfo specifies handle types that can be exported from a Semaphore
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExportSemaphoreCreateInfo.html
 type ExportSemaphoreCreateInfo struct {
+	// HandleTypes specifies one or more Semaphore handle types the application can export
+	// from the resulting Semaphore
 	HandleTypes khr_external_semaphore_capabilities.ExternalSemaphoreHandleTypeFlags
 
 	common.NextOptions

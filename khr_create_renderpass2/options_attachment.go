@@ -12,16 +12,34 @@ import (
 	"unsafe"
 )
 
+// AttachmentDescription2 specifies an attachment description
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkAttachmentDescription2.html
 type AttachmentDescription2 struct {
-	Flags          core1_0.AttachmentDescriptionFlags
-	Format         core1_0.Format
-	Samples        core1_0.SampleCountFlags
-	LoadOp         core1_0.AttachmentLoadOp
-	StoreOp        core1_0.AttachmentStoreOp
-	StencilLoadOp  core1_0.AttachmentLoadOp
+	// Flags specifies additional properties of the attachment
+	Flags core1_0.AttachmentDescriptionFlags
+	// Format specifies the format of the Image that will be used for the attachment
+	Format core1_0.Format
+	// Samples specifies the number of samples of the Image
+	Samples core1_0.SampleCountFlags
+	// LoadOp specifies how the contents of color and depth components of the attachment
+	// are treated at the beginning of the subpass where it is first used
+	LoadOp core1_0.AttachmentLoadOp
+	// StoreOp specifies how the contents of color and depth components of the attachment
+	// are treated at the end of the subpass where it is last used
+	StoreOp core1_0.AttachmentStoreOp
+	// StencilLoadOp specifies how the contents of stencil components of the attachment
+	// are treated at the beginning of the subpass where it is first used
+	StencilLoadOp core1_0.AttachmentLoadOp
+	// StencilStoreOp specifies how the contents of the stencil components of the attachment
+	// are treated at the end of the last subpass where it is used
 	StencilStoreOp core1_0.AttachmentStoreOp
-	InitialLayout  core1_0.ImageLayout
-	FinalLayout    core1_0.ImageLayout
+	// InitialLayout is the layout of the attachment Image subresource will be in when
+	// a RenderPass instance begins
+	InitialLayout core1_0.ImageLayout
+	// FinalLayout is the layout the attachment Image subresource will be transitioned to
+	// when a RenderPass instance ends
+	FinalLayout core1_0.ImageLayout
 
 	common.NextOptions
 }

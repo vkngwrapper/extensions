@@ -12,6 +12,8 @@ type VulkanExtension struct {
 	driver khr_draw_indirect_count_driver.Driver
 }
 
+// CreateExtensionFromDevice produces an Extension object from a Device with
+// khr_draw_indirect_count loaded
 func CreateExtensionFromDevice(device core1_0.Device, instance core1_0.Instance) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil

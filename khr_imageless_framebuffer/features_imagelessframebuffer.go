@@ -11,7 +11,12 @@ import (
 	"unsafe"
 )
 
+// PhysicalDeviceImagelessFramebufferFeatures indicates supports for imageless Framebuffer objects
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceImagelessFramebufferFeatures.html
 type PhysicalDeviceImagelessFramebufferFeatures struct {
+	// ImagelessFramebuffer indicates that the implementation supports specifying the ImageView for
+	// attachments at RenderPass begin time via RenderPassAttachmentBeginInfo
 	ImagelessFramebuffer bool
 
 	common.NextOptions
