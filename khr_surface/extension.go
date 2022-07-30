@@ -10,12 +10,12 @@ import (
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_surface.html
 type Extension interface {
-	// CreateSurfaceFromHandle is used to create a Surface object from native platform or window data.
+	// CreateSurface is used to create a Surface object from native platform or window data.
 	// Generally, this method should be called from an integration for a windowing system that produces
 	// Surface handles, and not by end users
 	//
 	// surfaceHandle - A surface handle produced by a windowing system
-	CreateSurfaceFromHandle(surfaceHandle khr_surface_driver.VkSurfaceKHR) (Surface, error)
+	CreateSurface(surfaceHandle khr_surface_driver.VkSurfaceKHR) (Surface, error)
 }
 
 // CreateExtensionFromInstance produces an Extension object from an Insstance with
