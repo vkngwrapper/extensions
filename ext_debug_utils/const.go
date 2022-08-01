@@ -61,6 +61,8 @@ func (f DebugUtilsMessengerCreateFlags) String() string {
 
 const (
 	// ExtensionName is "VK_EXT_debug_utils"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_debug_utils.html
 	ExtensionName string = C.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 
 	// TypeGeneral specifies that some general event has occurred

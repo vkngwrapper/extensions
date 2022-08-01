@@ -9,6 +9,8 @@ import "github.com/vkngwrapper/core/core1_0"
 
 const (
 	// ExtensionName is "VK_KHR_bind_memory2"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_bind_memory2.html
 	ExtensionName string = C.VK_KHR_BIND_MEMORY_2_EXTENSION_NAME
 
 	// ImageCreateAlias specifies that two Image objects created with the same creation parameters

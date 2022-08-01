@@ -27,6 +27,8 @@ func (f ResolveModeFlags) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_depth_stencil_resolve"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_depth_stencil_resolve.html
 	ExtensionName string = C.VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME
 
 	// ResolveModeAverage indicates that the result of the resolve operation is the average

@@ -9,6 +9,8 @@ import "github.com/vkngwrapper/core/common"
 
 const (
 	// ExtensionName is "VK_KHR_external_memory"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_external_memory.html
 	ExtensionName string = C.VK_KHR_EXTERNAL_MEMORY_EXTENSION_NAME
 
 	// QueueFamilyExternal represents any Queue external to the resource's current Vulkan instance,

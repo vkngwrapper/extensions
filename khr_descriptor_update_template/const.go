@@ -45,6 +45,8 @@ func (f DescriptorUpdateTemplateCreateFlags) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_descriptor_update_template"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_descriptor_update_template.html
 	ExtensionName string = C.VK_KHR_DESCRIPTOR_UPDATE_TEMPLATE_EXTENSION_NAME
 
 	// DescriptorUpdateTemplateTypeDescriptorSet indicates the valid usage of the DescriptorUpdateTemplate

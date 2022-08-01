@@ -27,6 +27,8 @@ func (e SamplerReductionMode) String() string {
 
 const (
 	// ExtensionName is "VK_EXT_sampler_filter_minmax"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_sampler_filter_minmax.html
 	ExtensionName string = C.VK_EXT_SAMPLER_FILTER_MINMAX_EXTENSION_NAME
 
 	// FormatFeatureSampledImageFilterMinmax specifies the Image can be used as a sampled Image

@@ -13,6 +13,8 @@ import (
 
 const (
 	// ExtensionName is "VK_KHR_buffer_device_address"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_buffer_device_address.html
 	ExtensionName string = C.VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME
 
 	// BufferCreateDeviceAddressCaptureReplay specifies that the Buffer object's address can

@@ -9,6 +9,8 @@ import "github.com/vkngwrapper/core/core1_0"
 
 const (
 	// ExtensionName is "VK_KHR_device_group_creation"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_device_group_creation.html
 	ExtensionName string = C.VK_KHR_DEVICE_GROUP_CREATION_EXTENSION_NAME
 
 	// MaxDeviceGroupSize is the length of a PhysicalDevice handle array

@@ -29,6 +29,8 @@ func (f DescriptorBindingFlags) String() string {
 
 const (
 	// ExtensionName is "VK_EXT_descriptor_indexing"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_descriptor_indexing.html
 	ExtensionName string = C.VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME
 
 	// DescriptorBindingPartiallyBound indicates that descriptors in this binding that are

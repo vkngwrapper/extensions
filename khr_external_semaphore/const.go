@@ -27,6 +27,8 @@ func (f SemaphoreImportFlags) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_external_semaphore"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_external_semaphore.html
 	ExtensionName string = C.VK_KHR_EXTERNAL_SEMAPHORE_EXTENSION_NAME
 
 	// SemaphoreImportTemporary specifies that the Semaphore payload will be imported only

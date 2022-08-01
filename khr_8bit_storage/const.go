@@ -9,5 +9,7 @@ import _ "github.com/vkngwrapper/extensions/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_8bit_storage"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_8bit_storage.html
 	ExtensionName string = C.VK_KHR_8BIT_STORAGE_EXTENSION_NAME
 )

@@ -26,6 +26,8 @@ func (f FenceImportFlags) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_external_fence"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_external_fence.html
 	ExtensionName string = C.VK_KHR_EXTERNAL_FENCE_EXTENSION_NAME
 
 	// FenceImportTemporary specifies that the Fence payload will be imported only temporarily,

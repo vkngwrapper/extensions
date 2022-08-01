@@ -63,6 +63,8 @@ func (f DeviceGroupPresentModeFlags) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_device_group"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_device_group.html
 	ExtensionName string = C.VK_KHR_DEVICE_GROUP_EXTENSION_NAME
 
 	// DependencyDeviceGroup specifies that dependencies are non-device-local

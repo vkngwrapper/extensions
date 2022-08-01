@@ -43,6 +43,8 @@ func (f ExternalSemaphoreHandleTypeFlags) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_external_semaphore_capabilities"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_external_semaphore_capabilities.html
 	ExtensionName string = C.VK_KHR_EXTERNAL_SEMAPHORE_CAPABILITIES_EXTENSION_NAME
 
 	// LUIDSize is the length of a locally unique Device identifier

@@ -43,6 +43,8 @@ func (f ExternalFenceHandleTypeFlags) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_external_fence_capabilities"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_external_fence_capabilities.html
 	ExtensionName string = C.VK_KHR_EXTERNAL_FENCE_CAPABILITIES_EXTENSION_NAME
 
 	// LUIDSize is the length of a locally unique Device identifier

@@ -25,6 +25,8 @@ func (e DriverID) String() string {
 
 const (
 	// ExtensionName is "VK_KHR_driver_properties"
+	//
+	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_driver_properties.html
 	ExtensionName string = C.VK_KHR_DRIVER_PROPERTIES_EXTENSION_NAME
 
 	// MaxDriverInfoSize is the length of a PhysicalDevice driver information string
