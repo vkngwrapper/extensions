@@ -27,7 +27,7 @@ func TestVulkanSurface_PresentModes(t *testing.T) {
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurface(0)
+	surface, err := extension.CreateSurfaceFromHandle(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfacePresentModesKHR(
@@ -75,7 +75,7 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurface(0)
+	surface, err := extension.CreateSurfaceFromHandle(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfacePresentModesKHR(
@@ -148,7 +148,7 @@ func TestVulkanSurface_SupportsDevice(t *testing.T) {
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurface(0)
+	surface, err := extension.CreateSurfaceFromHandle(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceSupportKHR(
@@ -179,7 +179,7 @@ func TestVulkanSurface_Capabilities(t *testing.T) {
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurface(0)
+	surface, err := extension.CreateSurfaceFromHandle(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceCapabilitiesKHR(
@@ -244,7 +244,7 @@ func TestVulkanSurface_Formats(t *testing.T) {
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurface(0)
+	surface, err := extension.CreateSurfaceFromHandle(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceFormatsKHR(
@@ -304,7 +304,7 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurface(0)
+	surface, err := extension.CreateSurfaceFromHandle(0)
 	require.NoError(t, err)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceFormatsKHR(
