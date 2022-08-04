@@ -2,7 +2,7 @@ package khr_uniform_buffer_standard_layout
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 import (

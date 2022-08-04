@@ -2,7 +2,7 @@ package khr_spirv_1_4
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 import _ "github.com/vkngwrapper/extensions/vulkan"

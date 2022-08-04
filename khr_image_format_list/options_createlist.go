@@ -2,7 +2,7 @@ package khr_image_format_list
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 import (

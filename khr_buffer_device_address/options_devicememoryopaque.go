@@ -2,7 +2,7 @@ package khr_buffer_device_address
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 import (

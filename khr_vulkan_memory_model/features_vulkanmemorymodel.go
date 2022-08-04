@@ -2,7 +2,7 @@ package khr_vulkan_memory_model
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 import (

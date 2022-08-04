@@ -2,7 +2,7 @@ package khr_sampler_ycbcr_conversion
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 import (

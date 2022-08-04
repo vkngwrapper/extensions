@@ -2,7 +2,7 @@ package khr_shader_subgroup_extended_types
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 import (

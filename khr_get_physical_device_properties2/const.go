@@ -2,7 +2,7 @@ package khr_get_physical_device_properties2
 
 /*
 #include <stdlib.h>
-#include "vulkan/vulkan.h"
+#include "../vulkan/vulkan.h"
 */
 import "C"
 
