@@ -8,7 +8,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
 	github.com/stretchr/testify v1.8.0
-	github.com/vkngwrapper/core v1.0.1
+	github.com/vkngwrapper/core v1.0.2
 	golang.org/x/image v0.0.0-20220617043117-41969df76e82
 )
 
@@ -23,6 +23,6 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.1 // indirect
-	golang.org/x/sys v0.0.0-20220731174439-a90be440212d // indirect
+	golang.org/x/sys v0.0.0-20220804214406-8e32c043e418 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
