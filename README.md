@@ -40,7 +40,7 @@ Example:
 ## Supported Extensions
 
 * Three major extensions used by most applications developers: vk_ext_debug_utils, vk_khr_surface, and vk_khr_swapchain
-* vk_khr_portability_subset, which can be used to add Mac/iOS support to your Vulkan applications
+* vk_khr_portability_subset and vk_khr_portability_enumeration, which can be used to add Mac/iOS support to your Vulkan applications
 * 23 extensions which were promoted to core 1.1
 * 24 extensions which were promoted to core 1.2
 
