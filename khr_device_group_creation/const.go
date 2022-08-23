@@ -5,7 +5,7 @@ package khr_device_group_creation
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/core1_0"
+import "github.com/vkngwrapper/core/v2/core1_0"
 
 const (
 	// ExtensionName is "VK_KHR_device_group_creation"

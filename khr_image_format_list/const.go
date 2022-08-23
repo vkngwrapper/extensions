@@ -5,7 +5,7 @@ package khr_image_format_list
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import _ "github.com/vkngwrapper/extensions/vulkan"
+import _ "github.com/vkngwrapper/extensions/v2/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_image_format_list"

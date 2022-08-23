@@ -2,9 +2,9 @@ package khr_draw_indirect_count
 
 import (
 	"github.com/golang/mock/gomock"
-	"github.com/vkngwrapper/core/driver"
-	"github.com/vkngwrapper/core/mocks"
-	mock_draw_indirect_count "github.com/vkngwrapper/extensions/khr_draw_indirect_count/mocks"
+	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v2/mocks"
+	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v2/khr_draw_indirect_count/mocks"
 	"testing"
 )
 

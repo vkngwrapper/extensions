@@ -5,7 +5,7 @@ package khr_variable_pointers
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import _ "github.com/vkngwrapper/extensions/vulkan"
+import _ "github.com/vkngwrapper/extensions/v2/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_variable_pointers"

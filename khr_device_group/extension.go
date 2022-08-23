@@ -7,12 +7,12 @@ package khr_device_group
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/common"
-	"github.com/vkngwrapper/core/core1_0"
-	"github.com/vkngwrapper/core/driver"
-	khr_device_group_driver "github.com/vkngwrapper/extensions/khr_device_group/driver"
-	"github.com/vkngwrapper/extensions/khr_surface"
-	"github.com/vkngwrapper/extensions/khr_swapchain"
+	"github.com/vkngwrapper/core/v2/common"
+	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v2/driver"
+	khr_device_group_driver "github.com/vkngwrapper/extensions/v2/khr_device_group/driver"
+	"github.com/vkngwrapper/extensions/v2/khr_surface"
+	"github.com/vkngwrapper/extensions/v2/khr_swapchain"
 	"unsafe"
 )
 

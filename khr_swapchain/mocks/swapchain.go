@@ -9,10 +9,10 @@ import (
 	time "time"
 
 	gomock "github.com/golang/mock/gomock"
-	common "github.com/vkngwrapper/core/common"
-	core1_0 "github.com/vkngwrapper/core/core1_0"
-	driver "github.com/vkngwrapper/core/driver"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/khr_swapchain/driver"
+	common "github.com/vkngwrapper/core/v2/common"
+	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
 )
 
 // MockSwapchain is a mock of Swapchain interface.

@@ -13,8 +13,8 @@ void cgoTrimCommandPoolKHR(PFN_vkTrimCommandPoolKHR fn, VkDevice device, VkComma
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/driver"
-	_ "github.com/vkngwrapper/extensions/vulkan"
+	"github.com/vkngwrapper/core/v2/driver"
+	_ "github.com/vkngwrapper/extensions/v2/vulkan"
 	"unsafe"
 )
 

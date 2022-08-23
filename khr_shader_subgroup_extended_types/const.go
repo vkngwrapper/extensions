@@ -5,7 +5,7 @@ package khr_shader_subgroup_extended_types
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import _ "github.com/vkngwrapper/extensions/vulkan"
+import _ "github.com/vkngwrapper/extensions/v2/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_shader_subgroup_extended_types"

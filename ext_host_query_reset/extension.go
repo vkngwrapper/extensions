@@ -1,9 +1,9 @@
 package ext_host_query_reset
 
 import (
-	"github.com/vkngwrapper/core/core1_0"
-	"github.com/vkngwrapper/core/driver"
-	ext_host_query_reset_driver "github.com/vkngwrapper/extensions/ext_host_query_reset/driver"
+	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v2/driver"
+	ext_host_query_reset_driver "github.com/vkngwrapper/extensions/v2/ext_host_query_reset/driver"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This

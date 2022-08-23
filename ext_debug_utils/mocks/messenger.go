@@ -8,8 +8,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	driver "github.com/vkngwrapper/core/driver"
-	ext_debug_utils_driver "github.com/vkngwrapper/extensions/ext_debug_utils/driver"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	ext_debug_utils_driver "github.com/vkngwrapper/extensions/v2/ext_debug_utils/driver"
 )
 
 // MockDebugUtilsMessenger is a mock of DebugUtilsMessenger interface.

@@ -2,7 +2,7 @@ package mock_debugutils
 
 import (
 	"github.com/golang/mock/gomock"
-	ext_driver "github.com/vkngwrapper/extensions/ext_debug_utils/driver"
+	ext_driver "github.com/vkngwrapper/extensions/v2/ext_debug_utils/driver"
 	"math/rand"
 	"unsafe"
 )

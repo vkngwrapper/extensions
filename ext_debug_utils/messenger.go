@@ -10,8 +10,8 @@ package ext_debug_utils
 import "C"
 import (
 	"fmt"
-	"github.com/vkngwrapper/core/driver"
-	ext_driver "github.com/vkngwrapper/extensions/ext_debug_utils/driver"
+	"github.com/vkngwrapper/core/v2/driver"
+	ext_driver "github.com/vkngwrapper/extensions/v2/ext_debug_utils/driver"
 	"runtime/cgo"
 	"unsafe"
 )

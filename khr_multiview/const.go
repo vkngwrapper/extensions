@@ -5,8 +5,8 @@ package khr_multiview
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/core1_0"
-import _ "github.com/vkngwrapper/extensions/vulkan"
+import "github.com/vkngwrapper/core/v2/core1_0"
+import _ "github.com/vkngwrapper/extensions/v2/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_multiview"

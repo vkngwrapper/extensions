@@ -8,11 +8,11 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	common "github.com/vkngwrapper/core/common"
-	core1_0 "github.com/vkngwrapper/core/core1_0"
-	driver "github.com/vkngwrapper/core/driver"
-	khr_surface "github.com/vkngwrapper/extensions/khr_surface"
-	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
+	common "github.com/vkngwrapper/core/v2/common"
+	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	khr_surface "github.com/vkngwrapper/extensions/v2/khr_surface"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
 )
 
 // MockSurface is a mock of Surface interface.

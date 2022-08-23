@@ -2,7 +2,7 @@ package mock_surface
 
 import (
 	"github.com/golang/mock/gomock"
-	ext_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
+	ext_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
 	"math/rand"
 	"unsafe"
 )

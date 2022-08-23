@@ -7,8 +7,8 @@ package khr_external_memory
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/common"
-	"github.com/vkngwrapper/extensions/khr_external_memory_capabilities"
+	"github.com/vkngwrapper/core/v2/common"
+	"github.com/vkngwrapper/extensions/v2/khr_external_memory_capabilities"
 	"unsafe"
 )
 

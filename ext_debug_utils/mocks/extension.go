@@ -8,10 +8,10 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	common "github.com/vkngwrapper/core/common"
-	core1_0 "github.com/vkngwrapper/core/core1_0"
-	driver "github.com/vkngwrapper/core/driver"
-	ext_debug_utils "github.com/vkngwrapper/extensions/ext_debug_utils"
+	common "github.com/vkngwrapper/core/v2/common"
+	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	ext_debug_utils "github.com/vkngwrapper/extensions/v2/ext_debug_utils"
 )
 
 // MockExtension is a mock of Extension interface.

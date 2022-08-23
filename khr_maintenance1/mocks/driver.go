@@ -8,8 +8,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	driver "github.com/vkngwrapper/core/driver"
-	khr_maintenance1_driver "github.com/vkngwrapper/extensions/khr_maintenance1/driver"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	khr_maintenance1_driver "github.com/vkngwrapper/extensions/v2/khr_maintenance1/driver"
 )
 
 // MockDriver is a mock of Driver interface.

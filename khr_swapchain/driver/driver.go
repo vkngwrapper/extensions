@@ -45,10 +45,10 @@ VkResult cgoSwapchainGetPhysicalDevicePresentRectanglesKHR(PFN_vkGetPhysicalDevi
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/common"
-	"github.com/vkngwrapper/core/driver"
-	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
-	_ "github.com/vkngwrapper/extensions/vulkan"
+	"github.com/vkngwrapper/core/v2/common"
+	"github.com/vkngwrapper/core/v2/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
+	_ "github.com/vkngwrapper/extensions/v2/vulkan"
 	"unsafe"
 )
 

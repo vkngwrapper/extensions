@@ -6,9 +6,9 @@ package ext_descriptor_indexing
 */
 import "C"
 import (
-	"github.com/vkngwrapper/core/common"
-	"github.com/vkngwrapper/core/core1_0"
-	_ "github.com/vkngwrapper/extensions/vulkan"
+	"github.com/vkngwrapper/core/v2/common"
+	"github.com/vkngwrapper/core/v2/core1_0"
+	_ "github.com/vkngwrapper/extensions/v2/vulkan"
 )
 
 // DescriptorBindingFlags specifies DescriptorSetLayout binding properties

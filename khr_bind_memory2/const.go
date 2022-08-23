@@ -5,7 +5,7 @@ package khr_bind_memory2
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/core1_0"
+import "github.com/vkngwrapper/core/v2/core1_0"
 
 const (
 	// ExtensionName is "VK_KHR_bind_memory2"

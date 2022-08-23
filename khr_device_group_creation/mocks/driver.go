@@ -8,9 +8,9 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	common "github.com/vkngwrapper/core/common"
-	driver "github.com/vkngwrapper/core/driver"
-	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/khr_device_group_creation/driver"
+	common "github.com/vkngwrapper/core/v2/common"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/v2/khr_device_group_creation/driver"
 )
 
 // MockDriver is a mock of Driver interface.

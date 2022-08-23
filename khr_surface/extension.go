@@ -1,9 +1,9 @@
 package khr_surface
 
 import (
-	"github.com/vkngwrapper/core/core1_0"
-	"github.com/vkngwrapper/core/driver"
-	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
+	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v2/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
 )
 
 // Extension contains all commands for the khr_surface extension

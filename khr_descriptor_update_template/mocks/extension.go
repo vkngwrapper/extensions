@@ -8,10 +8,10 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	core1_0 "github.com/vkngwrapper/core/core1_0"
-	driver "github.com/vkngwrapper/core/driver"
-	khr_descriptor_update_template "github.com/vkngwrapper/extensions/khr_descriptor_update_template"
-	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/khr_descriptor_update_template/driver"
+	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template"
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template/driver"
 )
 
 // MockDescriptorUpdateTemplate is a mock of DescriptorUpdateTemplate interface.

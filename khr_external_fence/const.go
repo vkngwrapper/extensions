@@ -5,7 +5,7 @@ package khr_external_fence
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/common"
+import "github.com/vkngwrapper/core/v2/common"
 
 // FenceImportFlags specifies additional parameters of a Fence payload import
 //

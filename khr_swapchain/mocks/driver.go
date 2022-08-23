@@ -8,10 +8,10 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	common "github.com/vkngwrapper/core/common"
-	driver "github.com/vkngwrapper/core/driver"
-	khr_surface_driver "github.com/vkngwrapper/extensions/khr_surface/driver"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/khr_swapchain/driver"
+	common "github.com/vkngwrapper/core/v2/common"
+	driver "github.com/vkngwrapper/core/v2/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
 )
 
 // MockDriver is a mock of Driver interface.

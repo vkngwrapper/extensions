@@ -3,8 +3,8 @@ package khr_get_physical_device_properties2
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_get_physical_device_properties2
 
 import (
-	"github.com/vkngwrapper/core/common"
-	"github.com/vkngwrapper/core/core1_0"
+	"github.com/vkngwrapper/core/v2/common"
+	"github.com/vkngwrapper/core/v2/core1_0"
 )
 
 // Extension contains all commands for the khr_get_physical_device_properties2 extension

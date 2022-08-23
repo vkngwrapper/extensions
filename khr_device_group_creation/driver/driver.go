@@ -11,9 +11,9 @@ VkResult cgoEnumeratePhysicalDeviceGroupsKHR(PFN_vkEnumeratePhysicalDeviceGroups
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/common"
-	"github.com/vkngwrapper/core/driver"
-	_ "github.com/vkngwrapper/extensions/vulkan"
+	"github.com/vkngwrapper/core/v2/common"
+	"github.com/vkngwrapper/core/v2/driver"
+	_ "github.com/vkngwrapper/extensions/v2/vulkan"
 	"unsafe"
 )
 

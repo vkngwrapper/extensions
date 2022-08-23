@@ -13,8 +13,8 @@ void cgoResetQueryPoolEXT(PFN_vkResetQueryPoolEXT fn, VkDevice device, VkQueryPo
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/driver"
-	_ "github.com/vkngwrapper/extensions/vulkan"
+	"github.com/vkngwrapper/core/v2/driver"
+	_ "github.com/vkngwrapper/extensions/v2/vulkan"
 	"unsafe"
 )
 

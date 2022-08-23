@@ -8,8 +8,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	core1_0 "github.com/vkngwrapper/core/core1_0"
-	khr_buffer_device_address "github.com/vkngwrapper/extensions/khr_buffer_device_address"
+	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
+	khr_buffer_device_address "github.com/vkngwrapper/extensions/v2/khr_buffer_device_address"
 )
 
 // MockExtension is a mock of Extension interface.
