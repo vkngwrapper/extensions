@@ -61,6 +61,10 @@ func (o PresentInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocate
 		semaphoreSlice := ([]C.VkSemaphore)(unsafe.Slice(semaphorePtr, waitSemaphoreCount))
 
 		for i := 0; i < waitSemaphoreCount; i++ {
+			if o.WaitSemaphores[i] == nil {
+				return nil, errors.Newf("khr_swapchain.PresentInfo.WaitSemaphores cannot contain nil "+
+					"elements, but element %d is nil", i)
+			}
 			semaphoreHandle := (C.VkSemaphore)(unsafe.Pointer(o.WaitSemaphores[i].Handle()))
 			semaphoreSlice[i] = semaphoreHandle
 		}
@@ -83,6 +87,10 @@ func (o PresentInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocate
 		resultPtr := (*C.VkResult)(allocator.Malloc(swapchainCount * int(unsafe.Sizeof(C.VkResult(0)))))
 
 		for i := 0; i < swapchainCount; i++ {
+			if o.Swapchains[i] == nil {
+				return nil, errors.Newf("khr_swapchain.PresentInfo.Swapchains cannot contain nil "+
+					"elements, but element %d is nil", i)
+			}
 			swapchainSlice[i] = (C.VkSwapchainKHR)(unsafe.Pointer(o.Swapchains[i].Handle()))
 			imageIndexSlice[i] = (C.uint32_t)(o.ImageIndices[i])
 		}

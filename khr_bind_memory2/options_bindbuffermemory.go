@@ -7,6 +7,7 @@ package khr_bind_memory2
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
+	"github.com/cockroachdb/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -27,6 +28,12 @@ type BindBufferMemoryInfo struct {
 }
 
 func (o BindBufferMemoryInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
+	if o.Buffer == nil {
+		return nil, errors.New("khr_bind_memory2.BindBufferMemoryInfo.Buffer cannot be nil")
+	}
+	if o.Memory == nil {
+		return nil, errors.New("khr_bind_memory2.BindBufferMemoryInfo.Memory cannot be nil")
+	}
 	if preallocatedPointer == nil {
 		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkBindBufferMemoryInfoKHR{})))
 	}

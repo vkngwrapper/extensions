@@ -13,6 +13,8 @@ import (
 )
 
 // ImageSwapchainCreateInfo specifies that an Image will be bound to swapchain memory
+//
+// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkImageSwapchainCreateInfoKHR.html
 type ImageSwapchainCreateInfo struct {
 	// Swapchain is a khr_swapchain.Swapchain object that the Image will be bound to
 	Swapchain khr_swapchain.Swapchain

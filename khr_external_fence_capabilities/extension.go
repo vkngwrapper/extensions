@@ -32,6 +32,9 @@ func CreateExtensionFromDriver(driver khr_external_fence_capabilities_driver.Dri
 }
 
 func (e *VulkanExtension) PhysicalDeviceExternalFenceProperties(physicalDevice core1_0.PhysicalDevice, o PhysicalDeviceExternalFenceInfo, outData *ExternalFenceProperties) error {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

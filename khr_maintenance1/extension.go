@@ -48,5 +48,8 @@ func CreateExtensionFromDriver(driver khr_maintenance1_driver.Driver) *VulkanExt
 }
 
 func (e *VulkanExtension) TrimCommandPool(commandPool core1_0.CommandPool, flags CommandPoolTrimFlags) {
+	if commandPool == nil {
+		panic("commandPool cannot be nil")
+	}
 	e.driver.VkTrimCommandPoolKHR(commandPool.DeviceHandle(), commandPool.Handle(), khr_maintenance1_driver.VkCommandPoolTrimFlagsKHR(flags))
 }

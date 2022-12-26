@@ -35,6 +35,9 @@ func CreateExtensionFromDriver(driver khr_sampler_ycbcr_conversion_driver.Driver
 }
 
 func (e *VulkanExtension) CreateSamplerYcbcrConversion(device core1_0.Device, o SamplerYcbcrConversionCreateInfo, allocator *driver.AllocationCallbacks) (SamplerYcbcrConversion, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

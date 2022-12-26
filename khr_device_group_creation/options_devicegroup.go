@@ -42,6 +42,10 @@ func (o DeviceGroupDeviceCreateInfo) PopulateCPointer(allocator *cgoparam.Alloca
 	physicalDevicesSlice := ([]C.VkPhysicalDevice)(unsafe.Slice(physicalDevicesPtr, count))
 
 	for i := 0; i < count; i++ {
+		if o.PhysicalDevices[i] == nil {
+			return nil, errors.Newf("khr_device_group_creation.DeviceGroupDeviceCreateInfo.PhysicalDevices cannot "+
+				"have nil elements, but element %d is nil", i)
+		}
 		physicalDevicesSlice[i] = C.VkPhysicalDevice(unsafe.Pointer(o.PhysicalDevices[i].Handle()))
 	}
 	createInfo.pPhysicalDevices = physicalDevicesPtr

@@ -34,14 +34,25 @@ func (t *VulkanDescriptorUpdateTemplate) Destroy(allocator *driver.AllocationCal
 }
 
 func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromImage(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorImageInfo) {
+	if descriptorSet == nil {
+		panic("descriptorSet cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
 	infoUnsafe := arena.Malloc(C.sizeof_struct_VkDescriptorImageInfo)
 	info := (*C.VkDescriptorImageInfo)(infoUnsafe)
-	info.sampler = C.VkSampler(unsafe.Pointer(data.Sampler.Handle()))
-	info.imageView = C.VkImageView(unsafe.Pointer(data.ImageView.Handle()))
+	info.imageView = nil
+	info.sampler = nil
 	info.imageLayout = C.VkImageLayout(data.ImageLayout)
+
+	if data.Sampler != nil {
+		info.sampler = C.VkSampler(unsafe.Pointer(data.Sampler.Handle()))
+	}
+
+	if data.ImageView != nil {
+		info.imageView = C.VkImageView(unsafe.Pointer(data.ImageView.Handle()))
+	}
 
 	t.driver.VkUpdateDescriptorSetWithTemplateKHR(
 		t.device,
@@ -52,14 +63,21 @@ func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromImage(descriptor
 }
 
 func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromBuffer(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorBufferInfo) {
+	if descriptorSet == nil {
+		panic("descriptorSet cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
 	infoUnsafe := arena.Malloc(C.sizeof_struct_VkDescriptorBufferInfo)
 	info := (*C.VkDescriptorBufferInfo)(infoUnsafe)
-	info.buffer = C.VkBuffer(unsafe.Pointer(data.Buffer.Handle()))
+	info.buffer = nil
 	info.offset = C.VkDeviceSize(data.Offset)
 	info._range = C.VkDeviceSize(data.Range)
+
+	if data.Buffer != nil {
+		info.buffer = C.VkBuffer(unsafe.Pointer(data.Buffer.Handle()))
+	}
 
 	t.driver.VkUpdateDescriptorSetWithTemplateKHR(
 		t.device,
@@ -70,6 +88,9 @@ func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromBuffer(descripto
 }
 
 func (t *VulkanDescriptorUpdateTemplate) UpdateDescriptorSetFromObjectHandle(descriptorSet core1_0.DescriptorSet, data driver.VulkanHandle) {
+	if descriptorSet == nil {
+		panic("descriptorSet cannot be nil")
+	}
 	t.driver.VkUpdateDescriptorSetWithTemplateKHR(
 		t.device,
 		descriptorSet.Handle(),

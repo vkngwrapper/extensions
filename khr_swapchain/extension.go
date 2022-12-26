@@ -84,6 +84,9 @@ func (e *VulkanExtension) APIVersion() common.APIVersion {
 }
 
 func (e *VulkanExtension) CreateSwapchain(device core1_0.Device, allocation *driver.AllocationCallbacks, options SwapchainCreateInfo) (Swapchain, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -113,6 +116,9 @@ func (e *VulkanExtension) CreateSwapchain(device core1_0.Device, allocation *dri
 }
 
 func (e *VulkanExtension) QueuePresent(queue core1_0.Queue, o PresentInfo) (common.VkResult, error) {
+	if queue == nil {
+		panic("queue cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

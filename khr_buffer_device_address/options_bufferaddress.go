@@ -24,12 +24,12 @@ type BufferDeviceAddressInfo struct {
 }
 
 func (o BufferDeviceAddressInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
-	if preallocatedPointer == nil {
-		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkBufferDeviceAddressInfoKHR{})))
-	}
-
 	if o.Buffer == nil {
 		return nil, errors.New("khr_buffer_device_address.DeviceMemoryAddressOptions.Buffer cannot be nil")
+	}
+
+	if preallocatedPointer == nil {
+		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkBufferDeviceAddressInfoKHR{})))
 	}
 
 	info := (*C.VkBufferDeviceAddressInfoKHR)(preallocatedPointer)

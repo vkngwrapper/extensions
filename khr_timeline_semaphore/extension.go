@@ -36,6 +36,9 @@ func CreateExtensionFromDriver(driver khr_timeline_semaphore_driver.Driver) *Vul
 }
 
 func (e *VulkanExtension) SemaphoreCounterValue(semaphore core1_0.Semaphore) (uint64, common.VkResult, error) {
+	if semaphore == nil {
+		panic("semaphore cannot be nil")
+	}
 
 	var value driver.Uint64
 	res, err := e.driver.VkGetSemaphoreCounterValueKHR(
@@ -51,6 +54,9 @@ func (e *VulkanExtension) SemaphoreCounterValue(semaphore core1_0.Semaphore) (ui
 }
 
 func (e *VulkanExtension) SignalSemaphore(device core1_0.Device, o SemaphoreSignalInfo) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -66,6 +72,9 @@ func (e *VulkanExtension) SignalSemaphore(device core1_0.Device, o SemaphoreSign
 }
 
 func (e *VulkanExtension) WaitSemaphores(device core1_0.Device, timeout time.Duration, o SemaphoreWaitInfo) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

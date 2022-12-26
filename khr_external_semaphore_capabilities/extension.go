@@ -32,6 +32,9 @@ func CreateExtensionFromDriver(driver khr_external_semaphore_capabilities_driver
 }
 
 func (e *VulkanExtension) PhysicalDeviceExternalSemaphoreProperties(physicalDevice core1_0.PhysicalDevice, o PhysicalDeviceExternalSemaphoreInfo, outData *ExternalSemaphoreProperties) error {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

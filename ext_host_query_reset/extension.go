@@ -33,5 +33,8 @@ func CreateExtensionFromDriver(driver ext_host_query_reset_driver.Driver) *Vulka
 }
 
 func (e *VulkanExtension) ResetQueryPool(queryPool core1_0.QueryPool, firstQuery, queryCount int) {
+	if queryPool == nil {
+		panic("queryPool cannot be nil")
+	}
 	e.driver.VkResetQueryPoolEXT(queryPool.DeviceHandle(), queryPool.Handle(), driver.Uint32(firstQuery), driver.Uint32(queryCount))
 }

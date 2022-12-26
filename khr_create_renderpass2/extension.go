@@ -33,6 +33,9 @@ func CreateExtensionFromDriver(driver khr_create_renderpass2_driver.Driver) *Vul
 }
 
 func (e *VulkanExtension) CmdBeginRenderPass2(commandBuffer core1_0.CommandBuffer, renderPassBegin core1_0.RenderPassBeginInfo, subpassBegin SubpassBeginInfo) error {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -56,6 +59,9 @@ func (e *VulkanExtension) CmdBeginRenderPass2(commandBuffer core1_0.CommandBuffe
 }
 
 func (e *VulkanExtension) CmdEndRenderPass2(commandBuffer core1_0.CommandBuffer, subpassEnd SubpassEndInfo) error {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -73,6 +79,9 @@ func (e *VulkanExtension) CmdEndRenderPass2(commandBuffer core1_0.CommandBuffer,
 }
 
 func (e *VulkanExtension) CmdNextSubpass2(commandBuffer core1_0.CommandBuffer, subpassBegin SubpassBeginInfo, subpassEnd SubpassEndInfo) error {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -96,6 +105,9 @@ func (e *VulkanExtension) CmdNextSubpass2(commandBuffer core1_0.CommandBuffer, s
 }
 
 func (e *VulkanExtension) CreateRenderPass2(device core1_0.Device, allocator *driver.AllocationCallbacks, options RenderPassCreateInfo2) (core1_0.RenderPass, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

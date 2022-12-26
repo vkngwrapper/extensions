@@ -133,6 +133,9 @@ func (s *VulkanSurface) Destroy(callbacks *driver.AllocationCallbacks) {
 }
 
 func (s *VulkanSurface) PhysicalDeviceSurfaceSupport(physicalDevice core1_0.PhysicalDevice, queueFamilyIndex int) (bool, common.VkResult, error) {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	var canPresent driver.VkBool32
 
 	res, err := s.driver.VkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice.Handle(), driver.Uint32(queueFamilyIndex), s.handle, &canPresent)
@@ -141,6 +144,9 @@ func (s *VulkanSurface) PhysicalDeviceSurfaceSupport(physicalDevice core1_0.Phys
 }
 
 func (s *VulkanSurface) PhysicalDeviceSurfaceCapabilities(device core1_0.PhysicalDevice) (*SurfaceCapabilities, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	allocator := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(allocator)
 
@@ -215,6 +221,9 @@ func (s *VulkanSurface) attemptFormats(device core1_0.PhysicalDevice) ([]Surface
 }
 
 func (s *VulkanSurface) PhysicalDeviceSurfaceFormats(device core1_0.PhysicalDevice) ([]SurfaceFormat, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	var formats []SurfaceFormat
 	var result common.VkResult
 	var err error
@@ -260,6 +269,9 @@ func (s *VulkanSurface) attemptPresentModes(device core1_0.PhysicalDevice) ([]Pr
 }
 
 func (s *VulkanSurface) PhysicalDeviceSurfacePresentModes(device core1_0.PhysicalDevice) ([]PresentMode, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	var presentModes []PresentMode
 	var result common.VkResult
 	var err error

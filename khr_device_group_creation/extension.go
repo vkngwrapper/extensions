@@ -41,6 +41,9 @@ func CreateExtensionFromDriver(driver khr_device_group_creation_driver.Driver) *
 }
 
 func (e *VulkanExtension) attemptEnumeratePhysicalDeviceGroups(instance core1_0.Instance, outDataFactory func() *PhysicalDeviceGroupProperties) ([]*PhysicalDeviceGroupProperties, common.VkResult, error) {
+	if instance == nil {
+		panic("instance cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
