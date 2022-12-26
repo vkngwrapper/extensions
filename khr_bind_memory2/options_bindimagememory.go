@@ -7,6 +7,7 @@ package khr_bind_memory2
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
+	"github.com/cockroachdb/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -25,6 +26,9 @@ type BindImageMemoryInfo struct {
 }
 
 func (o BindImageMemoryInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
+	if o.Image == nil {
+		return nil, errors.New("khr_bind_memory2.BindImageMemoryInfo.Image cannot be nil")
+	}
 	if preallocatedPointer == nil {
 		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkBindImageMemoryInfoKHR{})))
 	}
@@ -33,7 +37,10 @@ func (o BindImageMemoryInfo) PopulateCPointer(allocator *cgoparam.Allocator, pre
 	createInfo.sType = C.VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_INFO_KHR
 	createInfo.pNext = next
 	createInfo.image = (C.VkImage)(unsafe.Pointer(o.Image.Handle()))
-	createInfo.memory = (C.VkDeviceMemory)(unsafe.Pointer(o.Memory.Handle()))
+	createInfo.memory = nil
+	if o.Memory != nil {
+		createInfo.memory = (C.VkDeviceMemory)(unsafe.Pointer(o.Memory.Handle()))
+	}
 	createInfo.memoryOffset = C.VkDeviceSize(o.MemoryOffset)
 
 	return preallocatedPointer, nil

@@ -41,6 +41,9 @@ func CreateExtensionFromDriver(driver khr_get_memory_requirements2_driver.Driver
 }
 
 func (e *VulkanExtension) BufferMemoryRequirements2(device core1_0.Device, o BufferMemoryRequirementsInfo2, out *MemoryRequirements2) error {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -63,6 +66,9 @@ func (e *VulkanExtension) BufferMemoryRequirements2(device core1_0.Device, o Buf
 }
 
 func (e *VulkanExtension) ImageMemoryRequirements2(device core1_0.Device, o ImageMemoryRequirementsInfo2, out *MemoryRequirements2) error {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -85,6 +91,9 @@ func (e *VulkanExtension) ImageMemoryRequirements2(device core1_0.Device, o Imag
 }
 
 func (e *VulkanExtension) ImageSparseMemoryRequirements2(device core1_0.Device, o ImageSparseMemoryRequirementsInfo2, outDataFactory func() *SparseImageMemoryRequirements2) ([]*SparseImageMemoryRequirements2, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

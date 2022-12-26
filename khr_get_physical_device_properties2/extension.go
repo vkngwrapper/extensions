@@ -41,6 +41,9 @@ func CreateExtensionFromDriver(driver ext_driver.Driver) *VulkanExtension {
 }
 
 func (e *VulkanExtension) PhysicalDeviceFeatures2(physicalDevice core1_0.PhysicalDevice, out *PhysicalDeviceFeatures2) error {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -55,6 +58,9 @@ func (e *VulkanExtension) PhysicalDeviceFeatures2(physicalDevice core1_0.Physica
 }
 
 func (e *VulkanExtension) PhysicalDeviceFormatProperties2(physicalDevice core1_0.PhysicalDevice, format core1_0.Format, out *FormatProperties2) error {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -69,6 +75,9 @@ func (e *VulkanExtension) PhysicalDeviceFormatProperties2(physicalDevice core1_0
 }
 
 func (e *VulkanExtension) PhysicalDeviceImageFormatProperties2(physicalDevice core1_0.PhysicalDevice, options PhysicalDeviceImageFormatInfo2, out *ImageFormatProperties2) (common.VkResult, error) {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -96,6 +105,9 @@ func (e *VulkanExtension) PhysicalDeviceImageFormatProperties2(physicalDevice co
 }
 
 func (e *VulkanExtension) PhysicalDeviceMemoryProperties2(physicalDevice core1_0.PhysicalDevice, out *PhysicalDeviceMemoryProperties2) error {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -110,6 +122,9 @@ func (e *VulkanExtension) PhysicalDeviceMemoryProperties2(physicalDevice core1_0
 }
 
 func (e *VulkanExtension) PhysicalDeviceProperties2(physicalDevice core1_0.PhysicalDevice, out *PhysicalDeviceProperties2) error {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -124,6 +139,9 @@ func (e *VulkanExtension) PhysicalDeviceProperties2(physicalDevice core1_0.Physi
 }
 
 func (e *VulkanExtension) PhysicalDeviceQueueFamilyProperties2(physicalDevice core1_0.PhysicalDevice, outDataFactory func() *QueueFamilyProperties2) ([]*QueueFamilyProperties2, error) {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -157,6 +175,9 @@ func (e *VulkanExtension) PhysicalDeviceQueueFamilyProperties2(physicalDevice co
 }
 
 func (e *VulkanExtension) PhysicalDeviceSparseImageFormatProperties2(physicalDevice core1_0.PhysicalDevice, options PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *SparseImageFormatProperties2) ([]*SparseImageFormatProperties2, error) {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

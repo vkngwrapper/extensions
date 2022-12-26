@@ -7,6 +7,7 @@ package khr_get_memory_requirements2
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
+	"github.com/cockroachdb/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -23,6 +24,9 @@ type ImageSparseMemoryRequirementsInfo2 struct {
 }
 
 func (o ImageSparseMemoryRequirementsInfo2) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
+	if o.Image == nil {
+		return nil, errors.New("khr_get_memory_requirements2.ImageSparseMemoryRequirementsInfo2.Image cannot be nil")
+	}
 	if preallocatedPointer == nil {
 		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkImageSparseMemoryRequirementsInfo2KHR{})))
 	}

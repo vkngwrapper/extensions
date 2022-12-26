@@ -31,6 +31,9 @@ func CreateExtensionFromDriver(driver khr_buffer_device_address_driver.Driver) *
 }
 
 func (e *VulkanExtension) GetBufferDeviceAddress(device core1_0.Device, o BufferDeviceAddressInfo) (uint64, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -47,6 +50,9 @@ func (e *VulkanExtension) GetBufferDeviceAddress(device core1_0.Device, o Buffer
 }
 
 func (e *VulkanExtension) GetBufferOpaqueCaptureAddress(device core1_0.Device, o BufferDeviceAddressInfo) (uint64, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -63,6 +69,9 @@ func (e *VulkanExtension) GetBufferOpaqueCaptureAddress(device core1_0.Device, o
 }
 
 func (e *VulkanExtension) GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

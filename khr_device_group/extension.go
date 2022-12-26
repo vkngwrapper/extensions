@@ -65,6 +65,9 @@ func (v *VulkanExtension) WithKHRSwapchain() ExtensionWithKHRSwapchain {
 }
 
 func (v *VulkanExtension) CmdDispatchBase(commandBuffer core1_0.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
 	v.driver.VkCmdDispatchBaseKHR(commandBuffer.Handle(),
 		driver.Uint32(baseGroupX),
 		driver.Uint32(baseGroupY),
@@ -75,10 +78,16 @@ func (v *VulkanExtension) CmdDispatchBase(commandBuffer core1_0.CommandBuffer, b
 }
 
 func (v *VulkanExtension) CmdSetDeviceMask(commandBuffer core1_0.CommandBuffer, deviceMask uint32) {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
 	v.driver.VkCmdSetDeviceMaskKHR(commandBuffer.Handle(), driver.Uint32(deviceMask))
 }
 
 func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -100,6 +109,9 @@ type VulkanExtensionWithKHRSurface struct {
 }
 
 func (v *VulkanExtensionWithKHRSurface) DeviceGroupPresentCapabilities(device core1_0.Device, outData *DeviceGroupPresentCapabilities) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -125,6 +137,12 @@ func (v *VulkanExtensionWithKHRSurface) DeviceGroupPresentCapabilities(device co
 }
 
 func (v *VulkanExtensionWithKHRSurface) DeviceGroupSurfacePresentModes(device core1_0.Device, surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
+	if surface == nil {
+		panic("surface cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -143,6 +161,12 @@ func (v *VulkanExtensionWithKHRSurface) DeviceGroupSurfacePresentModes(device co
 }
 
 func (v *VulkanExtensionWithKHRSurface) attemptGetPhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
+	if surface == nil {
+		panic("surface cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -202,6 +226,9 @@ type VulkanExtensionWithKHRSwapchain struct {
 }
 
 func (v *VulkanExtensionWithKHRSwapchain) AcquireNextImage2(device core1_0.Device, o AcquireNextImageInfo) (int, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

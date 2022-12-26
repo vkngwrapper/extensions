@@ -38,6 +38,9 @@ func CreateExtensionFromDriver(driver khr_bind_memory2_driver.Driver) *VulkanExt
 }
 
 func (e *VulkanExtension) BindBufferMemory2(device core1_0.Device, options []BindBufferMemoryInfo) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -50,6 +53,9 @@ func (e *VulkanExtension) BindBufferMemory2(device core1_0.Device, options []Bin
 }
 
 func (e *VulkanExtension) BindImageMemory2(device core1_0.Device, options []BindImageMemoryInfo) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

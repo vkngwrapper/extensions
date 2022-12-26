@@ -34,6 +34,9 @@ func CreateExtensionFromInstance(instance core1_0.Instance) *VulkanExtension {
 // CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
 // used in tests to build an Extension from mock drivers
 func CreateExtensionFromDriver(driver khr_surface_driver.Driver, instance core1_0.Instance) *VulkanExtension {
+	if instance == nil {
+		panic("instance cannot be nil")
+	}
 	return &VulkanExtension{
 		driver:   driver,
 		instance: instance,

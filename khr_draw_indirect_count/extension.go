@@ -33,6 +33,15 @@ func CreateExtensionFromDriver(driver khr_draw_indirect_count_driver.Driver) *Vu
 }
 
 func (e *VulkanExtension) CmdDrawIndexedIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
+	if buffer == nil {
+		panic("buffer cannot be nil")
+	}
+	if countBuffer == nil {
+		panic("countBuffer cannot be nil")
+	}
 	e.driver.VkCmdDrawIndexedIndirectCountKHR(
 		commandBuffer.Handle(),
 		buffer.Handle(),
@@ -45,6 +54,15 @@ func (e *VulkanExtension) CmdDrawIndexedIndirectCount(commandBuffer core1_0.Comm
 }
 
 func (e *VulkanExtension) CmdDrawIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
+	if buffer == nil {
+		panic("buffer cannot be nil")
+	}
+	if countBuffer == nil {
+		panic("countBuffer cannot be nil")
+	}
 	e.driver.VkCmdDrawIndirectCountKHR(
 		commandBuffer.Handle(),
 		buffer.Handle(),

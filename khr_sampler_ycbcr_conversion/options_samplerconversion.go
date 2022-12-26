@@ -7,6 +7,7 @@ package khr_sampler_ycbcr_conversion
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
+	"github.com/cockroachdb/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
 )
@@ -22,6 +23,9 @@ type SamplerYcbcrConversionInfo struct {
 }
 
 func (o SamplerYcbcrConversionInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
+	if o.Conversion == nil {
+		return nil, errors.New("khr_sampler_ycbcr_conversion.SamplerYcbcrConversionInfo.Conversion cannot be nil")
+	}
 	if preallocatedPointer == nil {
 		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkSamplerYcbcrConversionInfoKHR{})))
 	}

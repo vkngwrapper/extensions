@@ -48,6 +48,9 @@ func CreateExtensionFromDriver(driver khr_swapchain_driver.Driver) *VulkanExtens
 }
 
 func (v *VulkanExtension) AcquireNextImage2(device core1_0.Device, o AcquireNextImageInfo) (int, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -71,6 +74,9 @@ func (v *VulkanExtension) AcquireNextImage2(device core1_0.Device, o AcquireNext
 }
 
 func (v *VulkanExtension) DeviceGroupPresentCapabilities(device core1_0.Device, outData *DeviceGroupPresentCapabilities) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -96,6 +102,12 @@ func (v *VulkanExtension) DeviceGroupPresentCapabilities(device core1_0.Device, 
 }
 
 func (v *VulkanExtension) DeviceGroupSurfacePresentModes(device core1_0.Device, surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
+	if surface == nil {
+		panic("surface cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -158,6 +170,12 @@ func (v *VulkanExtension) attemptGetPhysicalDevicePresentRectangles(physicalDevi
 }
 
 func (v *VulkanExtension) PhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
+	if surface == nil {
+		panic("surface cannot be nil")
+	}
 	var outData []core1_0.Rect2D
 	var result common.VkResult
 	var err error

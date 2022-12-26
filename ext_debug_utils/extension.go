@@ -131,6 +131,10 @@ func CreateExtensionFromDriver(driver ext_driver.Driver) *VulkanExtension {
 }
 
 func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, allocation *driver.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error) {
+	if instance == nil {
+		panic("instance cannot be nil")
+	}
+
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -160,6 +164,9 @@ func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, a
 }
 
 func (l *VulkanExtension) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label DebugUtilsLabel) error {
+	if commandBuffer == nil {
+		panic("commandBuffer cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -174,10 +181,16 @@ func (l *VulkanExtension) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandB
 }
 
 func (l *VulkanExtension) CmdEndDebugUtilsLabel(buffer core1_0.CommandBuffer) {
+	if buffer == nil {
+		panic("buffer cannot be nil")
+	}
 	l.driver.VkCmdEndDebugUtilsLabelEXT(buffer.Handle())
 }
 
 func (l *VulkanExtension) CmdInsertDebugUtilsLabel(buffer core1_0.CommandBuffer, label DebugUtilsLabel) error {
+	if buffer == nil {
+		panic("buffer cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -192,6 +205,9 @@ func (l *VulkanExtension) CmdInsertDebugUtilsLabel(buffer core1_0.CommandBuffer,
 }
 
 func (l *VulkanExtension) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error {
+	if queue == nil {
+		panic("queue cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -206,10 +222,16 @@ func (l *VulkanExtension) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label D
 }
 
 func (l *VulkanExtension) QueueEndDebugUtilsLabel(queue core1_0.Queue) {
+	if queue == nil {
+		panic("queue cannot be nil")
+	}
 	l.driver.VkQueueEndDebugUtilsLabelEXT(queue.Handle())
 }
 
 func (l *VulkanExtension) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error {
+	if queue == nil {
+		panic("queue cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -224,6 +246,9 @@ func (l *VulkanExtension) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label 
 }
 
 func (l *VulkanExtension) SetDebugUtilsObjectName(device core1_0.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -236,6 +261,9 @@ func (l *VulkanExtension) SetDebugUtilsObjectName(device core1_0.Device, name De
 }
 
 func (l *VulkanExtension) SetDebugUtilsObjectTag(device core1_0.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
+	if device == nil {
+		panic("device cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -248,6 +276,9 @@ func (l *VulkanExtension) SetDebugUtilsObjectTag(device core1_0.Device, tag Debu
 }
 
 func (l *VulkanExtension) SubmitDebugUtilsMessage(instance core1_0.Instance, severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error {
+	if instance == nil {
+		panic("instance cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

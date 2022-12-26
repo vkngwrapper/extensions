@@ -32,6 +32,9 @@ func CreateExtensionFromDriver(driver khr_external_memory_capabilities_driver.Dr
 }
 
 func (e *VulkanExtension) PhysicalDeviceExternalBufferProperties(physicalDevice core1_0.PhysicalDevice, o PhysicalDeviceExternalBufferInfo, outData *ExternalBufferProperties) error {
+	if physicalDevice == nil {
+		panic("physicalDevice cannot be nil")
+	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
