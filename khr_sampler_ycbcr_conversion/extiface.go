@@ -16,6 +16,16 @@ import (
 type SamplerYcbcrConversion interface {
 	// Handle is the internal Vulkan object handle for this SamplerYcbcrConversion
 	Handle() khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionKHR
+	// DeviceHandle is the internal Vulkan object handle for the Device this SamplerYcbcrConversion
+	// belongs to
+	DeviceHandle() driver.VkDevice
+	// Driver is the Vulkan wrapper driver used by this SamplerYcbcrConversion
+	Driver() driver.Driver
+	// APIVersion is the maximum Vulkan API version supported by this SamplerYcbcrConversion. If it is at
+	// least Vulkan 1.2, core1_2.PromoteSamplerYcbcrConversion can be used to promote this to a
+	// core1_2.SamplerYcbcrConversion, etc.
+	APIVersion() common.APIVersion
+	
 	// Destroy destroys the SamplerYcbcrConversion object and the underlying structures. **Warning** after
 	// destruction, this object will continue to exist, but the Vulkan object handle that backs it will
 	// be invalid. Do not call further methods on this object.

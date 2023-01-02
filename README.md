@@ -39,6 +39,23 @@ Example:
 	}
 ```
 
+### Supporting Promoted Extensions
+
+From time to time you may wish to use a particular piece of functionality added by a since-promoted extension if
+ either the promoted core API version or the extension are present. But given that the two APIs are often different, how
+ can that be easily done?
+
+* **For data structures such as Options or OutData**, simply use the types from the core package.
+* **For extension functions**, there should be a shim package included with the extension if the extension has
+  callable Vulkan functions. This shim package includes a `Shim` interface that can be received and called from your
+  code, as well as a `NewShim` function that allows you to pass in an extension and receive a Shim. The relevant
+  core Vulkan object already satisfies the Shim interface.
+
+For instance, `khr_get_memory_requirements2_shim.Shim` adds an interface met by `core1_1.Device`, and also adds a 
+ `NewShim()` method that accepts a `khr_get_memory_requirements2.Extension` and `core1_0.Device` and provides
+ an object that satisfies `Shim`. By using a `Shim` object to interact with these methods, it is easy to
+ interact with them in a flexible way.
+
 ## Supported Extensions
 
 * Three major extensions used by most applications developers: vk_ext_debug_utils, vk_khr_surface, and vk_khr_swapchain
