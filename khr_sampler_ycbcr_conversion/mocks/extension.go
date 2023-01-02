@@ -38,6 +38,20 @@ func (m *MockSamplerYcbcrConversion) EXPECT() *MockSamplerYcbcrConversionMockRec
 	return m.recorder
 }
 
+// APIVersion mocks base method.
+func (m *MockSamplerYcbcrConversion) APIVersion() common.APIVersion {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "APIVersion")
+	ret0, _ := ret[0].(common.APIVersion)
+	return ret0
+}
+
+// APIVersion indicates an expected call of APIVersion.
+func (mr *MockSamplerYcbcrConversionMockRecorder) APIVersion() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APIVersion", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).APIVersion))
+}
+
 // Destroy mocks base method.
 func (m *MockSamplerYcbcrConversion) Destroy(allocator *driver.AllocationCallbacks) {
 	m.ctrl.T.Helper()
@@ -48,6 +62,34 @@ func (m *MockSamplerYcbcrConversion) Destroy(allocator *driver.AllocationCallbac
 func (mr *MockSamplerYcbcrConversionMockRecorder) Destroy(allocator interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).Destroy), allocator)
+}
+
+// DeviceHandle mocks base method.
+func (m *MockSamplerYcbcrConversion) DeviceHandle() driver.VkDevice {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeviceHandle")
+	ret0, _ := ret[0].(driver.VkDevice)
+	return ret0
+}
+
+// DeviceHandle indicates an expected call of DeviceHandle.
+func (mr *MockSamplerYcbcrConversionMockRecorder) DeviceHandle() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeviceHandle", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).DeviceHandle))
+}
+
+// Driver mocks base method.
+func (m *MockSamplerYcbcrConversion) Driver() driver.Driver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Driver")
+	ret0, _ := ret[0].(driver.Driver)
+	return ret0
+}
+
+// Driver indicates an expected call of Driver.
+func (mr *MockSamplerYcbcrConversionMockRecorder) Driver() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Driver", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).Driver))
 }
 
 // Handle mocks base method.

@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	common "github.com/vkngwrapper/core/v2/common"
 	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
 	driver "github.com/vkngwrapper/core/v2/driver"
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template"
@@ -37,6 +38,20 @@ func (m *MockDescriptorUpdateTemplate) EXPECT() *MockDescriptorUpdateTemplateMoc
 	return m.recorder
 }
 
+// APIVersion mocks base method.
+func (m *MockDescriptorUpdateTemplate) APIVersion() common.APIVersion {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "APIVersion")
+	ret0, _ := ret[0].(common.APIVersion)
+	return ret0
+}
+
+// APIVersion indicates an expected call of APIVersion.
+func (mr *MockDescriptorUpdateTemplateMockRecorder) APIVersion() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APIVersion", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).APIVersion))
+}
+
 // Destroy mocks base method.
 func (m *MockDescriptorUpdateTemplate) Destroy(allocator *driver.AllocationCallbacks) {
 	m.ctrl.T.Helper()
@@ -47,6 +62,34 @@ func (m *MockDescriptorUpdateTemplate) Destroy(allocator *driver.AllocationCallb
 func (mr *MockDescriptorUpdateTemplateMockRecorder) Destroy(allocator interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).Destroy), allocator)
+}
+
+// DeviceHandle mocks base method.
+func (m *MockDescriptorUpdateTemplate) DeviceHandle() driver.VkDevice {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeviceHandle")
+	ret0, _ := ret[0].(driver.VkDevice)
+	return ret0
+}
+
+// DeviceHandle indicates an expected call of DeviceHandle.
+func (mr *MockDescriptorUpdateTemplateMockRecorder) DeviceHandle() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeviceHandle", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).DeviceHandle))
+}
+
+// Driver mocks base method.
+func (m *MockDescriptorUpdateTemplate) Driver() driver.Driver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Driver")
+	ret0, _ := ret[0].(driver.Driver)
+	return ret0
+}
+
+// Driver indicates an expected call of Driver.
+func (mr *MockDescriptorUpdateTemplateMockRecorder) Driver() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Driver", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).Driver))
 }
 
 // Handle mocks base method.
@@ -123,11 +166,11 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // CreateDescriptorUpdateTemplate mocks base method.
-func (m *MockExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, o khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo, allocator *driver.AllocationCallbacks) (khr_descriptor_update_template.DescriptorUpdateTemplate, driver.VkResult, error) {
+func (m *MockExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, o khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo, allocator *driver.AllocationCallbacks) (khr_descriptor_update_template.DescriptorUpdateTemplate, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateDescriptorUpdateTemplate", device, o, allocator)
 	ret0, _ := ret[0].(khr_descriptor_update_template.DescriptorUpdateTemplate)
-	ret1, _ := ret[1].(driver.VkResult)
+	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
 }

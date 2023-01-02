@@ -1,6 +1,7 @@
 package khr_descriptor_update_template
 
 import (
+	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
 	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template/driver"
@@ -13,8 +14,16 @@ import (
 //
 // https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/VkDescriptorUpdateTemplate.html
 type DescriptorUpdateTemplate interface {
+	// DeviceHandle is the internal Vulkan object handle for the Device this DescriptorUpdateTemplate belongs to
+	DeviceHandle() driver.VkDevice
+	// Driver is the Vulkan wrapper driver used by this DescriptorUpdateTemplate
+	Driver() driver.Driver
 	// Handle is the internal Vulkan object handle for this DescriptorUpdateTemplate
 	Handle() khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR
+	// APIVersion is the maximum Vulkan API version supported by this DescriptorUpdateTemplate. If it is at least
+	// Vulkan 1.2, core1_2.PromoteDescriptorUpdateTemplate can be used to promote this to a core1_2.DescriptorUpdateTemplate,
+	// etc.
+	APIVersion() common.APIVersion
 	// Destroy destroys the DescriptorUpdateTemplate object and the underlying structures. **Warning** after
 	// destruction, this object will continue to exist, but the Vulkan object handle that backs it will
 	// be invalid. Do not call further methods on this object.
@@ -64,5 +73,5 @@ type Extension interface {
 	// allocator - Controls host allocation behavior
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCreateDescriptorUpdateTemplate.html
-	CreateDescriptorUpdateTemplate(device core1_0.Device, o DescriptorUpdateTemplateCreateInfo, allocator *driver.AllocationCallbacks) (DescriptorUpdateTemplate, driver.VkResult, error)
+	CreateDescriptorUpdateTemplate(device core1_0.Device, o DescriptorUpdateTemplateCreateInfo, allocator *driver.AllocationCallbacks) (DescriptorUpdateTemplate, common.VkResult, error)
 }

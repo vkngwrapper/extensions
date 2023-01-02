@@ -25,6 +25,18 @@ type VulkanDescriptorUpdateTemplate struct {
 	maximumAPIVersion common.APIVersion
 }
 
+func (t *VulkanDescriptorUpdateTemplate) DeviceHandle() driver.VkDevice {
+	return t.device
+}
+
+func (t *VulkanDescriptorUpdateTemplate) Driver() driver.Driver {
+	return t.coreDriver
+}
+
+func (t *VulkanDescriptorUpdateTemplate) APIVersion() common.APIVersion {
+	return t.maximumAPIVersion
+}
+
 func (t *VulkanDescriptorUpdateTemplate) Handle() khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR {
 	return t.descriptorTemplateHandle
 }

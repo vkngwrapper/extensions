@@ -24,3 +24,15 @@ func (y *VulkanSamplerYcbcrConversion) Handle() khr_sampler_ycbcr_conversion_dri
 func (y *VulkanSamplerYcbcrConversion) Destroy(allocator *driver.AllocationCallbacks) {
 	y.driver.VkDestroySamplerYcbcrConversionKHR(y.device, y.ycbcrHandle, allocator.Handle())
 }
+
+func (y *VulkanSamplerYcbcrConversion) DeviceHandle() driver.VkDevice {
+	return y.device
+}
+
+func (y *VulkanSamplerYcbcrConversion) Driver() driver.Driver {
+	return y.coreDriver
+}
+
+func (y *VulkanSamplerYcbcrConversion) APIVersion() common.APIVersion {
+	return y.maximumAPIVersion
+}
