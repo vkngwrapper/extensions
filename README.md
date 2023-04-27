@@ -62,5 +62,7 @@ For instance, `khr_get_memory_requirements2_shim.Shim` adds an interface met by 
 * vk_khr_portability_subset and vk_khr_portability_enumeration, which can be used to add Mac/iOS support to your Vulkan applications
 * 23 extensions which were promoted to core 1.1
 * 24 extensions which were promoted to core 1.2
+* Four extensions used by [arsenal/vam](https://github.com/vkngwrapper/arsenal/tree/main/vam) for memory management:
+   amd_device_coherent_memory, ext_memory_budget, ext_memory_priority, and khr_maintenance4.
 
 It's also easy to add support for new extensions! Feel free to contribute your favorite Vulkan extension!
