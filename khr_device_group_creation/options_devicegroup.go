@@ -7,7 +7,7 @@ package khr_device_group_creation
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/cockroachdb/errors"
+	"github.com/pkg/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -43,7 +43,7 @@ func (o DeviceGroupDeviceCreateInfo) PopulateCPointer(allocator *cgoparam.Alloca
 
 	for i := 0; i < count; i++ {
 		if o.PhysicalDevices[i] == nil {
-			return nil, errors.Newf("khr_device_group_creation.DeviceGroupDeviceCreateInfo.PhysicalDevices cannot "+
+			return nil, errors.Errorf("khr_device_group_creation.DeviceGroupDeviceCreateInfo.PhysicalDevices cannot "+
 				"have nil elements, but element %d is nil", i)
 		}
 		physicalDevicesSlice[i] = C.VkPhysicalDevice(unsafe.Pointer(o.PhysicalDevices[i].Handle()))

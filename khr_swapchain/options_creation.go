@@ -7,7 +7,7 @@ package khr_swapchain
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/cockroachdb/errors"
+	"github.com/pkg/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	ext_surface "github.com/vkngwrapper/extensions/v2/khr_surface"

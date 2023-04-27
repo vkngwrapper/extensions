@@ -7,7 +7,7 @@ package khr_swapchain
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/cockroachdb/errors"
+	"github.com/pkg/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -46,7 +46,7 @@ func (o PresentInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocate
 		preallocatedPointer = allocator.Malloc(C.sizeof_struct_VkPresentInfoKHR)
 	}
 	if len(o.Swapchains) != len(o.ImageIndices) {
-		return nil, errors.Newf("present: specified %d swapchains and %d image indices, but they should match", len(o.Swapchains), len(o.ImageIndices))
+		return nil, errors.Errorf("present: specified %d swapchains and %d image indices, but they should match", len(o.Swapchains), len(o.ImageIndices))
 	}
 
 	createInfo := (*C.VkPresentInfoKHR)(preallocatedPointer)
@@ -62,7 +62,7 @@ func (o PresentInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocate
 
 		for i := 0; i < waitSemaphoreCount; i++ {
 			if o.WaitSemaphores[i] == nil {
-				return nil, errors.Newf("khr_swapchain.PresentInfo.WaitSemaphores cannot contain nil "+
+				return nil, errors.Errorf("khr_swapchain.PresentInfo.WaitSemaphores cannot contain nil "+
 					"elements, but element %d is nil", i)
 			}
 			semaphoreHandle := (C.VkSemaphore)(unsafe.Pointer(o.WaitSemaphores[i].Handle()))
@@ -88,7 +88,7 @@ func (o PresentInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocate
 
 		for i := 0; i < swapchainCount; i++ {
 			if o.Swapchains[i] == nil {
-				return nil, errors.Newf("khr_swapchain.PresentInfo.Swapchains cannot contain nil "+
+				return nil, errors.Errorf("khr_swapchain.PresentInfo.Swapchains cannot contain nil "+
 					"elements, but element %d is nil", i)
 			}
 			swapchainSlice[i] = (C.VkSwapchainKHR)(unsafe.Pointer(o.Swapchains[i].Handle()))

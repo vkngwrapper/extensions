@@ -7,7 +7,7 @@ package khr_create_renderpass2
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/cockroachdb/errors"
+	"github.com/pkg/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -62,7 +62,7 @@ func (o SubpassDescription2) PopulateCPointer(allocator *cgoparam.Allocator, pre
 	preserveAttachmentCount := len(o.PreserveAttachments)
 
 	if resolveAttachmentCount > 0 && resolveAttachmentCount != colorAttachmentCount {
-		return nil, errors.Newf("in this subpass, %d color attachments are defined, but %d resolve attachments are defined- they should be equal", colorAttachmentCount, resolveAttachmentCount)
+		return nil, errors.Errorf("in this subpass, %d color attachments are defined, but %d resolve attachments are defined- they should be equal", colorAttachmentCount, resolveAttachmentCount)
 	}
 
 	info.inputAttachmentCount = C.uint32_t(inputAttachmentCount)

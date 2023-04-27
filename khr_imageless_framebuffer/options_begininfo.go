@@ -7,7 +7,7 @@ package khr_imageless_framebuffer
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/cockroachdb/errors"
+	"github.com/pkg/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -42,7 +42,7 @@ func (o RenderPassAttachmentBeginInfo) PopulateCPointer(allocator *cgoparam.Allo
 		attachmentSlice := unsafe.Slice(info.pAttachments, count)
 		for i := 0; i < count; i++ {
 			if o.Attachments[i] == nil {
-				return nil, errors.Newf("khr_imageless_framebuffer.RenderPassAttachmentBeginInfo.Attachments "+
+				return nil, errors.Errorf("khr_imageless_framebuffer.RenderPassAttachmentBeginInfo.Attachments "+
 					"cannot contain nil elements, but element %d is nil", i)
 			}
 			attachmentSlice[i] = C.VkImageView(unsafe.Pointer(o.Attachments[i].Handle()))

@@ -7,8 +7,8 @@ package khr_external_fence_capabilities
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/cockroachdb/errors"
 	"github.com/google/uuid"
+	"github.com/pkg/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
 )

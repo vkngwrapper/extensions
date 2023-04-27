@@ -7,7 +7,7 @@ package khr_timeline_semaphore
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/cockroachdb/errors"
+	"github.com/pkg/errors"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
@@ -33,7 +33,7 @@ func (o SemaphoreWaitInfo) PopulateCPointer(allocator *cgoparam.Allocator, preal
 	}
 
 	if len(o.Semaphores) != len(o.Values) {
-		return nil, errors.Newf("the SemaphoreWaitInfo 'Semaphores' list has %d elements, but the 'Values' list has %d elements- these lists must be the same size", len(o.Semaphores), len(o.Values))
+		return nil, errors.Errorf("the SemaphoreWaitInfo 'Semaphores' list has %d elements, but the 'Values' list has %d elements- these lists must be the same size", len(o.Semaphores), len(o.Values))
 	}
 
 	info := (*C.VkSemaphoreWaitInfoKHR)(preallocatedPointer)
@@ -55,7 +55,7 @@ func (o SemaphoreWaitInfo) PopulateCPointer(allocator *cgoparam.Allocator, preal
 
 		for i := 0; i < count; i++ {
 			if o.Semaphores[i] == nil {
-				return nil, errors.Newf("the SemaphoreWaitInfo 'Semaphores' list has a nil semaphore at element %d- all elements must be non-nil", i)
+				return nil, errors.Errorf("the SemaphoreWaitInfo 'Semaphores' list has a nil semaphore at element %d- all elements must be non-nil", i)
 			}
 
 			semaphoreSlice[i] = C.VkSemaphore(unsafe.Pointer(o.Semaphores[i].Handle()))
