@@ -1,10 +1,11 @@
 package khr_draw_indirect_count_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v2/khr_draw_indirect_count/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanShim_CmdDrawIndexedIndirectCount(t *testing.T) {

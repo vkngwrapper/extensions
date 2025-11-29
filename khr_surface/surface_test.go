@@ -1,19 +1,20 @@
 package khr_surface_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
-	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
+	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_surface"
 	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
-	"github.com/vkngwrapper/extensions/v2/khr_surface/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	mock_surface "github.com/vkngwrapper/extensions/v2/khr_surface/mocks"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanSurface_PresentModes(t *testing.T) {

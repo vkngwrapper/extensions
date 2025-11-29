@@ -1,14 +1,15 @@
 package khr_maintenance3_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_maintenance3"
 	mock_maintenance3 "github.com/vkngwrapper/extensions/v2/khr_maintenance3/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanShim_DescriptorSetLayoutSupport(t *testing.T) {

@@ -1,23 +1,24 @@
 package khr_external_memory_capabilities_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	uuid2 "github.com/google/uuid"
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
+	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_external_memory_capabilities"
 	khr_external_memory_capabilities_driver "github.com/vkngwrapper/extensions/v2/khr_external_memory_capabilities/driver"
 	mock_external_memory_capabilities "github.com/vkngwrapper/extensions/v2/khr_external_memory_capabilities/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2"
 	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/driver"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanExtension_ExternalBufferProperties(t *testing.T) {

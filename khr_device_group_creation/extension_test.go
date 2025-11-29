@@ -1,7 +1,10 @@
 package khr_device_group_creation_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -12,9 +15,7 @@ import (
 	"github.com/vkngwrapper/extensions/v2/khr_device_group_creation"
 	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/v2/khr_device_group_creation/driver"
 	mock_device_group_creation "github.com/vkngwrapper/extensions/v2/khr_device_group_creation/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanExtension_EnumeratePhysicalDeviceGroups(t *testing.T) {

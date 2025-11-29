@@ -1,10 +1,11 @@
 package mock_swapchain
 
 import (
-	"github.com/golang/mock/gomock"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
 	"math/rand"
 	"unsafe"
+
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
+	gomock "go.uber.org/mock/gomock"
 )
 
 func NewFakeSwapchain() khr_swapchain_driver.VkSwapchainKHR {

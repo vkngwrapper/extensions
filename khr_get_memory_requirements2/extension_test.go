@@ -1,7 +1,10 @@
 package khr_get_memory_requirements2_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
@@ -10,10 +13,8 @@ import (
 	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2"
 	khr_get_memory_requirements2_driver "github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2/driver"
-	"github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	mock_get_memory_requirements2 "github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2/mocks"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanExtension_BufferMemoryRequirements(t *testing.T) {

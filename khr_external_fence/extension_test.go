@@ -1,19 +1,20 @@
 package khr_external_fence_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
+	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_external_fence"
 	khr_external_fence_driver "github.com/vkngwrapper/extensions/v2/khr_external_fence/driver"
 	"github.com/vkngwrapper/extensions/v2/khr_external_fence_capabilities"
-	"reflect"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestExportFenceOptions(t *testing.T) {

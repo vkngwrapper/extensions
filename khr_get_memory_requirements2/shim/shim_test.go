@@ -1,7 +1,8 @@
 package khr_get_memory_requirements2_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
@@ -9,7 +10,7 @@ import (
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2"
 	mock_get_memory_requirements2 "github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanShim_BufferMemoryRequirements2(t *testing.T) {

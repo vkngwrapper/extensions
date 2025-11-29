@@ -1,11 +1,12 @@
 package khr_maintenance1_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_maintenance1"
 	mock_maintenance1 "github.com/vkngwrapper/extensions/v2/khr_maintenance1/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanShim_TrimCommandPool(t *testing.T) {

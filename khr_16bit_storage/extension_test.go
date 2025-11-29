@@ -1,22 +1,23 @@
 package khr_16bit_storage_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
+	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_16bit_storage"
 	khr_16bit_storage_driver "github.com/vkngwrapper/extensions/v2/khr_16bit_storage/driver"
 	"github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2"
 	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/driver"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestDevice16BitStorageOptions(t *testing.T) {

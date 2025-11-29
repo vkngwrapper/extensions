@@ -1,17 +1,18 @@
 package ext_separate_stencil_usage
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
+	"github.com/vkngwrapper/core/v2/mocks"
 	ext_separate_stencil_usage_driver "github.com/vkngwrapper/extensions/v2/ext_separate_stencil_usage/driver"
-	"reflect"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestImageStencilUsageCreateOptions(t *testing.T) {

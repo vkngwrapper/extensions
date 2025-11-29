@@ -1,7 +1,10 @@
 package khr_separate_depth_stencil_layouts_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -17,9 +20,7 @@ import (
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_separate_depth_stencil_layouts"
 	khr_separate_depth_stencil_layouts_driver "github.com/vkngwrapper/extensions/v2/khr_separate_depth_stencil_layouts/driver"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestAttachmentDescriptionStencilLayoutOptions(t *testing.T) {

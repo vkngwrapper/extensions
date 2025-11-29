@@ -9,7 +9,7 @@ import (
 
 	driver "github.com/vkngwrapper/core/v2/driver"
 	khr_maintenance3_driver "github.com/vkngwrapper/extensions/v2/khr_maintenance3/driver"
-	gomock "github.com/golang/mock/gomock"
+	gomock "go.uber.org/mock/gomock"
 )
 
 // MockDriver is a mock of Driver interface.

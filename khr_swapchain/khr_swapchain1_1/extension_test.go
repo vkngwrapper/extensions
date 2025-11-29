@@ -1,7 +1,11 @@
 package khr_swapchain1_1_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"time"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
@@ -13,10 +17,7 @@ import (
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
 	"github.com/vkngwrapper/extensions/v2/khr_swapchain/khr_swapchain1_1"
 	mock_swapchain "github.com/vkngwrapper/extensions/v2/khr_swapchain/mocks"
-	"reflect"
-	"testing"
-	"time"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanExtension_GetDeviceGroupPresentCapabilities(t *testing.T) {

@@ -1,7 +1,10 @@
 package khr_bind_memory2_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
@@ -11,9 +14,7 @@ import (
 	"github.com/vkngwrapper/extensions/v2/khr_bind_memory2"
 	khr_bind_memory2_driver "github.com/vkngwrapper/extensions/v2/khr_bind_memory2/driver"
 	mock_bind_memory2 "github.com/vkngwrapper/extensions/v2/khr_bind_memory2/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanExtension_BindBufferMemory(t *testing.T) {

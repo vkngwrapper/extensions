@@ -1,7 +1,10 @@
 package khr_maintenance4_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -16,9 +19,7 @@ import (
 	"github.com/vkngwrapper/extensions/v2/khr_maintenance4"
 	khr_maintenance4_driver "github.com/vkngwrapper/extensions/v2/khr_maintenance4/driver"
 	mock_maintenance4 "github.com/vkngwrapper/extensions/v2/khr_maintenance4/dummies"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestPhysicalDeviceMaintenance4Options(t *testing.T) {

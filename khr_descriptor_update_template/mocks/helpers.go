@@ -1,10 +1,11 @@
 package mock_descriptor_update_template
 
 import (
-	"github.com/golang/mock/gomock"
-	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template/driver"
 	"math/rand"
 	"unsafe"
+
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template/driver"
+	gomock "go.uber.org/mock/gomock"
 )
 
 func NewFakeDescriptorTemplate() khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR {

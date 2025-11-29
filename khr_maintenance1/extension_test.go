@@ -1,14 +1,15 @@
 package khr_maintenance1_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	"github.com/vkngwrapper/core/v2/common"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	"github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_maintenance1"
 	khr_maintenance1_driver "github.com/vkngwrapper/extensions/v2/khr_maintenance1/driver"
 	mock_maintenance1 "github.com/vkngwrapper/extensions/v2/khr_maintenance1/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanExtension_TrimCommandPool(t *testing.T) {

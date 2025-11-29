@@ -1,10 +1,11 @@
 package mock_surface
 
 import (
-	"github.com/golang/mock/gomock"
-	ext_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
 	"math/rand"
 	"unsafe"
+
+	ext_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
+	gomock "go.uber.org/mock/gomock"
 )
 
 func NewFakeSurface() ext_driver.VkSurfaceKHR {

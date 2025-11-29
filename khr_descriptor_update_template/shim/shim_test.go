@@ -1,7 +1,8 @@
 package khr_descriptor_update_template_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
@@ -9,7 +10,7 @@ import (
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template"
 	mock_descriptor_update_template "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanShim_CreateDescriptorUpdateTemplate(t *testing.T) {

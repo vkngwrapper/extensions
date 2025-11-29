@@ -1,7 +1,10 @@
 package khr_uniform_buffer_standard_layout_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -14,9 +17,7 @@ import (
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_uniform_buffer_standard_layout"
 	khr_uniform_buffer_standard_layout_driver "github.com/vkngwrapper/extensions/v2/khr_uniform_buffer_standard_layout/driver"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestPhysicalDeviceUniformBufferStandardLayoutFeaturesOptions(t *testing.T) {

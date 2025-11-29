@@ -1,7 +1,10 @@
 package ext_descriptor_indexing
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -16,9 +19,7 @@ import (
 	"github.com/vkngwrapper/extensions/v2/khr_maintenance3"
 	khr_maintenance3_driver "github.com/vkngwrapper/extensions/v2/khr_maintenance3/driver"
 	mock_maintenance3 "github.com/vkngwrapper/extensions/v2/khr_maintenance3/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestDescriptorSetLayoutBindingFlagsCreateOptions(t *testing.T) {

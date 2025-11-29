@@ -1,7 +1,10 @@
 package khr_dedicated_allocation_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -14,9 +17,7 @@ import (
 	"github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2"
 	khr_get_memory_requirements2_driver "github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2/driver"
 	mock_get_memory_requirements2 "github.com/vkngwrapper/extensions/v2/khr_get_memory_requirements2/mocks"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestDedicatedMemoryRequirementsOutData_Buffer(t *testing.T) {

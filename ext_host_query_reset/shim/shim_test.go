@@ -1,10 +1,11 @@
 package ext_host_query_reset_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	mock_host_query_reset "github.com/vkngwrapper/extensions/v2/ext_host_query_reset/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanShim_Reset(t *testing.T) {

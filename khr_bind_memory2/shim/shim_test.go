@@ -1,14 +1,15 @@
 package khr_bind_memory2_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_1"
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_bind_memory2"
 	mock_bind_memory2 "github.com/vkngwrapper/extensions/v2/khr_bind_memory2/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanShim_BindBufferMemory2(t *testing.T) {

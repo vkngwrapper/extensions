@@ -1,7 +1,9 @@
 package khr_external_semaphore_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -12,8 +14,7 @@ import (
 	"github.com/vkngwrapper/extensions/v2/khr_external_semaphore"
 	khr_external_semaphore_driver "github.com/vkngwrapper/extensions/v2/khr_external_semaphore/driver"
 	"github.com/vkngwrapper/extensions/v2/khr_external_semaphore_capabilities"
-	"reflect"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestExportSemaphoreOptions(t *testing.T) {

@@ -1,7 +1,10 @@
 package khr_imageless_framebuffer_test
 
 import (
-	"github.com/golang/mock/gomock"
+	"reflect"
+	"testing"
+	"unsafe"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
@@ -14,9 +17,7 @@ import (
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_imageless_framebuffer"
 	khr_imageless_framebuffer_driver "github.com/vkngwrapper/extensions/v2/khr_imageless_framebuffer/driver"
-	"reflect"
-	"testing"
-	"unsafe"
+	"go.uber.org/mock/gomock"
 )
 
 func TestFramebufferAttachmentsCreateOptions(t *testing.T) {

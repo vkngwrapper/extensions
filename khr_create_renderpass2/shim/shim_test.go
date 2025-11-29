@@ -1,7 +1,8 @@
 package khr_create_renderpass2_shim
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
@@ -10,7 +11,7 @@ import (
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
 	"github.com/vkngwrapper/extensions/v2/khr_create_renderpass2"
 	mock_create_renderpass2 "github.com/vkngwrapper/extensions/v2/khr_create_renderpass2/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanCommandBufferShim_CmdBeginRenderPass2(t *testing.T) {

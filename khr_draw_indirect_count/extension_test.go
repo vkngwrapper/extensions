@@ -1,11 +1,12 @@
 package khr_draw_indirect_count
 
 import (
-	"github.com/golang/mock/gomock"
+	"testing"
+
 	"github.com/vkngwrapper/core/v2/driver"
 	"github.com/vkngwrapper/core/v2/mocks"
 	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v2/khr_draw_indirect_count/mocks"
-	"testing"
+	"go.uber.org/mock/gomock"
 )
 
 func TestVulkanExtension_CmdDrawIndexedIndirectCount(t *testing.T) {
