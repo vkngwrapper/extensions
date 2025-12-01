@@ -44,12 +44,13 @@ VkResult cgoSwapchainGetPhysicalDevicePresentRectanglesKHR(PFN_vkGetPhysicalDevi
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/driver"
 	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
 	_ "github.com/vkngwrapper/extensions/v2/vulkan"
-	"unsafe"
 )
 
 type CDriver struct {
@@ -104,7 +105,7 @@ func CreateDriverFromCore(coreDriver driver.Driver) *CDriver {
 		acquireNextImageFunc:                  (C.PFN_vkAcquireNextImage2KHR)(coreDriver.LoadProcAddr((*driver.Char)(arena.CString("vkAcquireNextImage2KHR")))),
 		getDeviceGroupPresentCapsFunc:         (C.PFN_vkGetDeviceGroupPresentCapabilitiesKHR)(coreDriver.LoadProcAddr((*driver.Char)(arena.CString("vkGetDeviceGroupPresentCapabilitiesKHR")))),
 		getDeviceGroupSurfacePresentModesFunc: (C.PFN_vkGetDeviceGroupSurfacePresentModesKHR)(coreDriver.LoadProcAddr((*driver.Char)(arena.CString("vkGetDeviceGroupSurfacePresentModesKHR")))),
-		getPhysicalDevicePresentRectsFunc:     (C.PFN_vkGetPhysicalDevicePresentRectanglesKHR)(coreDriver.LoadProcAddr((*driver.Char)(arena.CString("vkGetPhysicalDevicePresentRectanglesKHR")))),
+		getPhysicalDevicePresentRectsFunc:     (C.PFN_vkGetPhysicalDevicePresentRectanglesKHR)(coreDriver.LoadInstanceProcAddr((*driver.Char)(arena.CString("vkGetPhysicalDevicePresentRectanglesKHR")))),
 	}
 }
 
