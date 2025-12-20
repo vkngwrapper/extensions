@@ -5,7 +5,7 @@ package khr_maintenance2_driver
 #include "../../vulkan/vulkan.h"
 */
 import "C"
-import _ "github.com/vkngwrapper/extensions/v2/vulkan"
+import _ "github.com/vkngwrapper/extensions/v3/vulkan"
 
 type VkInputAttachmentAspectReferenceKHR C.VkInputAttachmentAspectReferenceKHR
 type VkImageViewUsageCreateInfoKHR C.VkImageViewUsageCreateInfoKHR

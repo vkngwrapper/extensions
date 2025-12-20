@@ -6,10 +6,11 @@ package khr_external_memory
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/extensions/v2/khr_external_memory_capabilities"
-	"unsafe"
+	"github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities"
 )
 
 // ExportMemoryAllocateInfo specifies exportable handle types for a DeviceMemory object

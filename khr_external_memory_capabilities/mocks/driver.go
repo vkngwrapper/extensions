@@ -13,7 +13,7 @@ import (
 	reflect "reflect"
 
 	driver "github.com/vkngwrapper/core/v2/driver"
-	khr_external_memory_capabilities_driver "github.com/vkngwrapper/extensions/v2/khr_external_memory_capabilities/driver"
+	khr_external_memory_capabilities_driver "github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities/driver"
 	gomock "go.uber.org/mock/gomock"
 )
 

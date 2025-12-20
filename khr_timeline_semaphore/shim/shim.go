@@ -1,11 +1,12 @@
 package khr_timeline_semaphore_shim
 
 import (
+	"time"
+
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_2"
-	"github.com/vkngwrapper/extensions/v2/khr_timeline_semaphore"
-	"time"
+	"github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore"
 )
 
 //go:generate mockgen -source shim.go -destination ../mocks/shim.go -package mock_timeline_semaphore

@@ -3,7 +3,7 @@ package khr_buffer_device_address_shim
 import (
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_2"
-	"github.com/vkngwrapper/extensions/v2/khr_buffer_device_address"
+	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
 )
 
 //go:generate mockgen -source shim.go -destination ../mocks/shim.go -package mock_buffer_device_address

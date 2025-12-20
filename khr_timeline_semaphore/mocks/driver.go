@@ -14,7 +14,7 @@ import (
 
 	common "github.com/vkngwrapper/core/v2/common"
 	driver "github.com/vkngwrapper/core/v2/driver"
-	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/v2/khr_timeline_semaphore/driver"
+	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore/driver"
 	gomock "go.uber.org/mock/gomock"
 )
 

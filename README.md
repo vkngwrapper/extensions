@@ -1,6 +1,6 @@
-# vkngwrapper/extensions/v2
+# vkngwrapper/extensions/v3
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/vkngwrapper/extensions/v2.svg)](https://pkg.go.dev/github.com/vkngwrapper/extensions/v2)
+[![Go Reference](https://pkg.go.dev/badge/github.com/vkngwrapper/extensions/v3.svg)](https://pkg.go.dev/github.com/vkngwrapper/extensions/v3)
 
 `go get github.com/vkngwrapper/core/v2`
 
@@ -16,8 +16,8 @@ To learn more about how to use vkngwrapper, check out [the core library](https:/
 Once you've gotten the hang of the core library, you may wish to make use of one of Vullkan's many extensions. This
  library provides first-class support for a small-but-growing list of Vulkan extensions.  It's easy enough to use an extension:
  just like core 1.1 and core 1.2 in the core library, most of the contents of an extension are constants an structures, which
- can be accessed via the package name, such as [khr_imageless_framebuffer.FramebufferAttachmentImageInfo](https://pkg.go.dev/github.com/vkngwrapper/extensions/v2/khr_imageless_framebuffer#FramebufferAttachmentImageInfo)
- or [khr_sampler_mirror_clamp_to_edge.SamplerAddressModeMirrorClampToEdge](https://pkg.go.dev/github.com/vkngwrapper/extensions/v2/khr_sampler_mirror_clamp_to_edge#pkg-constants).
+ can be accessed via the package name, such as [khr_imageless_framebuffer.FramebufferAttachmentImageInfo](https://pkg.go.dev/github.com/vkngwrapper/extensions/v3/khr_imageless_framebuffer#FramebufferAttachmentImageInfo)
+ or [khr_sampler_mirror_clamp_to_edge.SamplerAddressModeMirrorClampToEdge](https://pkg.go.dev/github.com/vkngwrapper/extensions/v3/khr_sampler_mirror_clamp_to_edge#pkg-constants).
 
 For extensions that add new commands, you can create an extension object using `CreateExtensionFromInstance` for 
  instance extensions, or `CreateExtensionFromDevice` for device extensions.  Commands can be called on the new Extension

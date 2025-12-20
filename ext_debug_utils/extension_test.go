@@ -13,9 +13,9 @@ import (
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	"github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/ext_debug_utils"
-	ext_debug_utils_driver "github.com/vkngwrapper/extensions/v2/ext_debug_utils/driver"
-	mock_debugutils "github.com/vkngwrapper/extensions/v2/ext_debug_utils/mocks"
+	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
+	ext_debug_utils_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
+	mock_debugutils "github.com/vkngwrapper/extensions/v3/ext_debug_utils/mocks"
 	"go.uber.org/mock/gomock"
 	"golang.org/x/image/colornames"
 )

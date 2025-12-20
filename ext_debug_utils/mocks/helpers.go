@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"unsafe"
 
-	ext_driver "github.com/vkngwrapper/extensions/v2/ext_debug_utils/driver"
+	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
 	gomock "go.uber.org/mock/gomock"
 )
 

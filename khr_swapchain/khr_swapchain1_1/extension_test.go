@@ -12,11 +12,11 @@ import (
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	"github.com/vkngwrapper/core/v2/mocks"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
-	mock_surface "github.com/vkngwrapper/extensions/v2/khr_surface/mocks"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
-	"github.com/vkngwrapper/extensions/v2/khr_swapchain/khr_swapchain1_1"
-	mock_swapchain "github.com/vkngwrapper/extensions/v2/khr_swapchain/mocks"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
+	mock_surface "github.com/vkngwrapper/extensions/v3/khr_surface/mocks"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
+	"github.com/vkngwrapper/extensions/v3/khr_swapchain/khr_swapchain1_1"
+	mock_swapchain "github.com/vkngwrapper/extensions/v3/khr_swapchain/mocks"
 	"go.uber.org/mock/gomock"
 )
 

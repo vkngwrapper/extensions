@@ -2,7 +2,7 @@ package khr_draw_indirect_count_shim
 
 import (
 	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/extensions/v2/khr_draw_indirect_count"
+	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
 )
 
 //go:generate mockgen -source shim.go -destination ../mocks/shim.go -package mock_draw_indirect_count

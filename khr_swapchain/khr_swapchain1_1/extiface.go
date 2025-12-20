@@ -3,7 +3,7 @@ package khr_swapchain1_1
 import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/extensions/v2/khr_surface"
+	"github.com/vkngwrapper/extensions/v3/khr_surface"
 )
 
 //go:generate mockgen -source extiface.go -destination ../mocks/extension1_1.go -package mock_swapchain -mock_names Extension=MockExtension1_1

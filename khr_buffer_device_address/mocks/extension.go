@@ -13,7 +13,7 @@ import (
 	reflect "reflect"
 
 	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
-	khr_buffer_device_address "github.com/vkngwrapper/extensions/v2/khr_buffer_device_address"
+	khr_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
 	gomock "go.uber.org/mock/gomock"
 )
 

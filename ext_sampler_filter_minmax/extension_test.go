@@ -12,10 +12,10 @@ import (
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	"github.com/vkngwrapper/core/v2/mocks"
-	ext_sampler_filter_minmax_driver "github.com/vkngwrapper/extensions/v2/ext_sampler_filter_minmax/driver"
-	"github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/driver"
-	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/mocks"
+	ext_sampler_filter_minmax_driver "github.com/vkngwrapper/extensions/v3/ext_sampler_filter_minmax/driver"
+	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
 

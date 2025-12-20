@@ -3,7 +3,7 @@ package khr_device_group_shim
 import (
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
-	"github.com/vkngwrapper/extensions/v2/khr_device_group"
+	"github.com/vkngwrapper/extensions/v3/khr_device_group"
 )
 
 //go:generate mockgen -source shim.go -destination ../mocks/shim.go -package mock_device_group

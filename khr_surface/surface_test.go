@@ -11,9 +11,9 @@ import (
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_surface"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
-	mock_surface "github.com/vkngwrapper/extensions/v2/khr_surface/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_surface"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
+	mock_surface "github.com/vkngwrapper/extensions/v3/khr_surface/mocks"
 	"go.uber.org/mock/gomock"
 )
 

@@ -14,7 +14,7 @@ import (
 
 	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
 	core1_1 "github.com/vkngwrapper/core/v2/core1_1"
-	khr_maintenance4 "github.com/vkngwrapper/extensions/v2/khr_maintenance4"
+	khr_maintenance4 "github.com/vkngwrapper/extensions/v3/khr_maintenance4"
 	gomock "go.uber.org/mock/gomock"
 )
 

@@ -3,7 +3,7 @@ package khr_sampler_ycbcr_conversion
 import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v2/khr_sampler_ycbcr_conversion/driver"
+	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/driver"
 )
 
 // VulkanSamplerYcbcrConversion is an implementation of the SamplerYcbcrConversion interface that actually communicates

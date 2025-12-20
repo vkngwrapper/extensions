@@ -5,8 +5,10 @@ package khr_external_semaphore
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/common"
-import _ "github.com/vkngwrapper/extensions/v2/vulkan"
+import (
+	"github.com/vkngwrapper/core/v2/common"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
+)
 
 // SemaphoreImportFlags specifies additional parameters of Semaphore payload import
 //

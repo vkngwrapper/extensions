@@ -14,8 +14,8 @@ import (
 
 	common "github.com/vkngwrapper/core/v2/common"
 	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
-	khr_surface "github.com/vkngwrapper/extensions/v2/khr_surface"
-	khr_swapchain1_1 "github.com/vkngwrapper/extensions/v2/khr_swapchain/khr_swapchain1_1"
+	khr_surface "github.com/vkngwrapper/extensions/v3/khr_surface"
+	khr_swapchain1_1 "github.com/vkngwrapper/extensions/v3/khr_swapchain/khr_swapchain1_1"
 	gomock "go.uber.org/mock/gomock"
 )
 

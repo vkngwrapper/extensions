@@ -3,7 +3,7 @@ package khr_draw_indirect_count
 import (
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_draw_indirect_count_driver "github.com/vkngwrapper/extensions/v2/khr_draw_indirect_count/driver"
+	khr_draw_indirect_count_driver "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/driver"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This

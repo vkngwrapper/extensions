@@ -5,7 +5,7 @@ package khr_16bit_storage
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import _ "github.com/vkngwrapper/extensions/v2/vulkan"
+import _ "github.com/vkngwrapper/extensions/v3/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_16bit_storage"

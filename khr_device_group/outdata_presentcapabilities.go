@@ -6,10 +6,11 @@ package khr_device_group
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/extensions/v2/khr_device_group_creation"
-	"unsafe"
+	"github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
 )
 
 // DeviceGroupPresentCapabilities returns present capabilities from other PhysicalDevice objects

@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template/driver"
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/driver"
 )
 
 //go:generate mockgen -source iface.go -destination ./mocks/extension.go -package mock_descriptor_update_template

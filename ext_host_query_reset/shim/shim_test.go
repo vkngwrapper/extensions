@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	mock_host_query_reset "github.com/vkngwrapper/extensions/v2/ext_host_query_reset/mocks"
+	mock_host_query_reset "github.com/vkngwrapper/extensions/v3/ext_host_query_reset/mocks"
 	"go.uber.org/mock/gomock"
 )
 

@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v2/khr_draw_indirect_count/mocks"
+	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/mocks"
 	"go.uber.org/mock/gomock"
 )
 

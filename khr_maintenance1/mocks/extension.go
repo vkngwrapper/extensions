@@ -13,7 +13,7 @@ import (
 	reflect "reflect"
 
 	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
-	khr_maintenance1 "github.com/vkngwrapper/extensions/v2/khr_maintenance1"
+	khr_maintenance1 "github.com/vkngwrapper/extensions/v3/khr_maintenance1"
 	gomock "go.uber.org/mock/gomock"
 )
 

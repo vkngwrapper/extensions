@@ -5,7 +5,7 @@ import (
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
 	"github.com/vkngwrapper/core/v2/driver"
-	"github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template"
+	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 )
 
 //go:generate mockgen -source shim.go -destination ../mocks/shim.go -package mock_descriptor_update_template

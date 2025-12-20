@@ -6,13 +6,14 @@ package khr_maintenance4
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
 	"github.com/vkngwrapper/core/v2/driver"
-	"github.com/vkngwrapper/extensions/v2/khr_maintenance4/driver"
-	"unsafe"
+	"github.com/vkngwrapper/extensions/v3/khr_maintenance4/driver"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This

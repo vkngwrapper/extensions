@@ -11,7 +11,7 @@ import (
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	"github.com/vkngwrapper/core/v2/mocks"
-	ext_separate_stencil_usage_driver "github.com/vkngwrapper/extensions/v2/ext_separate_stencil_usage/driver"
+	ext_separate_stencil_usage_driver "github.com/vkngwrapper/extensions/v3/ext_separate_stencil_usage/driver"
 	"go.uber.org/mock/gomock"
 )
 

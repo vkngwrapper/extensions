@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_maintenance1"
-	mock_maintenance1 "github.com/vkngwrapper/extensions/v2/khr_maintenance1/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_maintenance1"
+	mock_maintenance1 "github.com/vkngwrapper/extensions/v3/khr_maintenance1/mocks"
 	"go.uber.org/mock/gomock"
 )
 

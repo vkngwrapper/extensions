@@ -3,7 +3,7 @@ package khr_external_semaphore_capabilities_shim
 import (
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
-	"github.com/vkngwrapper/extensions/v2/khr_external_semaphore_capabilities"
+	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
 )
 
 //go:generate mockgen -source shim.go -destination ../mocks/shim.go -package mock_external_semaphore_capabilities

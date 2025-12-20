@@ -5,8 +5,10 @@ package khr_depth_stencil_resolve
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/common"
-import _ "github.com/vkngwrapper/extensions/v2/vulkan"
+import (
+	"github.com/vkngwrapper/core/v2/common"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
+)
 
 // ResolveModeFlags indicates supported depth and stencil resolve modes
 //

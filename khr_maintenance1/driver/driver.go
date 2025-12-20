@@ -12,10 +12,11 @@ void cgoTrimCommandPoolKHR(PFN_vkTrimCommandPoolKHR fn, VkDevice device, VkComma
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/driver"
-	_ "github.com/vkngwrapper/extensions/v2/vulkan"
-	"unsafe"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
 type VkCommandPoolTrimFlagsKHR C.VkCommandPoolTrimFlagsKHR

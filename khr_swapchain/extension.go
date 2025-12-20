@@ -8,12 +8,13 @@ package khr_swapchain
 */
 import "C"
 import (
+	"math"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
-	"math"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This

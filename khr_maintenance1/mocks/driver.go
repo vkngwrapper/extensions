@@ -13,7 +13,7 @@ import (
 	reflect "reflect"
 
 	driver "github.com/vkngwrapper/core/v2/driver"
-	khr_maintenance1_driver "github.com/vkngwrapper/extensions/v2/khr_maintenance1/driver"
+	khr_maintenance1_driver "github.com/vkngwrapper/extensions/v3/khr_maintenance1/driver"
 	gomock "go.uber.org/mock/gomock"
 )
 

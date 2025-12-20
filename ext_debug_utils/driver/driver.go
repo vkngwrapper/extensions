@@ -50,11 +50,12 @@ void cgoSubmitDebugUtilsMessageEXT(PFN_vkSubmitDebugUtilsMessageEXT fn, VkInstan
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/driver"
-	_ "github.com/vkngwrapper/extensions/v2/vulkan"
-	"unsafe"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
 //go:generate mockgen -source driver.go -destination ../mocks/driver.go -package mock_debugutils

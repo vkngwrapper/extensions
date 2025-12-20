@@ -1,12 +1,13 @@
 package khr_timeline_semaphore
 
 import (
+	"time"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/v2/khr_timeline_semaphore/driver"
-	"time"
+	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore/driver"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This

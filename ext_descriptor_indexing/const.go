@@ -8,7 +8,7 @@ import "C"
 import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
-	_ "github.com/vkngwrapper/extensions/v2/vulkan"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
 // DescriptorBindingFlags specifies DescriptorSetLayout binding properties

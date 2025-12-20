@@ -6,7 +6,7 @@ import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
-	"github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2"
+	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
 )
 
 // Shim contains all commands for the khr_get_physical_device_properties2 extension

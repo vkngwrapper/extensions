@@ -7,8 +7,8 @@ import (
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/core1_1"
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_maintenance3"
-	mock_maintenance3 "github.com/vkngwrapper/extensions/v2/khr_maintenance3/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_maintenance3"
+	mock_maintenance3 "github.com/vkngwrapper/extensions/v3/khr_maintenance3/mocks"
 	"go.uber.org/mock/gomock"
 )
 

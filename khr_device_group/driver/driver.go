@@ -34,12 +34,13 @@ VkResult cgoAcquireNextImage2KHRDeviceGroup(PFN_vkAcquireNextImage2KHR fn, VkDev
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v2/khr_surface/driver"
-	_ "github.com/vkngwrapper/extensions/v2/vulkan"
-	"unsafe"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
 //go:generate mockgen -source driver.go -destination ../mocks/driver.go -package mock_device_group

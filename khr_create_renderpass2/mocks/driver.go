@@ -14,7 +14,7 @@ import (
 
 	common "github.com/vkngwrapper/core/v2/common"
 	driver "github.com/vkngwrapper/core/v2/driver"
-	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v2/khr_create_renderpass2/driver"
+	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/driver"
 	gomock "go.uber.org/mock/gomock"
 )
 

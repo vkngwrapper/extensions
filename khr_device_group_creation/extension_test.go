@@ -12,9 +12,9 @@ import (
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	"github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_device_group_creation"
-	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/v2/khr_device_group_creation/driver"
-	mock_device_group_creation "github.com/vkngwrapper/extensions/v2/khr_device_group_creation/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
+	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/v3/khr_device_group_creation/driver"
+	mock_device_group_creation "github.com/vkngwrapper/extensions/v3/khr_device_group_creation/mocks"
 	"go.uber.org/mock/gomock"
 )
 

@@ -6,10 +6,11 @@ package khr_external_semaphore
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/extensions/v2/khr_external_semaphore_capabilities"
-	"unsafe"
+	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
 )
 
 // ExportSemaphoreCreateInfo specifies handle types that can be exported from a Semaphore

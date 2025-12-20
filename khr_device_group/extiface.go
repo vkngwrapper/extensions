@@ -3,7 +3,7 @@ package khr_device_group
 import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/extensions/v2/khr_surface"
+	"github.com/vkngwrapper/extensions/v3/khr_surface"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_device_group

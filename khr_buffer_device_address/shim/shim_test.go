@@ -8,8 +8,8 @@ import (
 	"github.com/vkngwrapper/core/v2/core1_1"
 	"github.com/vkngwrapper/core/v2/core1_2"
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_buffer_device_address"
-	mock_buffer_device_address "github.com/vkngwrapper/extensions/v2/khr_buffer_device_address/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
+	mock_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address/mocks"
 	"go.uber.org/mock/gomock"
 )
 

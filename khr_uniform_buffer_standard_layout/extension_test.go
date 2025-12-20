@@ -12,11 +12,11 @@ import (
 	"github.com/vkngwrapper/core/v2/driver"
 	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
 	"github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/driver"
-	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v2/khr_get_physical_device_properties2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_uniform_buffer_standard_layout"
-	khr_uniform_buffer_standard_layout_driver "github.com/vkngwrapper/extensions/v2/khr_uniform_buffer_standard_layout/driver"
+	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_uniform_buffer_standard_layout"
+	khr_uniform_buffer_standard_layout_driver "github.com/vkngwrapper/extensions/v3/khr_uniform_buffer_standard_layout/driver"
 	"go.uber.org/mock/gomock"
 )
 

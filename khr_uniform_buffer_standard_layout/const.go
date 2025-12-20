@@ -5,7 +5,7 @@ package khr_uniform_buffer_standard_layout
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import _ "github.com/vkngwrapper/extensions/v2/vulkan"
+import _ "github.com/vkngwrapper/extensions/v3/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_uniform_buffer_standard_layout"

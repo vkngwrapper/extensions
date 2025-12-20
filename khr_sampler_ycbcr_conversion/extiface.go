@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v2/khr_sampler_ycbcr_conversion/driver"
+	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/driver"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_sampler_ycbcr_conversion
@@ -25,7 +25,7 @@ type SamplerYcbcrConversion interface {
 	// least Vulkan 1.2, core1_2.PromoteSamplerYcbcrConversion can be used to promote this to a
 	// core1_2.SamplerYcbcrConversion, etc.
 	APIVersion() common.APIVersion
-	
+
 	// Destroy destroys the SamplerYcbcrConversion object and the underlying structures. **Warning** after
 	// destruction, this object will continue to exist, but the Vulkan object handle that backs it will
 	// be invalid. Do not call further methods on this object.

@@ -28,11 +28,12 @@ VkResult cgoGetPhysicalDeviceSurfacePresentModesKHR(PFN_vkGetPhysicalDeviceSurfa
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/driver"
-	_ "github.com/vkngwrapper/extensions/v2/vulkan"
-	"unsafe"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
 type CDriver struct {

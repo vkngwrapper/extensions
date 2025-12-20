@@ -8,14 +8,15 @@ package khr_swapchain
 */
 import "C"
 import (
+	"time"
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/common/extensions"
 	"github.com/vkngwrapper/core/v2/core1_0"
 	"github.com/vkngwrapper/core/v2/driver"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/v2/khr_swapchain/driver"
-	"time"
-	"unsafe"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
 )
 
 // VulkanSwapchain is an implementation of the Swapchain interface that actually communicates

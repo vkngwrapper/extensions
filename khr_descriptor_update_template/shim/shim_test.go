@@ -8,8 +8,8 @@ import (
 	"github.com/vkngwrapper/core/v2/core1_1"
 	"github.com/vkngwrapper/core/v2/driver"
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template"
-	mock_descriptor_update_template "github.com/vkngwrapper/extensions/v2/khr_descriptor_update_template/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
+	mock_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/mocks"
 	"go.uber.org/mock/gomock"
 )
 

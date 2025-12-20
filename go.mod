@@ -1,13 +1,13 @@
-module github.com/vkngwrapper/extensions/v2
+module github.com/vkngwrapper/extensions/v3
 
 go 1.25
 
 require (
 	github.com/CannibalVox/cgoparam v1.1.0
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.6.0
 	github.com/pkg/errors v0.9.1
-	github.com/stretchr/testify v1.9.0
-	github.com/vkngwrapper/core/v2 v2.2.3
+	github.com/stretchr/testify v1.11.1
+	github.com/vkngwrapper/core/v2 v2.2.4
 	go.uber.org/mock v0.6.0
 	golang.org/x/image v0.0.0-20220722155232-062f8c9fd539
 )

@@ -6,7 +6,7 @@ package khr_portability_subset
 #include "../vulkan/vulkan_beta.h"
 */
 import "C"
-import _ "github.com/vkngwrapper/extensions/v2/vulkan"
+import _ "github.com/vkngwrapper/extensions/v3/vulkan"
 
 const (
 	// ExtensionName is "VK_KHR_portability_subset"

@@ -7,8 +7,8 @@ import (
 	"github.com/vkngwrapper/core/v2/common"
 	"github.com/vkngwrapper/core/v2/core1_1"
 	core_mocks "github.com/vkngwrapper/core/v2/mocks"
-	"github.com/vkngwrapper/extensions/v2/khr_bind_memory2"
-	mock_bind_memory2 "github.com/vkngwrapper/extensions/v2/khr_bind_memory2/mocks"
+	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
+	mock_bind_memory2 "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/mocks"
 	"go.uber.org/mock/gomock"
 )
 
