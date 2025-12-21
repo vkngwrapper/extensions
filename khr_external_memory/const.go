@@ -5,7 +5,7 @@ package khr_external_memory
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/common"
+import "github.com/vkngwrapper/core/v3/common"
 
 const (
 	// ExtensionName is "VK_KHR_external_memory"

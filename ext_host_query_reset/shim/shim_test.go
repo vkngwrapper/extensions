@@ -3,7 +3,7 @@ package ext_host_query_reset_shim
 import (
 	"testing"
 
-	core_mocks "github.com/vkngwrapper/core/v2/mocks"
+	core_mocks "github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	mock_host_query_reset "github.com/vkngwrapper/extensions/v3/ext_host_query_reset/mocks"
 	"go.uber.org/mock/gomock"
 )

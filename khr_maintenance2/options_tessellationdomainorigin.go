@@ -6,9 +6,10 @@ package khr_maintenance2
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PipelineTessellationDomainOriginStateCreateInfo specifies the origin of the tessellation domain

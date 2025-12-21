@@ -12,9 +12,9 @@ package mock_create_renderpass2
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_create_renderpass2 "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
 	gomock "go.uber.org/mock/gomock"
 )

@@ -13,8 +13,8 @@ import (
 	reflect "reflect"
 	unsafe "unsafe"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/driver"
 	gomock "go.uber.org/mock/gomock"
 )

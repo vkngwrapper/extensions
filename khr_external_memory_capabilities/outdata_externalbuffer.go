@@ -6,9 +6,10 @@ package khr_external_memory_capabilities
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // ExternalBufferProperties specifies supported external handle capabilities

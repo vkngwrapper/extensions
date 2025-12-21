@@ -12,8 +12,8 @@ package mock_debugutils
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	ext_debug_utils_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
 	gomock "go.uber.org/mock/gomock"
 )

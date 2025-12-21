@@ -12,9 +12,9 @@ package mock_descriptor_update_template
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	core1_1 "github.com/vkngwrapper/core/v2/core1_1"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	core1_1 "github.com/vkngwrapper/core/v3/core1_1"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	gomock "go.uber.org/mock/gomock"
 )
 

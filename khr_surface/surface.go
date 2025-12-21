@@ -11,9 +11,9 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	ext_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
 )
 
@@ -130,7 +130,6 @@ func (s *VulkanSurface) Handle() ext_driver.VkSurfaceKHR {
 
 func (s *VulkanSurface) Destroy(callbacks *driver.AllocationCallbacks) {
 	s.driver.VkDestroySurfaceKHR(s.instance, s.handle, callbacks.Handle())
-	s.coreDriver.ObjectStore().Delete(driver.VulkanHandle(s.handle))
 }
 
 func (s *VulkanSurface) PhysicalDeviceSurfaceSupport(physicalDevice core1_0.PhysicalDevice, queueFamilyIndex int) (bool, common.VkResult, error) {

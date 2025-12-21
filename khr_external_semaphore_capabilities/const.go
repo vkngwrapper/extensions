@@ -5,7 +5,7 @@ package khr_external_semaphore_capabilities
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/common"
+import "github.com/vkngwrapper/core/v3/common"
 
 // ExternalSemaphoreFeatureFlags describes features of an external Semaphore handle type
 //

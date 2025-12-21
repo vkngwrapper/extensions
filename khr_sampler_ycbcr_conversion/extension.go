@@ -2,9 +2,9 @@ package khr_sampler_ycbcr_conversion
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/driver"
 )
 
@@ -57,16 +57,13 @@ func (e *VulkanExtension) CreateSamplerYcbcrConversion(device core1_0.Device, o 
 		return nil, res, err
 	}
 
-	ycbcr := device.Driver().ObjectStore().GetOrCreate(driver.VulkanHandle(ycbcrHandle), driver.Core1_1,
-		func() any {
-			return &VulkanSamplerYcbcrConversion{
-				coreDriver:        device.Driver(),
-				driver:            e.driver,
-				device:            device.Handle(),
-				ycbcrHandle:       ycbcrHandle,
-				maximumAPIVersion: device.APIVersion(),
-			}
-		}).(*VulkanSamplerYcbcrConversion)
+	ycbcr := &VulkanSamplerYcbcrConversion{
+		coreDriver:        device.Driver(),
+		driver:            e.driver,
+		device:            device.Handle(),
+		ycbcrHandle:       ycbcrHandle,
+		maximumAPIVersion: device.APIVersion(),
+	}
 
 	return ycbcr, res, nil
 }

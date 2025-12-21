@@ -6,11 +6,12 @@ package khr_buffer_device_address
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"unsafe"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // DeviceMemoryOpaqueCaptureAddressInfo specifies the DeviceMemory object to query an address for

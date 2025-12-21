@@ -6,10 +6,11 @@ package khr_swapchain1_1
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_1"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_1"
 )
 
 // DeviceGroupPresentCapabilities returns present capabilities from other PhysicalDevice objects

@@ -8,11 +8,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	ext_debug_utils_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
 	mock_debugutils "github.com/vkngwrapper/extensions/v3/ext_debug_utils/mocks"
@@ -52,7 +52,7 @@ func TestVulkanExtension_CreateMessenger(t *testing.T) {
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
 
 	calledRightFunction := false
 	var cb ext_debug_utils.CallbackFunction = func(msgType ext_debug_utils.DebugUtilsMessageTypeFlags, severity ext_debug_utils.DebugUtilsMessageSeverityFlags, data *ext_debug_utils.DebugUtilsMessengerCallbackData) bool {
@@ -103,7 +103,7 @@ func TestVulkanExtension_CmdBeginLabel(t *testing.T) {
 
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
 
 	label := ext_debug_utils.DebugUtilsLabel{
 		LabelName: "someLabel",
@@ -139,7 +139,7 @@ func TestVulkanExtension_CmdEndLabel(t *testing.T) {
 
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
 
 	debugDriver.EXPECT().VkCmdEndDebugUtilsLabelEXT(commandBuffer.Handle())
 
@@ -152,7 +152,7 @@ func TestVulkanExtension_CmdInsertLabel(t *testing.T) {
 
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
 
 	label := ext_debug_utils.DebugUtilsLabel{
 		LabelName: "otherLabel",
@@ -188,7 +188,7 @@ func TestVulkanExtension_QueueBeginLabel(t *testing.T) {
 
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
-	queue := mocks.EasyMockQueue(ctrl)
+	queue := mocks1_0.EasyMockQueue(ctrl)
 
 	label := ext_debug_utils.DebugUtilsLabel{
 		LabelName: "someLabel",
@@ -224,7 +224,7 @@ func TestVulkanExtension_QueueEndLabel(t *testing.T) {
 
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
-	queue := mocks.EasyMockQueue(ctrl)
+	queue := mocks1_0.EasyMockQueue(ctrl)
 
 	debugDriver.EXPECT().VkQueueEndDebugUtilsLabelEXT(queue.Handle())
 
@@ -237,7 +237,7 @@ func TestVulkanExtension_QueueInsertLabel(t *testing.T) {
 
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
-	queue := mocks.EasyMockQueue(ctrl)
+	queue := mocks1_0.EasyMockQueue(ctrl)
 
 	label := ext_debug_utils.DebugUtilsLabel{
 		LabelName: "",
@@ -274,8 +274,8 @@ func TestVulkanExtension_SetObjectName(t *testing.T) {
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
 
 	objectName := ext_debug_utils.DebugUtilsObjectNameInfo{
 		ObjectName:   "someCommandBuffer",
@@ -313,8 +313,8 @@ func TestVulkanExtension_SetObjectTag(t *testing.T) {
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	queryPool := mocks.EasyMockQueryPool(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	queryPool := mocks1_0.EasyMockQueryPool(ctrl)
 
 	objectTag := ext_debug_utils.DebugUtilsObjectTagInfo{
 		ObjectType:   core1_0.ObjectTypeQueryPool,
@@ -355,8 +355,8 @@ func TestVulkanExtension_SubmitMessage(t *testing.T) {
 	debugDriver := mock_debugutils.NewMockDriver(ctrl)
 	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := mocks.EasyMockInstance(ctrl, coreDriver)
-	pipeline := mocks.EasyMockPipeline(ctrl)
+	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
+	pipeline := mocks1_0.EasyMockPipeline(ctrl)
 
 	callbackData := ext_debug_utils.DebugUtilsMessengerCallbackData{
 		MessageIDNumber: 3,

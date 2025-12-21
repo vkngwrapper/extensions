@@ -6,12 +6,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	ext_sampler_filter_minmax_driver "github.com/vkngwrapper/extensions/v3/ext_sampler_filter_minmax/driver"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
 	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
@@ -27,7 +26,7 @@ func TestPhysicalDeviceSamplerFilterMinmaxOutData(t *testing.T) {
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(
 		physicalDevice.Handle(),
@@ -64,8 +63,8 @@ func TestSamplerReductionModeCreateOptions(t *testing.T) {
 	defer ctrl.Finish()
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := extensions.CreateDeviceObject(coreDriver, mocks.NewFakeDeviceHandle(), common.Vulkan1_0)
-	mockSampler := mocks.EasyMockSampler(ctrl)
+	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
+	mockSampler := mocks1_0.EasyMockSampler(ctrl)
 
 	coreDriver.EXPECT().VkCreateSampler(
 		device.Handle(),

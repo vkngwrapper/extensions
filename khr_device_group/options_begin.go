@@ -6,9 +6,10 @@ package khr_device_group
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // DeviceGroupCommandBufferBeginInfo sets the initial device mask for a CommandBuffer

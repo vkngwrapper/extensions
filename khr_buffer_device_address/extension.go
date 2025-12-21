@@ -2,8 +2,8 @@ package khr_buffer_device_address
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	khr_buffer_device_address_driver "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address/driver"
 )
 

@@ -6,12 +6,12 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
 	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/v3/khr_device_group_creation/driver"
 	mock_device_group_creation "github.com/vkngwrapper/extensions/v3/khr_device_group_creation/mocks"
@@ -22,18 +22,39 @@ func TestVulkanExtension_EnumeratePhysicalDeviceGroups(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_device_group_creation.NewMockDriver(ctrl)
-	extension := khr_device_group_creation.CreateExtensionFromDriver(extDriver)
-
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
 
-	physicalDevice1 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice2 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice3 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice4 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice5 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice6 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice1 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice2 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice3 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice4 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice5 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice6 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+
+	builder := mocks1_0.NewMockInstanceObjectBuilder(ctrl)
+
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice1.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice1,
+	)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice2.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice2,
+	)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice3.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice3,
+	)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice4.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice4,
+	)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice5.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice5,
+	)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice6.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice6,
+	)
+
+	extDriver := mock_device_group_creation.NewMockDriver(ctrl)
+	extension := khr_device_group_creation.CreateExtensionFromDriver(extDriver, builder)
 
 	extDriver.EXPECT().VkEnumeratePhysicalDeviceGroupsKHR(
 		instance.Handle(),
@@ -146,18 +167,39 @@ func TestVulkanExtension_EnumeratePhysicalDeviceGroups_Incomplete(t *testing.T) 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_device_group_creation.NewMockDriver(ctrl)
-	extension := khr_device_group_creation.CreateExtensionFromDriver(extDriver)
-
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
 
-	physicalDevice1 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice2 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice3 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice4 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice5 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice6 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice1 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice2 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice3 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice4 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice5 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice6 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+
+	builder := mocks1_0.NewMockInstanceObjectBuilder(ctrl)
+
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice1.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice1,
+	).Times(2)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice2.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice2,
+	).Times(2)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice3.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice3,
+	).Times(2)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice4.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice4,
+	)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice5.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice5,
+	)
+	builder.EXPECT().CreatePhysicalDeviceObject(coreDriver, instance.Handle(), physicalDevice6.Handle(), common.Vulkan1_0, common.Vulkan1_0).Return(
+		physicalDevice6,
+	)
+
+	extDriver := mock_device_group_creation.NewMockDriver(ctrl)
+	extension := khr_device_group_creation.CreateExtensionFromDriver(extDriver, builder)
 
 	extDriver.EXPECT().VkEnumeratePhysicalDeviceGroupsKHR(
 		instance.Handle(),
@@ -313,11 +355,11 @@ func TestDeviceGroupOptions(t *testing.T) {
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
 	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
-	instance := mocks.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice1 := extensions.CreatePhysicalDeviceObject(coreDriver, instance.Handle(), mocks.NewFakePhysicalDeviceHandle(), common.Vulkan1_0, common.Vulkan1_0)
+	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
+	physicalDevice1 := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
 
-	physicalDevice2 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
-	physicalDevice3 := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice2 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice3 := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
 
 	handle := mocks.NewFakeDeviceHandle()
 

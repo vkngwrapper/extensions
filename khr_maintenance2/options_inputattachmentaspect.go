@@ -6,10 +6,11 @@ package khr_maintenance2
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v2/common"
-	"unsafe"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // RenderPassInputAttachmentAspectCreateInfo specifies, for a given subpass/input attachment

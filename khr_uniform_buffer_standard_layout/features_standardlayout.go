@@ -6,9 +6,10 @@ package khr_uniform_buffer_standard_layout
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceUniformBufferStandardLayoutFeatures indicates support for std430-like

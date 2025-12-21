@@ -3,7 +3,7 @@ package khr_draw_indirect_count_shim
 import (
 	"testing"
 
-	core_mocks "github.com/vkngwrapper/core/v2/mocks"
+	core_mocks "github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/mocks"
 	"go.uber.org/mock/gomock"
 )

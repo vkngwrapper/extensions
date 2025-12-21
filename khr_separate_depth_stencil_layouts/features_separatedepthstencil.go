@@ -6,9 +6,10 @@ package khr_separate_depth_stencil_layouts
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceSeparateDepthStencilLayoutsFeatures describes whether the implementation

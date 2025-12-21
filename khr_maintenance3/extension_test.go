@@ -6,11 +6,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
 	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
@@ -28,7 +28,7 @@ func TestVulkanExtension_DescriptorSetLayoutSupport(t *testing.T) {
 	extension := khr_maintenance3.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
 
 	extDriver.EXPECT().VkGetDescriptorSetLayoutSupportKHR(
 		device.Handle(),
@@ -75,7 +75,7 @@ func TestMaintenance3OutData(t *testing.T) {
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(physicalDevice.Handle(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(physicalDevice driver.VkPhysicalDevice, pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {

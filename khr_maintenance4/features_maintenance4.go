@@ -6,9 +6,10 @@ package khr_maintenance4
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceMaintenance4Features describes support for maintenance4 functionality

@@ -2,9 +2,9 @@ package khr_descriptor_update_template
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/driver"
 )
 
@@ -53,19 +53,13 @@ func (e *VulkanExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, 
 		return nil, res, err
 	}
 
-	descriptorTemplate := device.Driver().ObjectStore().GetOrCreate(driver.VulkanHandle(templateHandle), driver.Core1_1,
-		func() any {
-			template := &VulkanDescriptorUpdateTemplate{
-				driver:                   e.driver,
-				coreDriver:               device.Driver(),
-				device:                   device.Handle(),
-				descriptorTemplateHandle: templateHandle,
-				maximumAPIVersion:        device.APIVersion(),
-			}
-
-			return template
-		}).(*VulkanDescriptorUpdateTemplate)
-	device.Driver().ObjectStore().SetParent(driver.VulkanHandle(device.Handle()), driver.VulkanHandle(templateHandle))
+	descriptorTemplate := &VulkanDescriptorUpdateTemplate{
+		driver:                   e.driver,
+		coreDriver:               device.Driver(),
+		device:                   device.Handle(),
+		descriptorTemplateHandle: templateHandle,
+		maximumAPIVersion:        device.APIVersion(),
+	}
 
 	return descriptorTemplate, res, nil
 }

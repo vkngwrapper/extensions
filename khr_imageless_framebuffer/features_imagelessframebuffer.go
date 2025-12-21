@@ -6,9 +6,10 @@ package khr_imageless_framebuffer
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceImagelessFramebufferFeatures indicates supports for imageless Framebuffer objects

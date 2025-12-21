@@ -9,9 +9,9 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
@@ -41,9 +41,9 @@ func PromoteExtension(extension khr_swapchain.Extension) *VulkanExtension {
 
 // CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_swapchain_driver.Driver) *VulkanExtension {
+func CreateExtensionFromDriver(driver khr_swapchain_driver.Driver, builder core1_0.DeviceObjectBuilder) *VulkanExtension {
 	return &VulkanExtension{
-		Extension: khr_swapchain.CreateExtensionFromDriver(driver),
+		Extension: khr_swapchain.CreateExtensionFromDriver(driver, builder),
 		driver:    driver,
 	}
 }

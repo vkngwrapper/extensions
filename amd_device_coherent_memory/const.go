@@ -5,7 +5,7 @@ package amd_device_coherent_memory
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/core1_0"
+import "github.com/vkngwrapper/core/v3/core1_0"
 
 const (
 	// ExtensionName is "VK_AMD_device_coherent_memory"

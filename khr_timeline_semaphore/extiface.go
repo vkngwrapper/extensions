@@ -1,9 +1,10 @@
 package khr_timeline_semaphore
 
 import (
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
 	"time"
+
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_timeline_semaphore

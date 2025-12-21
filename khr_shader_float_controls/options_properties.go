@@ -6,9 +6,10 @@ package khr_shader_float_controls
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceFloatControlsProperties describes properties supported by khr_shader_float_controls

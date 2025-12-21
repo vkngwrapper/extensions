@@ -13,7 +13,7 @@ import (
 	"runtime/cgo"
 	"unsafe"
 
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/driver"
 	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
 )
 
@@ -42,7 +42,6 @@ type VulkanDebugUtilsMessenger struct {
 
 func (m *VulkanDebugUtilsMessenger) Destroy(callbacks *driver.AllocationCallbacks) {
 	m.driver.VkDestroyDebugUtilsMessengerEXT(m.instance, m.handle, callbacks.Handle())
-	m.coreDriver.ObjectStore().Delete(driver.VulkanHandle(m.handle))
 }
 
 func (m *VulkanDebugUtilsMessenger) Handle() ext_driver.VkDebugUtilsMessengerEXT {

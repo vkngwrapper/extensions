@@ -13,7 +13,7 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/driver"
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 

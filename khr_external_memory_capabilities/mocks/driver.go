@@ -12,7 +12,7 @@ package mock_external_memory_capabilities
 import (
 	reflect "reflect"
 
-	driver "github.com/vkngwrapper/core/v2/driver"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_external_memory_capabilities_driver "github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities/driver"
 	gomock "go.uber.org/mock/gomock"
 )

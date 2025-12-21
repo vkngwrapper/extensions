@@ -12,9 +12,9 @@ package mock_swapchain
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_swapchain "github.com/vkngwrapper/extensions/v3/khr_swapchain"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
 	gomock "go.uber.org/mock/gomock"

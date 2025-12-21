@@ -6,9 +6,10 @@ package ext_descriptor_indexing
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // DescriptorSetLayoutBindingFlagsCreateInfo specifies parameters of a newly-created

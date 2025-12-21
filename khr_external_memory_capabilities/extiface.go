@@ -1,6 +1,6 @@
 package khr_external_memory_capabilities
 
-import "github.com/vkngwrapper/core/v2/core1_0"
+import "github.com/vkngwrapper/core/v3/core1_0"
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_external_memory_capabilities
 

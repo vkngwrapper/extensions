@@ -5,7 +5,7 @@ package khr_external_memory_capabilities
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/common"
+import "github.com/vkngwrapper/core/v3/common"
 
 // ExternalMemoryFeatureFlags specifies features of an external memory handle type
 //

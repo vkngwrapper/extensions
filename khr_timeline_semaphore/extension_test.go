@@ -7,12 +7,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
 	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
@@ -30,8 +29,8 @@ func TestVulkanExtension_SemaphoreCounterValue(t *testing.T) {
 	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	semaphore := mocks.EasyMockSemaphore(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	semaphore := mocks1_0.EasyMockSemaphore(ctrl)
 	semaphore.EXPECT().DeviceHandle().Return(device.Handle()).AnyTimes()
 
 	extDriver.EXPECT().VkGetSemaphoreCounterValueKHR(
@@ -61,8 +60,8 @@ func TestVulkanExtension_SignalSemaphore(t *testing.T) {
 	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	semaphore := mocks.EasyMockSemaphore(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	semaphore := mocks1_0.EasyMockSemaphore(ctrl)
 
 	extDriver.EXPECT().VkSignalSemaphoreKHR(
 		device.Handle(),
@@ -96,10 +95,10 @@ func TestVulkanExtension_WaitSemaphores(t *testing.T) {
 	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
 
-	semaphore1 := mocks.EasyMockSemaphore(ctrl)
-	semaphore2 := mocks.EasyMockSemaphore(ctrl)
+	semaphore1 := mocks1_0.EasyMockSemaphore(ctrl)
+	semaphore2 := mocks1_0.EasyMockSemaphore(ctrl)
 
 	extDriver.EXPECT().VkWaitSemaphoresKHR(
 		device.Handle(),
@@ -149,9 +148,9 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOptions(t *testing.T) {
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
 	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
-	instance := mocks.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := extensions.CreatePhysicalDeviceObject(coreDriver, instance.Handle(), mocks.NewFakePhysicalDeviceHandle(), common.Vulkan1_0, common.Vulkan1_0)
-	mockDevice := mocks.EasyMockDevice(ctrl, coreDriver)
+	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
+	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
+	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
 
 	coreDriver.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -203,7 +202,7 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOutData(t *testing.T) {
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
@@ -240,8 +239,8 @@ func TestSemaphoreTypeCreateOptions(t *testing.T) {
 	defer ctrl.Finish()
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := extensions.CreateDeviceObject(coreDriver, mocks.NewFakeDeviceHandle(), common.Vulkan1_0)
-	mockSemaphore := mocks.EasyMockSemaphore(ctrl)
+	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
+	mockSemaphore := mocks1_0.EasyMockSemaphore(ctrl)
 
 	coreDriver.EXPECT().VkCreateSemaphore(
 		device.Handle(),
@@ -286,9 +285,9 @@ func TestTimelineSemaphoreSubmitOptions(t *testing.T) {
 	defer ctrl.Finish()
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	queue := extensions.CreateQueueObject(coreDriver, device.Handle(), mocks.NewFakeQueue(), common.Vulkan1_0)
-	fence := mocks.EasyMockFence(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	queue := mocks1_0.NewDummyQueue(coreDriver, device)
+	fence := mocks1_0.EasyMockFence(ctrl)
 
 	coreDriver.EXPECT().VkQueueSubmit(
 		queue.Handle(),
@@ -344,7 +343,7 @@ func TestPhysicalDeviceTimelineSemaphoreOutData(t *testing.T) {
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(
 		physicalDevice.Handle(),

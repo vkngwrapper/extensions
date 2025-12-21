@@ -6,9 +6,10 @@ package khr_sampler_ycbcr_conversion
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceSamplerYcbcrConversionFeatures describes Y'CbCr conversion features that can

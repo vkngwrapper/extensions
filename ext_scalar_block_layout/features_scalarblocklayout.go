@@ -6,9 +6,10 @@ package ext_scalar_block_layout
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceScalarBlockLayoutFeatures indicates support for scalar block layouts

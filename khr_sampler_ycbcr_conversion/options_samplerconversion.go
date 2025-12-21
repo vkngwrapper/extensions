@@ -6,10 +6,11 @@ package khr_sampler_ycbcr_conversion
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v2/common"
-	"unsafe"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // SamplerYcbcrConversionInfo specifies a Y'CbCr conversion to a Sampler or ImageView

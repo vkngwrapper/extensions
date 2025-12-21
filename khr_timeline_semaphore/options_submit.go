@@ -6,9 +6,10 @@ package khr_timeline_semaphore
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // TimelineSemaphoreSubmitInfo specifies signal and wait values for timeline Semaphore objects

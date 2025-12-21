@@ -6,11 +6,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/driver"
 	mock_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/mocks"
@@ -25,9 +25,9 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromBuffer(t *testing.T) {
 	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	descriptorSet := mocks.EasyMockDescriptorSet(ctrl)
-	buffer := mocks.EasyMockBuffer(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	descriptorSet := mocks1_0.EasyMockDescriptorSet(ctrl)
+	buffer := mocks1_0.EasyMockBuffer(ctrl)
 
 	handle := mock_descriptor_update_template.NewFakeDescriptorTemplate()
 
@@ -84,10 +84,10 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromImage(t *testing.T) {
 	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	descriptorSet := mocks.EasyMockDescriptorSet(ctrl)
-	sampler := mocks.EasyMockSampler(ctrl)
-	imageView := mocks.EasyMockImageView(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	descriptorSet := mocks1_0.EasyMockDescriptorSet(ctrl)
+	sampler := mocks1_0.EasyMockSampler(ctrl)
+	imageView := mocks1_0.EasyMockImageView(ctrl)
 
 	handle := mock_descriptor_update_template.NewFakeDescriptorTemplate()
 
@@ -144,9 +144,9 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromObjectHandle(t *testing
 	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	descriptorSet := mocks.EasyMockDescriptorSet(ctrl)
-	bufferView := mocks.EasyMockBufferView(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	descriptorSet := mocks1_0.EasyMockDescriptorSet(ctrl)
+	bufferView := mocks1_0.EasyMockBufferView(ctrl)
 
 	handle := mock_descriptor_update_template.NewFakeDescriptorTemplate()
 

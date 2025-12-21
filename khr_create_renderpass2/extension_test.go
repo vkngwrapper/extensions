@@ -6,11 +6,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
 	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/driver"
 	mock_create_renderpass2 "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/mocks"
@@ -21,12 +21,14 @@ func TestVulkanExtension_CmdBeginRenderPass2(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
 
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
-	renderPass := mocks.EasyMockRenderPass(ctrl)
-	framebuffer := mocks.EasyMockFramebuffer(ctrl)
+	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
+	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver, builder)
+
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
+	renderPass := mocks1_0.EasyMockRenderPass(ctrl)
+	framebuffer := mocks1_0.EasyMockFramebuffer(ctrl)
 
 	extDriver.EXPECT().VkCmdBeginRenderPass2KHR(
 		commandBuffer.Handle(),
@@ -79,10 +81,12 @@ func TestVulkanExtension_CmdEndRenderPass2(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
 
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
+	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
+	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver, builder)
+
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
 
 	extDriver.EXPECT().VkCmdEndRenderPass2KHR(
 		commandBuffer.Handle(),
@@ -106,10 +110,12 @@ func TestVulkanExtension_CmdNextSubpass2(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
 
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
+	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
+	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver, builder)
+
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
 
 	extDriver.EXPECT().VkCmdNextSubpass2KHR(
 		commandBuffer.Handle(),
@@ -142,12 +148,18 @@ func TestVulkanExtension_CreateRenderPass2(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
-
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	mockRenderPass := mocks.EasyMockRenderPass(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+
+	mockRenderPass := mocks1_0.EasyMockRenderPass(ctrl)
+
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
+	builder.EXPECT().CreateRenderPassObject(coreDriver, device.Handle(), mockRenderPass.Handle(), common.Vulkan1_0).Return(
+		mockRenderPass,
+	)
+
+	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
+	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver, builder)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),

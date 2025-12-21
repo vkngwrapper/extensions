@@ -12,8 +12,8 @@ package mock_device_group
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_device_group_driver "github.com/vkngwrapper/extensions/v3/khr_device_group/driver"
 	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
 	gomock "go.uber.org/mock/gomock"

@@ -2,33 +2,34 @@ package khr_create_renderpass2
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/driver"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
-	driver khr_create_renderpass2_driver.Driver
+	driver  khr_create_renderpass2_driver.Driver
+	builder core1_0.DeviceObjectBuilder
 }
 
 // CreateExtensionFromDevice produces an Extension object from a Device with
 // khr_create_renderpass2 loaded
-func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
+func CreateExtensionFromDevice(device core1_0.Device, builder core1_0.DeviceObjectBuilder) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
-	return CreateExtensionFromDriver(khr_create_renderpass2_driver.CreateDriverFromCore(device.Driver()))
+	return CreateExtensionFromDriver(khr_create_renderpass2_driver.CreateDriverFromCore(device.Driver()), builder)
 }
 
 // CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_create_renderpass2_driver.Driver) *VulkanExtension {
+func CreateExtensionFromDriver(driver khr_create_renderpass2_driver.Driver, builder core1_0.DeviceObjectBuilder) *VulkanExtension {
 	return &VulkanExtension{
-		driver: driver,
+		driver:  driver,
+		builder: builder,
 	}
 }
 
@@ -127,7 +128,7 @@ func (e *VulkanExtension) CreateRenderPass2(device core1_0.Device, allocator *dr
 		return nil, res, err
 	}
 
-	renderPass := extensions.CreateRenderPassObject(
+	renderPass := e.builder.CreateRenderPassObject(
 		device.Driver(),
 		device.Handle(),
 		renderPassHandle,

@@ -11,9 +11,9 @@ import (
 	"math"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
 )
 
@@ -22,6 +22,7 @@ import (
 type VulkanExtension struct {
 	driver  khr_swapchain_driver.Driver
 	version common.APIVersion
+	builder core1_0.DeviceObjectBuilder
 }
 
 // Extension contains all commands for the khr_swapchain extension (that were not added in core 1.1)
@@ -56,7 +57,7 @@ type Extension interface {
 
 // CreateExtensionFromDevice produces an Extension object from a Device with
 // khr_swapchain loaded
-func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
+func CreateExtensionFromDevice(device core1_0.Device, builder core1_0.DeviceObjectBuilder) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
@@ -64,15 +65,17 @@ func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
 	return &VulkanExtension{
 		driver:  khr_swapchain_driver.CreateDriverFromCore(device.Driver()),
 		version: device.APIVersion(),
+		builder: builder,
 	}
 }
 
 // CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_swapchain_driver.Driver) *VulkanExtension {
+func CreateExtensionFromDriver(driver khr_swapchain_driver.Driver, builder core1_0.DeviceObjectBuilder) *VulkanExtension {
 	return &VulkanExtension{
 		driver:  driver,
 		version: common.APIVersion(math.MaxUint32),
+		builder: builder,
 	}
 }
 
@@ -104,15 +107,14 @@ func (e *VulkanExtension) CreateSwapchain(device core1_0.Device, allocation *dri
 	}
 
 	coreDriver := device.Driver()
-	newSwapchain := coreDriver.ObjectStore().GetOrCreate(driver.VulkanHandle(swapchain), driver.Core1_0, func() any {
-		return &VulkanSwapchain{
-			handle:            swapchain,
-			device:            device.Handle(),
-			driver:            e.driver,
-			minimumAPIVersion: device.APIVersion(),
-			coreDriver:        coreDriver,
-		}
-	}).(*VulkanSwapchain)
+	newSwapchain := &VulkanSwapchain{
+		handle:            swapchain,
+		device:            device.Handle(),
+		driver:            e.driver,
+		minimumAPIVersion: device.APIVersion(),
+		coreDriver:        coreDriver,
+		builder:           e.builder,
+	}
 	return newSwapchain, res, nil
 }
 

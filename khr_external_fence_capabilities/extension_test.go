@@ -7,10 +7,10 @@ import (
 
 	uuid2 "github.com/google/uuid"
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
 	khr_external_fence_capabilities_driver "github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities/driver"
 	mock_external_fence_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities/mocks"
@@ -28,7 +28,7 @@ func TestVulkanExtension_PhysicalDeviceExternalFenceProperties(t *testing.T) {
 	extension := khr_external_fence_capabilities.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceExternalFencePropertiesKHR(
 		physicalDevice.Handle(),
@@ -73,7 +73,7 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
 
 	deviceUUID, err := uuid2.NewRandom()
 	require.NoError(t, err)

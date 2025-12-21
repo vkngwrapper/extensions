@@ -12,8 +12,8 @@ package mock_bind_memory2
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	core1_1 "github.com/vkngwrapper/core/v2/core1_1"
+	common "github.com/vkngwrapper/core/v3/common"
+	core1_1 "github.com/vkngwrapper/core/v3/core1_1"
 	gomock "go.uber.org/mock/gomock"
 )
 

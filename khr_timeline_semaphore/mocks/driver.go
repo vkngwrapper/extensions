@@ -12,8 +12,8 @@ package mock_timeline_semaphore
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore/driver"
 	gomock "go.uber.org/mock/gomock"
 )

@@ -6,13 +6,13 @@ package khr_device_group_creation
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	"unsafe"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 )
 
 // PhysicalDeviceGroupProperties specifies PhysicalDevice group properties
@@ -52,6 +52,10 @@ func (o *PhysicalDeviceGroupProperties) PopulateOutData(cPointer unsafe.Pointer,
 	if !ok {
 		return nil, errors.New("outdata population requires an Instance passed to populate helpers")
 	}
+	builder, ok := common.OfType[core1_0.InstanceObjectBuilder](helpers)
+	if !ok {
+		return nil, errors.New("outdata population requires an InstanceObjectBuilder passed to populate helpers")
+	}
 
 	count := int(createInfo.physicalDeviceCount)
 	o.PhysicalDevices = make([]core1_0.PhysicalDevice, count)
@@ -70,7 +74,7 @@ func (o *PhysicalDeviceGroupProperties) PopulateOutData(cPointer unsafe.Pointer,
 
 		deviceVersion := instance.APIVersion().Min(properties.APIVersion)
 
-		o.PhysicalDevices[i] = extensions.CreatePhysicalDeviceObject(instance.Driver(), instance.Handle(), handle, instance.APIVersion(), deviceVersion)
+		o.PhysicalDevices[i] = builder.CreatePhysicalDeviceObject(instance.Driver(), instance.Handle(), handle, instance.APIVersion(), deviceVersion)
 	}
 
 	return createInfo.pNext, nil

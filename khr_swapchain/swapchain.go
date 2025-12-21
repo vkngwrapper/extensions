@@ -12,10 +12,9 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
 )
 
@@ -28,6 +27,8 @@ type VulkanSwapchain struct {
 	coreDriver driver.Driver
 
 	minimumAPIVersion common.APIVersion
+
+	builder core1_0.DeviceObjectBuilder
 }
 
 // Swapchain provides the ability to present rendering results to a Surface
@@ -70,7 +71,6 @@ func (s *VulkanSwapchain) Handle() khr_swapchain_driver.VkSwapchainKHR {
 
 func (s *VulkanSwapchain) Destroy(callbacks *driver.AllocationCallbacks) {
 	s.driver.VkDestroySwapchainKHR(s.device, s.handle, callbacks.Handle())
-	s.coreDriver.ObjectStore().Delete(driver.VulkanHandle(s.handle))
 }
 
 func (s *VulkanSwapchain) attemptImages() ([]core1_0.Image, common.VkResult, error) {
@@ -100,8 +100,7 @@ func (s *VulkanSwapchain) attemptImages() ([]core1_0.Image, common.VkResult, err
 	imagesSlice := ([]driver.VkImage)(unsafe.Slice(imagesPtr, imageCount))
 	var result []core1_0.Image
 	for i := 0; i < imageCount; i++ {
-		image := extensions.CreateImageObject(s.coreDriver, s.device, imagesSlice[i], s.minimumAPIVersion)
-		s.coreDriver.ObjectStore().SetParent(driver.VulkanHandle(s.handle), driver.VulkanHandle(imagesSlice[i]))
+		image := s.builder.CreateImageObject(s.coreDriver, s.device, imagesSlice[i], s.minimumAPIVersion)
 		result = append(result, image)
 	}
 

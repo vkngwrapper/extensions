@@ -5,7 +5,7 @@ package khr_timeline_semaphore
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/common"
+import "github.com/vkngwrapper/core/v3/common"
 
 // SemaphoreType specifies the type of a Semaphore object
 //

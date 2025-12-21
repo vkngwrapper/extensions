@@ -12,7 +12,7 @@ package mock_maintenance1
 import (
 	reflect "reflect"
 
-	driver "github.com/vkngwrapper/core/v2/driver"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_maintenance1_driver "github.com/vkngwrapper/extensions/v3/khr_maintenance1/driver"
 	gomock "go.uber.org/mock/gomock"
 )

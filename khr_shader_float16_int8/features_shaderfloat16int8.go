@@ -7,9 +7,10 @@ package khr_shader_float16_int8
 import "C"
 
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceShaderFloat16Int8Features describes features supported by khr_shader_float16_int8

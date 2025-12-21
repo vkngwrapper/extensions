@@ -2,7 +2,7 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/vkngwrapper/extensions/v3.svg)](https://pkg.go.dev/github.com/vkngwrapper/extensions/v3)
 
-`go get github.com/vkngwrapper/core/v2`
+`go get github.com/vkngwrapper/core/v3`
 
 Vkngwrapper (proununced "Viking Wrapper") is a handwritten cgo wrapper for the Vulkan graphics and compute API.
 The goal is to produce fast, easy-to-use, low-go-allocation, and idiomatic Go code to communicate with your graphics

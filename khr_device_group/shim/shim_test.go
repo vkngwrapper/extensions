@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/core1_1"
-	core_mocks "github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/core1_1"
+	core_mocks "github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_device_group"
 	mock_device_group "github.com/vkngwrapper/extensions/v3/khr_device_group/mocks"
 	"go.uber.org/mock/gomock"

@@ -6,11 +6,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
 	khr_get_memory_requirements2_driver "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2/driver"
 	mock_get_memory_requirements2 "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2/mocks"
@@ -25,8 +25,8 @@ func TestVulkanExtension_BufferMemoryRequirements(t *testing.T) {
 	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	buffer := mocks.EasyMockBuffer(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	buffer := mocks1_0.EasyMockBuffer(ctrl)
 
 	extDriver.EXPECT().VkGetBufferMemoryRequirements2KHR(
 		device.Handle(),
@@ -71,8 +71,8 @@ func TestVulkanExtension_ImageMemoryRequirements(t *testing.T) {
 	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	image := mocks.EasyMockImage(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	image := mocks1_0.EasyMockImage(ctrl)
 
 	extDriver.EXPECT().VkGetImageMemoryRequirements2KHR(
 		device.Handle(),
@@ -117,8 +117,8 @@ func TestVulkanExtension_SparseImageMemoryRequirements(t *testing.T) {
 	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	image := mocks.EasyMockImage(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	image := mocks1_0.EasyMockImage(ctrl)
 
 	extDriver.EXPECT().VkGetImageSparseMemoryRequirements2KHR(
 		device.Handle(),

@@ -1,8 +1,8 @@
 package khr_maintenance4
 
 import (
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/core1_1"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_1"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_maintenance4

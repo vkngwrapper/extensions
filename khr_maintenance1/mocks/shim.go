@@ -12,7 +12,7 @@ package mock_maintenance1
 import (
 	reflect "reflect"
 
-	core1_1 "github.com/vkngwrapper/core/v2/core1_1"
+	core1_1 "github.com/vkngwrapper/core/v3/core1_1"
 	gomock "go.uber.org/mock/gomock"
 )
 

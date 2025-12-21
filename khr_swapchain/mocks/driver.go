@@ -12,8 +12,8 @@ package mock_swapchain
 import (
 	reflect "reflect"
 
-	common "github.com/vkngwrapper/core/v2/common"
-	driver "github.com/vkngwrapper/core/v2/driver"
+	common "github.com/vkngwrapper/core/v3/common"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
 	gomock "go.uber.org/mock/gomock"

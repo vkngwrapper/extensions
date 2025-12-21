@@ -1,8 +1,8 @@
 package khr_device_group_creation
 
 import (
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_device_group_creation

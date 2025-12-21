@@ -1,8 +1,8 @@
 package khr_external_memory_capabilities_shim
 
 import (
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/core1_1"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_1"
 	"github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities"
 )
 

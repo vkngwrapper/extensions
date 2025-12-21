@@ -5,7 +5,7 @@ package khr_external_fence_capabilities
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/common"
+import "github.com/vkngwrapper/core/v3/common"
 
 // ExternalFenceFeatureFlags describes features of an external Fence handle type
 //

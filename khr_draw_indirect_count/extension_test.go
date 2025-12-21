@@ -3,8 +3,8 @@ package khr_draw_indirect_count
 import (
 	"testing"
 
-	"github.com/vkngwrapper/core/v2/driver"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/driver"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -16,9 +16,9 @@ func TestVulkanExtension_CmdDrawIndexedIndirectCount(t *testing.T) {
 	extDriver := mock_draw_indirect_count.NewMockDriver(ctrl)
 	extension := CreateExtensionFromDriver(extDriver)
 
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
-	buffer := mocks.EasyMockBuffer(ctrl)
-	countBuffer := mocks.EasyMockBuffer(ctrl)
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
+	buffer := mocks1_0.EasyMockBuffer(ctrl)
+	countBuffer := mocks1_0.EasyMockBuffer(ctrl)
 
 	extDriver.EXPECT().VkCmdDrawIndexedIndirectCountKHR(
 		commandBuffer.Handle(),
@@ -48,9 +48,9 @@ func TestVulkanExtension_CmdDrawIndirectCount(t *testing.T) {
 	extDriver := mock_draw_indirect_count.NewMockDriver(ctrl)
 	extension := CreateExtensionFromDriver(extDriver)
 
-	commandBuffer := mocks.EasyMockCommandBuffer(ctrl)
-	buffer := mocks.EasyMockBuffer(ctrl)
-	countBuffer := mocks.EasyMockBuffer(ctrl)
+	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
+	buffer := mocks1_0.EasyMockBuffer(ctrl)
+	countBuffer := mocks1_0.EasyMockBuffer(ctrl)
 
 	extDriver.EXPECT().VkCmdDrawIndirectCountKHR(
 		commandBuffer.Handle(),

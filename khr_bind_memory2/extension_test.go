@@ -6,11 +6,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	khr_bind_memory2_driver "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/driver"
 	mock_bind_memory2 "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/mocks"
@@ -25,13 +25,13 @@ func TestVulkanExtension_BindBufferMemory(t *testing.T) {
 	extension := khr_bind_memory2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
 
-	buffer1 := mocks.EasyMockBuffer(ctrl)
-	buffer2 := mocks.EasyMockBuffer(ctrl)
+	buffer1 := mocks1_0.EasyMockBuffer(ctrl)
+	buffer2 := mocks1_0.EasyMockBuffer(ctrl)
 
-	memory1 := mocks.EasyMockDeviceMemory(ctrl)
-	memory2 := mocks.EasyMockDeviceMemory(ctrl)
+	memory1 := mocks1_0.EasyMockDeviceMemory(ctrl)
+	memory2 := mocks1_0.EasyMockDeviceMemory(ctrl)
 
 	extDriver.EXPECT().VkBindBufferMemory2KHR(device.Handle(), driver.Uint32(2), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(device driver.VkDevice, bindInfoCount driver.Uint32, pBindInfos *khr_bind_memory2_driver.VkBindBufferMemoryInfoKHR) (common.VkResult, error) {
@@ -78,13 +78,13 @@ func TestVulkanExtension_BindImageMemory(t *testing.T) {
 	extension := khr_bind_memory2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
 
-	image1 := mocks.EasyMockImage(ctrl)
-	image2 := mocks.EasyMockImage(ctrl)
+	image1 := mocks1_0.EasyMockImage(ctrl)
+	image2 := mocks1_0.EasyMockImage(ctrl)
 
-	memory1 := mocks.EasyMockDeviceMemory(ctrl)
-	memory2 := mocks.EasyMockDeviceMemory(ctrl)
+	memory1 := mocks1_0.EasyMockDeviceMemory(ctrl)
+	memory2 := mocks1_0.EasyMockDeviceMemory(ctrl)
 
 	extDriver.EXPECT().VkBindImageMemory2KHR(device.Handle(), driver.Uint32(2), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(device driver.VkDevice, bindInfoCount driver.Uint32, pBindInfos *khr_bind_memory2_driver.VkBindImageMemoryInfoKHR) (common.VkResult, error) {

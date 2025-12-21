@@ -6,11 +6,12 @@ package khr_external_memory_capabilities
 */
 import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v2/common"
-	"unsafe"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDeviceIDProperties speicifes IDs related to the PhysicalDevice

@@ -3,9 +3,9 @@ package ext_debug_utils
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
 )
 
@@ -151,14 +151,12 @@ func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, a
 	}
 
 	coreDriver := instance.Driver()
-	newMessenger := coreDriver.ObjectStore().GetOrCreate(driver.VulkanHandle(messenger), driver.Core1_0, func() any {
-		return &VulkanDebugUtilsMessenger{
-			coreDriver: coreDriver,
-			handle:     messenger,
-			instance:   instance.Handle(),
-			driver:     l.driver,
-		}
-	}).(*VulkanDebugUtilsMessenger)
+	newMessenger := &VulkanDebugUtilsMessenger{
+		coreDriver: coreDriver,
+		handle:     messenger,
+		instance:   instance.Handle(),
+		driver:     l.driver,
+	}
 
 	return newMessenger, res, nil
 }

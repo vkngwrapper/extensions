@@ -1,8 +1,8 @@
 package khr_draw_indirect_count
 
 import (
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_draw_indirect_count_driver "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/driver"
 )
 

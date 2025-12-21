@@ -1,8 +1,8 @@
 package khr_buffer_device_address_shim
 
 import (
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/core1_2"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_2"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
 )
 

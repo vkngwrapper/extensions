@@ -6,9 +6,10 @@ package khr_maintenance2
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/core1_0"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // InputAttachmentAspectReference specifies a subpass/input attachment pair and an aspect mask that

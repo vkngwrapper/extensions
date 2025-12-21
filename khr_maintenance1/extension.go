@@ -3,7 +3,7 @@ package khr_maintenance1
 //go:generate mockgen -source extension.go -destination ./mocks/extension.go -package mock_maintenance1
 
 import (
-	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance1/driver"
 )
 

@@ -12,7 +12,7 @@ package mock_draw_indirect_count
 import (
 	reflect "reflect"
 
-	driver "github.com/vkngwrapper/core/v2/driver"
+	driver "github.com/vkngwrapper/core/v3/driver"
 	gomock "go.uber.org/mock/gomock"
 )
 

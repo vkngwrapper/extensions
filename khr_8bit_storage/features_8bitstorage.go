@@ -6,9 +6,10 @@ package khr_8bit_storage
 */
 import "C"
 import (
-	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
 	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
 )
 
 // PhysicalDevice8BitStorageFeatures describes features supported by khr_8bit_storage

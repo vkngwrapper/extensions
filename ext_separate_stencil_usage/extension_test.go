@@ -5,12 +5,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	ext_separate_stencil_usage_driver "github.com/vkngwrapper/extensions/v3/ext_separate_stencil_usage/driver"
 	"go.uber.org/mock/gomock"
 )
@@ -20,8 +19,8 @@ func TestImageStencilUsageCreateOptions(t *testing.T) {
 	defer ctrl.Finish()
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := extensions.CreateDeviceObject(coreDriver, mocks.NewFakeDeviceHandle(), common.Vulkan1_0)
-	mockImage := mocks.EasyMockImage(ctrl)
+	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
+	mockImage := mocks1_0.EasyMockImage(ctrl)
 
 	coreDriver.EXPECT().VkCreateImage(
 		device.Handle(),

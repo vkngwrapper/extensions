@@ -12,7 +12,7 @@ package mock_get_memory_requirements2
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/vkngwrapper/core/v2/core1_0"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_get_memory_requirements2 "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
 	gomock "go.uber.org/mock/gomock"
 )

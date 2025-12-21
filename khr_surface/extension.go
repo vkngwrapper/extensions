@@ -1,8 +1,7 @@
 package khr_surface
 
 import (
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
 )
 
@@ -55,14 +54,12 @@ func (e *VulkanExtension) CreateSurfaceFromHandle(surfaceHandle khr_surface_driv
 	instanceHandle := e.instance.Handle()
 	apiVersion := e.instance.APIVersion()
 
-	surface := e.instance.Driver().ObjectStore().GetOrCreate(driver.VulkanHandle(surfaceHandle), driver.Core1_0, func() any {
-		return &VulkanSurface{
-			handle:            surfaceHandle,
-			coreDriver:        coreDriver,
-			instance:          instanceHandle,
-			driver:            e.driver,
-			minimumAPIVersion: apiVersion,
-		}
-	}).(*VulkanSurface)
+	surface := &VulkanSurface{
+		handle:            surfaceHandle,
+		coreDriver:        coreDriver,
+		instance:          instanceHandle,
+		driver:            e.driver,
+		minimumAPIVersion: apiVersion,
+	}
 	return surface, nil
 }

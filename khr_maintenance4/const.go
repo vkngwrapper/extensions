@@ -5,7 +5,7 @@ package khr_maintenance4
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v2/core1_0"
+import "github.com/vkngwrapper/core/v3/core1_0"
 
 const (
 	// ExtensionName is "VK_KHR_maintenance4"

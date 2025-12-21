@@ -12,7 +12,7 @@ package mock_buffer_device_address
 import (
 	reflect "reflect"
 
-	core1_2 "github.com/vkngwrapper/core/v2/core1_2"
+	core1_2 "github.com/vkngwrapper/core/v3/core1_2"
 	gomock "go.uber.org/mock/gomock"
 )
 

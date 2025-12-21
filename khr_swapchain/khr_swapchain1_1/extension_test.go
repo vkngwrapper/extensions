@@ -7,11 +7,12 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_1"
 	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
 	mock_surface "github.com/vkngwrapper/extensions/v3/khr_surface/mocks"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
@@ -24,11 +25,13 @@ func TestVulkanExtension_GetDeviceGroupPresentCapabilities(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
+
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
+	device := mocks1_1.EasyMockDevice(ctrl, coreDriver)
 
 	extDriver.EXPECT().VkGetDeviceGroupPresentCapabilitiesKHR(
 		device.Handle(),
@@ -67,11 +70,13 @@ func TestVulkanExtension_GetDeviceGroupSurfacePresentModes(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
+
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
+	device := mocks1_1.EasyMockDevice(ctrl, coreDriver)
 	surface := mock_surface.EasyMockSurface(ctrl)
 
 	extDriver.EXPECT().VkGetDeviceGroupSurfacePresentModesKHR(
@@ -96,11 +101,13 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
+
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_1.EasyMockPhysicalDevice(ctrl, coreDriver)
 	surface := mock_surface.EasyMockSurface(ctrl)
 
 	extDriver.EXPECT().VkGetPhysicalDevicePresentRectanglesKHR(
@@ -176,11 +183,13 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
+
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	physicalDevice := mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	physicalDevice := mocks1_1.EasyMockPhysicalDevice(ctrl, coreDriver)
 	surface := mock_surface.EasyMockSurface(ctrl)
 
 	extDriver.EXPECT().VkGetPhysicalDevicePresentRectanglesKHR(
@@ -301,13 +310,15 @@ func TestVulkanExtensionWithKHRSwapchain_AcquireNextImage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
+
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
+	device := mocks1_1.EasyMockDevice(ctrl, coreDriver)
 	swapchain := mock_swapchain.EasyMockSwapchain(ctrl)
-	semaphore := mocks.EasyMockSemaphore(ctrl)
+	semaphore := mocks1_1.EasyMockSemaphore(ctrl)
 
 	extDriver.EXPECT().VkAcquireNextImage2KHR(
 		device.Handle(),

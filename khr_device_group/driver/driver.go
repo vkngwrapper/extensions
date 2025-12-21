@@ -37,8 +37,8 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )

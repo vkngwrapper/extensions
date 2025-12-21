@@ -6,7 +6,7 @@ package khr_sampler_ycbcr_conversion
 */
 import "C"
 import (
-	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // ChromaLocation is the position of downsampled chroma samples

@@ -6,12 +6,11 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/common/extensions"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
-	mock_driver "github.com/vkngwrapper/core/v2/driver/mocks"
-	"github.com/vkngwrapper/core/v2/mocks"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
+	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_dedicated_allocation"
 	khr_dedicated_allocation_driver "github.com/vkngwrapper/extensions/v3/khr_dedicated_allocation/driver"
 	"github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
@@ -28,8 +27,8 @@ func TestDedicatedMemoryRequirementsOutData_Buffer(t *testing.T) {
 	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	buffer := mocks.EasyMockBuffer(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	buffer := mocks1_0.EasyMockBuffer(ctrl)
 
 	extDriver.EXPECT().VkGetBufferMemoryRequirements2KHR(
 		device.Handle(),
@@ -85,8 +84,8 @@ func TestDedicatedMemoryRequirementsOutData_Image(t *testing.T) {
 	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks.EasyMockDevice(ctrl, coreDriver)
-	image := mocks.EasyMockImage(ctrl)
+	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	image := mocks1_0.EasyMockImage(ctrl)
 
 	extDriver.EXPECT().VkGetImageMemoryRequirements2KHR(
 		device.Handle(),
@@ -140,10 +139,10 @@ func TestMemoryDedicatedAllocateOptions(t *testing.T) {
 
 	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
 	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil).AnyTimes()
-	device := extensions.CreateDeviceObject(coreDriver, mocks.NewFakeDeviceHandle(), common.Vulkan1_0)
+	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
 
-	buffer := mocks.EasyMockBuffer(ctrl)
-	expectedMemory := mocks.EasyMockDeviceMemory(ctrl)
+	buffer := mocks1_0.EasyMockBuffer(ctrl)
+	expectedMemory := mocks1_0.EasyMockDeviceMemory(ctrl)
 
 	coreDriver.EXPECT().VkAllocateMemory(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(device driver.VkDevice, pAllocateInfo *driver.VkMemoryAllocateInfo, pAllocator *driver.VkAllocationCallbacks, pMemory *driver.VkDeviceMemory) (common.VkResult, error) {

@@ -9,35 +9,38 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
-	"github.com/vkngwrapper/core/v2/driver"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/driver"
 	khr_device_group_creation_driver "github.com/vkngwrapper/extensions/v3/khr_device_group_creation/driver"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
-	driver khr_device_group_creation_driver.Driver
+	driver  khr_device_group_creation_driver.Driver
+	builder core1_0.InstanceObjectBuilder
 }
 
 // CreateExtensionFromInstance produces an Extension object from an Instance with
 // khr_device_group_creation loaded
-func CreateExtensionFromInstance(instance core1_0.Instance) *VulkanExtension {
+func CreateExtensionFromInstance(instance core1_0.Instance, builder core1_0.InstanceObjectBuilder) *VulkanExtension {
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil
 	}
 
 	return &VulkanExtension{
-		driver: khr_device_group_creation_driver.CreateDriverFromCore(instance.Driver()),
+		driver:  khr_device_group_creation_driver.CreateDriverFromCore(instance.Driver()),
+		builder: builder,
 	}
 }
 
 // CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_device_group_creation_driver.Driver) *VulkanExtension {
+func CreateExtensionFromDriver(driver khr_device_group_creation_driver.Driver, builder core1_0.InstanceObjectBuilder) *VulkanExtension {
 	return &VulkanExtension{
-		driver: driver,
+		driver:  driver,
+		builder: builder,
 	}
 }
 
@@ -87,7 +90,7 @@ func (e *VulkanExtension) attemptEnumeratePhysicalDeviceGroups(instance core1_0.
 		return nil, res, err
 	}
 
-	err = common.PopulateOutDataSlice[C.VkPhysicalDeviceGroupPropertiesKHR, *PhysicalDeviceGroupProperties](outDataSlice, unsafe.Pointer(outData), instance)
+	err = common.PopulateOutDataSlice[C.VkPhysicalDeviceGroupPropertiesKHR, *PhysicalDeviceGroupProperties](outDataSlice, unsafe.Pointer(outData), instance, e.builder)
 	if err != nil {
 		return nil, core1_0.VKErrorUnknown, err
 	}

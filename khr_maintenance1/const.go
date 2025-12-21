@@ -6,8 +6,8 @@ package khr_maintenance1
 */
 import "C"
 import (
-	"github.com/vkngwrapper/core/v2/common"
-	"github.com/vkngwrapper/core/v2/core1_0"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // CommandPoolTrimFlags is reserved for future use
