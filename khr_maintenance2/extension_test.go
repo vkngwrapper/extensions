@@ -8,13 +8,14 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
-	khr_maintenance2_driver "github.com/vkngwrapper/extensions/v3/khr_maintenance2/driver"
+	khr_maintenance2_driver "github.com/vkngwrapper/extensions/v3/khr_maintenance2/loader"
 	"go.uber.org/mock/gomock"
 )
 
@@ -22,18 +23,19 @@ func TestImageViewUsageOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	image := mocks1_0.EasyMockImage(ctrl)
-	expectedImageView := mocks1_0.EasyMockImageView(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	image := mocks.NewDummyImage(device)
+	expectedImageView := mocks.NewDummyImageView(device)
 
-	coreDriver.EXPECT().VkCreateImageView(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
-		DoAndReturn(func(device driver.VkDevice, pCreateInfo *driver.VkImageViewCreateInfo, pAllocator *driver.VkAllocationCallbacks, pImageView *driver.VkImageView) (common.VkResult, error) {
+	coreLoader.EXPECT().VkCreateImageView(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
+		DoAndReturn(func(device loader.VkDevice, pCreateInfo *loader.VkImageViewCreateInfo, pAllocator *loader.VkAllocationCallbacks, pImageView *loader.VkImageView) (common.VkResult, error) {
 			*pImageView = expectedImageView.Handle()
 
 			val := reflect.ValueOf(pCreateInfo).Elem()
 			require.Equal(t, uint64(15), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO
-			require.Equal(t, image.Handle(), (driver.VkImage)(val.FieldByName("image").UnsafePointer()))
+			require.Equal(t, image.Handle(), (loader.VkImage)(val.FieldByName("image").UnsafePointer()))
 
 			viewUsagePtr := (*khr_maintenance2_driver.VkImageViewUsageCreateInfoKHR)(val.FieldByName("pNext").UnsafePointer())
 			viewUsage := reflect.ValueOf(viewUsagePtr).Elem()
@@ -44,7 +46,7 @@ func TestImageViewUsageOptions(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	imageView, _, err := device.CreateImageView(nil, core1_0.ImageViewCreateInfo{
+	imageView, _, err := driver.CreateImageView(device, nil, core1_0.ImageViewCreateInfo{
 		Image: image,
 		NextOptions: common.NextOptions{Next: ImageViewUsageCreateInfo{
 			Usage: core1_0.ImageUsageInputAttachment,
@@ -59,23 +61,24 @@ func TestTessellationDomainOriginOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	expectedPipeline := mocks1_0.EasyMockPipeline(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	expectedPipeline := mocks.NewDummyPipeline(device)
 
-	coreDriver.EXPECT().VkCreateGraphicsPipelines(device.Handle(), driver.VkPipelineCache(0), driver.Uint32(1), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
-		DoAndReturn(func(device driver.VkDevice, pipelineCache driver.VkPipelineCache, createInfoCount driver.Uint32, pCreateInfos *driver.VkGraphicsPipelineCreateInfo, pAllocator *driver.VkAllocationCallbacks, pPipelines *driver.VkPipeline) (common.VkResult, error) {
-			pipelineSlice := ([]driver.VkPipeline)(unsafe.Slice(pPipelines, 1))
+	coreLoader.EXPECT().VkCreateGraphicsPipelines(device.Handle(), loader.VkPipelineCache(0), loader.Uint32(1), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
+		DoAndReturn(func(device loader.VkDevice, pipelineCache loader.VkPipelineCache, createInfoCount loader.Uint32, pCreateInfos *loader.VkGraphicsPipelineCreateInfo, pAllocator *loader.VkAllocationCallbacks, pPipelines *loader.VkPipeline) (common.VkResult, error) {
+			pipelineSlice := ([]loader.VkPipeline)(unsafe.Slice(pPipelines, 1))
 			pipelineSlice[0] = expectedPipeline.Handle()
 
-			createInfoSlice := ([]driver.VkGraphicsPipelineCreateInfo)(unsafe.Slice(pCreateInfos, 1))
+			createInfoSlice := ([]loader.VkGraphicsPipelineCreateInfo)(unsafe.Slice(pCreateInfos, 1))
 			val := reflect.ValueOf(createInfoSlice[0])
 
 			require.Equal(t, uint64(28), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO
 			require.True(t, val.FieldByName("pNext").IsNil())
 			require.Equal(t, uint64(0), val.FieldByName("flags").Uint())
 
-			tessellation := (*driver.VkPipelineTessellationStateCreateInfo)(val.FieldByName("pTessellationState").UnsafePointer())
+			tessellation := (*loader.VkPipelineTessellationStateCreateInfo)(val.FieldByName("pTessellationState").UnsafePointer())
 			tessVal := reflect.ValueOf(tessellation).Elem()
 
 			require.Equal(t, uint64(21), tessVal.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO
@@ -94,14 +97,14 @@ func TestTessellationDomainOriginOptions(t *testing.T) {
 	domainOriginState := PipelineTessellationDomainOriginStateCreateInfo{
 		DomainOrigin: TessellationDomainOriginLowerLeft,
 	}
-	pipelines, _, err := device.CreateGraphicsPipelines(nil, nil, []core1_0.GraphicsPipelineCreateInfo{
-		{
+	pipelines, _, err := driver.CreateGraphicsPipelines(device, nil, nil,
+		core1_0.GraphicsPipelineCreateInfo{
 			TessellationState: &core1_0.PipelineTessellationStateCreateInfo{
 				PatchControlPoints: 1,
 				NextOptions:        common.NextOptions{Next: domainOriginState},
 			},
 		},
-	})
+	)
 	require.NoError(t, err)
 	require.Len(t, pipelines, 1)
 	require.Equal(t, expectedPipeline.Handle(), pipelines[0].Handle())
@@ -111,12 +114,13 @@ func TestInputAttachmentAspectOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	expectedRenderPass := mocks1_0.EasyMockRenderPass(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	expectedRenderPass := mocks.NewDummyRenderPass(device)
 
-	coreDriver.EXPECT().VkCreateRenderPass(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
-		DoAndReturn(func(device driver.VkDevice, pCreateInfo *driver.VkRenderPassCreateInfo, pAllocator *driver.VkAllocationCallbacks, pRenderPass *driver.VkRenderPass) (common.VkResult, error) {
+	coreLoader.EXPECT().VkCreateRenderPass(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
+		DoAndReturn(func(device loader.VkDevice, pCreateInfo *loader.VkRenderPassCreateInfo, pAllocator *loader.VkAllocationCallbacks, pRenderPass *loader.VkRenderPass) (common.VkResult, error) {
 			*pRenderPass = expectedRenderPass.Handle()
 
 			val := reflect.ValueOf(pCreateInfo).Elem()
@@ -158,7 +162,7 @@ func TestInputAttachmentAspectOptions(t *testing.T) {
 			},
 		},
 	}
-	renderPass, _, err := device.CreateRenderPass(nil, core1_0.RenderPassCreateInfo{
+	renderPass, _, err := driver.CreateRenderPass(device, nil, core1_0.RenderPassCreateInfo{
 		NextOptions: common.NextOptions{Next: aspectOptions},
 	})
 	require.NoError(t, err)
@@ -169,14 +173,14 @@ func TestPointClippingOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(physicalDevice.Handle(), gomock.Not(gomock.Nil())).
-		DoAndReturn(func(physicalDevice driver.VkPhysicalDevice, pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
+		DoAndReturn(func(physicalDevice loader.VkPhysicalDevice, pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
 			val := reflect.ValueOf(pProperties).Elem()
 
 			require.Equal(t, uint64(1000059001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2_KHR
@@ -201,7 +205,7 @@ func TestPointClippingOutData(t *testing.T) {
 		NextOutData: common.NextOutData{Next: pointClipping},
 	}
 
-	err := extension.PhysicalDeviceProperties2(physicalDevice, properties)
+	err := extension.GetPhysicalDeviceProperties2(physicalDevice, properties)
 	require.NoError(t, err)
 
 	require.Equal(t, uint32(3), properties.Properties.VendorID)

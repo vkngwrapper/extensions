@@ -8,20 +8,20 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
-	khr_bind_memory2_driver "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/driver"
+	khr_bind_memory2_driver "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/loader"
 	mock_bind_memory2 "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
-	khr_get_memory_requirements2_driver "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2/driver"
+	khr_get_memory_requirements2_driver "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2/loader"
 	mock_get_memory_requirements2 "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion"
-	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/driver"
+	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/loader"
 	mock_sampler_ycbcr_conversion "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -33,8 +33,8 @@ func TestVulkanExtension_CreateSamplerYcbcrConversion(t *testing.T) {
 	extDriver := mock_sampler_ycbcr_conversion.NewMockDriver(ctrl)
 	extension := khr_sampler_ycbcr_conversion.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockYcbcr := mock_sampler_ycbcr_conversion.EasyMockSamplerYcbcrConversion(ctrl)
 
 	extDriver.EXPECT().VkCreateSamplerYcbcrConversionKHR(
@@ -43,9 +43,9 @@ func TestVulkanExtension_CreateSamplerYcbcrConversion(t *testing.T) {
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(device driver.VkDevice,
+		func(device loader.VkDevice,
 			pCreateInfo *khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionCreateInfoKHR,
-			pAllocator *driver.VkAllocationCallbacks,
+			pAllocator *loader.VkAllocationCallbacks,
 			pYcbcrConversion *khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionKHR,
 		) (common.VkResult, error) {
 			*pYcbcrConversion = mockYcbcr.Handle()
@@ -103,25 +103,25 @@ func TestBindImagePlaneMemoryOptions(t *testing.T) {
 	extDriver := mock_bind_memory2.NewMockDriver(ctrl)
 	extension := khr_bind_memory2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	image := mocks1_0.EasyMockImage(ctrl)
-	memory := mocks1_0.EasyMockDeviceMemory(ctrl)
+	image := mocks.NewDummyImage(device)
+	memory := mocks.NewDummyDeviceMemory(device, 1)
 
 	extDriver.EXPECT().VkBindImageMemory2KHR(
 		device.Handle(),
-		driver.Uint32(1),
+		loader.Uint32(1),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		bindInfoCount driver.Uint32,
+	).DoAndReturn(func(device loader.VkDevice,
+		bindInfoCount loader.Uint32,
 		pBindInfos *khr_bind_memory2_driver.VkBindImageMemoryInfoKHR,
 	) (common.VkResult, error) {
 		val := reflect.ValueOf(pBindInfos).Elem()
 
 		require.Equal(t, uint64(1000157001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_INFO_KHR
-		require.Equal(t, image.Handle(), driver.VkImage(val.FieldByName("image").UnsafePointer()))
-		require.Equal(t, memory.Handle(), driver.VkDeviceMemory(val.FieldByName("memory").UnsafePointer()))
+		require.Equal(t, image.Handle(), loader.VkImage(val.FieldByName("image").UnsafePointer()))
+		require.Equal(t, memory.Handle(), loader.VkDeviceMemory(val.FieldByName("memory").UnsafePointer()))
 
 		next := (*khr_sampler_ycbcr_conversion_driver.VkBindImagePlaneMemoryInfoKHR)(val.FieldByName("pNext").UnsafePointer())
 		val = reflect.ValueOf(next).Elem()
@@ -156,22 +156,22 @@ func TestImagePlaneMemoryRequirementsOptions(t *testing.T) {
 	extDriver := mock_get_memory_requirements2.NewMockDriver(ctrl)
 	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	image := mocks1_0.EasyMockImage(ctrl)
+	image := mocks.NewDummyImage(device)
 
 	extDriver.EXPECT().VkGetImageMemoryRequirements2KHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
+	).DoAndReturn(func(device loader.VkDevice,
 		pInfo *khr_get_memory_requirements2_driver.VkImageMemoryRequirementsInfo2KHR,
 		pMemoryRequirements *khr_get_memory_requirements2_driver.VkMemoryRequirements2KHR,
 	) {
 		val := reflect.ValueOf(pInfo).Elem()
 		require.Equal(t, uint64(1000146001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_IMAGE_MEMORY_REQUIREMENTS_INFO_2_KHR
-		require.Equal(t, image.Handle(), driver.VkImage(val.FieldByName("image").UnsafePointer()))
+		require.Equal(t, image.Handle(), loader.VkImage(val.FieldByName("image").UnsafePointer()))
 
 		next := (*khr_sampler_ycbcr_conversion_driver.VkImagePlaneMemoryRequirementsInfoKHR)(val.FieldByName("pNext").UnsafePointer())
 		val = reflect.ValueOf(next).Elem()
@@ -214,27 +214,27 @@ func TestSamplerYcbcrConversionOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	image := mocks1_0.EasyMockImage(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	image := mocks.NewDummyImage(device)
 	ycbcr := mock_sampler_ycbcr_conversion.EasyMockSamplerYcbcrConversion(ctrl)
-	mockImageView := mocks1_0.EasyMockImageView(ctrl)
+	mockImageView := mocks.NewDummyImageView(device)
 
-	coreDriver.EXPECT().VkCreateImageView(
+	coreLoader.EXPECT().VkCreateImageView(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkImageViewCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pView *driver.VkImageView,
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkImageViewCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pView *loader.VkImageView,
 	) (common.VkResult, error) {
 		*pView = mockImageView.Handle()
 
 		val := reflect.ValueOf(pCreateInfo).Elem()
 		require.Equal(t, uint64(15), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO
-		require.Equal(t, image.Handle(), driver.VkImage(val.FieldByName("image").UnsafePointer()))
+		require.Equal(t, image.Handle(), loader.VkImage(val.FieldByName("image").UnsafePointer()))
 		require.Equal(t, uint64(1000156028), val.FieldByName("format").Uint()) // VK_FORMAT_B16G16R16G16_422_UNORM_KHR
 
 		next := (*khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionInfoKHR)(val.FieldByName("pNext").UnsafePointer())
@@ -266,22 +266,22 @@ func TestSamplerYcbcrFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
-	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
-	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	coreLoader.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreLoader, nil)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	coreDriver.EXPECT().VkCreateDevice(
+	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(physicalDevice driver.VkPhysicalDevice,
-			pCreateInfo *driver.VkDeviceCreateInfo,
-			pAllocator *driver.VkAllocationCallbacks,
-			pDevice *driver.VkDevice,
+		func(physicalDevice loader.VkPhysicalDevice,
+			pCreateInfo *loader.VkDeviceCreateInfo,
+			pAllocator *loader.VkAllocationCallbacks,
+			pDevice *loader.VkDevice,
 		) (common.VkResult, error) {
 			*pDevice = mockDevice.Handle()
 
@@ -323,14 +323,14 @@ func TestSamplerYcbcrFeaturesOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(physicalDevice driver.VkPhysicalDevice,
+		func(physicalDevice loader.VkPhysicalDevice,
 			pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR,
 		) {
 			val := reflect.ValueOf(pFeatures).Elem()
@@ -340,7 +340,7 @@ func TestSamplerYcbcrFeaturesOutData(t *testing.T) {
 			val = reflect.ValueOf(next).Elem()
 			require.Equal(t, uint64(1000156004), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES_KHR
 			require.True(t, val.FieldByName("pNext").IsNil())
-			*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("samplerYcbcrConversion").UnsafeAddr())) = driver.VkBool32(1)
+			*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("samplerYcbcrConversion").UnsafeAddr())) = loader.VkBool32(1)
 		})
 
 	var outData khr_sampler_ycbcr_conversion.PhysicalDeviceSamplerYcbcrConversionFeatures
@@ -365,15 +365,15 @@ func TestSamplerYcbcrImageFormatOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceImageFormatProperties2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(physicalDevice driver.VkPhysicalDevice,
+		func(physicalDevice loader.VkPhysicalDevice,
 			pImageFormatInfo *khr_get_physical_device_properties2_driver.VkPhysicalDeviceImageFormatInfo2KHR,
 			pImageFormatProperties *khr_get_physical_device_properties2_driver.VkImageFormatProperties2KHR,
 		) (common.VkResult, error) {

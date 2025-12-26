@@ -10,8 +10,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
-	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // ImageMemoryRequirementsInfo2 has no documentation
@@ -19,14 +19,14 @@ import (
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkImageMemoryRequirementsInfo2.html
 type ImageMemoryRequirementsInfo2 struct {
 	// Image is the Image to query
-	Image core1_0.Image
+	Image core.Image
 
 	common.NextOptions
 }
 
 func (o ImageMemoryRequirementsInfo2) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
-	if o.Image == nil {
-		return nil, errors.New("khr_get_memory_requirements2.ImageMemoryRequirementsInfo2.Image cannot be nil")
+	if o.Image.Handle() == 0 {
+		return nil, errors.New("khr_get_memory_requirements2.ImageMemoryRequirementsInfo2.Image cannot be uninitialized")
 	}
 	if preallocatedPointer == nil {
 		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkImageMemoryRequirementsInfo2KHR{})))

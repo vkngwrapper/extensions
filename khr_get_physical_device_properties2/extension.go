@@ -9,41 +9,42 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	ext_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	"github.com/vkngwrapper/core/v3/loader"
+	ext_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
-	driver ext_driver.Driver
+	driver ext_driver.Loader
 }
 
 // CreateExtensionFromInstance produces an Extension object from an Instance with
 // khr_get_physical_device_properties2 loaded
-func CreateExtensionFromInstance(instance core1_0.Instance) *VulkanExtension {
+func CreateExtensionFromInstance(instance core.Instance) *VulkanExtension {
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil
 	}
 
 	return &VulkanExtension{
-		driver: ext_driver.CreateDriverFromCore(instance.Driver()),
+		driver: ext_driver.CreateLoaderFromCore(instance.Driver()),
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver ext_driver.Driver) *VulkanExtension {
+func CreateExtensionFromDriver(driver ext_driver.Loader) *VulkanExtension {
 	return &VulkanExtension{
 		driver: driver,
 	}
 }
 
-func (e *VulkanExtension) PhysicalDeviceFeatures2(physicalDevice core1_0.PhysicalDevice, out *PhysicalDeviceFeatures2) error {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (e *VulkanExtension) GetPhysicalDeviceFeatures2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceFeatures2) error {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -58,9 +59,9 @@ func (e *VulkanExtension) PhysicalDeviceFeatures2(physicalDevice core1_0.Physica
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) PhysicalDeviceFormatProperties2(physicalDevice core1_0.PhysicalDevice, format core1_0.Format, out *FormatProperties2) error {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (e *VulkanExtension) GetPhysicalDeviceFormatProperties2(physicalDevice core.PhysicalDevice, format core1_0.Format, out *FormatProperties2) error {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -70,14 +71,14 @@ func (e *VulkanExtension) PhysicalDeviceFormatProperties2(physicalDevice core1_0
 		return err
 	}
 
-	e.driver.VkGetPhysicalDeviceFormatProperties2KHR(physicalDevice.Handle(), driver.VkFormat(format), (*ext_driver.VkFormatProperties2KHR)(outData))
+	e.driver.VkGetPhysicalDeviceFormatProperties2KHR(physicalDevice.Handle(), loader.VkFormat(format), (*ext_driver.VkFormatProperties2KHR)(outData))
 
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) PhysicalDeviceImageFormatProperties2(physicalDevice core1_0.PhysicalDevice, options PhysicalDeviceImageFormatInfo2, out *ImageFormatProperties2) (common.VkResult, error) {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (e *VulkanExtension) GetPhysicalDeviceImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceImageFormatInfo2, out *ImageFormatProperties2) (common.VkResult, error) {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -105,9 +106,9 @@ func (e *VulkanExtension) PhysicalDeviceImageFormatProperties2(physicalDevice co
 	return res, nil
 }
 
-func (e *VulkanExtension) PhysicalDeviceMemoryProperties2(physicalDevice core1_0.PhysicalDevice, out *PhysicalDeviceMemoryProperties2) error {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (e *VulkanExtension) GetPhysicalDeviceMemoryProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceMemoryProperties2) error {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -122,9 +123,9 @@ func (e *VulkanExtension) PhysicalDeviceMemoryProperties2(physicalDevice core1_0
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) PhysicalDeviceProperties2(physicalDevice core1_0.PhysicalDevice, out *PhysicalDeviceProperties2) error {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (e *VulkanExtension) GetPhysicalDeviceProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceProperties2) error {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -139,14 +140,14 @@ func (e *VulkanExtension) PhysicalDeviceProperties2(physicalDevice core1_0.Physi
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) PhysicalDeviceQueueFamilyProperties2(physicalDevice core1_0.PhysicalDevice, outDataFactory func() *QueueFamilyProperties2) ([]*QueueFamilyProperties2, error) {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (e *VulkanExtension) GetPhysicalDeviceQueueFamilyProperties2(physicalDevice core.PhysicalDevice, outDataFactory func() *QueueFamilyProperties2) ([]*QueueFamilyProperties2, error) {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
-	outDataCountPtr := (*driver.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
+	outDataCountPtr := (*loader.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
 
 	e.driver.VkGetPhysicalDeviceQueueFamilyProperties2KHR(physicalDevice.Handle(), outDataCountPtr, nil)
 
@@ -175,14 +176,14 @@ func (e *VulkanExtension) PhysicalDeviceQueueFamilyProperties2(physicalDevice co
 	return out, err
 }
 
-func (e *VulkanExtension) PhysicalDeviceSparseImageFormatProperties2(physicalDevice core1_0.PhysicalDevice, options PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *SparseImageFormatProperties2) ([]*SparseImageFormatProperties2, error) {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (e *VulkanExtension) GetPhysicalDeviceSparseImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *SparseImageFormatProperties2) ([]*SparseImageFormatProperties2, error) {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
-	outDataCountPtr := (*driver.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
+	outDataCountPtr := (*loader.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
 	optionData, err := common.AllocOptions(arena, options)
 	if err != nil {
 		return nil, err

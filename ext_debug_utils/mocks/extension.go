@@ -14,7 +14,7 @@ import (
 
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
-	driver "github.com/vkngwrapper/core/v3/driver"
+	driver "github.com/vkngwrapper/core/v3/loader"
 	ext_debug_utils "github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	gomock "go.uber.org/mock/gomock"
 )

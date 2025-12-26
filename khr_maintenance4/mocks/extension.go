@@ -12,7 +12,7 @@ package mock_maintenance4
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
+	core "github.com/vkngwrapper/core/v3"
 	core1_1 "github.com/vkngwrapper/core/v3/core1_1"
 	khr_maintenance4 "github.com/vkngwrapper/extensions/v3/khr_maintenance4"
 	gomock "go.uber.org/mock/gomock"
@@ -43,7 +43,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // DeviceBufferMemoryRequirements mocks base method.
-func (m *MockExtension) DeviceBufferMemoryRequirements(device core1_0.Device, options khr_maintenance4.DeviceBufferMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
+func (m *MockExtension) DeviceBufferMemoryRequirements(device core.Device, options khr_maintenance4.DeviceBufferMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeviceBufferMemoryRequirements", device, options, outData)
 	ret0, _ := ret[0].(error)
@@ -57,7 +57,7 @@ func (mr *MockExtensionMockRecorder) DeviceBufferMemoryRequirements(device, opti
 }
 
 // DeviceImageMemoryRequirements mocks base method.
-func (m *MockExtension) DeviceImageMemoryRequirements(device core1_0.Device, options khr_maintenance4.DeviceImageMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
+func (m *MockExtension) DeviceImageMemoryRequirements(device core.Device, options khr_maintenance4.DeviceImageMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeviceImageMemoryRequirements", device, options, outData)
 	ret0, _ := ret[0].(error)
@@ -71,7 +71,7 @@ func (mr *MockExtensionMockRecorder) DeviceImageMemoryRequirements(device, optio
 }
 
 // DeviceImageSparseMemoryRequirements mocks base method.
-func (m *MockExtension) DeviceImageSparseMemoryRequirements(device core1_0.Device, options khr_maintenance4.DeviceImageMemoryRequirements, outDataFactory func() *core1_1.SparseImageMemoryRequirements2) ([]*core1_1.SparseImageMemoryRequirements2, error) {
+func (m *MockExtension) DeviceImageSparseMemoryRequirements(device core.Device, options khr_maintenance4.DeviceImageMemoryRequirements, outDataFactory func() *core1_1.SparseImageMemoryRequirements2) ([]*core1_1.SparseImageMemoryRequirements2, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeviceImageSparseMemoryRequirements", device, options, outDataFactory)
 	ret0, _ := ret[0].([]*core1_1.SparseImageMemoryRequirements2)

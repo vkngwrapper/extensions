@@ -12,141 +12,13 @@ package mock_descriptor_update_template
 import (
 	reflect "reflect"
 
+	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
-	driver "github.com/vkngwrapper/core/v3/driver"
+	loader "github.com/vkngwrapper/core/v3/loader"
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
-	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/driver"
 	gomock "go.uber.org/mock/gomock"
 )
-
-// MockDescriptorUpdateTemplate is a mock of DescriptorUpdateTemplate interface.
-type MockDescriptorUpdateTemplate struct {
-	ctrl     *gomock.Controller
-	recorder *MockDescriptorUpdateTemplateMockRecorder
-	isgomock struct{}
-}
-
-// MockDescriptorUpdateTemplateMockRecorder is the mock recorder for MockDescriptorUpdateTemplate.
-type MockDescriptorUpdateTemplateMockRecorder struct {
-	mock *MockDescriptorUpdateTemplate
-}
-
-// NewMockDescriptorUpdateTemplate creates a new mock instance.
-func NewMockDescriptorUpdateTemplate(ctrl *gomock.Controller) *MockDescriptorUpdateTemplate {
-	mock := &MockDescriptorUpdateTemplate{ctrl: ctrl}
-	mock.recorder = &MockDescriptorUpdateTemplateMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockDescriptorUpdateTemplate) EXPECT() *MockDescriptorUpdateTemplateMockRecorder {
-	return m.recorder
-}
-
-// APIVersion mocks base method.
-func (m *MockDescriptorUpdateTemplate) APIVersion() common.APIVersion {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "APIVersion")
-	ret0, _ := ret[0].(common.APIVersion)
-	return ret0
-}
-
-// APIVersion indicates an expected call of APIVersion.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) APIVersion() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APIVersion", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).APIVersion))
-}
-
-// Destroy mocks base method.
-func (m *MockDescriptorUpdateTemplate) Destroy(allocator *driver.AllocationCallbacks) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Destroy", allocator)
-}
-
-// Destroy indicates an expected call of Destroy.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) Destroy(allocator any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).Destroy), allocator)
-}
-
-// DeviceHandle mocks base method.
-func (m *MockDescriptorUpdateTemplate) DeviceHandle() driver.VkDevice {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeviceHandle")
-	ret0, _ := ret[0].(driver.VkDevice)
-	return ret0
-}
-
-// DeviceHandle indicates an expected call of DeviceHandle.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) DeviceHandle() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeviceHandle", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).DeviceHandle))
-}
-
-// Driver mocks base method.
-func (m *MockDescriptorUpdateTemplate) Driver() driver.Driver {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Driver")
-	ret0, _ := ret[0].(driver.Driver)
-	return ret0
-}
-
-// Driver indicates an expected call of Driver.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) Driver() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Driver", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).Driver))
-}
-
-// Handle mocks base method.
-func (m *MockDescriptorUpdateTemplate) Handle() khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Handle")
-	ret0, _ := ret[0].(khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR)
-	return ret0
-}
-
-// Handle indicates an expected call of Handle.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) Handle() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).Handle))
-}
-
-// UpdateDescriptorSetFromBuffer mocks base method.
-func (m *MockDescriptorUpdateTemplate) UpdateDescriptorSetFromBuffer(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorBufferInfo) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "UpdateDescriptorSetFromBuffer", descriptorSet, data)
-}
-
-// UpdateDescriptorSetFromBuffer indicates an expected call of UpdateDescriptorSetFromBuffer.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) UpdateDescriptorSetFromBuffer(descriptorSet, data any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDescriptorSetFromBuffer", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).UpdateDescriptorSetFromBuffer), descriptorSet, data)
-}
-
-// UpdateDescriptorSetFromImage mocks base method.
-func (m *MockDescriptorUpdateTemplate) UpdateDescriptorSetFromImage(descriptorSet core1_0.DescriptorSet, data core1_0.DescriptorImageInfo) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "UpdateDescriptorSetFromImage", descriptorSet, data)
-}
-
-// UpdateDescriptorSetFromImage indicates an expected call of UpdateDescriptorSetFromImage.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) UpdateDescriptorSetFromImage(descriptorSet, data any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDescriptorSetFromImage", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).UpdateDescriptorSetFromImage), descriptorSet, data)
-}
-
-// UpdateDescriptorSetFromObjectHandle mocks base method.
-func (m *MockDescriptorUpdateTemplate) UpdateDescriptorSetFromObjectHandle(descriptorSet core1_0.DescriptorSet, data driver.VulkanHandle) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "UpdateDescriptorSetFromObjectHandle", descriptorSet, data)
-}
-
-// UpdateDescriptorSetFromObjectHandle indicates an expected call of UpdateDescriptorSetFromObjectHandle.
-func (mr *MockDescriptorUpdateTemplateMockRecorder) UpdateDescriptorSetFromObjectHandle(descriptorSet, data any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDescriptorSetFromObjectHandle", reflect.TypeOf((*MockDescriptorUpdateTemplate)(nil).UpdateDescriptorSetFromObjectHandle), descriptorSet, data)
-}
 
 // MockExtension is a mock of Extension interface.
 type MockExtension struct {
@@ -173,10 +45,10 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // CreateDescriptorUpdateTemplate mocks base method.
-func (m *MockExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, o khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo, allocator *driver.AllocationCallbacks) (khr_descriptor_update_template.DescriptorUpdateTemplate, common.VkResult, error) {
+func (m *MockExtension) CreateDescriptorUpdateTemplate(device core.Device, o khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core.DescriptorUpdateTemplate, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateDescriptorUpdateTemplate", device, o, allocator)
-	ret0, _ := ret[0].(khr_descriptor_update_template.DescriptorUpdateTemplate)
+	ret0, _ := ret[0].(core.DescriptorUpdateTemplate)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
@@ -186,4 +58,52 @@ func (m *MockExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, o 
 func (mr *MockExtensionMockRecorder) CreateDescriptorUpdateTemplate(device, o, allocator any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateDescriptorUpdateTemplate", reflect.TypeOf((*MockExtension)(nil).CreateDescriptorUpdateTemplate), device, o, allocator)
+}
+
+// DestroyDescriptorUpdateTemplate mocks base method.
+func (m *MockExtension) DestroyDescriptorUpdateTemplate(template core.DescriptorUpdateTemplate, allocator *loader.AllocationCallbacks) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "DestroyDescriptorUpdateTemplate", template, allocator)
+}
+
+// DestroyDescriptorUpdateTemplate indicates an expected call of DestroyDescriptorUpdateTemplate.
+func (mr *MockExtensionMockRecorder) DestroyDescriptorUpdateTemplate(template, allocator any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyDescriptorUpdateTemplate", reflect.TypeOf((*MockExtension)(nil).DestroyDescriptorUpdateTemplate), template, allocator)
+}
+
+// UpdateDescriptorSetWithTemplateFromBuffer mocks base method.
+func (m *MockExtension) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorBufferInfo) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UpdateDescriptorSetWithTemplateFromBuffer", descriptorSet, template, data)
+}
+
+// UpdateDescriptorSetWithTemplateFromBuffer indicates an expected call of UpdateDescriptorSetWithTemplateFromBuffer.
+func (mr *MockExtensionMockRecorder) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet, template, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDescriptorSetWithTemplateFromBuffer", reflect.TypeOf((*MockExtension)(nil).UpdateDescriptorSetWithTemplateFromBuffer), descriptorSet, template, data)
+}
+
+// UpdateDescriptorSetWithTemplateFromImage mocks base method.
+func (m *MockExtension) UpdateDescriptorSetWithTemplateFromImage(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorImageInfo) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UpdateDescriptorSetWithTemplateFromImage", descriptorSet, template, data)
+}
+
+// UpdateDescriptorSetWithTemplateFromImage indicates an expected call of UpdateDescriptorSetWithTemplateFromImage.
+func (mr *MockExtensionMockRecorder) UpdateDescriptorSetWithTemplateFromImage(descriptorSet, template, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDescriptorSetWithTemplateFromImage", reflect.TypeOf((*MockExtension)(nil).UpdateDescriptorSetWithTemplateFromImage), descriptorSet, template, data)
+}
+
+// UpdateDescriptorSetWithTemplateFromObjectHandle mocks base method.
+func (m *MockExtension) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data loader.VulkanHandle) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UpdateDescriptorSetWithTemplateFromObjectHandle", descriptorSet, template, data)
+}
+
+// UpdateDescriptorSetWithTemplateFromObjectHandle indicates an expected call of UpdateDescriptorSetWithTemplateFromObjectHandle.
+func (mr *MockExtensionMockRecorder) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet, template, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDescriptorSetWithTemplateFromObjectHandle", reflect.TypeOf((*MockExtension)(nil).UpdateDescriptorSetWithTemplateFromObjectHandle), descriptorSet, template, data)
 }

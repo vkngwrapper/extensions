@@ -8,11 +8,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
-	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/driver"
+	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/loader"
 	mock_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -21,15 +20,14 @@ func TestVulkanExtension_CreateDescriptorUpdateTemplate(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_descriptor_update_template.NewMockDriver(ctrl)
+	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
 	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	descriptorLayout := mocks1_0.EasyMockDescriptorSetLayout(ctrl)
-	pipelineLayout := mocks1_0.EasyMockPipelineLayout(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	descriptorLayout := mocks.NewDummyDescriptorSetLayout(device)
+	pipelineLayout := mocks.NewDummyPipelineLayout(device)
 
-	handle := mock_descriptor_update_template.NewFakeDescriptorTemplate()
+	handle := mocks.NewFakeDescriptorUpdateTemplate()
 
 	extDriver.EXPECT().VkCreateDescriptorUpdateTemplateKHR(
 		device.Handle(),
@@ -37,12 +35,12 @@ func TestVulkanExtension_CreateDescriptorUpdateTemplate(t *testing.T) {
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(func(
-		device driver.VkDevice,
+		device loader.VkDevice,
 		pCreateInfo *khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateCreateInfoKHR,
-		pAllocator *driver.VkAllocationCallbacks,
+		pAllocator *loader.VkAllocationCallbacks,
 		pDescriptorTemplate *khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR,
 	) (common.VkResult, error) {
-		*pDescriptorTemplate = handle
+		*pDescriptorTemplate = khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR(handle)
 
 		val := reflect.ValueOf(pCreateInfo).Elem()
 		require.Equal(t, uint64(1000085000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO_KHR
@@ -50,8 +48,8 @@ func TestVulkanExtension_CreateDescriptorUpdateTemplate(t *testing.T) {
 		require.Equal(t, uint64(0), val.FieldByName("flags").Uint())
 		require.Equal(t, uint64(2), val.FieldByName("descriptorUpdateEntryCount").Uint())
 		require.Equal(t, uint64(0), val.FieldByName("templateType").Uint())
-		require.Equal(t, descriptorLayout.Handle(), driver.VkDescriptorSetLayout(val.FieldByName("descriptorSetLayout").UnsafePointer()))
-		require.Equal(t, pipelineLayout.Handle(), driver.VkPipelineLayout(val.FieldByName("pipelineLayout").UnsafePointer()))
+		require.Equal(t, descriptorLayout.Handle(), loader.VkDescriptorSetLayout(val.FieldByName("descriptorSetLayout").UnsafePointer()))
+		require.Equal(t, pipelineLayout.Handle(), loader.VkPipelineLayout(val.FieldByName("pipelineLayout").UnsafePointer()))
 		require.Equal(t, uint64(0), val.FieldByName("pipelineBindPoint").Uint())
 		require.Equal(t, uint64(31), val.FieldByName("set").Uint())
 
@@ -112,5 +110,5 @@ func TestVulkanExtension_CreateDescriptorUpdateTemplate(t *testing.T) {
 	require.NotNil(t, template)
 	require.Equal(t, handle, template.Handle())
 
-	template.Destroy(nil)
+	extension.DestroyDescriptorUpdateTemplate(template, nil)
 }

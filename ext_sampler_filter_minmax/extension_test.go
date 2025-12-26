@@ -8,12 +8,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
-	ext_sampler_filter_minmax_driver "github.com/vkngwrapper/extensions/v3/ext_sampler_filter_minmax/driver"
+	ext_sampler_filter_minmax_driver "github.com/vkngwrapper/extensions/v3/ext_sampler_filter_minmax/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -25,13 +26,13 @@ func TestPhysicalDeviceSamplerFilterMinmaxOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
 		val := reflect.ValueOf(pProperties).Elem()
 		require.Equal(t, uint64(1000059001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2_KHR
@@ -41,8 +42,8 @@ func TestPhysicalDeviceSamplerFilterMinmaxOutData(t *testing.T) {
 
 		require.Equal(t, uint64(1000130000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES_EXT
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("filterMinmaxSingleComponentFormats").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("filterMinmaxImageComponentMapping").UnsafeAddr())) = driver.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("filterMinmaxSingleComponentFormats").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("filterMinmaxImageComponentMapping").UnsafeAddr())) = loader.VkBool32(1)
 	})
 
 	var outData PhysicalDeviceSamplerFilterMinmaxProperties
@@ -62,19 +63,20 @@ func TestSamplerReductionModeCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockSampler := mocks1_0.EasyMockSampler(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockSampler := mocks.NewDummySampler(device)
 
-	coreDriver.EXPECT().VkCreateSampler(
+	coreLoader.EXPECT().VkCreateSampler(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkSamplerCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pSampler *driver.VkSampler) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkSamplerCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pSampler *loader.VkSampler) (common.VkResult, error) {
 		*pSampler = mockSampler.Handle()
 
 		val := reflect.ValueOf(pCreateInfo).Elem()
@@ -90,7 +92,8 @@ func TestSamplerReductionModeCreateOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	sampler, _, err := device.CreateSampler(
+	sampler, _, err := driver.CreateSampler(
+		device,
 		nil,
 		core1_0.SamplerCreateInfo{
 			NextOptions: common.NextOptions{SamplerReductionModeCreateInfo{

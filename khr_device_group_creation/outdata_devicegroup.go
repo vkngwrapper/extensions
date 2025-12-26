@@ -10,9 +10,10 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
+	"github.com/vkngwrapper/core/v3/loader"
 )
 
 // PhysicalDeviceGroupProperties specifies PhysicalDevice group properties
@@ -21,7 +22,7 @@ import (
 type PhysicalDeviceGroupProperties struct {
 	// PhysicalDevices is a slice of PhysicalDevice objects that represent all PhysicalDevice
 	// objects in the group
-	PhysicalDevices []core1_0.PhysicalDevice
+	PhysicalDevices []core.PhysicalDevice
 	// SubsetAllocation specifies whether logical Device objects created from the group support
 	// allocating DeviceMemory on a subset of Device objects, via MemoryAllocateFlagsInfo
 	SubsetAllocation bool
@@ -48,23 +49,23 @@ func (o *PhysicalDeviceGroupProperties) PopulateOutData(cPointer unsafe.Pointer,
 	createInfo := (*C.VkPhysicalDeviceGroupPropertiesKHR)(cPointer)
 	o.SubsetAllocation = createInfo.subsetAllocation != C.VkBool32(0)
 
-	instance, ok := common.OfType[core1_0.Instance](helpers)
+	instanceLoader, ok := common.OfType[loader.Loader](helpers)
+	if !ok {
+		return nil, errors.New("outdata population requires an instance loader passed to populate helpers")
+	}
+	instance, ok := common.OfType[core.Instance](helpers)
 	if !ok {
 		return nil, errors.New("outdata population requires an Instance passed to populate helpers")
 	}
-	builder, ok := common.OfType[core1_0.InstanceObjectBuilder](helpers)
-	if !ok {
-		return nil, errors.New("outdata population requires an InstanceObjectBuilder passed to populate helpers")
-	}
 
 	count := int(createInfo.physicalDeviceCount)
-	o.PhysicalDevices = make([]core1_0.PhysicalDevice, count)
+	o.PhysicalDevices = make([]core.PhysicalDevice, count)
 
 	propertiesUnsafe := arena.Malloc(int(unsafe.Sizeof([1]C.VkPhysicalDeviceProperties{})))
 
 	for i := 0; i < count; i++ {
-		handle := driver.VkPhysicalDevice(unsafe.Pointer(createInfo.physicalDevices[i]))
-		instance.Driver().VkGetPhysicalDeviceProperties(handle, (*driver.VkPhysicalDeviceProperties)(propertiesUnsafe))
+		handle := loader.VkPhysicalDevice(unsafe.Pointer(createInfo.physicalDevices[i]))
+		instanceLoader.VkGetPhysicalDeviceProperties(handle, (*loader.VkPhysicalDeviceProperties)(propertiesUnsafe))
 
 		var properties core1_0.PhysicalDeviceProperties
 		err = (&properties).PopulateFromCPointer(propertiesUnsafe)
@@ -74,7 +75,7 @@ func (o *PhysicalDeviceGroupProperties) PopulateOutData(cPointer unsafe.Pointer,
 
 		deviceVersion := instance.APIVersion().Min(properties.APIVersion)
 
-		o.PhysicalDevices[i] = builder.CreatePhysicalDeviceObject(instance.Driver(), instance.Handle(), handle, instance.APIVersion(), deviceVersion)
+		o.PhysicalDevices[i] = core.InternalPhysicalDevice(handle, instance.APIVersion(), deviceVersion)
 	}
 
 	return createInfo.pNext, nil

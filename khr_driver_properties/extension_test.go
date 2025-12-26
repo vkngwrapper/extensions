@@ -7,12 +7,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
-	khr_driver_properties_driver "github.com/vkngwrapper/extensions/v3/khr_driver_properties/driver"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
+	khr_driver_properties_driver "github.com/vkngwrapper/extensions/v3/khr_driver_properties/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -24,14 +23,14 @@ func TestPhysicalDeviceDriverOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(physicalDevice driver.VkPhysicalDevice,
+		func(physicalDevice loader.VkPhysicalDevice,
 			pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
 
 			val := reflect.ValueOf(pProperties).Elem()
@@ -49,19 +48,19 @@ func TestPhysicalDeviceDriverOutData(t *testing.T) {
 			*(*uint8)(unsafe.Pointer(val.FieldByName("conformanceVersion").FieldByName("subminor").UnsafeAddr())) = uint8(5)
 			*(*uint8)(unsafe.Pointer(val.FieldByName("conformanceVersion").FieldByName("patch").UnsafeAddr())) = uint8(7)
 
-			driverNamePtr := (*driver.Char)(unsafe.Pointer(val.FieldByName("driverName").UnsafeAddr()))
-			driverNameSlice := ([]driver.Char)(unsafe.Slice(driverNamePtr, 256))
-			driverName := "Some Driver"
+			driverNamePtr := (*loader.Char)(unsafe.Pointer(val.FieldByName("driverName").UnsafeAddr()))
+			driverNameSlice := ([]loader.Char)(unsafe.Slice(driverNamePtr, 256))
+			driverName := "Some Loader"
 			for i, r := range []byte(driverName) {
-				driverNameSlice[i] = driver.Char(r)
+				driverNameSlice[i] = loader.Char(r)
 			}
 			driverNameSlice[len(driverName)] = 0
 
-			driverInfoPtr := (*driver.Char)(unsafe.Pointer(val.FieldByName("driverInfo").UnsafeAddr()))
-			driverInfoSlice := ([]driver.Char)(unsafe.Slice(driverInfoPtr, 256))
+			driverInfoPtr := (*loader.Char)(unsafe.Pointer(val.FieldByName("driverInfo").UnsafeAddr()))
+			driverInfoSlice := ([]loader.Char)(unsafe.Slice(driverInfoPtr, 256))
 			driverInfo := "Whooo Info"
 			for i, r := range []byte(driverInfo) {
-				driverInfoSlice[i] = driver.Char(r)
+				driverInfoSlice[i] = loader.Char(r)
 			}
 			driverInfoSlice[len(driverInfo)] = 0
 		})
@@ -75,7 +74,7 @@ func TestPhysicalDeviceDriverOutData(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, PhysicalDeviceDriverProperties{
 		DriverID:           DriverIDGoogleSwiftshader,
-		DriverName:         "Some Driver",
+		DriverName:         "Some Loader",
 		DriverInfo:         "Whooo Info",
 		ConformanceVersion: ConformanceVersion{Major: 1, Minor: 3, Subminor: 5, Patch: 7},
 	}, driverOutData)

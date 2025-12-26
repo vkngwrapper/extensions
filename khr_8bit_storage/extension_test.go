@@ -8,12 +8,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
-	khr_8bit_storage_driver "github.com/vkngwrapper/extensions/v3/khr_8bit_storage/driver"
+	khr_8bit_storage_driver "github.com/vkngwrapper/extensions/v3/khr_8bit_storage/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -22,23 +23,23 @@ func TestPhysicalDevice8BitStorageFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 
-	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
-	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	coreDriver.EXPECT().VkCreateDevice(
+	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(physicalDevice driver.VkPhysicalDevice,
-			pCreateInfo *driver.VkDeviceCreateInfo,
-			pAllocator *driver.VkAllocationCallbacks,
-			pDevice *driver.VkDevice) (common.VkResult, error) {
+		func(physicalDevice loader.VkPhysicalDevice,
+			pCreateInfo *loader.VkDeviceCreateInfo,
+			pAllocator *loader.VkAllocationCallbacks,
+			pDevice *loader.VkDevice) (common.VkResult, error) {
 
 			*pDevice = mockDevice.Handle()
 
@@ -57,7 +58,8 @@ func TestPhysicalDevice8BitStorageFeaturesOptions(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	device, _, err := physicalDevice.CreateDevice(
+	device, _, err := driver.CreateDevice(
+		physicalDevice,
 		nil,
 		core1_0.DeviceCreateInfo{
 			QueueCreateInfos: []core1_0.DeviceQueueCreateInfo{
@@ -82,13 +84,13 @@ func TestPhysicalDevice8BitStorageFeaturesOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR) {
 
 		val := reflect.ValueOf(pFeatures).Elem()
@@ -98,9 +100,9 @@ func TestPhysicalDevice8BitStorageFeaturesOutData(t *testing.T) {
 		val = reflect.ValueOf(next).Elem()
 		require.Equal(t, uint64(1000177000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("storageBuffer8BitAccess").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("uniformAndStorageBuffer8BitAccess").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("storagePushConstant8").UnsafeAddr())) = driver.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("storageBuffer8BitAccess").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("uniformAndStorageBuffer8BitAccess").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("storagePushConstant8").UnsafeAddr())) = loader.VkBool32(1)
 	})
 
 	var outData PhysicalDevice8BitStorageFeatures

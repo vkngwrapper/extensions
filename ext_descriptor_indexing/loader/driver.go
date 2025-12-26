@@ -1,0 +1,16 @@
+package ext_descriptor_indexing_loader
+
+/*
+#include <stdlib.h>
+#include "../../vulkan/vulkan.h"
+*/
+import "C"
+import _ "github.com/vkngwrapper/extensions/v3/vulkan"
+
+type VkDescriptorSetVariableDescriptorCountAllocateInfoEXT C.VkDescriptorSetVariableDescriptorCountAllocateInfoEXT
+type VkDescriptorSetLayoutBindingFlagsCreateInfoEXT C.VkDescriptorSetLayoutBindingFlagsCreateInfoEXT
+type VkDescriptorSetVariableDescriptorCountLayoutSupportEXT C.VkDescriptorSetVariableDescriptorCountLayoutSupportEXT
+type VkPhysicalDeviceDescriptorIndexingFeaturesEXT C.VkPhysicalDeviceDescriptorIndexingFeaturesEXT
+type VkPhysicalDeviceDescriptorIndexingPropertiesEXT C.VkPhysicalDeviceDescriptorIndexingPropertiesEXT
+type VkDescriptorBindingFlagBitsEXT C.VkDescriptorBindingFlagBitsEXT
+type VkDescriptorBindingFlagsEXT C.VkDescriptorBindingFlagsEXT

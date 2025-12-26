@@ -13,8 +13,8 @@ import (
 	"runtime/cgo"
 	"unsafe"
 
-	"github.com/vkngwrapper/core/v3/driver"
-	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
+	"github.com/vkngwrapper/core/v3/loader"
+	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
 )
 
 // DebugUtilsMessenger is a messenger object which handles passing along debug
@@ -28,19 +28,19 @@ type DebugUtilsMessenger interface {
 	// Destroy destroys the DebugUtilsMessenger object and the underlying structures. **Warning** after
 	// destruction, this object will continue to exist, but the Vulkan object handle that backs it will
 	// be invalid. Do not call further methods on this object.
-	Destroy(callbacks *driver.AllocationCallbacks)
+	Destroy(callbacks *loader.AllocationCallbacks)
 }
 
 // VulkanDebugUtilsMessenger is an implementation of the DebugUtilsMessenger interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
 type VulkanDebugUtilsMessenger struct {
-	instance   driver.VkInstance
+	instance   loader.VkInstance
 	handle     ext_driver.VkDebugUtilsMessengerEXT
-	coreDriver driver.Driver
-	driver     ext_driver.Driver
+	coreLoader loader.Loader
+	driver     ext_driver.Loader
 }
 
-func (m *VulkanDebugUtilsMessenger) Destroy(callbacks *driver.AllocationCallbacks) {
+func (m *VulkanDebugUtilsMessenger) Destroy(callbacks *loader.AllocationCallbacks) {
 	m.driver.VkDestroyDebugUtilsMessengerEXT(m.instance, m.handle, callbacks.Handle())
 }
 

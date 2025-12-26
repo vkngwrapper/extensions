@@ -7,10 +7,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
-	ext_separate_stencil_usage_driver "github.com/vkngwrapper/extensions/v3/ext_separate_stencil_usage/driver"
+	ext_separate_stencil_usage_driver "github.com/vkngwrapper/extensions/v3/ext_separate_stencil_usage/loader"
 	"go.uber.org/mock/gomock"
 )
 
@@ -18,19 +19,20 @@ func TestImageStencilUsageCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockImage := mocks1_0.EasyMockImage(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockImage := mocks.NewDummyImage(device)
 
-	coreDriver.EXPECT().VkCreateImage(
+	coreLoader.EXPECT().VkCreateImage(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkImageCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pImage *driver.VkImage) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkImageCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pImage *loader.VkImage) (common.VkResult, error) {
 
 		*pImage = mockImage.Handle()
 
@@ -47,7 +49,8 @@ func TestImageStencilUsageCreateOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	image, _, err := device.CreateImage(
+	image, _, err := driver.CreateImage(
+		device,
 		nil,
 		core1_0.ImageCreateInfo{
 			NextOptions: common.NextOptions{ImageStencilUsageCreateInfo{

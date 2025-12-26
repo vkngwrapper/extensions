@@ -7,11 +7,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence"
-	khr_external_fence_driver "github.com/vkngwrapper/extensions/v3/khr_external_fence/driver"
+	khr_external_fence_driver "github.com/vkngwrapper/extensions/v3/khr_external_fence/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
 	"go.uber.org/mock/gomock"
 )
@@ -20,16 +21,17 @@ func TestExportFenceOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockFence := mocks1_0.EasyMockFence(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockFence := mocks.NewDummyFence(device)
 
-	coreDriver.EXPECT().VkCreateFence(
+	coreLoader.EXPECT().VkCreateFence(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice, pCreateInfo *driver.VkFenceCreateInfo, pAllocator *driver.VkAllocationCallbacks, pFence *driver.VkFence) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice, pCreateInfo *loader.VkFenceCreateInfo, pAllocator *loader.VkAllocationCallbacks, pFence *loader.VkFence) (common.VkResult, error) {
 		*pFence = mockFence.Handle()
 
 		val := reflect.ValueOf(pCreateInfo).Elem()
@@ -46,7 +48,8 @@ func TestExportFenceOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	fence, _, err := device.CreateFence(
+	fence, _, err := driver.CreateFence(
+		device,
 		nil,
 		core1_0.FenceCreateInfo{
 			Flags: core1_0.FenceCreateSignaled,

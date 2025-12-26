@@ -1,6 +1,8 @@
 package khr_draw_indirect_count
 
-import "github.com/vkngwrapper/core/v3/core1_0"
+import (
+	"github.com/vkngwrapper/core/v3"
+)
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_draw_indirect_count
 
@@ -23,7 +25,7 @@ type Extension interface {
 	// stride - The byte stride between successive sets of draw parameters
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkCmdDrawIndexedIndirectCount.html
-	CmdDrawIndexedIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int)
+	CmdDrawIndexedIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int)
 	// CmdDrawIndirectCount draws primitives with indirect parameters and draw count
 	//
 	// commandBuffer - The CommandBuffer to queue the draw to
@@ -41,5 +43,5 @@ type Extension interface {
 	// stride - The byte stride between successive sets of draw parameters
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkCmdDrawIndirectCount.html
-	CmdDrawIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int)
+	CmdDrawIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int)
 }

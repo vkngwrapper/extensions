@@ -18,7 +18,7 @@ import (
 type PhysicalDeviceIDProperties struct {
 	// DeviceUUID represents a universally-unique identifier for the device
 	DeviceUUID uuid.UUID
-	// DriverUUID represents a universally-unique identifier for the driver build
+	// DriverUUID represents a universally-unique identifier for the loader build
 	// in use by the device
 	DriverUUID uuid.UUID
 	// DeviceLUID represents a locally-unique identifier for the device
@@ -56,7 +56,7 @@ func (o *PhysicalDeviceIDProperties) PopulateOutData(cDataPointer unsafe.Pointer
 	driverUUIDBytes := C.GoBytes(unsafe.Pointer(&info.driverUUID[0]), C.VK_UUID_SIZE)
 	o.DriverUUID, err = uuid.FromBytes(driverUUIDBytes)
 	if err != nil {
-		return nil, errors.Wrap(err, "vulkan provided invalid driver uuid")
+		return nil, errors.Wrap(err, "vulkan provided invalid loader uuid")
 	}
 
 	o.DeviceLUID = *(*uint64)(unsafe.Pointer(&info.deviceLUID[0]))

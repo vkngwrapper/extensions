@@ -12,7 +12,7 @@ package mock_draw_indirect_count
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
+	core "github.com/vkngwrapper/core/v3"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -41,7 +41,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // CmdDrawIndexedIndirectCount mocks base method.
-func (m *MockExtension) CmdDrawIndexedIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+func (m *MockExtension) CmdDrawIndexedIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdDrawIndexedIndirectCount", commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride)
 }
@@ -53,7 +53,7 @@ func (mr *MockExtensionMockRecorder) CmdDrawIndexedIndirectCount(commandBuffer, 
 }
 
 // CmdDrawIndirectCount mocks base method.
-func (m *MockExtension) CmdDrawIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+func (m *MockExtension) CmdDrawIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdDrawIndirectCount", commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride)
 }

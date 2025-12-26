@@ -8,17 +8,18 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
-	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/driver"
+	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/loader"
 	mock_create_renderpass2 "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_separate_depth_stencil_layouts"
-	khr_separate_depth_stencil_layouts_driver "github.com/vkngwrapper/extensions/v3/khr_separate_depth_stencil_layouts/driver"
+	khr_separate_depth_stencil_layouts_driver "github.com/vkngwrapper/extensions/v3/khr_separate_depth_stencil_layouts/loader"
 	"go.uber.org/mock/gomock"
 )
 
@@ -26,27 +27,21 @@ func TestAttachmentDescriptionStencilLayoutOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	mockRenderPass := mocks1_0.EasyMockRenderPass(ctrl)
-
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-	builder.EXPECT().CreateRenderPassObject(coreDriver, device.Handle(), mockRenderPass.Handle(), common.Vulkan1_0).Return(
-		mockRenderPass,
-	)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockRenderPass := mocks.NewDummyRenderPass(device)
 
 	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver, builder)
+	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
+	).DoAndReturn(func(device loader.VkDevice,
 		pCreateInfo *khr_create_renderpass2_driver.VkRenderPassCreateInfo2KHR,
-		pAllocator *driver.VkAllocationCallbacks,
-		pRenderPass *driver.VkRenderPass) (common.VkResult, error) {
+		pAllocator *loader.VkAllocationCallbacks,
+		pRenderPass *loader.VkRenderPass) (common.VkResult, error) {
 
 		*pRenderPass = mockRenderPass.Handle()
 
@@ -118,21 +113,21 @@ func TestPhysicalDeviceSeparateDepthStencilLayoutsFeaturesOptions(t *testing.T) 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
-	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
-	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	coreDriver.EXPECT().VkCreateDevice(
+	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
-		pCreateInfo *driver.VkDeviceCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pDevice *driver.VkDevice) (common.VkResult, error) {
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
+		pCreateInfo *loader.VkDeviceCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pDevice *loader.VkDevice) (common.VkResult, error) {
 		*pDevice = mockDevice.Handle()
 
 		val := reflect.ValueOf(pCreateInfo).Elem()
@@ -148,7 +143,8 @@ func TestPhysicalDeviceSeparateDepthStencilLayoutsFeaturesOptions(t *testing.T) 
 		return core1_0.VKSuccess, nil
 	})
 
-	device, _, err := physicalDevice.CreateDevice(
+	device, _, err := driver.CreateDevice(
+		physicalDevice,
 		nil,
 		core1_0.DeviceCreateInfo{
 			QueueCreateInfos: []core1_0.DeviceQueueCreateInfo{
@@ -170,16 +166,16 @@ func TestPhysicalDeviceSeparateDepthStencilLayoutsFeaturesOutData(t *testing.T) 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR) {
 
 		val := reflect.ValueOf(pFeatures).Elem()
@@ -190,11 +186,11 @@ func TestPhysicalDeviceSeparateDepthStencilLayoutsFeaturesOutData(t *testing.T) 
 
 		require.Equal(t, uint64(1000241000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("separateDepthStencilLayouts").UnsafeAddr())) = driver.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("separateDepthStencilLayouts").UnsafeAddr())) = loader.VkBool32(1)
 	})
 
 	var outData khr_separate_depth_stencil_layouts.PhysicalDeviceSeparateDepthStencilLayoutsFeatures
-	err := extension.PhysicalDeviceFeatures2(
+	err := extension.GetPhysicalDeviceFeatures2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceFeatures2{
 			NextOutData: common.NextOutData{&outData},

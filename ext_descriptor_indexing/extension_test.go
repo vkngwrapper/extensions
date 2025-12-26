@@ -6,17 +6,19 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_loader "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
-	ext_descriptor_indexing_driver "github.com/vkngwrapper/extensions/v3/ext_descriptor_indexing/driver"
+	ext_descriptor_indexing_driver "github.com/vkngwrapper/extensions/v3/ext_descriptor_indexing/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance3"
-	khr_maintenance3_driver "github.com/vkngwrapper/extensions/v3/khr_maintenance3/driver"
+	khr_maintenance3_driver "github.com/vkngwrapper/extensions/v3/khr_maintenance3/loader"
 	mock_maintenance3 "github.com/vkngwrapper/extensions/v3/khr_maintenance3/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -25,16 +27,17 @@ func TestDescriptorSetLayoutBindingFlagsCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockDescriptorSetLayout := mocks1_0.EasyMockDescriptorSetLayout(ctrl)
+	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockDescriptorSetLayout := mocks.NewDummyDescriptorSetLayout(device)
 
-	coreDriver.EXPECT().VkCreateDescriptorSetLayout(
+	coreLoader.EXPECT().VkCreateDescriptorSetLayout(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice, pCreateInfo *driver.VkDescriptorSetLayoutCreateInfo, pAllocator *driver.VkAllocationCallbacks, pSetLayout *driver.VkDescriptorSetLayout) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice, pCreateInfo *loader.VkDescriptorSetLayoutCreateInfo, pAllocator *loader.VkAllocationCallbacks, pSetLayout *loader.VkDescriptorSetLayout) (common.VkResult, error) {
 		*pSetLayout = mockDescriptorSetLayout.Handle()
 		val := reflect.ValueOf(pCreateInfo).Elem()
 
@@ -54,7 +57,8 @@ func TestDescriptorSetLayoutBindingFlagsCreateOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	descriptorSetLayout, _, err := device.CreateDescriptorSetLayout(
+	descriptorSetLayout, _, err := driver.CreateDescriptorSetLayout(
+		device,
 		nil,
 		core1_0.DescriptorSetLayoutCreateInfo{
 			NextOptions: common.NextOptions{
@@ -74,26 +78,27 @@ func TestDescriptorSetVariableDescriptorCountAllocateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	descriptorPool := mocks1_0.EasyMockDescriptorPool(ctrl, device)
-	descriptorLayout1 := mocks1_0.EasyMockDescriptorSetLayout(ctrl)
-	descriptorLayout2 := mocks1_0.EasyMockDescriptorSetLayout(ctrl)
-	descriptorLayout3 := mocks1_0.EasyMockDescriptorSetLayout(ctrl)
-	descriptorLayout4 := mocks1_0.EasyMockDescriptorSetLayout(ctrl)
+	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	descriptorPool := mocks.NewDummyDescriptorPool(device)
+	descriptorLayout1 := mocks.NewDummyDescriptorSetLayout(device)
+	descriptorLayout2 := mocks.NewDummyDescriptorSetLayout(device)
+	descriptorLayout3 := mocks.NewDummyDescriptorSetLayout(device)
+	descriptorLayout4 := mocks.NewDummyDescriptorSetLayout(device)
 
-	mockDescriptorSet1 := mocks1_0.EasyMockDescriptorSet(ctrl)
-	mockDescriptorSet2 := mocks1_0.EasyMockDescriptorSet(ctrl)
-	mockDescriptorSet3 := mocks1_0.EasyMockDescriptorSet(ctrl)
-	mockDescriptorSet4 := mocks1_0.EasyMockDescriptorSet(ctrl)
+	mockDescriptorSet1 := mocks.NewDummyDescriptorSet(descriptorPool, device)
+	mockDescriptorSet2 := mocks.NewDummyDescriptorSet(descriptorPool, device)
+	mockDescriptorSet3 := mocks.NewDummyDescriptorSet(descriptorPool, device)
+	mockDescriptorSet4 := mocks.NewDummyDescriptorSet(descriptorPool, device)
 
-	coreDriver.EXPECT().VkAllocateDescriptorSets(
+	coreLoader.EXPECT().VkAllocateDescriptorSets(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pAllocateInfo *driver.VkDescriptorSetAllocateInfo,
-		pDescriptorSets *driver.VkDescriptorSet) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pAllocateInfo *loader.VkDescriptorSetAllocateInfo,
+		pDescriptorSets *loader.VkDescriptorSet) (common.VkResult, error) {
 
 		sets := unsafe.Slice(pDescriptorSets, 4)
 		sets[0] = mockDescriptorSet1.Handle()
@@ -111,17 +116,17 @@ func TestDescriptorSetVariableDescriptorCountAllocateOptions(t *testing.T) {
 		require.True(t, val.FieldByName("pNext").IsNil())
 		require.Equal(t, uint64(4), val.FieldByName("descriptorSetCount").Uint())
 
-		countsPtr := (*driver.Uint32)(val.FieldByName("pDescriptorCounts").UnsafePointer())
+		countsPtr := (*loader.Uint32)(val.FieldByName("pDescriptorCounts").UnsafePointer())
 		countSlice := unsafe.Slice(countsPtr, 4)
 
-		require.Equal(t, []driver.Uint32{1, 3, 5, 7}, countSlice)
+		require.Equal(t, []loader.Uint32{1, 3, 5, 7}, countSlice)
 
 		return core1_0.VKSuccess, nil
 	})
 
-	sets, _, err := device.AllocateDescriptorSets(core1_0.DescriptorSetAllocateInfo{
+	sets, _, err := driver.AllocateDescriptorSets(core1_0.DescriptorSetAllocateInfo{
 		DescriptorPool: descriptorPool,
-		SetLayouts: []core1_0.DescriptorSetLayout{
+		SetLayouts: []core.DescriptorSetLayout{
 			descriptorLayout1,
 			descriptorLayout2,
 			descriptorLayout3,
@@ -135,12 +140,12 @@ func TestDescriptorSetVariableDescriptorCountAllocateOptions(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.Len(t, sets, 4)
-	require.Equal(t, []driver.VkDescriptorSet{
+	require.Equal(t, []loader.VkDescriptorSet{
 		mockDescriptorSet1.Handle(),
 		mockDescriptorSet2.Handle(),
 		mockDescriptorSet3.Handle(),
 		mockDescriptorSet4.Handle(),
-	}, []driver.VkDescriptorSet{
+	}, []loader.VkDescriptorSet{
 		sets[0].Handle(),
 		sets[1].Handle(),
 		sets[2].Handle(),
@@ -155,15 +160,14 @@ func TestDescriptorSetVariableDescriptorCountLayoutSupportOutData(t *testing.T) 
 	extDriver := mock_maintenance3.NewMockDriver(ctrl)
 	extension := khr_maintenance3.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
 	extDriver.EXPECT().VkGetDescriptorSetLayoutSupportKHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkDescriptorSetLayoutCreateInfo,
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkDescriptorSetLayoutCreateInfo,
 		pSupport *khr_maintenance3_driver.VkDescriptorSetLayoutSupportKHR) {
 		val := reflect.ValueOf(pSupport).Elem()
 
@@ -173,7 +177,7 @@ func TestDescriptorSetVariableDescriptorCountLayoutSupportOutData(t *testing.T) 
 
 		require.Equal(t, uint64(1000161004), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT_EXT
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxVariableDescriptorCount").UnsafeAddr())) = driver.Uint32(7)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxVariableDescriptorCount").UnsafeAddr())) = loader.Uint32(7)
 	})
 
 	var outData DescriptorSetVariableDescriptorCountLayoutSupport
@@ -193,23 +197,23 @@ func TestPhysicalDeviceDescriptorIndexingFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
+	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 
-	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
-	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	coreDriver.EXPECT().VkCreateDevice(
+	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(physicalDevice driver.VkPhysicalDevice,
-			pCreateInfo *driver.VkDeviceCreateInfo,
-			pAllocator *driver.VkAllocationCallbacks,
-			pDevice *driver.VkDevice) (common.VkResult, error) {
+		func(physicalDevice loader.VkPhysicalDevice,
+			pCreateInfo *loader.VkDeviceCreateInfo,
+			pAllocator *loader.VkAllocationCallbacks,
+			pDevice *loader.VkDevice) (common.VkResult, error) {
 
 			*pDevice = mockDevice.Handle()
 
@@ -245,7 +249,8 @@ func TestPhysicalDeviceDescriptorIndexingFeaturesOptions(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	device, _, err := physicalDevice.CreateDevice(
+	device, _, err := driver.CreateDevice(
+		physicalDevice,
 		nil,
 		core1_0.DeviceCreateInfo{
 			QueueCreateInfos: []core1_0.DeviceQueueCreateInfo{
@@ -287,13 +292,13 @@ func TestPhysicalDeviceDescriptorIndexingFeaturesOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR) {
 
 		val := reflect.ValueOf(pFeatures).Elem()
@@ -303,26 +308,26 @@ func TestPhysicalDeviceDescriptorIndexingFeaturesOutData(t *testing.T) {
 		val = reflect.ValueOf(next).Elem()
 		require.Equal(t, uint64(1000161001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES_EXT
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderInputAttachmentArrayDynamicIndexing").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformTexelBufferArrayDynamicIndexing").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageTexelBufferArrayDynamicIndexing").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformBufferArrayNonUniformIndexing").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderSampledImageArrayNonUniformIndexing").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageBufferArrayNonUniformIndexing").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageImageArrayNonUniformIndexing").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderInputAttachmentArrayNonUniformIndexing").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformTexelBufferArrayNonUniformIndexing").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageTexelBufferArrayNonUniformIndexing").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingUniformBufferUpdateAfterBind").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingSampledImageUpdateAfterBind").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingStorageImageUpdateAfterBind").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingStorageBufferUpdateAfterBind").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingUniformTexelBufferUpdateAfterBind").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingStorageTexelBufferUpdateAfterBind").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingUpdateUnusedWhilePending").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingPartiallyBound").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingVariableDescriptorCount").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("runtimeDescriptorArray").UnsafeAddr())) = driver.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderInputAttachmentArrayDynamicIndexing").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformTexelBufferArrayDynamicIndexing").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageTexelBufferArrayDynamicIndexing").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformBufferArrayNonUniformIndexing").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderSampledImageArrayNonUniformIndexing").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageBufferArrayNonUniformIndexing").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageImageArrayNonUniformIndexing").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderInputAttachmentArrayNonUniformIndexing").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformTexelBufferArrayNonUniformIndexing").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageTexelBufferArrayNonUniformIndexing").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingUniformBufferUpdateAfterBind").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingSampledImageUpdateAfterBind").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingStorageImageUpdateAfterBind").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingStorageBufferUpdateAfterBind").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingUniformTexelBufferUpdateAfterBind").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingStorageTexelBufferUpdateAfterBind").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingUpdateUnusedWhilePending").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingPartiallyBound").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("descriptorBindingVariableDescriptorCount").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("runtimeDescriptorArray").UnsafeAddr())) = loader.VkBool32(0)
 	})
 
 	var outData PhysicalDeviceDescriptorIndexingFeatures
@@ -363,13 +368,13 @@ func TestPhysicalDeviceDescriptorIndexingOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
 
 		val := reflect.ValueOf(pProperties).Elem()
@@ -379,31 +384,31 @@ func TestPhysicalDeviceDescriptorIndexingOutData(t *testing.T) {
 		val = reflect.ValueOf(next).Elem()
 		require.Equal(t, uint64(1000161002), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_PROPERTIES_EXT
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxUpdateAfterBindDescriptorsInAllPools").UnsafeAddr())) = driver.Uint32(1)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxUpdateAfterBindDescriptorsInAllPools").UnsafeAddr())) = loader.Uint32(1)
 
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformBufferArrayNonUniformIndexingNative").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderSampledImageArrayNonUniformIndexingNative").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageBufferArrayNonUniformIndexingNative").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageImageArrayNonUniformIndexingNative").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("shaderInputAttachmentArrayNonUniformIndexingNative").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("robustBufferAccessUpdateAfterBind").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("quadDivergentImplicitLod").UnsafeAddr())) = driver.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderUniformBufferArrayNonUniformIndexingNative").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderSampledImageArrayNonUniformIndexingNative").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageBufferArrayNonUniformIndexingNative").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderStorageImageArrayNonUniformIndexingNative").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("shaderInputAttachmentArrayNonUniformIndexingNative").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("robustBufferAccessUpdateAfterBind").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("quadDivergentImplicitLod").UnsafeAddr())) = loader.VkBool32(1)
 
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindSamplers").UnsafeAddr())) = driver.Uint32(3)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindUniformBuffers").UnsafeAddr())) = driver.Uint32(5)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindStorageBuffers").UnsafeAddr())) = driver.Uint32(7)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindSampledImages").UnsafeAddr())) = driver.Uint32(11)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindStorageImages").UnsafeAddr())) = driver.Uint32(13)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindInputAttachments").UnsafeAddr())) = driver.Uint32(17)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageUpdateAfterBindResources").UnsafeAddr())) = driver.Uint32(19)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindSamplers").UnsafeAddr())) = driver.Uint32(23)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindUniformBuffers").UnsafeAddr())) = driver.Uint32(29)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindUniformBuffersDynamic").UnsafeAddr())) = driver.Uint32(31)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindStorageBuffers").UnsafeAddr())) = driver.Uint32(37)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindStorageBuffersDynamic").UnsafeAddr())) = driver.Uint32(41)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindSampledImages").UnsafeAddr())) = driver.Uint32(43)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindStorageImages").UnsafeAddr())) = driver.Uint32(47)
-		*(*driver.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindInputAttachments").UnsafeAddr())) = driver.Uint32(51)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindSamplers").UnsafeAddr())) = loader.Uint32(3)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindUniformBuffers").UnsafeAddr())) = loader.Uint32(5)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindStorageBuffers").UnsafeAddr())) = loader.Uint32(7)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindSampledImages").UnsafeAddr())) = loader.Uint32(11)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindStorageImages").UnsafeAddr())) = loader.Uint32(13)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageDescriptorUpdateAfterBindInputAttachments").UnsafeAddr())) = loader.Uint32(17)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxPerStageUpdateAfterBindResources").UnsafeAddr())) = loader.Uint32(19)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindSamplers").UnsafeAddr())) = loader.Uint32(23)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindUniformBuffers").UnsafeAddr())) = loader.Uint32(29)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindUniformBuffersDynamic").UnsafeAddr())) = loader.Uint32(31)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindStorageBuffers").UnsafeAddr())) = loader.Uint32(37)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindStorageBuffersDynamic").UnsafeAddr())) = loader.Uint32(41)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindSampledImages").UnsafeAddr())) = loader.Uint32(43)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindStorageImages").UnsafeAddr())) = loader.Uint32(47)
+		*(*loader.Uint32)(unsafe.Pointer(val.FieldByName("maxDescriptorSetUpdateAfterBindInputAttachments").UnsafeAddr())) = loader.Uint32(51)
 	})
 
 	var outData PhysicalDeviceDescriptorIndexingProperties

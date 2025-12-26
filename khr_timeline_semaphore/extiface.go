@@ -3,8 +3,8 @@ package khr_timeline_semaphore
 import (
 	"time"
 
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
-	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_timeline_semaphore
@@ -18,7 +18,7 @@ type Extension interface {
 	// semaphore - The Semaphore to query
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkGetSemaphoreCounterValue.html
-	SemaphoreCounterValue(semaphore core1_0.Semaphore) (uint64, common.VkResult, error)
+	SemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error)
 	// SignalSemaphore signals a timeline Semaphore on the host
 	//
 	// device - The Device which owns the Semaphore being signaled
@@ -26,7 +26,7 @@ type Extension interface {
 	// o - Contains information about the signal operation
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkSignalSemaphore.html
-	SignalSemaphore(device core1_0.Device, o SemaphoreSignalInfo) (common.VkResult, error)
+	SignalSemaphore(device core.Device, o SemaphoreSignalInfo) (common.VkResult, error)
 	// WaitSemaphores waits for timeline Semaphore objects on the host
 	//
 	// device - The Device which owns the Semaphore objects being waited on
@@ -38,5 +38,5 @@ type Extension interface {
 	// o - Contains information about the wait condition
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkWaitSemaphores.html
-	WaitSemaphores(device core1_0.Device, timeout time.Duration, o SemaphoreWaitInfo) (common.VkResult, error)
+	WaitSemaphores(device core.Device, timeout time.Duration, o SemaphoreWaitInfo) (common.VkResult, error)
 }

@@ -14,9 +14,9 @@ import (
 
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
-	driver "github.com/vkngwrapper/core/v3/driver"
+	driver "github.com/vkngwrapper/core/v3/loader"
 	khr_sampler_ycbcr_conversion "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion"
-	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/driver"
+	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/loader"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -85,17 +85,17 @@ func (mr *MockSamplerYcbcrConversionMockRecorder) DeviceHandle() *gomock.Call {
 }
 
 // Driver mocks base method.
-func (m *MockSamplerYcbcrConversion) Driver() driver.Driver {
+func (m *MockSamplerYcbcrConversion) Driver() driver.Loader {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Driver")
-	ret0, _ := ret[0].(driver.Driver)
+	ret := m.ctrl.Call(m, "Loader")
+	ret0, _ := ret[0].(driver.Loader)
 	return ret0
 }
 
 // Driver indicates an expected call of Driver.
 func (mr *MockSamplerYcbcrConversionMockRecorder) Driver() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Driver", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).Driver))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Loader", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).Driver))
 }
 
 // Handle mocks base method.

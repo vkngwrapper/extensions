@@ -12,7 +12,7 @@ package mock_external_memory_capabilities
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
+	core "github.com/vkngwrapper/core/v3"
 	khr_external_memory_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -42,7 +42,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // PhysicalDeviceExternalBufferProperties mocks base method.
-func (m *MockExtension) PhysicalDeviceExternalBufferProperties(physicalDevice core1_0.PhysicalDevice, o khr_external_memory_capabilities.PhysicalDeviceExternalBufferInfo, outData *khr_external_memory_capabilities.ExternalBufferProperties) error {
+func (m *MockExtension) PhysicalDeviceExternalBufferProperties(physicalDevice core.PhysicalDevice, o khr_external_memory_capabilities.PhysicalDeviceExternalBufferInfo, outData *khr_external_memory_capabilities.ExternalBufferProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PhysicalDeviceExternalBufferProperties", physicalDevice, o, outData)
 	ret0, _ := ret[0].(error)

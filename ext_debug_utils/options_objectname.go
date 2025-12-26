@@ -11,7 +11,7 @@ import (
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
+	"github.com/vkngwrapper/core/v3/loader"
 )
 
 // DebugUtilsObjectNameInfo specifies parameters of a name to give to an object
@@ -21,7 +21,7 @@ type DebugUtilsObjectNameInfo struct {
 	// ObjectName is a string specifying the name to apply to ObjectHandle
 	ObjectName string
 	// ObjectHandle is the handle of the object to be named
-	ObjectHandle driver.VulkanHandle
+	ObjectHandle loader.VulkanHandle
 	// ObjectType specifies the type of the object to be named
 	ObjectType core1_0.ObjectType
 
@@ -46,7 +46,7 @@ func (i DebugUtilsObjectNameInfo) PopulateCPointer(allocator *cgoparam.Allocator
 func (i *DebugUtilsObjectNameInfo) PopulateFromCPointer(cDataPointer unsafe.Pointer) {
 	objectNameInfo := (*C.VkDebugUtilsObjectNameInfoEXT)(cDataPointer)
 	i.ObjectType = core1_0.ObjectType(objectNameInfo.objectType)
-	i.ObjectHandle = driver.VulkanHandle(objectNameInfo.objectHandle)
+	i.ObjectHandle = loader.VulkanHandle(objectNameInfo.objectHandle)
 	i.ObjectName = ""
 
 	if objectNameInfo.pObjectName != nil {

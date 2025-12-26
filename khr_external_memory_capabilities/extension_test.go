@@ -9,14 +9,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities"
-	khr_external_memory_capabilities_driver "github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities/driver"
+	khr_external_memory_capabilities_driver "github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities/loader"
 	mock_external_memory_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -25,17 +24,17 @@ func TestVulkanExtension_ExternalBufferProperties(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_external_memory_capabilities.NewMockDriver(ctrl)
+	extDriver := mock_external_memory_capabilities.NewMockLoader(ctrl)
 	extension := khr_external_memory_capabilities.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceExternalBufferPropertiesKHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice, pExternalBufferInfo *khr_external_memory_capabilities_driver.VkPhysicalDeviceExternalBufferInfoKHR, pExternalBufferProperties *khr_external_memory_capabilities_driver.VkExternalBufferPropertiesKHR) {
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice, pExternalBufferInfo *khr_external_memory_capabilities_driver.VkPhysicalDeviceExternalBufferInfoKHR, pExternalBufferProperties *khr_external_memory_capabilities_driver.VkExternalBufferPropertiesKHR) {
 		val := reflect.ValueOf(pExternalBufferInfo).Elem()
 
 		require.Equal(t, uint64(1000071002), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_BUFFER_INFO_KHR
@@ -76,18 +75,18 @@ func TestExternalImageFormatOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceImageFormatProperties2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(func(
-		physicalDevice driver.VkPhysicalDevice,
+		physicalDevice loader.VkPhysicalDevice,
 		pImageFormatInfo *khr_get_physical_device_properties2_driver.VkPhysicalDeviceImageFormatInfo2KHR,
 		pImageFormatProperties *khr_get_physical_device_properties2_driver.VkImageFormatProperties2KHR,
 	) (common.VkResult, error) {
@@ -123,7 +122,7 @@ func TestExternalImageFormatOptions(t *testing.T) {
 	format := khr_get_physical_device_properties2.ImageFormatProperties2{
 		NextOutData: common.NextOutData{&outData},
 	}
-	_, err := extension.PhysicalDeviceImageFormatProperties2(
+	_, err := extension.GetPhysicalDeviceImageFormatProperties2(
 		physicalDevice,
 		khr_get_physical_device_properties2.PhysicalDeviceImageFormatInfo2{
 			Format: core1_0.FormatA2B10G10R10UnsignedIntPacked,
@@ -149,11 +148,11 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	deviceUUID, err := uuid2.NewRandom()
 	require.NoError(t, err)
@@ -166,7 +165,7 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
 		func(
-			physicalDevice driver.VkPhysicalDevice,
+			physicalDevice loader.VkPhysicalDevice,
 			pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR,
 		) {
 			val := reflect.ValueOf(pProperties).Elem()
@@ -192,14 +191,14 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 			*(*byte)(unsafe.Pointer(val.FieldByName("deviceLUID").Index(7).UnsafeAddr())) = byte(0xde)
 
 			*(*uint32)(unsafe.Pointer(val.FieldByName("deviceNodeMask").UnsafeAddr())) = uint32(7)
-			*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("deviceLUIDValid").UnsafeAddr())) = driver.VkBool32(1)
+			*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("deviceLUIDValid").UnsafeAddr())) = loader.VkBool32(1)
 		})
 
 	var properties khr_get_physical_device_properties2.PhysicalDeviceProperties2
 	var outData khr_external_memory_capabilities.PhysicalDeviceIDProperties
 	properties.NextOutData = common.NextOutData{&outData}
 
-	err = extension.PhysicalDeviceProperties2(
+	err = extension.GetPhysicalDeviceProperties2(
 		physicalDevice,
 		&properties,
 	)

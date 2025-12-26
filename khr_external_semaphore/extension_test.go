@@ -7,11 +7,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore"
-	khr_external_semaphore_driver "github.com/vkngwrapper/extensions/v3/khr_external_semaphore/driver"
+	khr_external_semaphore_driver "github.com/vkngwrapper/extensions/v3/khr_external_semaphore/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
 	"go.uber.org/mock/gomock"
 )
@@ -20,19 +21,20 @@ func TestExportSemaphoreOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockSemaphore := mocks1_0.EasyMockSemaphore(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockSemaphore := mocks.NewDummySemaphore(device)
 
-	coreDriver.EXPECT().VkCreateSemaphore(
+	coreLoader.EXPECT().VkCreateSemaphore(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkSemaphoreCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pSemaphore *driver.VkSemaphore,
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkSemaphoreCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pSemaphore *loader.VkSemaphore,
 	) (common.VkResult, error) {
 		*pSemaphore = mockSemaphore.Handle()
 
@@ -49,7 +51,7 @@ func TestExportSemaphoreOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	semaphore, _, err := device.CreateSemaphore(nil, core1_0.SemaphoreCreateInfo{
+	semaphore, _, err := driver.CreateSemaphore(device, nil, core1_0.SemaphoreCreateInfo{
 		NextOptions: common.NextOptions{
 			khr_external_semaphore.ExportSemaphoreCreateInfo{
 				HandleTypes: khr_external_semaphore_capabilities.ExternalSemaphoreHandleTypeOpaqueWin32KMT,

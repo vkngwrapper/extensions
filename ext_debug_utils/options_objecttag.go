@@ -11,7 +11,7 @@ import (
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
+	"github.com/vkngwrapper/core/v3/loader"
 )
 
 // DebugUtilsObjectTagInfo specifies parameters of a tag to attach to an object
@@ -21,7 +21,7 @@ type DebugUtilsObjectTagInfo struct {
 	// ObjectType specifies the type of the object to be named
 	ObjectType core1_0.ObjectType
 	// ObjectHandle is the object to be tagged
-	ObjectHandle driver.VulkanHandle
+	ObjectHandle loader.VulkanHandle
 
 	// TagName is a numerical identifier of the tag
 	TagName uint64
@@ -52,7 +52,7 @@ func (t *DebugUtilsObjectTagInfo) PopulateFromCPointer(cPointer unsafe.Pointer) 
 	tagInfo := (*C.VkDebugUtilsObjectTagInfoEXT)(cPointer)
 
 	t.ObjectType = core1_0.ObjectType(tagInfo.objectType)
-	t.ObjectHandle = driver.VulkanHandle(tagInfo.objectHandle)
+	t.ObjectHandle = loader.VulkanHandle(tagInfo.objectHandle)
 	t.TagName = uint64(tagInfo.tagName)
 	t.Tag = C.GoBytes(tagInfo.pTag, C.int(tagInfo.tagSize))
 }

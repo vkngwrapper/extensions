@@ -7,16 +7,18 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore"
-	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore/driver"
+	khr_timeline_semaphore_driver "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore/loader"
 	mock_timeline_semaphore "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -25,23 +27,21 @@ func TestVulkanExtension_SemaphoreCounterValue(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_timeline_semaphore.NewMockDriver(ctrl)
+	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
 	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	semaphore := mocks1_0.EasyMockSemaphore(ctrl)
-	semaphore.EXPECT().DeviceHandle().Return(device.Handle()).AnyTimes()
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	semaphore := mocks.NewDummySemaphore(device)
 
 	extDriver.EXPECT().VkGetSemaphoreCounterValueKHR(
 		device.Handle(),
 		semaphore.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		semaphore driver.VkSemaphore,
-		pValue *driver.Uint64) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		semaphore loader.VkSemaphore,
+		pValue *loader.Uint64) (common.VkResult, error) {
 
-		*pValue = driver.Uint64(37)
+		*pValue = loader.Uint64(37)
 		return core1_0.VKSuccess, nil
 	})
 
@@ -56,23 +56,22 @@ func TestVulkanExtension_SignalSemaphore(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_timeline_semaphore.NewMockDriver(ctrl)
+	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
 	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	semaphore := mocks1_0.EasyMockSemaphore(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	semaphore := mocks.NewDummySemaphore(device)
 
 	extDriver.EXPECT().VkSignalSemaphoreKHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
+	).DoAndReturn(func(device loader.VkDevice,
 		pSignalInfo *khr_timeline_semaphore_driver.VkSemaphoreSignalInfoKHR) (common.VkResult, error) {
 
 		val := reflect.ValueOf(pSignalInfo).Elem()
 		require.Equal(t, uint64(1000207005), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		require.Equal(t, semaphore.Handle(), driver.VkSemaphore(val.FieldByName("semaphore").UnsafePointer()))
+		require.Equal(t, semaphore.Handle(), loader.VkSemaphore(val.FieldByName("semaphore").UnsafePointer()))
 		require.Equal(t, uint64(13), val.FieldByName("value").Uint())
 
 		return core1_0.VKSuccess, nil
@@ -91,22 +90,21 @@ func TestVulkanExtension_WaitSemaphores(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_timeline_semaphore.NewMockDriver(ctrl)
+	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
 	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	semaphore1 := mocks1_0.EasyMockSemaphore(ctrl)
-	semaphore2 := mocks1_0.EasyMockSemaphore(ctrl)
+	semaphore1 := mocks.NewDummySemaphore(device)
+	semaphore2 := mocks.NewDummySemaphore(device)
 
 	extDriver.EXPECT().VkWaitSemaphoresKHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
-		driver.Uint64(60000000000),
-	).DoAndReturn(func(device driver.VkDevice,
+		loader.Uint64(60000000000),
+	).DoAndReturn(func(device loader.VkDevice,
 		pWaitInfo *khr_timeline_semaphore_driver.VkSemaphoreWaitInfoKHR,
-		timeout driver.Uint64) (common.VkResult, error) {
+		timeout loader.Uint64) (common.VkResult, error) {
 
 		val := reflect.ValueOf(pWaitInfo).Elem()
 		require.Equal(t, uint64(1000207004), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_SEMAPHORE_WAIT_INFO_KHR
@@ -114,13 +112,13 @@ func TestVulkanExtension_WaitSemaphores(t *testing.T) {
 		require.Equal(t, uint64(1), val.FieldByName("flags").Uint()) // VK_SEMAPHORE_WAIT_ANY_BIT_KHR
 		require.Equal(t, uint64(2), val.FieldByName("semaphoreCount").Uint())
 
-		semaphorePtr := (*driver.VkSemaphore)(val.FieldByName("pSemaphores").UnsafePointer())
+		semaphorePtr := (*loader.VkSemaphore)(val.FieldByName("pSemaphores").UnsafePointer())
 		semaphoreSlice := unsafe.Slice(semaphorePtr, 2)
-		require.Equal(t, []driver.VkSemaphore{semaphore1.Handle(), semaphore2.Handle()}, semaphoreSlice)
+		require.Equal(t, []loader.VkSemaphore{semaphore1.Handle(), semaphore2.Handle()}, semaphoreSlice)
 
-		valuesPtr := (*driver.Uint64)(val.FieldByName("pValues").UnsafePointer())
+		valuesPtr := (*loader.Uint64)(val.FieldByName("pValues").UnsafePointer())
 		valuesSlice := unsafe.Slice(valuesPtr, 2)
-		require.Equal(t, []driver.Uint64{13, 19}, valuesSlice)
+		require.Equal(t, []loader.Uint64{13, 19}, valuesSlice)
 
 		return core1_0.VKSuccess, nil
 	})
@@ -130,7 +128,7 @@ func TestVulkanExtension_WaitSemaphores(t *testing.T) {
 		time.Minute,
 		khr_timeline_semaphore.SemaphoreWaitInfo{
 			Flags: khr_timeline_semaphore.SemaphoreWaitAny,
-			Semaphores: []core1_0.Semaphore{
+			Semaphores: []core.Semaphore{
 				semaphore1,
 				semaphore2,
 			},
@@ -146,21 +144,21 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
-	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
-	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	coreDriver.EXPECT().VkCreateDevice(
+	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
-		pCreateInfo *driver.VkDeviceCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pDevice *driver.VkDevice) (common.VkResult, error) {
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
+		pCreateInfo *loader.VkDeviceCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pDevice *loader.VkDevice) (common.VkResult, error) {
 		*pDevice = mockDevice.Handle()
 
 		val := reflect.ValueOf(pCreateInfo).Elem()
@@ -176,7 +174,8 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	device, _, err := physicalDevice.CreateDevice(
+	device, _, err := driver.CreateDevice(
+		physicalDevice,
 		nil,
 		core1_0.DeviceCreateInfo{
 			QueueCreateInfos: []core1_0.DeviceQueueCreateInfo{
@@ -198,16 +197,16 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR) {
 
 		val := reflect.ValueOf(pFeatures).Elem()
@@ -218,11 +217,11 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOutData(t *testing.T) {
 
 		require.Equal(t, uint64(1000207000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("timelineSemaphore").UnsafeAddr())) = driver.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("timelineSemaphore").UnsafeAddr())) = loader.VkBool32(1)
 	})
 
 	var outData khr_timeline_semaphore.PhysicalDeviceTimelineSemaphoreFeatures
-	err := extension.PhysicalDeviceFeatures2(
+	err := extension.GetPhysicalDeviceFeatures2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceFeatures2{
 			NextOutData: common.NextOutData{&outData},
@@ -238,19 +237,20 @@ func TestSemaphoreTypeCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockSemaphore := mocks1_0.EasyMockSemaphore(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockSemaphore := mocks.NewDummySemaphore(device)
 
-	coreDriver.EXPECT().VkCreateSemaphore(
+	coreLoader.EXPECT().VkCreateSemaphore(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkSemaphoreCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pSemaphore *driver.VkSemaphore) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkSemaphoreCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pSemaphore *loader.VkSemaphore) (common.VkResult, error) {
 
 		*pSemaphore = mockSemaphore.Handle()
 
@@ -268,7 +268,8 @@ func TestSemaphoreTypeCreateOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	semaphore, _, err := device.CreateSemaphore(
+	semaphore, _, err := driver.CreateSemaphore(
+		device,
 		nil,
 		core1_0.SemaphoreCreateInfo{
 			NextOptions: common.NextOptions{khr_timeline_semaphore.SemaphoreTypeCreateInfo{
@@ -284,20 +285,21 @@ func TestTimelineSemaphoreSubmitOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	queue := mocks1_0.NewDummyQueue(coreDriver, device)
-	fence := mocks1_0.EasyMockFence(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	queue := mocks.NewDummyQueue(device)
+	fence := mocks.NewDummyFence(device)
 
-	coreDriver.EXPECT().VkQueueSubmit(
+	coreLoader.EXPECT().VkQueueSubmit(
 		queue.Handle(),
-		driver.Uint32(1),
+		loader.Uint32(1),
 		gomock.Not(gomock.Nil()),
 		fence.Handle(),
-	).DoAndReturn(func(queue driver.VkQueue,
-		submitCount driver.Uint32,
-		pSubmits *driver.VkSubmitInfo,
-		fence driver.VkFence) (common.VkResult, error) {
+	).DoAndReturn(func(queue loader.VkQueue,
+		submitCount loader.Uint32,
+		pSubmits *loader.VkSubmitInfo,
+		fence loader.VkFence) (common.VkResult, error) {
 
 		val := reflect.ValueOf(pSubmits).Elem()
 		require.Equal(t, uint64(4), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_SUBMIT_INFO
@@ -309,29 +311,29 @@ func TestTimelineSemaphoreSubmitOptions(t *testing.T) {
 		require.Equal(t, uint64(2), val.FieldByName("waitSemaphoreValueCount").Uint())
 		require.Equal(t, uint64(3), val.FieldByName("signalSemaphoreValueCount").Uint())
 
-		waitPtr := (*driver.Uint64)(val.FieldByName("pWaitSemaphoreValues").UnsafePointer())
+		waitPtr := (*loader.Uint64)(val.FieldByName("pWaitSemaphoreValues").UnsafePointer())
 		waitSlice := unsafe.Slice(waitPtr, 2)
-		require.Equal(t, []driver.Uint64{3, 5}, waitSlice)
+		require.Equal(t, []loader.Uint64{3, 5}, waitSlice)
 
-		signalPtr := (*driver.Uint64)(val.FieldByName("pSignalSemaphoreValues").UnsafePointer())
+		signalPtr := (*loader.Uint64)(val.FieldByName("pSignalSemaphoreValues").UnsafePointer())
 		signalSlice := unsafe.Slice(signalPtr, 3)
-		require.Equal(t, []driver.Uint64{7, 11, 13}, signalSlice)
+		require.Equal(t, []loader.Uint64{7, 11, 13}, signalSlice)
 
 		return core1_0.VKSuccess, nil
 	})
 
-	_, err := queue.Submit(
-		fence,
-		[]core1_0.SubmitInfo{
-			{
-				NextOptions: common.NextOptions{
-					khr_timeline_semaphore.TimelineSemaphoreSubmitInfo{
-						WaitSemaphoreValues:   []uint64{3, 5},
-						SignalSemaphoreValues: []uint64{7, 11, 13},
-					},
+	_, err := driver.QueueSubmit(
+		queue,
+		&fence,
+		core1_0.SubmitInfo{
+			NextOptions: common.NextOptions{
+				khr_timeline_semaphore.TimelineSemaphoreSubmitInfo{
+					WaitSemaphoreValues:   []uint64{3, 5},
+					SignalSemaphoreValues: []uint64{7, 11, 13},
 				},
 			},
-		})
+		},
+	)
 	require.NoError(t, err)
 }
 
@@ -339,16 +341,16 @@ func TestPhysicalDeviceTimelineSemaphoreOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice, pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice, pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
 		val := reflect.ValueOf(pProperties).Elem()
 		require.Equal(t, uint64(1000059001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2_KHR
 
@@ -357,11 +359,11 @@ func TestPhysicalDeviceTimelineSemaphoreOutData(t *testing.T) {
 
 		require.Equal(t, uint64(1000207001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.Uint64)(unsafe.Pointer(val.FieldByName("maxTimelineSemaphoreValueDifference").UnsafeAddr())) = driver.Uint64(3)
+		*(*loader.Uint64)(unsafe.Pointer(val.FieldByName("maxTimelineSemaphoreValueDifference").UnsafeAddr())) = loader.Uint64(3)
 	})
 
 	var outData khr_timeline_semaphore.PhysicalDeviceTimelineSemaphoreProperties
-	err := extension.PhysicalDeviceProperties2(
+	err := extension.GetPhysicalDeviceProperties2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceProperties2{
 			NextOutData: common.NextOutData{&outData},

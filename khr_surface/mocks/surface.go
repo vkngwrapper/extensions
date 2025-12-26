@@ -14,9 +14,9 @@ import (
 
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
-	driver "github.com/vkngwrapper/core/v3/driver"
+	driver "github.com/vkngwrapper/core/v3/loader"
 	khr_surface "github.com/vkngwrapper/extensions/v3/khr_surface"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -47,13 +47,13 @@ func (m *MockSurface) EXPECT() *MockSurfaceMockRecorder {
 // Destroy mocks base method.
 func (m *MockSurface) Destroy(callbacks *driver.AllocationCallbacks) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Destroy", callbacks)
+	m.ctrl.Call(m, "DestroySurface", callbacks)
 }
 
 // Destroy indicates an expected call of Destroy.
 func (mr *MockSurfaceMockRecorder) Destroy(callbacks any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockSurface)(nil).Destroy), callbacks)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroySurface", reflect.TypeOf((*MockSurface)(nil).Destroy), callbacks)
 }
 
 // Handle mocks base method.

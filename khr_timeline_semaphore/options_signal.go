@@ -10,8 +10,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
-	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // SemaphoreSignalInfo contains information about a Semaphore signal operation
@@ -19,7 +19,7 @@ import (
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSemaphoreSignalInfo.html
 type SemaphoreSignalInfo struct {
 	// Semaphore is the Semaphore object to signal
-	Semaphore core1_0.Semaphore
+	Semaphore core.Semaphore
 	// Value is the value to signal
 	Value uint64
 
@@ -31,8 +31,8 @@ func (o SemaphoreSignalInfo) PopulateCPointer(allocator *cgoparam.Allocator, pre
 		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkSemaphoreSignalInfoKHR{})))
 	}
 
-	if o.Semaphore == nil {
-		return nil, errors.New("the 'Semaphore' field of SemaphoreSignalInfo must be non-nil")
+	if o.Semaphore.Handle() == 0 {
+		return nil, errors.New("the 'Semaphore' field of SemaphoreSignalInfo must be initialized")
 	}
 
 	info := (*C.VkSemaphoreSignalInfoKHR)(preallocatedPointer)

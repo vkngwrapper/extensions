@@ -6,16 +6,18 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_imageless_framebuffer"
-	khr_imageless_framebuffer_driver "github.com/vkngwrapper/extensions/v3/khr_imageless_framebuffer/driver"
+	khr_imageless_framebuffer_driver "github.com/vkngwrapper/extensions/v3/khr_imageless_framebuffer/loader"
 	"go.uber.org/mock/gomock"
 )
 
@@ -23,19 +25,20 @@ func TestFramebufferAttachmentsCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockFramebuffer := mocks1_0.EasyMockFramebuffer(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockFramebuffer := mocks.NewDummyFramebuffer(device)
 
-	coreDriver.EXPECT().VkCreateFramebuffer(
+	coreLoader.EXPECT().VkCreateFramebuffer(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkFramebufferCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pFramebuffer *driver.VkFramebuffer) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkFramebufferCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pFramebuffer *loader.VkFramebuffer) (common.VkResult, error) {
 
 		*pFramebuffer = mockFramebuffer.Handle()
 
@@ -63,10 +66,10 @@ func TestFramebufferAttachmentsCreateOptions(t *testing.T) {
 		require.Equal(t, uint64(5), info.FieldByName("layerCount").Uint())
 		require.Equal(t, uint64(2), info.FieldByName("viewFormatCount").Uint())
 
-		viewFormats := (*driver.VkFormat)(info.FieldByName("pViewFormats").UnsafePointer())
+		viewFormats := (*loader.VkFormat)(info.FieldByName("pViewFormats").UnsafePointer())
 		viewFormatSlice := unsafe.Slice(viewFormats, 2)
 
-		require.Equal(t, []driver.VkFormat{68, 53}, viewFormatSlice)
+		require.Equal(t, []loader.VkFormat{68, 53}, viewFormatSlice)
 
 		info = val.Index(1)
 		require.Equal(t, uint64(1000108002), info.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENT_IMAGE_INFO_KHR
@@ -78,15 +81,16 @@ func TestFramebufferAttachmentsCreateOptions(t *testing.T) {
 		require.Equal(t, uint64(13), info.FieldByName("layerCount").Uint())
 		require.Equal(t, uint64(3), info.FieldByName("viewFormatCount").Uint())
 
-		viewFormats = (*driver.VkFormat)(info.FieldByName("pViewFormats").UnsafePointer())
+		viewFormats = (*loader.VkFormat)(info.FieldByName("pViewFormats").UnsafePointer())
 		viewFormatSlice = unsafe.Slice(viewFormats, 3)
 
-		require.Equal(t, []driver.VkFormat{161, 164, 163}, viewFormatSlice)
+		require.Equal(t, []loader.VkFormat{161, 164, 163}, viewFormatSlice)
 
 		return core1_0.VKSuccess, nil
 	})
 
-	framebuffer, _, err := device.CreateFramebuffer(
+	framebuffer, _, err := driver.CreateFramebuffer(
+		device,
 		nil,
 		core1_0.FramebufferCreateInfo{
 			NextOptions: common.NextOptions{
@@ -127,21 +131,21 @@ func TestPhysicalDeviceImagelessFramebufferFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
-	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
-	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	coreDriver.EXPECT().VkCreateDevice(
+	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
-		pCreateInfo *driver.VkDeviceCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pDevice *driver.VkDevice) (common.VkResult, error) {
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
+		pCreateInfo *loader.VkDeviceCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pDevice *loader.VkDevice) (common.VkResult, error) {
 		*pDevice = mockDevice.Handle()
 
 		val := reflect.ValueOf(pCreateInfo).Elem()
@@ -157,7 +161,8 @@ func TestPhysicalDeviceImagelessFramebufferFeaturesOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	device, _, err := physicalDevice.CreateDevice(
+	device, _, err := driver.CreateDevice(
+		physicalDevice,
 		nil,
 		core1_0.DeviceCreateInfo{
 			QueueCreateInfos: []core1_0.DeviceQueueCreateInfo{
@@ -179,16 +184,16 @@ func TestPhysicalDeviceImagelessFramebufferFeaturesOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR) {
 
 		val := reflect.ValueOf(pFeatures).Elem()
@@ -199,11 +204,11 @@ func TestPhysicalDeviceImagelessFramebufferFeaturesOutData(t *testing.T) {
 
 		require.Equal(t, uint64(1000108000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("imagelessFramebuffer").UnsafeAddr())) = driver.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("imagelessFramebuffer").UnsafeAddr())) = loader.VkBool32(1)
 	})
 
 	var outData khr_imageless_framebuffer.PhysicalDeviceImagelessFramebufferFeatures
-	err := extension.PhysicalDeviceFeatures2(
+	err := extension.GetPhysicalDeviceFeatures2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceFeatures2{
 			NextOutData: common.NextOutData{&outData},
@@ -219,21 +224,22 @@ func TestRenderPassAttachmentBeginInfo(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	commandPool := mocks1_0.EasyMockCommandPool(ctrl, device)
-	commandBuffer := mocks1_0.NewDummyCommandBuffer(coreDriver, commandPool, device)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	commandPool := mocks.NewDummyCommandPool(device)
+	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
 
-	imageView1 := mocks1_0.EasyMockImageView(ctrl)
-	imageView2 := mocks1_0.EasyMockImageView(ctrl)
+	imageView1 := mocks.NewDummyImageView(device)
+	imageView2 := mocks.NewDummyImageView(device)
 
-	coreDriver.EXPECT().VkCmdBeginRenderPass(
+	coreLoader.EXPECT().VkCmdBeginRenderPass(
 		commandBuffer.Handle(),
 		gomock.Not(gomock.Nil()),
-		driver.VkSubpassContents(0), // VK_SUBPASS_CONTENTS_INLINE
-	).DoAndReturn(func(commandBuffer driver.VkCommandBuffer,
-		pRenderPassBegin *driver.VkRenderPassBeginInfo,
-		contents driver.VkSubpassContents) {
+		loader.VkSubpassContents(0), // VK_SUBPASS_CONTENTS_INLINE
+	).DoAndReturn(func(commandBuffer loader.VkCommandBuffer,
+		pRenderPassBegin *loader.VkRenderPassBeginInfo,
+		contents loader.VkSubpassContents) {
 
 		val := reflect.ValueOf(pRenderPassBegin).Elem()
 		require.Equal(t, uint64(43), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO
@@ -246,15 +252,15 @@ func TestRenderPassAttachmentBeginInfo(t *testing.T) {
 		require.Equal(t, uint64(2), val.FieldByName("attachmentCount").Uint())
 
 		firstImageView := val.FieldByName("pAttachments").UnsafePointer()
-		require.Equal(t, imageView1.Handle(), *(*driver.VkImageView)(firstImageView))
+		require.Equal(t, imageView1.Handle(), *(*loader.VkImageView)(firstImageView))
 
 		secondImageView := unsafe.Add(firstImageView, unsafe.Sizeof(uintptr(0)))
-		require.Equal(t, imageView2.Handle(), *(*driver.VkImageView)(secondImageView))
+		require.Equal(t, imageView2.Handle(), *(*loader.VkImageView)(secondImageView))
 	})
 
-	err := commandBuffer.CmdBeginRenderPass(core1_0.SubpassContentsInline, core1_0.RenderPassBeginInfo{
+	err := driver.CmdBeginRenderPass(commandBuffer, core1_0.SubpassContentsInline, core1_0.RenderPassBeginInfo{
 		NextOptions: common.NextOptions{khr_imageless_framebuffer.RenderPassAttachmentBeginInfo{
-			Attachments: []core1_0.ImageView{imageView1, imageView2},
+			Attachments: []core.ImageView{imageView1, imageView2},
 		}},
 	})
 	require.NoError(t, err)

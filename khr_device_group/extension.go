@@ -6,13 +6,15 @@ package khr_device_group
 */
 import "C"
 import (
+	"fmt"
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	khr_device_group_driver "github.com/vkngwrapper/extensions/v3/khr_device_group/driver"
+	"github.com/vkngwrapper/core/v3/loader"
+	khr_device_group_driver "github.com/vkngwrapper/extensions/v3/khr_device_group/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
 )
@@ -20,14 +22,14 @@ import (
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
-	driver        khr_device_group_driver.Driver
+	driver        khr_device_group_driver.Loader
 	withSurface   *VulkanExtensionWithKHRSurface
 	withSwapchain *VulkanExtensionWithKHRSwapchain
 }
 
 // CreateExtensionFromDevice produces an Extension object from a Device with
 // khr_device_group loaded
-func CreateExtensionFromDevice(device core1_0.Device, instance core1_0.Instance) *VulkanExtension {
+func CreateExtensionFromDevice(device core.Device, instance core.Instance) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
@@ -35,12 +37,12 @@ func CreateExtensionFromDevice(device core1_0.Device, instance core1_0.Instance)
 	surfaceInteraction := instance.IsInstanceExtensionActive(khr_surface.ExtensionName)
 	swapchainInteraction := device.IsDeviceExtensionActive(khr_swapchain.ExtensionName)
 
-	return CreateExtensionFromDriver(khr_device_group_driver.CreateDriverFromCore(device.Driver()), surfaceInteraction, swapchainInteraction)
+	return CreateExtensionFromDriver(khr_device_group_driver.CreateLoaderFromCore(device.Driver()), surfaceInteraction, swapchainInteraction)
 }
 
-// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_device_group_driver.Driver, khrSurfaceInteraction bool, khrSwapchainInteraction bool) *VulkanExtension {
+func CreateExtensionFromDriver(driver khr_device_group_driver.Loader, khrSurfaceInteraction bool, khrSwapchainInteraction bool) *VulkanExtension {
 	ext := &VulkanExtension{
 		driver: driver,
 	}
@@ -65,29 +67,29 @@ func (v *VulkanExtension) WithKHRSwapchain() ExtensionWithKHRSwapchain {
 	return v.withSwapchain
 }
 
-func (v *VulkanExtension) CmdDispatchBase(commandBuffer core1_0.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
-	if commandBuffer == nil {
-		panic("commandBuffer cannot be nil")
+func (v *VulkanExtension) CmdDispatchBase(commandBuffer core.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
+	if commandBuffer.Handle() == 0 {
+		panic("commandBuffer cannot be uninitialized")
 	}
 	v.driver.VkCmdDispatchBaseKHR(commandBuffer.Handle(),
-		driver.Uint32(baseGroupX),
-		driver.Uint32(baseGroupY),
-		driver.Uint32(baseGroupZ),
-		driver.Uint32(groupCountX),
-		driver.Uint32(groupCountY),
-		driver.Uint32(groupCountZ))
+		loader.Uint32(baseGroupX),
+		loader.Uint32(baseGroupY),
+		loader.Uint32(baseGroupZ),
+		loader.Uint32(groupCountX),
+		loader.Uint32(groupCountY),
+		loader.Uint32(groupCountZ))
 }
 
-func (v *VulkanExtension) CmdSetDeviceMask(commandBuffer core1_0.CommandBuffer, deviceMask uint32) {
-	if commandBuffer == nil {
-		panic("commandBuffer cannot be nil")
+func (v *VulkanExtension) CmdSetDeviceMask(commandBuffer core.CommandBuffer, deviceMask uint32) {
+	if commandBuffer.Handle() == 0 {
+		panic("commandBuffer cannot be uninitialized")
 	}
-	v.driver.VkCmdSetDeviceMaskKHR(commandBuffer.Handle(), driver.Uint32(deviceMask))
+	v.driver.VkCmdSetDeviceMaskKHR(commandBuffer.Handle(), loader.Uint32(deviceMask))
 }
 
-func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags {
-	if device == nil {
-		panic("device cannot be nil")
+func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags {
+	if device.Handle() == 0 {
+		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -96,9 +98,9 @@ func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, h
 
 	v.driver.VkGetDeviceGroupPeerMemoryFeaturesKHR(
 		device.Handle(),
-		driver.Uint32(heapIndex),
-		driver.Uint32(localDeviceIndex),
-		driver.Uint32(remoteDeviceIndex),
+		loader.Uint32(heapIndex),
+		loader.Uint32(localDeviceIndex),
+		loader.Uint32(remoteDeviceIndex),
 		featuresPtr,
 	)
 
@@ -106,12 +108,12 @@ func (v *VulkanExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, h
 }
 
 type VulkanExtensionWithKHRSurface struct {
-	driver khr_device_group_driver.Driver
+	driver khr_device_group_driver.Loader
 }
 
-func (v *VulkanExtensionWithKHRSurface) DeviceGroupPresentCapabilities(device core1_0.Device, outData *DeviceGroupPresentCapabilities) (common.VkResult, error) {
-	if device == nil {
-		panic("device cannot be nil")
+func (v *VulkanExtensionWithKHRSurface) DeviceGroupPresentCapabilities(device core.Device, outData *DeviceGroupPresentCapabilities) (common.VkResult, error) {
+	if device.Handle() == 0 {
+		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -137,12 +139,12 @@ func (v *VulkanExtensionWithKHRSurface) DeviceGroupPresentCapabilities(device co
 	return res, nil
 }
 
-func (v *VulkanExtensionWithKHRSurface) DeviceGroupSurfacePresentModes(device core1_0.Device, surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error) {
-	if device == nil {
-		panic("device cannot be nil")
+func (v *VulkanExtensionWithKHRSurface) DeviceGroupSurfacePresentModes(device core.Device, surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error) {
+	if device.Handle() == 0 {
+		panic("device cannot be uninitialized")
 	}
-	if surface == nil {
-		panic("surface cannot be nil")
+	if surface.Handle() == 0 {
+		panic("surface cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -161,17 +163,17 @@ func (v *VulkanExtensionWithKHRSurface) DeviceGroupSurfacePresentModes(device co
 	return DeviceGroupPresentModeFlags(*flagsPtr), res, nil
 }
 
-func (v *VulkanExtensionWithKHRSurface) attemptGetPhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
-	if physicalDevice == nil {
-		panic("physicalDevice cannot be nil")
+func (v *VulkanExtensionWithKHRSurface) attemptGetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+	if physicalDevice.Handle() == 0 {
+		panic("physicalDevice cannot be uninitialized")
 	}
-	if surface == nil {
-		panic("surface cannot be nil")
+	if surface.Handle() == 0 {
+		panic("surface cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
-	countPtr := (*driver.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
+	countPtr := (*loader.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
 
 	res, err := v.driver.VkGetPhysicalDevicePresentRectanglesKHR(
 		physicalDevice.Handle(),
@@ -192,8 +194,8 @@ func (v *VulkanExtensionWithKHRSurface) attemptGetPhysicalDevicePresentRectangle
 	res, err = v.driver.VkGetPhysicalDevicePresentRectanglesKHR(
 		physicalDevice.Handle(),
 		surface.Handle(),
-		(*driver.Uint32)(countPtr),
-		(*driver.VkRect2D)(rectsPtr),
+		(*loader.Uint32)(countPtr),
+		(*loader.VkRect2D)(rectsPtr),
 	)
 	if res != core1_0.VKSuccess {
 		return nil, res, err
@@ -211,7 +213,10 @@ func (v *VulkanExtensionWithKHRSurface) attemptGetPhysicalDevicePresentRectangle
 	return outRects, res, nil
 }
 
-func (v *VulkanExtensionWithKHRSurface) PhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+func (v *VulkanExtensionWithKHRSurface) PhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+	if physicalDevice.Handle() == 0 {
+		return nil, core1_0.VKErrorUnknown, fmt.Errorf("physicalDevice cannot be uninitialized")
+	}
 	var outData []core1_0.Rect2D
 	var result common.VkResult
 	var err error
@@ -223,12 +228,12 @@ func (v *VulkanExtensionWithKHRSurface) PhysicalDevicePresentRectangles(physical
 }
 
 type VulkanExtensionWithKHRSwapchain struct {
-	driver khr_device_group_driver.Driver
+	driver khr_device_group_driver.Loader
 }
 
-func (v *VulkanExtensionWithKHRSwapchain) AcquireNextImage2(device core1_0.Device, o AcquireNextImageInfo) (int, common.VkResult, error) {
-	if device == nil {
-		panic("device cannot be nil")
+func (v *VulkanExtensionWithKHRSwapchain) AcquireNextImage2(device core.Device, o AcquireNextImageInfo) (int, common.VkResult, error) {
+	if device.Handle() == 0 {
+		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -238,7 +243,7 @@ func (v *VulkanExtensionWithKHRSwapchain) AcquireNextImage2(device core1_0.Devic
 		return -1, core1_0.VKErrorUnknown, err
 	}
 
-	indexPtr := (*driver.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
+	indexPtr := (*loader.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
 
 	res, err := v.driver.VkAcquireNextImage2KHR(
 		device.Handle(),

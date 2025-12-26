@@ -10,8 +10,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
-	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // SemaphoreWaitInfo contains information about the Semaphore wait condition
@@ -21,7 +21,7 @@ type SemaphoreWaitInfo struct {
 	// Flags specifies additional parameters for the Semaphore wait operation
 	Flags SemaphoreWaitFlags
 	// Semaphores is a slice of Semaphore objects to wait on
-	Semaphores []core1_0.Semaphore
+	Semaphores []core.Semaphore
 	// Values is a slice of timeline Semaphore values
 	Values []uint64
 
@@ -55,8 +55,8 @@ func (o SemaphoreWaitInfo) PopulateCPointer(allocator *cgoparam.Allocator, preal
 		valueSlice := unsafe.Slice(info.pValues, count)
 
 		for i := 0; i < count; i++ {
-			if o.Semaphores[i] == nil {
-				return nil, errors.Errorf("the SemaphoreWaitInfo 'Semaphores' list has a nil semaphore at element %d- all elements must be non-nil", i)
+			if o.Semaphores[i].Handle() == 0 {
+				return nil, errors.Errorf("the SemaphoreWaitInfo 'Semaphores' list has an uninitialized semaphore at element %d- all elements must be initialized", i)
 			}
 
 			semaphoreSlice[i] = C.VkSemaphore(unsafe.Pointer(o.Semaphores[i].Handle()))

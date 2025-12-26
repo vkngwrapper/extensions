@@ -3,10 +3,11 @@ package ext_debug_utils
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/driver"
+	"github.com/vkngwrapper/core/v3/loader"
+	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
 )
 
 //go:generate mockgen -source extension.go -destination ./mocks/extension.go -package mock_debugutils
@@ -14,7 +15,7 @@ import (
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
-	driver ext_driver.Driver
+	driver ext_driver.Loader
 }
 
 // Extension contains all the commands for the ext_debug_utils extension
@@ -31,7 +32,7 @@ type Extension interface {
 	// trigger the callback
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCreateDebugUtilsMessengerEXT.html
-	CreateDebugUtilsMessenger(instance core1_0.Instance, allocator *driver.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error)
+	CreateDebugUtilsMessenger(instance core.Instance, allocator *loader.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error)
 
 	// CmdBeginDebugUtilsLabel opens a CommandBuffer debug label region
 	//
@@ -40,13 +41,13 @@ type Extension interface {
 	// label - specifies parameters of the label region to open
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdBeginDebugUtilsLabelEXT.html
-	CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label DebugUtilsLabel) error
+	CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error
 	// CmdEndDebugUtilsLabel closes a CommandBuffer label region
 	//
 	// commandBuffer - the CommandBuffer into which the command is recorded
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdEndDebugUtilsLabelEXT.html
-	CmdEndDebugUtilsLabel(commandBuffer core1_0.CommandBuffer)
+	CmdEndDebugUtilsLabel(commandBuffer core.CommandBuffer)
 	// CmdInsertDebugUtilsLabel inserts a label into a CommandBuffer
 	//
 	// commandBuffer - the CommandBuffer into which the command is recorded
@@ -54,7 +55,7 @@ type Extension interface {
 	// label - specifies parameters of the label to insert
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdInsertDebugUtilsLabelEXT.html
-	CmdInsertDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label DebugUtilsLabel) error
+	CmdInsertDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error
 
 	// QueueBeginDebugUtilsLabel opens a Queue debug label region
 	//
@@ -63,13 +64,13 @@ type Extension interface {
 	// label - Specifies parameters of the label region to open
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkQueueBeginDebugUtilsLabelEXT.html
-	QueueBeginDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error
+	QueueBeginDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error
 	// QueueEndDebugUtilsLabel closes a Queue debug label region
 	//
 	// queue - The Queue in which a debug label region should be closed
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkQueueEndDebugUtilsLabelEXT.html
-	QueueEndDebugUtilsLabel(queue core1_0.Queue)
+	QueueEndDebugUtilsLabel(queue core.Queue)
 	// QueueInsertDebugUtilsLabel inserts a label into a Queue
 	//
 	// queue - The Queue into which a debug label will be inserted
@@ -77,7 +78,7 @@ type Extension interface {
 	// label - Specifies parameters of the label to insert
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkQueueInsertDebugUtilsLabelEXT.html
-	QueueInsertDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error
+	QueueInsertDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error
 
 	// SetDebugUtilsObjectName gives a user-friendly name to an object
 	//
@@ -86,7 +87,7 @@ type Extension interface {
 	// name - Specifies parameters of the name to set on the object
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkSetDebugUtilsObjectNameEXT.html
-	SetDebugUtilsObjectName(device core1_0.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error)
+	SetDebugUtilsObjectName(device core.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error)
 	// SetDebugUtilsObjectTag attaches arbitrary data to an object
 	//
 	// device - The Device that created the object
@@ -94,7 +95,7 @@ type Extension interface {
 	// tag - Specifies parameters of the tag to attach to the object
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkSetDebugUtilsObjectTagEXT.html
-	SetDebugUtilsObjectTag(device core1_0.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error)
+	SetDebugUtilsObjectTag(device core.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error)
 
 	// SubmitDebugUtilsMessage injects a message into a debug stream
 	//
@@ -107,13 +108,13 @@ type Extension interface {
 	// data - All the callback-related data
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkSubmitDebugUtilsMessageEXT.html
-	SubmitDebugUtilsMessage(instance core1_0.Instance, severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error
+	SubmitDebugUtilsMessage(instance core.Instance, severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error
 }
 
 // CreateExtensionFromInstance produces an Extension object from an Instance with
 // ext_debug_utils loaded
-func CreateExtensionFromInstance(instance core1_0.Instance) *VulkanExtension {
-	driver := ext_driver.CreateDriverFromCore(instance.Driver())
+func CreateExtensionFromInstance(instance core.Instance) *VulkanExtension {
+	driver := ext_driver.CreateLoaderFromCore(instance.Driver())
 
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil
@@ -122,17 +123,17 @@ func CreateExtensionFromInstance(instance core1_0.Instance) *VulkanExtension {
 	return CreateExtensionFromDriver(driver)
 }
 
-// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver ext_driver.Driver) *VulkanExtension {
+func CreateExtensionFromDriver(driver ext_driver.Loader) *VulkanExtension {
 	return &VulkanExtension{
 		driver: driver,
 	}
 }
 
-func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, allocation *driver.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error) {
-	if instance == nil {
-		panic("instance cannot be nil")
+func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core.Instance, allocation *loader.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error) {
+	if instance.Handle() == 0 {
+		panic("instance cannot be uninitialized")
 	}
 
 	arena := cgoparam.GetAlloc()
@@ -150,9 +151,9 @@ func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, a
 		return nil, res, err
 	}
 
-	coreDriver := instance.Driver()
+	coreLoader := instance.Driver()
 	newMessenger := &VulkanDebugUtilsMessenger{
-		coreDriver: coreDriver,
+		coreLoader: coreLoader,
 		handle:     messenger,
 		instance:   instance.Handle(),
 		driver:     l.driver,
@@ -161,9 +162,9 @@ func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, a
 	return newMessenger, res, nil
 }
 
-func (l *VulkanExtension) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label DebugUtilsLabel) error {
-	if commandBuffer == nil {
-		panic("commandBuffer cannot be nil")
+func (l *VulkanExtension) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error {
+	if commandBuffer.Handle() == 0 {
+		panic("commandBuffer cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -178,16 +179,16 @@ func (l *VulkanExtension) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandB
 	return nil
 }
 
-func (l *VulkanExtension) CmdEndDebugUtilsLabel(buffer core1_0.CommandBuffer) {
-	if buffer == nil {
-		panic("buffer cannot be nil")
+func (l *VulkanExtension) CmdEndDebugUtilsLabel(buffer core.CommandBuffer) {
+	if buffer.Handle() == 0 {
+		panic("buffer cannot be uninitialized")
 	}
 	l.driver.VkCmdEndDebugUtilsLabelEXT(buffer.Handle())
 }
 
-func (l *VulkanExtension) CmdInsertDebugUtilsLabel(buffer core1_0.CommandBuffer, label DebugUtilsLabel) error {
-	if buffer == nil {
-		panic("buffer cannot be nil")
+func (l *VulkanExtension) CmdInsertDebugUtilsLabel(buffer core.CommandBuffer, label DebugUtilsLabel) error {
+	if buffer.Handle() == 0 {
+		panic("buffer cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -202,9 +203,9 @@ func (l *VulkanExtension) CmdInsertDebugUtilsLabel(buffer core1_0.CommandBuffer,
 	return nil
 }
 
-func (l *VulkanExtension) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error {
-	if queue == nil {
-		panic("queue cannot be nil")
+func (l *VulkanExtension) QueueBeginDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
+	if queue.Handle() == 0 {
+		panic("queue cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -219,16 +220,16 @@ func (l *VulkanExtension) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label D
 	return nil
 }
 
-func (l *VulkanExtension) QueueEndDebugUtilsLabel(queue core1_0.Queue) {
-	if queue == nil {
-		panic("queue cannot be nil")
+func (l *VulkanExtension) QueueEndDebugUtilsLabel(queue core.Queue) {
+	if queue.Handle() == 0 {
+		panic("queue cannot be uninitialized")
 	}
 	l.driver.VkQueueEndDebugUtilsLabelEXT(queue.Handle())
 }
 
-func (l *VulkanExtension) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error {
-	if queue == nil {
-		panic("queue cannot be nil")
+func (l *VulkanExtension) QueueInsertDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
+	if queue.Handle() == 0 {
+		panic("queue cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -243,9 +244,9 @@ func (l *VulkanExtension) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label 
 	return nil
 }
 
-func (l *VulkanExtension) SetDebugUtilsObjectName(device core1_0.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
-	if device == nil {
-		panic("device cannot be nil")
+func (l *VulkanExtension) SetDebugUtilsObjectName(device core.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
+	if device.Handle() == 0 {
+		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -258,9 +259,9 @@ func (l *VulkanExtension) SetDebugUtilsObjectName(device core1_0.Device, name De
 	return l.driver.VkSetDebugUtilsObjectNameEXT(device.Handle(), (*ext_driver.VkDebugUtilsObjectNameInfoEXT)(namePtr))
 }
 
-func (l *VulkanExtension) SetDebugUtilsObjectTag(device core1_0.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
-	if device == nil {
-		panic("device cannot be nil")
+func (l *VulkanExtension) SetDebugUtilsObjectTag(device core.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
+	if device.Handle() == 0 {
+		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
@@ -273,9 +274,9 @@ func (l *VulkanExtension) SetDebugUtilsObjectTag(device core1_0.Device, tag Debu
 	return l.driver.VkSetDebugUtilsObjectTagEXT(device.Handle(), (*ext_driver.VkDebugUtilsObjectTagInfoEXT)(tagPtr))
 }
 
-func (l *VulkanExtension) SubmitDebugUtilsMessage(instance core1_0.Instance, severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error {
-	if instance == nil {
-		panic("instance cannot be nil")
+func (l *VulkanExtension) SubmitDebugUtilsMessage(instance core.Instance, severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error {
+	if instance.Handle() == 0 {
+		panic("instance cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)

@@ -1,6 +1,8 @@
 package ext_host_query_reset
 
-import "github.com/vkngwrapper/core/v3/core1_0"
+import (
+	"github.com/vkngwrapper/core/v3"
+)
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_host_query_reset
 
@@ -17,5 +19,5 @@ type Extension interface {
 	// queryCount - The number of queries to reset
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkResetQueryPool.html
-	ResetQueryPool(queryPool core1_0.QueryPool, firstQuery, queryCount int)
+	ResetQueryPool(queryPool core.QueryPool, firstQuery, queryCount int)
 }

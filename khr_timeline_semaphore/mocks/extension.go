@@ -13,8 +13,8 @@ import (
 	reflect "reflect"
 	time "time"
 
+	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_timeline_semaphore "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -44,7 +44,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // SemaphoreCounterValue mocks base method.
-func (m *MockExtension) SemaphoreCounterValue(semaphore core1_0.Semaphore) (uint64, common.VkResult, error) {
+func (m *MockExtension) SemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SemaphoreCounterValue", semaphore)
 	ret0, _ := ret[0].(uint64)
@@ -60,7 +60,7 @@ func (mr *MockExtensionMockRecorder) SemaphoreCounterValue(semaphore any) *gomoc
 }
 
 // SignalSemaphore mocks base method.
-func (m *MockExtension) SignalSemaphore(device core1_0.Device, o khr_timeline_semaphore.SemaphoreSignalInfo) (common.VkResult, error) {
+func (m *MockExtension) SignalSemaphore(device core.Device, o khr_timeline_semaphore.SemaphoreSignalInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SignalSemaphore", device, o)
 	ret0, _ := ret[0].(common.VkResult)
@@ -75,7 +75,7 @@ func (mr *MockExtensionMockRecorder) SignalSemaphore(device, o any) *gomock.Call
 }
 
 // WaitSemaphores mocks base method.
-func (m *MockExtension) WaitSemaphores(device core1_0.Device, timeout time.Duration, o khr_timeline_semaphore.SemaphoreWaitInfo) (common.VkResult, error) {
+func (m *MockExtension) WaitSemaphores(device core.Device, timeout time.Duration, o khr_timeline_semaphore.SemaphoreWaitInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WaitSemaphores", device, timeout, o)
 	ret0, _ := ret[0].(common.VkResult)

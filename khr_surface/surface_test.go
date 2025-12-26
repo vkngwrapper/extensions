@@ -8,11 +8,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	core_mocks "github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 	mock_surface "github.com/vkngwrapper/extensions/v3/khr_surface/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -21,10 +20,9 @@ func TestVulkanSurface_PresentModes(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := core_mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
-	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
@@ -36,7 +34,7 @@ func TestVulkanSurface_PresentModes(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil()).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *driver.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *loader.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
 			*pPresentModeCount = 2
 
 			return core1_0.VKSuccess, nil
@@ -47,8 +45,8 @@ func TestVulkanSurface_PresentModes(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil())).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *driver.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
-			require.Equal(t, driver.Uint32(2), *pPresentModeCount)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *loader.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
+			require.Equal(t, loader.Uint32(2), *pPresentModeCount)
 
 			presentModeSlice := ([]khr_surface_driver.VkPresentModeKHR)(unsafe.Slice(pPresentModes, 2))
 			presentModeSlice[0] = khr_surface_driver.VkPresentModeKHR(0) // VK_PRESENT_MODE_IMMEDIATE_KHR
@@ -57,7 +55,7 @@ func TestVulkanSurface_PresentModes(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	presentModes, res, err := surface.PhysicalDeviceSurfacePresentModes(device)
+	presentModes, res, err := extension.GetPhysicalDeviceSurfacePresentModes(surface, device)
 	require.Equal(t, core1_0.VKSuccess, res)
 	require.NoError(t, err)
 	require.Len(t, presentModes, 2)
@@ -69,10 +67,9 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := core_mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
-	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
@@ -84,7 +81,7 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil()).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *driver.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *loader.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
 			*pPresentModeCount = 1
 
 			return core1_0.VKSuccess, nil
@@ -95,8 +92,8 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil())).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *driver.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
-			require.Equal(t, driver.Uint32(1), *pPresentModeCount)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *loader.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
+			require.Equal(t, loader.Uint32(1), *pPresentModeCount)
 
 			presentModeSlice := ([]khr_surface_driver.VkPresentModeKHR)(unsafe.Slice(pPresentModes, 1))
 			presentModeSlice[0] = khr_surface_driver.VkPresentModeKHR(0) // VK_PRESENT_MODE_IMMEDIATE_KHR
@@ -109,7 +106,7 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil()).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *driver.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *loader.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
 			*pPresentModeCount = 2
 
 			return core1_0.VKSuccess, nil
@@ -120,8 +117,8 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil())).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *driver.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
-			require.Equal(t, driver.Uint32(2), *pPresentModeCount)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pPresentModeCount *loader.Uint32, pPresentModes *khr_surface_driver.VkPresentModeKHR) (common.VkResult, error) {
+			require.Equal(t, loader.Uint32(2), *pPresentModeCount)
 
 			presentModeSlice := ([]khr_surface_driver.VkPresentModeKHR)(unsafe.Slice(pPresentModes, 2))
 			presentModeSlice[0] = khr_surface_driver.VkPresentModeKHR(0) // VK_PRESENT_MODE_IMMEDIATE_KHR
@@ -130,7 +127,7 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	presentModes, res, err := surface.PhysicalDeviceSurfacePresentModes(device)
+	presentModes, res, err := extension.GetPhysicalDeviceSurfacePresentModes(surface, device)
 	require.Equal(t, core1_0.VKSuccess, res)
 	require.NoError(t, err)
 	require.Len(t, presentModes, 2)
@@ -142,10 +139,9 @@ func TestVulkanSurface_SupportsDevice(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := core_mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
-	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
@@ -154,17 +150,17 @@ func TestVulkanSurface_SupportsDevice(t *testing.T) {
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceSupportKHR(
 		device.Handle(),
-		driver.Uint32(3),
+		loader.Uint32(3),
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, queueFamilyIndex driver.Uint32, surface khr_surface_driver.VkSurfaceKHR, pSupport *driver.VkBool32) (common.VkResult, error) {
-			*pSupport = driver.VkBool32(1)
+		func(device loader.VkPhysicalDevice, queueFamilyIndex loader.Uint32, surface khr_surface_driver.VkSurfaceKHR, pSupport *loader.VkBool32) (common.VkResult, error) {
+			*pSupport = loader.VkBool32(1)
 
 			return core1_0.VKSuccess, nil
 		})
 
-	supports, _, err := surface.PhysicalDeviceSurfaceSupport(device, 3)
+	supports, _, err := extension.GetPhysicalDeviceSurfaceSupport(surface, device, 3)
 	require.NoError(t, err)
 	require.True(t, supports)
 }
@@ -173,10 +169,9 @@ func TestVulkanSurface_Capabilities(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := core_mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
-	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
@@ -188,7 +183,7 @@ func TestVulkanSurface_Capabilities(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pCapabilities *khr_surface_driver.VkSurfaceCapabilitiesKHR) (common.VkResult, error) {
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pCapabilities *khr_surface_driver.VkSurfaceCapabilitiesKHR) (common.VkResult, error) {
 			val := reflect.ValueOf(pCapabilities).Elem()
 
 			*(*uint32)(unsafe.Pointer(val.FieldByName("currentTransform").UnsafeAddr())) = uint32(0x00000002) // VK_SURFACE_TRANSFORM_ROTATE_90_BIT_KHR
@@ -217,7 +212,7 @@ func TestVulkanSurface_Capabilities(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	capabilities, _, err := surface.PhysicalDeviceSurfaceCapabilities(device)
+	capabilities, _, err := extension.GetPhysicalDeviceSurfaceCapabilities(surface, device)
 	require.NoError(t, err)
 	require.Equal(t, 1, capabilities.CurrentExtent.Width)
 	require.Equal(t, 3, capabilities.CurrentExtent.Height)
@@ -238,10 +233,9 @@ func TestVulkanSurface_Formats(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := core_mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
-	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
@@ -254,8 +248,8 @@ func TestVulkanSurface_Formats(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *driver.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
-			*pFormatCount = driver.Uint32(2)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *loader.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
+			*pFormatCount = loader.Uint32(2)
 
 			return core1_0.VKSuccess, nil
 		})
@@ -266,8 +260,8 @@ func TestVulkanSurface_Formats(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *driver.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
-			require.Equal(t, driver.Uint32(2), *pFormatCount)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *loader.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
+			require.Equal(t, loader.Uint32(2), *pFormatCount)
 
 			formatSlice := ([]khr_surface_driver.VkSurfaceFormatKHR)(unsafe.Slice(pFormats, 2))
 			val := reflect.ValueOf(formatSlice)
@@ -283,7 +277,7 @@ func TestVulkanSurface_Formats(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	formats, _, err := surface.PhysicalDeviceSurfaceFormats(device)
+	formats, _, err := extension.GetPhysicalDeviceSurfaceFormats(surface, device)
 	require.NoError(t, err)
 	require.Len(t, formats, 2)
 
@@ -298,10 +292,9 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	instance := core_mocks.EasyMockInstance(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	surfaceDriver := mock_surface.NewMockDriver(ctrl)
-	device := core_mocks.EasyMockPhysicalDevice(ctrl, coreDriver)
+	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
 
@@ -314,8 +307,8 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *driver.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
-			*pFormatCount = driver.Uint32(1)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *loader.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
+			*pFormatCount = loader.Uint32(1)
 
 			return core1_0.VKSuccess, nil
 		})
@@ -326,8 +319,8 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *driver.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
-			require.Equal(t, driver.Uint32(1), *pFormatCount)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *loader.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
+			require.Equal(t, loader.Uint32(1), *pFormatCount)
 
 			formatSlice := ([]khr_surface_driver.VkSurfaceFormatKHR)(unsafe.Slice(pFormats, 1))
 			val := reflect.ValueOf(formatSlice)
@@ -345,8 +338,8 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *driver.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
-			*pFormatCount = driver.Uint32(2)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *loader.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
+			*pFormatCount = loader.Uint32(2)
 
 			return core1_0.VKSuccess, nil
 		})
@@ -357,8 +350,8 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(device driver.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *driver.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
-			require.Equal(t, driver.Uint32(2), *pFormatCount)
+		func(device loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pFormatCount *loader.Uint32, pFormats *khr_surface_driver.VkSurfaceFormatKHR) (common.VkResult, error) {
+			require.Equal(t, loader.Uint32(2), *pFormatCount)
 
 			formatSlice := ([]khr_surface_driver.VkSurfaceFormatKHR)(unsafe.Slice(pFormats, 2))
 			val := reflect.ValueOf(formatSlice)
@@ -374,7 +367,7 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	formats, _, err := surface.PhysicalDeviceSurfaceFormats(device)
+	formats, _, err := extension.GetPhysicalDeviceSurfaceFormats(surface, device)
 	require.NoError(t, err)
 	require.Len(t, formats, 2)
 

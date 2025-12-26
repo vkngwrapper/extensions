@@ -1,65 +1,149 @@
 package khr_descriptor_update_template
 
+import "C"
 import (
+	"unsafe"
+
 	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	khr_descriptor_update_template_driver "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/driver"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/loader"
 )
 
 // VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
 type VulkanExtension struct {
-	driver khr_descriptor_update_template_driver.Driver
+	driver khr_descriptor_update_template_loader.Loader
 }
 
 // CreateExtensionFromDevice produces an Extension object from a Device with
 // khr_descriptor_update_template loaded
-func CreateExtensionFromDevice(device core1_0.Device) *VulkanExtension {
+func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
-	return CreateExtensionFromDriver(khr_descriptor_update_template_driver.CreateDriverFromCore(device.Driver()))
+	return CreateExtensionFromDriver(khr_descriptor_update_template_loader.CreateLoaderFromCore(device.Driver()))
 }
 
-// CreateExtensionFromDriver generates an Extension from a driver.Driver object- this is usually
+// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
 // used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_descriptor_update_template_driver.Driver) *VulkanExtension {
+func CreateExtensionFromDriver(driver khr_descriptor_update_template_loader.Loader) *VulkanExtension {
 	return &VulkanExtension{
 		driver: driver,
 	}
 }
 
-func (e *VulkanExtension) CreateDescriptorUpdateTemplate(device core1_0.Device, o DescriptorUpdateTemplateCreateInfo, allocator *driver.AllocationCallbacks) (DescriptorUpdateTemplate, common.VkResult, error) {
-	if device == nil {
-		panic("device cannot be nil")
+func (e *VulkanExtension) CreateDescriptorUpdateTemplate(device core.Device, o DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core.DescriptorUpdateTemplate, common.VkResult, error) {
+	if device.Handle() == 0 {
+		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
 	createInfoPtr, err := common.AllocOptions(arena, o)
 	if err != nil {
-		return nil, core1_0.VKErrorUnknown, err
+		return core.DescriptorUpdateTemplate{}, core1_0.VKErrorUnknown, err
 	}
 
-	var templateHandle khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR
+	var templateHandle khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR
 	res, err := e.driver.VkCreateDescriptorUpdateTemplateKHR(device.Handle(),
-		(*khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateCreateInfoKHR)(createInfoPtr),
+		(*khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateCreateInfoKHR)(createInfoPtr),
 		allocator.Handle(),
 		&templateHandle,
 	)
 	if err != nil {
-		return nil, res, err
+		return core.DescriptorUpdateTemplate{}, res, err
 	}
 
-	descriptorTemplate := &VulkanDescriptorUpdateTemplate{
-		driver:                   e.driver,
-		coreDriver:               device.Driver(),
-		device:                   device.Handle(),
-		descriptorTemplateHandle: templateHandle,
-		maximumAPIVersion:        device.APIVersion(),
-	}
+	descriptorTemplate := core.InternalDescriptorUpdateTemplate(
+		device.Handle(),
+		loader.VkDescriptorUpdateTemplate(templateHandle),
+		device.APIVersion(),
+	)
 
 	return descriptorTemplate, res, nil
+}
+
+func (t *VulkanExtension) DestroyDescriptorUpdateTemplate(template core.DescriptorUpdateTemplate, allocator *loader.AllocationCallbacks) {
+	if template.Handle() == 0 {
+		panic("template cannot be uninitialized")
+	}
+	t.driver.VkDestroyDescriptorUpdateTemplateKHR(template.DeviceHandle(), khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR(template.Handle()), allocator.Handle())
+}
+
+func (t *VulkanExtension) UpdateDescriptorSetWithTemplateFromImage(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorImageInfo) {
+	if descriptorSet.Handle() == 0 {
+		panic("descriptorSet cannot be uninitialized")
+	}
+	if template.Handle() == 0 {
+		panic("template cannot be uninitialized")
+	}
+	arena := cgoparam.GetAlloc()
+	defer cgoparam.ReturnAlloc(arena)
+
+	infoUnsafe := arena.Malloc(C.sizeof_struct_VkDescriptorImageInfo)
+	info := (*C.VkDescriptorImageInfo)(infoUnsafe)
+	info.imageView = nil
+	info.sampler = nil
+	info.imageLayout = C.VkImageLayout(data.ImageLayout)
+
+	if data.Sampler.Handle() != 0 {
+		info.sampler = C.VkSampler(unsafe.Pointer(data.Sampler.Handle()))
+	}
+
+	if data.ImageView.Handle() != 0 {
+		info.imageView = C.VkImageView(unsafe.Pointer(data.ImageView.Handle()))
+	}
+
+	t.driver.VkUpdateDescriptorSetWithTemplateKHR(
+		descriptorSet.DeviceHandle(),
+		descriptorSet.Handle(),
+		khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR(template.Handle()),
+		infoUnsafe,
+	)
+}
+
+func (t *VulkanExtension) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorBufferInfo) {
+	if descriptorSet.Handle() == 0 {
+		panic("descriptorSet cannot be uninitialized")
+	}
+	if template.Handle() == 0 {
+		panic("template cannot be uninitialized")
+	}
+	arena := cgoparam.GetAlloc()
+	defer cgoparam.ReturnAlloc(arena)
+
+	infoUnsafe := arena.Malloc(C.sizeof_struct_VkDescriptorBufferInfo)
+	info := (*C.VkDescriptorBufferInfo)(infoUnsafe)
+	info.buffer = nil
+	info.offset = C.VkDeviceSize(data.Offset)
+	info._range = C.VkDeviceSize(data.Range)
+
+	if data.Buffer.Handle() != 0 {
+		info.buffer = C.VkBuffer(unsafe.Pointer(data.Buffer.Handle()))
+	}
+
+	t.driver.VkUpdateDescriptorSetWithTemplateKHR(
+		descriptorSet.DeviceHandle(),
+		descriptorSet.Handle(),
+		khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR(template.Handle()),
+		infoUnsafe,
+	)
+}
+
+func (t *VulkanExtension) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data loader.VulkanHandle) {
+	if descriptorSet.Handle() == 0 {
+		panic("descriptorSet cannot be uninitialized")
+	}
+	if template.Handle() == 0 {
+		panic("template cannot be uninitialized")
+	}
+	t.driver.VkUpdateDescriptorSetWithTemplateKHR(
+		descriptorSet.DeviceHandle(),
+		descriptorSet.Handle(),
+		khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR(template.Handle()),
+		unsafe.Pointer(data),
+	)
 }

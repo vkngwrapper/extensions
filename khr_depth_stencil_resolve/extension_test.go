@@ -8,15 +8,14 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
-	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/driver"
+	khr_create_renderpass2_driver "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/loader"
 	mock_create_renderpass2 "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/mocks"
-	khr_depth_stencil_resolve_driver "github.com/vkngwrapper/extensions/v3/khr_depth_stencil_resolve/driver"
+	khr_depth_stencil_resolve_driver "github.com/vkngwrapper/extensions/v3/khr_depth_stencil_resolve/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -28,13 +27,13 @@ func TestPhysicalDeviceDepthStencilResolveOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {
 
 		val := reflect.ValueOf(pProperties).Elem()
@@ -49,8 +48,8 @@ func TestPhysicalDeviceDepthStencilResolveOutData(t *testing.T) {
 		*depthResolveModePtr = khr_depth_stencil_resolve_driver.VkResolveModeFlagsKHR(2) // VK_RESOLVE_MODE_AVERAGE_BIT_KHR
 		stencilResolveModePtr := (*khr_depth_stencil_resolve_driver.VkResolveModeFlagsKHR)(unsafe.Pointer(val.FieldByName("supportedStencilResolveModes").UnsafeAddr()))
 		*stencilResolveModePtr = khr_depth_stencil_resolve_driver.VkResolveModeFlagsKHR(8)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("independentResolveNone").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("independentResolve").UnsafeAddr())) = driver.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("independentResolveNone").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("independentResolve").UnsafeAddr())) = loader.VkBool32(1)
 	})
 
 	var outData PhysicalDeviceDepthStencilResolveProperties
@@ -72,27 +71,21 @@ func TestSubpassDescriptionDepthStencilResolveOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	mockRenderPass := mocks1_0.EasyMockRenderPass(ctrl)
-
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-	builder.EXPECT().CreateRenderPassObject(coreDriver, device.Handle(), mockRenderPass.Handle(), common.Vulkan1_0).Return(
-		mockRenderPass,
-	)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockRenderPass := mocks.NewDummyRenderPass(device)
 
 	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver, builder)
+	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
+	).DoAndReturn(func(device loader.VkDevice,
 		pCreateInfo *khr_create_renderpass2_driver.VkRenderPassCreateInfo2KHR,
-		pAllocator *driver.VkAllocationCallbacks,
-		pRenderPass *driver.VkRenderPass) (common.VkResult, error) {
+		pAllocator *loader.VkAllocationCallbacks,
+		pRenderPass *loader.VkRenderPass) (common.VkResult, error) {
 
 		*pRenderPass = mockRenderPass.Handle()
 

@@ -9,14 +9,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_1"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 	mock_surface "github.com/vkngwrapper/extensions/v3/khr_surface/mocks"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
+	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain/khr_swapchain1_1"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 	mock_swapchain "github.com/vkngwrapper/extensions/v3/khr_swapchain/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -25,18 +24,15 @@ func TestVulkanExtension_GetDeviceGroupPresentCapabilities(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	device := mocks1_1.EasyMockDevice(ctrl, coreDriver)
+	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
 
 	extDriver.EXPECT().VkGetDeviceGroupPresentCapabilitiesKHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
+	).DoAndReturn(func(device loader.VkDevice,
 		info *khr_swapchain_driver.VkDeviceGroupPresentCapabilitiesKHR) (common.VkResult, error) {
 
 		val := reflect.ValueOf(info).Elem()
@@ -62,7 +58,7 @@ func TestVulkanExtension_GetDeviceGroupPresentCapabilities(t *testing.T) {
 	)
 	require.NoError(t, err)
 	require.Equal(t, khr_swapchain1_1.DeviceGroupPresentCapabilities{
-		PresentMask: [32]uint32{1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		PresentMask: []uint32{1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	}, outData)
 }
 
@@ -70,20 +66,17 @@ func TestVulkanExtension_GetDeviceGroupSurfacePresentModes(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	device := mocks1_1.EasyMockDevice(ctrl, coreDriver)
+	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
 	surface := mock_surface.EasyMockSurface(ctrl)
 
 	extDriver.EXPECT().VkGetDeviceGroupSurfacePresentModesKHR(
 		device.Handle(),
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
+	).DoAndReturn(func(device loader.VkDevice,
 		surface khr_surface_driver.VkSurfaceKHR,
 		pModes *khr_swapchain_driver.VkDeviceGroupPresentModeFlagsKHR) (common.VkResult, error) {
 
@@ -101,13 +94,11 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	physicalDevice := mocks1_1.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_1, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_1)
 	surface := mock_surface.EasyMockSurface(ctrl)
 
 	extDriver.EXPECT().VkGetPhysicalDevicePresentRectanglesKHR(
@@ -115,12 +106,12 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		surface khr_surface_driver.VkSurfaceKHR,
-		pRectCount *driver.Uint32,
-		pRects *driver.VkRect2D,
+		pRectCount *loader.Uint32,
+		pRects *loader.VkRect2D,
 	) (common.VkResult, error) {
-		*pRectCount = driver.Uint32(3)
+		*pRectCount = loader.Uint32(3)
 
 		return core1_0.VKSuccess, nil
 	})
@@ -130,14 +121,14 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles(t *testing.T) {
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		surface khr_surface_driver.VkSurfaceKHR,
-		pRectCount *driver.Uint32,
-		pRects *driver.VkRect2D,
+		pRectCount *loader.Uint32,
+		pRects *loader.VkRect2D,
 	) (common.VkResult, error) {
-		require.Equal(t, driver.Uint32(3), *pRectCount)
+		require.Equal(t, loader.Uint32(3), *pRectCount)
 
-		rectSlice := ([]driver.VkRect2D)(unsafe.Slice(pRects, 3))
+		rectSlice := ([]loader.VkRect2D)(unsafe.Slice(pRects, 3))
 		val := reflect.ValueOf(rectSlice)
 
 		r := val.Index(0)
@@ -183,13 +174,11 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	physicalDevice := mocks1_1.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_1, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_1)
 	surface := mock_surface.EasyMockSurface(ctrl)
 
 	extDriver.EXPECT().VkGetPhysicalDevicePresentRectanglesKHR(
@@ -197,12 +186,12 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		surface khr_surface_driver.VkSurfaceKHR,
-		pRectCount *driver.Uint32,
-		pRects *driver.VkRect2D,
+		pRectCount *loader.Uint32,
+		pRects *loader.VkRect2D,
 	) (common.VkResult, error) {
-		*pRectCount = driver.Uint32(2)
+		*pRectCount = loader.Uint32(2)
 
 		return core1_0.VKSuccess, nil
 	})
@@ -212,14 +201,14 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		surface khr_surface_driver.VkSurfaceKHR,
-		pRectCount *driver.Uint32,
-		pRects *driver.VkRect2D,
+		pRectCount *loader.Uint32,
+		pRects *loader.VkRect2D,
 	) (common.VkResult, error) {
-		require.Equal(t, driver.Uint32(2), *pRectCount)
+		require.Equal(t, loader.Uint32(2), *pRectCount)
 
-		rectSlice := ([]driver.VkRect2D)(unsafe.Slice(pRects, 2))
+		rectSlice := ([]loader.VkRect2D)(unsafe.Slice(pRects, 2))
 		val := reflect.ValueOf(rectSlice)
 
 		r := val.Index(0)
@@ -242,12 +231,12 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		surface khr_surface_driver.VkSurfaceKHR,
-		pRectCount *driver.Uint32,
-		pRects *driver.VkRect2D,
+		pRectCount *loader.Uint32,
+		pRects *loader.VkRect2D,
 	) (common.VkResult, error) {
-		*pRectCount = driver.Uint32(3)
+		*pRectCount = loader.Uint32(3)
 
 		return core1_0.VKSuccess, nil
 	})
@@ -257,14 +246,14 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 		surface.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		surface khr_surface_driver.VkSurfaceKHR,
-		pRectCount *driver.Uint32,
-		pRects *driver.VkRect2D,
+		pRectCount *loader.Uint32,
+		pRects *loader.VkRect2D,
 	) (common.VkResult, error) {
-		require.Equal(t, driver.Uint32(3), *pRectCount)
+		require.Equal(t, loader.Uint32(3), *pRectCount)
 
-		rectSlice := ([]driver.VkRect2D)(unsafe.Slice(pRects, 3))
+		rectSlice := ([]loader.VkRect2D)(unsafe.Slice(pRects, 3))
 		val := reflect.ValueOf(rectSlice)
 
 		r := val.Index(0)
@@ -310,32 +299,29 @@ func TestVulkanExtensionWithKHRSwapchain_AcquireNextImage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
 	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, builder)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_1)
-	device := mocks1_1.EasyMockDevice(ctrl, coreDriver)
-	swapchain := mock_swapchain.EasyMockSwapchain(ctrl)
-	semaphore := mocks1_1.EasyMockSemaphore(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
+	swapchain := khr_swapchain.NewDummySwapchain(device)
+	semaphore := mocks.NewDummySemaphore(device)
 
 	extDriver.EXPECT().VkAcquireNextImage2KHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
+	).DoAndReturn(func(device loader.VkDevice,
 		pAcquireInfo *khr_swapchain_driver.VkAcquireNextImageInfoKHR,
-		pImageIndex *driver.Uint32,
+		pImageIndex *loader.Uint32,
 	) (common.VkResult, error) {
-		*pImageIndex = driver.Uint32(2)
+		*pImageIndex = loader.Uint32(2)
 
 		val := reflect.ValueOf(pAcquireInfo).Elem()
 		require.Equal(t, uint64(1000060010), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_ACQUIRE_NEXT_IMAGE_INFO_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
 		require.Equal(t, swapchain.Handle(), khr_swapchain_driver.VkSwapchainKHR(val.FieldByName("swapchain").UnsafePointer()))
 		require.Equal(t, uint64(1000000000), val.FieldByName("timeout").Uint())
-		require.Equal(t, semaphore.Handle(), driver.VkSemaphore(val.FieldByName("semaphore").UnsafePointer()))
+		require.Equal(t, semaphore.Handle(), loader.VkSemaphore(val.FieldByName("semaphore").UnsafePointer()))
 		require.True(t, val.FieldByName("fence").IsNil())
 		require.Equal(t, uint64(3), val.FieldByName("deviceMask").Uint())
 

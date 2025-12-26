@@ -8,14 +8,13 @@ import (
 	uuid2 "github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
-	khr_external_semaphore_capabilities_driver "github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities/driver"
+	khr_external_semaphore_capabilities_driver "github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities/loader"
 	mock_external_semaphore_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -24,11 +23,11 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	deviceUUID, err := uuid2.NewRandom()
 	require.NoError(t, err)
@@ -41,7 +40,7 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
 		func(
-			physicalDevice driver.VkPhysicalDevice,
+			physicalDevice loader.VkPhysicalDevice,
 			pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR,
 		) {
 			val := reflect.ValueOf(pProperties).Elem()
@@ -67,14 +66,14 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 			*(*byte)(unsafe.Pointer(val.FieldByName("deviceLUID").Index(7).UnsafeAddr())) = byte(0xde)
 
 			*(*uint32)(unsafe.Pointer(val.FieldByName("deviceNodeMask").UnsafeAddr())) = uint32(7)
-			*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("deviceLUIDValid").UnsafeAddr())) = driver.VkBool32(1)
+			*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("deviceLUIDValid").UnsafeAddr())) = loader.VkBool32(1)
 		})
 
 	var properties khr_get_physical_device_properties2.PhysicalDeviceProperties2
 	var outData khr_external_semaphore_capabilities.PhysicalDeviceIDProperties
 	properties.NextOutData = common.NextOutData{&outData}
 
-	err = extension.PhysicalDeviceProperties2(
+	err = extension.GetPhysicalDeviceProperties2(
 		physicalDevice,
 		&properties,
 	)
@@ -92,18 +91,18 @@ func TestVulkanExtension_ExternalSemaphoreProperties(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_external_semaphore_capabilities.NewMockDriver(ctrl)
+	extDriver := mock_external_semaphore_capabilities.NewMockLoader(ctrl)
 	extension := khr_external_semaphore_capabilities.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceExternalSemaphorePropertiesKHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(physicalDevice driver.VkPhysicalDevice,
+		func(physicalDevice loader.VkPhysicalDevice,
 			pExternalSemaphoreInfo *khr_external_semaphore_capabilities_driver.VkPhysicalDeviceExternalSemaphoreInfoKHR,
 			pExternalSemaphoreProperties *khr_external_semaphore_capabilities_driver.VkExternalSemaphorePropertiesKHR,
 		) {

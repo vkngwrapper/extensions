@@ -6,16 +6,16 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/driver"
+	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 	mock_surface "github.com/vkngwrapper/extensions/v3/khr_surface/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/driver"
+	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 	mock_swapchain "github.com/vkngwrapper/extensions/v3/khr_swapchain/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -24,20 +24,17 @@ func TestVulkanExtension_CreateSwapchain(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
 	swapchainDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver, builder)
+	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver)
 
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	swapchainHandle := mock_swapchain.NewFakeSwapchain()
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	expectedSwapchain := khr_swapchain.NewDummySwapchain(device)
 	surface := mock_surface.EasyMockSurface(ctrl)
-	oldSwapchain := mock_swapchain.EasyMockSwapchain(ctrl)
+	oldSwapchain := khr_swapchain.NewDummySwapchain(device)
 
 	swapchainDriver.EXPECT().VkCreateSwapchainKHR(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
-		DoAndReturn(func(device driver.VkDevice, pCreateInfo *khr_swapchain_driver.VkSwapchainCreateInfoKHR, pAllocator *driver.VkAllocationCallbacks, pSwapchain *khr_swapchain_driver.VkSwapchainKHR) (common.VkResult, error) {
-			*pSwapchain = swapchainHandle
+		DoAndReturn(func(device loader.VkDevice, pCreateInfo *khr_swapchain_driver.VkSwapchainCreateInfoKHR, pAllocator *loader.VkAllocationCallbacks, pSwapchain *khr_swapchain_driver.VkSwapchainKHR) (common.VkResult, error) {
+			*pSwapchain = expectedSwapchain.Handle()
 
 			val := reflect.ValueOf(*pCreateInfo)
 			require.Equal(t, uint64(1000001000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR
@@ -93,29 +90,28 @@ func TestVulkanExtension_CreateSwapchain(t *testing.T) {
 	})
 
 	require.NoError(t, err)
-	require.Equal(t, swapchainHandle, swapchain.Handle())
+	require.Equal(t, expectedSwapchain.Handle(), swapchain.Handle())
 }
 
 func TestVulkanExtension_PresentToQueue_NullOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
 	swapchainDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver, builder)
+	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver)
 
-	swapchain := mock_swapchain.EasyMockSwapchain(ctrl)
-	queue := mocks1_0.EasyMockQueue(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	swapchain := khr_swapchain.NewDummySwapchain(device)
+	queue := mocks.NewDummyQueue(device)
 
-	semaphore1 := mocks1_0.EasyMockSemaphore(ctrl)
-	semaphore2 := mocks1_0.EasyMockSemaphore(ctrl)
+	semaphore1 := mocks.NewDummySemaphore(device)
+	semaphore2 := mocks.NewDummySemaphore(device)
 
 	swapchainDriver.EXPECT().VkQueuePresentKHR(
 		queue.Handle(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(queue driver.VkQueue, pPresentInfo *khr_swapchain_driver.VkPresentInfoKHR) (common.VkResult, error) {
+		func(queue loader.VkQueue, pPresentInfo *khr_swapchain_driver.VkPresentInfoKHR) (common.VkResult, error) {
 			val := reflect.ValueOf(*pPresentInfo)
 
 			require.Equal(t, uint64(1000001001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PRESENT_INFO_KHR
@@ -123,8 +119,8 @@ func TestVulkanExtension_PresentToQueue_NullOutData(t *testing.T) {
 			require.Equal(t, uint64(2), val.FieldByName("waitSemaphoreCount").Uint())
 			require.Equal(t, uint64(1), val.FieldByName("swapchainCount").Uint())
 
-			semaphorePtr := (*driver.VkSemaphore)(unsafe.Pointer(val.FieldByName("pWaitSemaphores").Elem().UnsafeAddr()))
-			semaphores := ([]driver.VkSemaphore)(unsafe.Slice(semaphorePtr, 2))
+			semaphorePtr := (*loader.VkSemaphore)(unsafe.Pointer(val.FieldByName("pWaitSemaphores").Elem().UnsafeAddr()))
+			semaphores := ([]loader.VkSemaphore)(unsafe.Slice(semaphorePtr, 2))
 			require.Equal(t, semaphore1.Handle(), semaphores[0])
 			require.Equal(t, semaphore2.Handle(), semaphores[1])
 
@@ -132,19 +128,19 @@ func TestVulkanExtension_PresentToQueue_NullOutData(t *testing.T) {
 			swapchains := ([]khr_swapchain_driver.VkSwapchainKHR)(unsafe.Slice(swapchainPtr, 1))
 			require.Equal(t, swapchain.Handle(), swapchains[0])
 
-			imageIndicesPtr := (*driver.Uint32)(unsafe.Pointer(val.FieldByName("pImageIndices").Elem().UnsafeAddr()))
-			imageIndices := ([]driver.Uint32)(unsafe.Slice(imageIndicesPtr, 1))
-			require.Equal(t, driver.Uint32(2), imageIndices[0])
+			imageIndicesPtr := (*loader.Uint32)(unsafe.Pointer(val.FieldByName("pImageIndices").Elem().UnsafeAddr()))
+			imageIndices := ([]loader.Uint32)(unsafe.Slice(imageIndicesPtr, 1))
+			require.Equal(t, loader.Uint32(2), imageIndices[0])
 
-			resultsPtr := (*driver.VkResult)(unsafe.Pointer(val.FieldByName("pResults").Elem().UnsafeAddr()))
-			results := ([]driver.VkResult)(unsafe.Slice(resultsPtr, 1))
-			results[0] = driver.VkResult(core1_0.VKSuccess)
+			resultsPtr := (*loader.VkResult)(unsafe.Pointer(val.FieldByName("pResults").Elem().UnsafeAddr()))
+			results := ([]loader.VkResult)(unsafe.Slice(resultsPtr, 1))
+			results[0] = loader.VkResult(core1_0.VKSuccess)
 
 			return core1_0.VKSuccess, nil
 		})
 
 	options := khr_swapchain.PresentInfo{
-		WaitSemaphores: []core1_0.Semaphore{semaphore1, semaphore2},
+		WaitSemaphores: []core.Semaphore{semaphore1, semaphore2},
 		Swapchains:     []khr_swapchain.Swapchain{swapchain},
 		ImageIndices:   []int{2},
 	}
@@ -157,22 +153,21 @@ func TestVulkanExtension_PresentToQueue_RealOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	builder := mocks1_0.NewMockDeviceObjectBuilder(ctrl)
-
 	swapchainDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver, builder)
+	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver)
 
-	swapchain := mock_swapchain.EasyMockSwapchain(ctrl)
-	queue := mocks1_0.EasyMockQueue(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	swapchain := khr_swapchain.NewDummySwapchain(device)
+	queue := mocks.NewDummyQueue(device)
 
-	semaphore1 := mocks1_0.EasyMockSemaphore(ctrl)
-	semaphore2 := mocks1_0.EasyMockSemaphore(ctrl)
+	semaphore1 := mocks.NewDummySemaphore(device)
+	semaphore2 := mocks.NewDummySemaphore(device)
 
 	swapchainDriver.EXPECT().VkQueuePresentKHR(
 		queue.Handle(),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(
-		func(queue driver.VkQueue, pPresentInfo *khr_swapchain_driver.VkPresentInfoKHR) (common.VkResult, error) {
+		func(queue loader.VkQueue, pPresentInfo *khr_swapchain_driver.VkPresentInfoKHR) (common.VkResult, error) {
 			val := reflect.ValueOf(*pPresentInfo)
 
 			require.Equal(t, uint64(1000001001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PRESENT_INFO_KHR
@@ -180,8 +175,8 @@ func TestVulkanExtension_PresentToQueue_RealOutData(t *testing.T) {
 			require.Equal(t, uint64(2), val.FieldByName("waitSemaphoreCount").Uint())
 			require.Equal(t, uint64(1), val.FieldByName("swapchainCount").Uint())
 
-			semaphorePtr := (*driver.VkSemaphore)(unsafe.Pointer(val.FieldByName("pWaitSemaphores").Elem().UnsafeAddr()))
-			semaphores := ([]driver.VkSemaphore)(unsafe.Slice(semaphorePtr, 2))
+			semaphorePtr := (*loader.VkSemaphore)(unsafe.Pointer(val.FieldByName("pWaitSemaphores").Elem().UnsafeAddr()))
+			semaphores := ([]loader.VkSemaphore)(unsafe.Slice(semaphorePtr, 2))
 			require.Equal(t, semaphore1.Handle(), semaphores[0])
 			require.Equal(t, semaphore2.Handle(), semaphores[1])
 
@@ -189,20 +184,20 @@ func TestVulkanExtension_PresentToQueue_RealOutData(t *testing.T) {
 			swapchains := ([]khr_swapchain_driver.VkSwapchainKHR)(unsafe.Slice(swapchainPtr, 1))
 			require.Equal(t, swapchain.Handle(), swapchains[0])
 
-			imageIndicesPtr := (*driver.Uint32)(unsafe.Pointer(val.FieldByName("pImageIndices").Elem().UnsafeAddr()))
-			imageIndices := ([]driver.Uint32)(unsafe.Slice(imageIndicesPtr, 1))
-			require.Equal(t, driver.Uint32(2), imageIndices[0])
+			imageIndicesPtr := (*loader.Uint32)(unsafe.Pointer(val.FieldByName("pImageIndices").Elem().UnsafeAddr()))
+			imageIndices := ([]loader.Uint32)(unsafe.Slice(imageIndicesPtr, 1))
+			require.Equal(t, loader.Uint32(2), imageIndices[0])
 
-			resultsPtr := (*driver.VkResult)(unsafe.Pointer(val.FieldByName("pResults").Elem().UnsafeAddr()))
-			results := ([]driver.VkResult)(unsafe.Slice(resultsPtr, 1))
-			results[0] = driver.VkResult(core1_0.VKTimeout)
+			resultsPtr := (*loader.VkResult)(unsafe.Pointer(val.FieldByName("pResults").Elem().UnsafeAddr()))
+			results := ([]loader.VkResult)(unsafe.Slice(resultsPtr, 1))
+			results[0] = loader.VkResult(core1_0.VKTimeout)
 
 			return core1_0.VKSuccess, nil
 		})
 
 	outData := khr_swapchain.PresentOutData{}
 	_, err := extension.QueuePresent(queue, khr_swapchain.PresentInfo{
-		WaitSemaphores: []core1_0.Semaphore{semaphore1, semaphore2},
+		WaitSemaphores: []core.Semaphore{semaphore1, semaphore2},
 		Swapchains:     []khr_swapchain.Swapchain{swapchain},
 		ImageIndices:   []int{2},
 		OutData:        &outData,

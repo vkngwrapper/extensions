@@ -12,8 +12,8 @@ package mock_bind_memory2
 import (
 	reflect "reflect"
 
+	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_bind_memory2 "github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -43,7 +43,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // BindBufferMemory2 mocks base method.
-func (m *MockExtension) BindBufferMemory2(device core1_0.Device, options []khr_bind_memory2.BindBufferMemoryInfo) (common.VkResult, error) {
+func (m *MockExtension) BindBufferMemory2(device core.Device, options []khr_bind_memory2.BindBufferMemoryInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BindBufferMemory2", device, options)
 	ret0, _ := ret[0].(common.VkResult)
@@ -58,7 +58,7 @@ func (mr *MockExtensionMockRecorder) BindBufferMemory2(device, options any) *gom
 }
 
 // BindImageMemory2 mocks base method.
-func (m *MockExtension) BindImageMemory2(device core1_0.Device, options []khr_bind_memory2.BindImageMemoryInfo) (common.VkResult, error) {
+func (m *MockExtension) BindImageMemory2(device core.Device, options []khr_bind_memory2.BindImageMemoryInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BindImageMemory2", device, options)
 	ret0, _ := ret[0].(common.VkResult)

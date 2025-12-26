@@ -8,10 +8,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
-	khr_image_format_list_driver "github.com/vkngwrapper/extensions/v3/khr_image_format_list/driver"
+	khr_image_format_list_driver "github.com/vkngwrapper/extensions/v3/khr_image_format_list/loader"
 	"go.uber.org/mock/gomock"
 )
 
@@ -19,19 +20,20 @@ func TestImageFormatListCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockImage := mocks1_0.EasyMockImage(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockImage := mocks.NewDummyImage(device)
 
-	coreDriver.EXPECT().VkCreateImage(
+	coreLoader.EXPECT().VkCreateImage(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkImageCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pImage *driver.VkImage) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkImageCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pImage *loader.VkImage) (common.VkResult, error) {
 
 		*pImage = mockImage.Handle()
 
@@ -45,14 +47,15 @@ func TestImageFormatListCreateOptions(t *testing.T) {
 		require.True(t, val.FieldByName("pNext").IsNil())
 		require.Equal(t, uint64(3), val.FieldByName("viewFormatCount").Uint())
 
-		formatPtr := (*driver.VkFormat)(val.FieldByName("pViewFormats").UnsafePointer())
-		formatSlice := ([]driver.VkFormat)(unsafe.Slice(formatPtr, 3))
-		require.Equal(t, []driver.VkFormat{64, 57, 52}, formatSlice)
+		formatPtr := (*loader.VkFormat)(val.FieldByName("pViewFormats").UnsafePointer())
+		formatSlice := ([]loader.VkFormat)(unsafe.Slice(formatPtr, 3))
+		require.Equal(t, []loader.VkFormat{64, 57, 52}, formatSlice)
 
 		return core1_0.VKSuccess, nil
 	})
 
-	image, _, err := device.CreateImage(
+	image, _, err := driver.CreateImage(
+		device,
 		nil,
 		core1_0.ImageCreateInfo{
 			NextOptions: common.NextOptions{

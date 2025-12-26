@@ -1,0 +1,172 @@
+package khr_get_physical_device_properties2_loader
+
+//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_get_physical_device_properties2
+
+/*
+#include <stdlib.h>
+#include "../../vulkan/vulkan.h"
+
+void cgoGetPhysicalDeviceFeatures2KHR(PFN_vkGetPhysicalDeviceFeatures2KHR fn, VkPhysicalDevice physicalDevice, VkPhysicalDeviceFeatures2KHR *pFeatures) {
+	fn(physicalDevice, pFeatures);
+}
+
+void cgoGetPhysicalDeviceFormatProperties2KHR(PFN_vkGetPhysicalDeviceFormatProperties2KHR fn, VkPhysicalDevice physicalDevice, VkFormat format, VkFormatProperties2KHR *pFormatProperties) {
+	fn(physicalDevice, format, pFormatProperties);
+}
+
+VkResult cgoGetPhysicalDeviceImageFormatProperties2KHR(PFN_vkGetPhysicalDeviceImageFormatProperties2KHR fn, VkPhysicalDevice physicalDevice, VkPhysicalDeviceImageFormatInfo2KHR *pImageFormatInfo, VkImageFormatProperties2KHR *pImageFormatProperties) {
+	return fn(physicalDevice, pImageFormatInfo, pImageFormatProperties);
+}
+
+void cgoGetPhysicalDeviceMemoryProperties2KHR(PFN_vkGetPhysicalDeviceMemoryProperties2KHR fn, VkPhysicalDevice physicalDevice, VkPhysicalDeviceMemoryProperties2KHR *pMemoryProperties) {
+	fn(physicalDevice, pMemoryProperties);
+}
+
+void cgoGetPhysicalDeviceProperties2KHR(PFN_vkGetPhysicalDeviceProperties2KHR fn, VkPhysicalDevice physicalDevice, VkPhysicalDeviceProperties2KHR *pProperties) {
+	fn(physicalDevice, pProperties);
+}
+
+void cgoGetPhysicalDeviceQueueFamilyProperties2KHR(PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR fn, VkPhysicalDevice physicalDevice, uint32_t *pQueueFamilyPropertyCount, VkQueueFamilyProperties2KHR *pQueueFamilyProperties) {
+	fn(physicalDevice, pQueueFamilyPropertyCount, pQueueFamilyProperties);
+}
+
+void cgoGetPhysicalDeviceSparseImageFormatProperties2KHR(PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR fn, VkPhysicalDevice physicalDevice, VkPhysicalDeviceSparseImageFormatInfo2KHR *pFormatInfo, uint32_t *pPropertyCount, VkSparseImageFormatProperties2KHR *pProperties) {
+	fn(physicalDevice, pFormatInfo, pPropertyCount, pProperties);
+}
+*/
+import "C"
+import (
+	"unsafe"
+
+	"github.com/CannibalVox/cgoparam"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/loader"
+	_ "github.com/vkngwrapper/extensions/v3/vulkan"
+)
+
+type Loader interface {
+	VkGetPhysicalDeviceFeatures2KHR(physicalDevice loader.VkPhysicalDevice, pFeatures *VkPhysicalDeviceFeatures2KHR)
+	VkGetPhysicalDeviceFormatProperties2KHR(physicalDevice loader.VkPhysicalDevice, format loader.VkFormat, pFormatProperties *VkFormatProperties2KHR)
+	VkGetPhysicalDeviceImageFormatProperties2KHR(physicalDevice loader.VkPhysicalDevice, pImageFormatInfo *VkPhysicalDeviceImageFormatInfo2KHR, pImageFormatProperties *VkImageFormatProperties2KHR) (common.VkResult, error)
+	VkGetPhysicalDeviceMemoryProperties2KHR(physicalDevice loader.VkPhysicalDevice, pMemoryProperties *VkPhysicalDeviceMemoryProperties2KHR)
+	VkGetPhysicalDeviceProperties2KHR(physicalDevice loader.VkPhysicalDevice, pProperties *VkPhysicalDeviceProperties2KHR)
+	VkGetPhysicalDeviceQueueFamilyProperties2KHR(physicalDevice loader.VkPhysicalDevice, pQueueFamilyPropertyCount *loader.Uint32, pQueueFamilyProperties *VkQueueFamilyProperties2KHR)
+	VkGetPhysicalDeviceSparseImageFormatProperties2KHR(physicalDevice loader.VkPhysicalDevice, pFormatInfo *VkPhysicalDeviceSparseImageFormatInfo2KHR, pPropertyCount *loader.Uint32, pProperties *VkSparseImageFormatProperties2KHR)
+}
+
+type VkPhysicalDeviceFeatures2KHR C.VkPhysicalDeviceFeatures2KHR
+type VkFormatProperties2KHR C.VkFormatProperties2KHR
+type VkPhysicalDeviceImageFormatInfo2KHR C.VkPhysicalDeviceImageFormatInfo2KHR
+type VkImageFormatProperties2KHR C.VkImageFormatProperties2KHR
+type VkPhysicalDeviceMemoryProperties2KHR C.VkPhysicalDeviceMemoryProperties2KHR
+type VkPhysicalDeviceProperties2KHR C.VkPhysicalDeviceProperties2KHR
+type VkQueueFamilyProperties2KHR C.VkQueueFamilyProperties2KHR
+type VkPhysicalDeviceSparseImageFormatInfo2KHR C.VkPhysicalDeviceSparseImageFormatInfo2KHR
+type VkSparseImageFormatProperties2KHR C.VkSparseImageFormatProperties2KHR
+
+type CLoader struct {
+	coreLoader loader.Loader
+
+	getPhysicalDeviceFeatures2                    C.PFN_vkGetPhysicalDeviceFeatures2KHR
+	getPhysicalDeviceFormatProperties2            C.PFN_vkGetPhysicalDeviceFormatProperties2KHR
+	getPhysicalDeviceImageFormatProperties2       C.PFN_vkGetPhysicalDeviceImageFormatProperties2KHR
+	getPhysicalDeviceMemoryProperties2            C.PFN_vkGetPhysicalDeviceMemoryProperties2KHR
+	getPhysicalDeviceProperties2                  C.PFN_vkGetPhysicalDeviceProperties2KHR
+	getPhysicalDeviceQueueFamilyProperties2       C.PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR
+	getPhysicalDeviceSparseImageFormatProperties2 C.PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR
+}
+
+func CreateLoaderFromCore(coreLoader loader.Loader) *CLoader {
+	arena := cgoparam.GetAlloc()
+	defer cgoparam.ReturnAlloc(arena)
+
+	return &CLoader{
+		coreLoader: coreLoader,
+
+		getPhysicalDeviceFeatures2:                    (C.PFN_vkGetPhysicalDeviceFeatures2KHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkGetPhysicalDeviceFeatures2KHR")))),
+		getPhysicalDeviceFormatProperties2:            (C.PFN_vkGetPhysicalDeviceFormatProperties2KHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkGetPhysicalDeviceFormatProperties2KHR")))),
+		getPhysicalDeviceImageFormatProperties2:       (C.PFN_vkGetPhysicalDeviceImageFormatProperties2KHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkGetPhysicalDeviceImageFormatProperties2KHR")))),
+		getPhysicalDeviceMemoryProperties2:            (C.PFN_vkGetPhysicalDeviceMemoryProperties2KHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkGetPhysicalDeviceMemoryProperties2KHR")))),
+		getPhysicalDeviceProperties2:                  (C.PFN_vkGetPhysicalDeviceProperties2KHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkGetPhysicalDeviceProperties2KHR")))),
+		getPhysicalDeviceQueueFamilyProperties2:       (C.PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkGetPhysicalDeviceQueueFamilyProperties2KHR")))),
+		getPhysicalDeviceSparseImageFormatProperties2: (C.PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkGetPhysicalDeviceSparseImageFormatProperties2KHR")))),
+	}
+}
+
+func (d *CLoader) VkGetPhysicalDeviceFeatures2KHR(physicalDevice loader.VkPhysicalDevice, pFeatures *VkPhysicalDeviceFeatures2KHR) {
+	if d.getPhysicalDeviceFeatures2 == nil {
+		panic("attempt to call extension method vkGetPhysicalDeviceFeatures2KHR when extension not present")
+	}
+
+	C.cgoGetPhysicalDeviceFeatures2KHR(d.getPhysicalDeviceFeatures2,
+		C.VkPhysicalDevice(unsafe.Pointer(physicalDevice)),
+		(*C.VkPhysicalDeviceFeatures2KHR)(pFeatures),
+	)
+}
+
+func (d *CLoader) VkGetPhysicalDeviceFormatProperties2KHR(physicalDevice loader.VkPhysicalDevice, format loader.VkFormat, pFormatProperties *VkFormatProperties2KHR) {
+	if d.getPhysicalDeviceFormatProperties2 == nil {
+		panic("attempt to call extension method vkGetPhysicalDeviceFormatProperties2KHR when extension not present")
+	}
+
+	C.cgoGetPhysicalDeviceFormatProperties2KHR(d.getPhysicalDeviceFormatProperties2,
+		C.VkPhysicalDevice(unsafe.Pointer(physicalDevice)),
+		C.VkFormat(format),
+		(*C.VkFormatProperties2KHR)(pFormatProperties),
+	)
+}
+
+func (d *CLoader) VkGetPhysicalDeviceImageFormatProperties2KHR(physicalDevice loader.VkPhysicalDevice, pImageFormatInfo *VkPhysicalDeviceImageFormatInfo2KHR, pImageFormatProperties *VkImageFormatProperties2KHR) (common.VkResult, error) {
+	if d.getPhysicalDeviceImageFormatProperties2 == nil {
+		panic("attempt to call extension method vkGetPhysicalDeviceImageFormatProperties2KHR when extension not present")
+	}
+
+	res := common.VkResult(C.cgoGetPhysicalDeviceImageFormatProperties2KHR(d.getPhysicalDeviceImageFormatProperties2,
+		C.VkPhysicalDevice(unsafe.Pointer(physicalDevice)),
+		(*C.VkPhysicalDeviceImageFormatInfo2KHR)(pImageFormatInfo),
+		(*C.VkImageFormatProperties2KHR)(pImageFormatProperties)))
+	return res, res.ToError()
+}
+
+func (d *CLoader) VkGetPhysicalDeviceMemoryProperties2KHR(physicalDevice loader.VkPhysicalDevice, pMemoryProperties *VkPhysicalDeviceMemoryProperties2KHR) {
+	if d.getPhysicalDeviceMemoryProperties2 == nil {
+		panic("attempt to call extension method vkGetPhysicalDeviceMemoryProperties2KHR when extension not present")
+	}
+
+	C.cgoGetPhysicalDeviceMemoryProperties2KHR(d.getPhysicalDeviceMemoryProperties2,
+		C.VkPhysicalDevice(unsafe.Pointer(physicalDevice)),
+		(*C.VkPhysicalDeviceMemoryProperties2KHR)(pMemoryProperties))
+}
+
+func (d *CLoader) VkGetPhysicalDeviceProperties2KHR(physicalDevice loader.VkPhysicalDevice, pProperties *VkPhysicalDeviceProperties2KHR) {
+	if d.getPhysicalDeviceProperties2 == nil {
+		panic("attempt to call extension method vkGetPhysicalDeviceProperties2KHR when extension not present")
+	}
+
+	C.cgoGetPhysicalDeviceProperties2KHR(d.getPhysicalDeviceProperties2,
+		C.VkPhysicalDevice(unsafe.Pointer(physicalDevice)),
+		(*C.VkPhysicalDeviceProperties2KHR)(pProperties))
+}
+
+func (d *CLoader) VkGetPhysicalDeviceQueueFamilyProperties2KHR(physicalDevice loader.VkPhysicalDevice, pQueueFamilyPropertyCount *loader.Uint32, pQueueFamilyProperties *VkQueueFamilyProperties2KHR) {
+	if d.getPhysicalDeviceQueueFamilyProperties2 == nil {
+		panic("attempt to call extension method vkGetPhysicalDeviceQueueFamilyProperties2KHR when extension not present")
+	}
+
+	C.cgoGetPhysicalDeviceQueueFamilyProperties2KHR(d.getPhysicalDeviceQueueFamilyProperties2,
+		C.VkPhysicalDevice(unsafe.Pointer(physicalDevice)),
+		(*C.uint32_t)(pQueueFamilyPropertyCount),
+		(*C.VkQueueFamilyProperties2KHR)(pQueueFamilyProperties))
+}
+
+func (d *CLoader) VkGetPhysicalDeviceSparseImageFormatProperties2KHR(physicalDevice loader.VkPhysicalDevice, pFormatInfo *VkPhysicalDeviceSparseImageFormatInfo2KHR, pPropertyCount *loader.Uint32, pProperties *VkSparseImageFormatProperties2KHR) {
+	if d.getPhysicalDeviceSparseImageFormatProperties2 == nil {
+		panic("attempt to call extension method vkGetPhysicalDeviceSparseImageFormatProperties2KHR when extension not present")
+	}
+
+	C.cgoGetPhysicalDeviceSparseImageFormatProperties2KHR(d.getPhysicalDeviceSparseImageFormatProperties2,
+		C.VkPhysicalDevice(unsafe.Pointer(physicalDevice)),
+		(*C.VkPhysicalDeviceSparseImageFormatInfo2KHR)(pFormatInfo),
+		(*C.uint32_t)(pPropertyCount),
+		(*C.VkSparseImageFormatProperties2KHR)(pProperties))
+}

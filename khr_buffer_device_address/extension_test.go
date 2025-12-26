@@ -8,14 +8,15 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
-	"github.com/vkngwrapper/core/v3/driver"
-	mock_driver "github.com/vkngwrapper/core/v3/driver/mocks"
+	"github.com/vkngwrapper/core/v3/loader"
+	mock_driver "github.com/vkngwrapper/core/v3/loader/mocks"
+	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
-	khr_buffer_device_address_driver "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address/driver"
+	khr_buffer_device_address_driver "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address/loader"
 	mock_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
-	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/driver"
+	khr_get_physical_device_properties2_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -27,19 +28,18 @@ func TestVulkanExtension_GetBufferDeviceAddress(t *testing.T) {
 	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
 	extension := khr_buffer_device_address.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	buffer := mocks1_0.EasyMockBuffer(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	buffer := mocks.NewDummyBuffer(device)
 
 	extDriver.EXPECT().VkGetBufferDeviceAddressKHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice, pInfo *khr_buffer_device_address_driver.VkBufferDeviceAddressInfoKHR) driver.VkDeviceAddress {
+	).DoAndReturn(func(device loader.VkDevice, pInfo *khr_buffer_device_address_driver.VkBufferDeviceAddressInfoKHR) loader.VkDeviceAddress {
 		val := reflect.ValueOf(pInfo).Elem()
 
 		require.Equal(t, uint64(1000244001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		require.Equal(t, buffer.Handle(), driver.VkBuffer(val.FieldByName("buffer").UnsafePointer()))
+		require.Equal(t, buffer.Handle(), loader.VkBuffer(val.FieldByName("buffer").UnsafePointer()))
 
 		return 5
 	})
@@ -60,19 +60,18 @@ func TestVulkanExtension_GetBufferOpaqueCaptureAddress(t *testing.T) {
 	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
 	extension := khr_buffer_device_address.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	buffer := mocks1_0.EasyMockBuffer(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	buffer := mocks.NewDummyBuffer(device)
 
 	extDriver.EXPECT().VkGetBufferOpaqueCaptureAddressKHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice, pInfo *khr_buffer_device_address_driver.VkBufferDeviceAddressInfoKHR) driver.Uint64 {
+	).DoAndReturn(func(device loader.VkDevice, pInfo *khr_buffer_device_address_driver.VkBufferDeviceAddressInfoKHR) loader.Uint64 {
 		val := reflect.ValueOf(pInfo).Elem()
 
 		require.Equal(t, uint64(1000244001), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		require.Equal(t, buffer.Handle(), driver.VkBuffer(val.FieldByName("buffer").UnsafePointer()))
+		require.Equal(t, buffer.Handle(), loader.VkBuffer(val.FieldByName("buffer").UnsafePointer()))
 
 		return 7
 	})
@@ -93,19 +92,18 @@ func TestVulkanExtension_GetDeviceMemoryOpaqueCaptureAddress(t *testing.T) {
 	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
 	extension := khr_buffer_device_address.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.EasyMockDevice(ctrl, coreDriver)
-	deviceMemory := mocks1_0.EasyMockDeviceMemory(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	deviceMemory := mocks.NewDummyDeviceMemory(device, 1)
 
 	extDriver.EXPECT().VkGetDeviceMemoryOpaqueCaptureAddressKHR(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice, pInfo *khr_buffer_device_address_driver.VkDeviceMemoryOpaqueCaptureAddressInfoKHR) driver.Uint64 {
+	).DoAndReturn(func(device loader.VkDevice, pInfo *khr_buffer_device_address_driver.VkDeviceMemoryOpaqueCaptureAddressInfoKHR) loader.Uint64 {
 		val := reflect.ValueOf(pInfo).Elem()
 
 		require.Equal(t, uint64(1000257004), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_DEVICE_MEMORY_OPAQUE_CAPTURE_ADDRESS_INFO_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		require.Equal(t, deviceMemory.Handle(), driver.VkDeviceMemory(val.FieldByName("memory").UnsafePointer()))
+		require.Equal(t, deviceMemory.Handle(), loader.VkDeviceMemory(val.FieldByName("memory").UnsafePointer()))
 
 		return 11
 	})
@@ -123,19 +121,20 @@ func TestBufferOpaqueCaptureAddressCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockBuffer := mocks1_0.EasyMockBuffer(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockBuffer := mocks.NewDummyBuffer(device)
 
-	coreDriver.EXPECT().VkCreateBuffer(
+	coreLoader.EXPECT().VkCreateBuffer(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pCreateInfo *driver.VkBufferCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pBuffer *driver.VkBuffer) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pCreateInfo *loader.VkBufferCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pBuffer *loader.VkBuffer) (common.VkResult, error) {
 
 		*pBuffer = mockBuffer.Handle()
 		val := reflect.ValueOf(pCreateInfo).Elem()
@@ -152,7 +151,8 @@ func TestBufferOpaqueCaptureAddressCreateOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	buffer, _, err := device.CreateBuffer(
+	buffer, _, err := driver.CreateBuffer(
+		device,
 		nil,
 		core1_0.BufferCreateInfo{
 			NextOptions: common.NextOptions{
@@ -169,19 +169,20 @@ func TestMemoryOpaqueCaptureAddressAllocateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	device := mocks1_0.NewDummyDevice(coreDriver, common.Vulkan1_0, []string{})
-	mockMemory := mocks1_0.EasyMockDeviceMemory(ctrl)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(coreLoader)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	mockMemory := mocks.NewDummyDeviceMemory(device, 1)
 
-	coreDriver.EXPECT().VkAllocateMemory(
+	coreLoader.EXPECT().VkAllocateMemory(
 		device.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(device driver.VkDevice,
-		pAllocateInfo *driver.VkMemoryAllocateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pMemory *driver.VkDeviceMemory) (common.VkResult, error) {
+	).DoAndReturn(func(device loader.VkDevice,
+		pAllocateInfo *loader.VkMemoryAllocateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pMemory *loader.VkDeviceMemory) (common.VkResult, error) {
 
 		*pMemory = mockMemory.Handle()
 		val := reflect.ValueOf(pAllocateInfo).Elem()
@@ -198,7 +199,8 @@ func TestMemoryOpaqueCaptureAddressAllocateOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	memory, _, err := device.AllocateMemory(
+	memory, _, err := driver.AllocateMemory(
+		device,
 		nil,
 		core1_0.MemoryAllocateInfo{
 			NextOptions: common.NextOptions{
@@ -215,21 +217,21 @@ func TestPhysicalDeviceBufferAddressFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	coreDriver.EXPECT().CreateDeviceDriver(gomock.Any()).Return(coreDriver, nil)
-	instance := mocks1_0.EasyMockInstance(ctrl, coreDriver)
-	physicalDevice := mocks1_0.NewDummyPhysicalDevice(coreDriver, instance, common.Vulkan1_0)
-	mockDevice := mocks1_0.EasyMockDevice(ctrl, coreDriver)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 
-	coreDriver.EXPECT().VkCreateDevice(
+	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
 		gomock.Nil(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
-		pCreateInfo *driver.VkDeviceCreateInfo,
-		pAllocator *driver.VkAllocationCallbacks,
-		pDevice *driver.VkDevice) (common.VkResult, error) {
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
+		pCreateInfo *loader.VkDeviceCreateInfo,
+		pAllocator *loader.VkAllocationCallbacks,
+		pDevice *loader.VkDevice) (common.VkResult, error) {
 
 		*pDevice = mockDevice.Handle()
 		val := reflect.ValueOf(pCreateInfo).Elem()
@@ -248,7 +250,8 @@ func TestPhysicalDeviceBufferAddressFeaturesOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	device, _, err := physicalDevice.CreateDevice(
+	device, _, err := driver.CreateDevice(
+		physicalDevice,
 		nil,
 		core1_0.DeviceCreateInfo{
 			QueueCreateInfos: []core1_0.DeviceQueueCreateInfo{
@@ -273,13 +276,13 @@ func TestPhysicalDeviceBufferAddressFeaturesOutData(t *testing.T) {
 	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
 	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
 
-	coreDriver := mock_driver.DriverForVersion(ctrl, common.Vulkan1_0)
-	physicalDevice := mocks1_0.EasyMockPhysicalDevice(ctrl, coreDriver)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(
 		physicalDevice.Handle(),
 		gomock.Not(gomock.Nil()),
-	).DoAndReturn(func(physicalDevice driver.VkPhysicalDevice,
+	).DoAndReturn(func(physicalDevice loader.VkPhysicalDevice,
 		pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR) {
 
 		val := reflect.ValueOf(pFeatures).Elem()
@@ -290,9 +293,9 @@ func TestPhysicalDeviceBufferAddressFeaturesOutData(t *testing.T) {
 
 		require.Equal(t, uint64(1000257000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_KHR
 		require.True(t, val.FieldByName("pNext").IsNil())
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("bufferDeviceAddress").UnsafeAddr())) = driver.VkBool32(0)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("bufferDeviceAddressCaptureReplay").UnsafeAddr())) = driver.VkBool32(1)
-		*(*driver.VkBool32)(unsafe.Pointer(val.FieldByName("bufferDeviceAddressMultiDevice").UnsafeAddr())) = driver.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("bufferDeviceAddress").UnsafeAddr())) = loader.VkBool32(0)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("bufferDeviceAddressCaptureReplay").UnsafeAddr())) = loader.VkBool32(1)
+		*(*loader.VkBool32)(unsafe.Pointer(val.FieldByName("bufferDeviceAddressMultiDevice").UnsafeAddr())) = loader.VkBool32(0)
 	})
 
 	var outData khr_buffer_device_address.PhysicalDeviceBufferDeviceAddressFeatures

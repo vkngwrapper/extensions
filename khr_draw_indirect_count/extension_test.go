@@ -3,8 +3,9 @@ package khr_draw_indirect_count
 import (
 	"testing"
 
-	"github.com/vkngwrapper/core/v3/driver"
-	"github.com/vkngwrapper/core/v3/mocks/mocks1_0"
+	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/loader"
+	"github.com/vkngwrapper/core/v3/mocks"
 	mock_draw_indirect_count "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/mocks"
 	"go.uber.org/mock/gomock"
 )
@@ -13,21 +14,23 @@ func TestVulkanExtension_CmdDrawIndexedIndirectCount(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_draw_indirect_count.NewMockDriver(ctrl)
+	extDriver := mock_draw_indirect_count.NewMockLoader(ctrl)
 	extension := CreateExtensionFromDriver(extDriver)
 
-	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
-	buffer := mocks1_0.EasyMockBuffer(ctrl)
-	countBuffer := mocks1_0.EasyMockBuffer(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	commandPool := mocks.NewDummyCommandPool(device)
+	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
+	buffer := mocks.NewDummyBuffer(device)
+	countBuffer := mocks.NewDummyBuffer(device)
 
 	extDriver.EXPECT().VkCmdDrawIndexedIndirectCountKHR(
 		commandBuffer.Handle(),
 		buffer.Handle(),
-		driver.VkDeviceSize(1),
+		loader.VkDeviceSize(1),
 		countBuffer.Handle(),
-		driver.VkDeviceSize(3),
-		driver.Uint32(5),
-		driver.Uint32(7),
+		loader.VkDeviceSize(3),
+		loader.Uint32(5),
+		loader.Uint32(7),
 	)
 
 	extension.CmdDrawIndexedIndirectCount(
@@ -45,21 +48,23 @@ func TestVulkanExtension_CmdDrawIndirectCount(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_draw_indirect_count.NewMockDriver(ctrl)
+	extDriver := mock_draw_indirect_count.NewMockLoader(ctrl)
 	extension := CreateExtensionFromDriver(extDriver)
 
-	commandBuffer := mocks1_0.EasyMockCommandBuffer(ctrl)
-	buffer := mocks1_0.EasyMockBuffer(ctrl)
-	countBuffer := mocks1_0.EasyMockBuffer(ctrl)
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	commandPool := mocks.NewDummyCommandPool(device)
+	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
+	buffer := mocks.NewDummyBuffer(device)
+	countBuffer := mocks.NewDummyBuffer(device)
 
 	extDriver.EXPECT().VkCmdDrawIndirectCountKHR(
 		commandBuffer.Handle(),
 		buffer.Handle(),
-		driver.VkDeviceSize(11),
+		loader.VkDeviceSize(11),
 		countBuffer.Handle(),
-		driver.VkDeviceSize(13),
-		driver.Uint32(17),
-		driver.Uint32(19),
+		loader.VkDeviceSize(13),
+		loader.Uint32(17),
+		loader.Uint32(19),
 	)
 
 	extension.CmdDrawIndirectCount(

@@ -12,8 +12,8 @@ package mock_device_group_creation
 import (
 	reflect "reflect"
 
+	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_device_group_creation "github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -43,7 +43,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // EnumeratePhysicalDeviceGroups mocks base method.
-func (m *MockExtension) EnumeratePhysicalDeviceGroups(instance core1_0.Instance, outDataFactory func() *khr_device_group_creation.PhysicalDeviceGroupProperties) ([]*khr_device_group_creation.PhysicalDeviceGroupProperties, common.VkResult, error) {
+func (m *MockExtension) EnumeratePhysicalDeviceGroups(instance core.Instance, outDataFactory func() *khr_device_group_creation.PhysicalDeviceGroupProperties) ([]*khr_device_group_creation.PhysicalDeviceGroupProperties, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "EnumeratePhysicalDeviceGroups", instance, outDataFactory)
 	ret0, _ := ret[0].([]*khr_device_group_creation.PhysicalDeviceGroupProperties)

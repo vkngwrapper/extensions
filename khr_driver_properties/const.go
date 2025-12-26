@@ -6,7 +6,7 @@ package khr_driver_properties
 */
 import "C"
 
-// DriverID specifies khronos driver id's
+// DriverID specifies khronos loader id's
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDriverId.html
 type DriverID int32
@@ -29,11 +29,11 @@ const (
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_driver_properties.html
 	ExtensionName string = C.VK_KHR_DRIVER_PROPERTIES_EXTENSION_NAME
 
-	// MaxDriverInfoSize is the length of a PhysicalDevice driver information string
+	// MaxDriverInfoSize is the length of a PhysicalDevice loader information string
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_MAX_DRIVER_INFO_SIZE.html
 	MaxDriverInfoSize int = C.VK_MAX_DRIVER_INFO_SIZE_KHR
-	// MaxDriverNameSize is the maximum length of a PhysicalDevice driver name string
+	// MaxDriverNameSize is the maximum length of a PhysicalDevice loader name string
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_MAX_DRIVER_NAME_SIZE.html
 	MaxDriverNameSize int = C.VK_MAX_DRIVER_NAME_SIZE_KHR

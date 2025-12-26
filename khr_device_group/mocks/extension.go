@@ -12,6 +12,7 @@ package mock_device_group
 import (
 	reflect "reflect"
 
+	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_device_group "github.com/vkngwrapper/extensions/v3/khr_device_group"
@@ -44,7 +45,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // CmdDispatchBase mocks base method.
-func (m *MockExtension) CmdDispatchBase(commandBuffer core1_0.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
+func (m *MockExtension) CmdDispatchBase(commandBuffer core.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdDispatchBase", commandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ)
 }
@@ -56,7 +57,7 @@ func (mr *MockExtensionMockRecorder) CmdDispatchBase(commandBuffer, baseGroupX, 
 }
 
 // CmdSetDeviceMask mocks base method.
-func (m *MockExtension) CmdSetDeviceMask(commandBuffer core1_0.CommandBuffer, deviceMask uint32) {
+func (m *MockExtension) CmdSetDeviceMask(commandBuffer core.CommandBuffer, deviceMask uint32) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdSetDeviceMask", commandBuffer, deviceMask)
 }
@@ -68,7 +69,7 @@ func (mr *MockExtensionMockRecorder) CmdSetDeviceMask(commandBuffer, deviceMask 
 }
 
 // DeviceGroupPeerMemoryFeatures mocks base method.
-func (m *MockExtension) DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) khr_device_group.PeerMemoryFeatureFlags {
+func (m *MockExtension) DeviceGroupPeerMemoryFeatures(device core.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) khr_device_group.PeerMemoryFeatureFlags {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeviceGroupPeerMemoryFeatures", device, heapIndex, localDeviceIndex, remoteDeviceIndex)
 	ret0, _ := ret[0].(khr_device_group.PeerMemoryFeatureFlags)
@@ -134,7 +135,7 @@ func (m *MockExtensionWithKHRSurface) EXPECT() *MockExtensionWithKHRSurfaceMockR
 }
 
 // DeviceGroupPresentCapabilities mocks base method.
-func (m *MockExtensionWithKHRSurface) DeviceGroupPresentCapabilities(device core1_0.Device, outData *khr_device_group.DeviceGroupPresentCapabilities) (common.VkResult, error) {
+func (m *MockExtensionWithKHRSurface) DeviceGroupPresentCapabilities(device core.Device, outData *khr_device_group.DeviceGroupPresentCapabilities) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeviceGroupPresentCapabilities", device, outData)
 	ret0, _ := ret[0].(common.VkResult)
@@ -149,7 +150,7 @@ func (mr *MockExtensionWithKHRSurfaceMockRecorder) DeviceGroupPresentCapabilitie
 }
 
 // DeviceGroupSurfacePresentModes mocks base method.
-func (m *MockExtensionWithKHRSurface) DeviceGroupSurfacePresentModes(device core1_0.Device, surface khr_surface.Surface) (khr_device_group.DeviceGroupPresentModeFlags, common.VkResult, error) {
+func (m *MockExtensionWithKHRSurface) DeviceGroupSurfacePresentModes(device core.Device, surface khr_surface.Surface) (khr_device_group.DeviceGroupPresentModeFlags, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeviceGroupSurfacePresentModes", device, surface)
 	ret0, _ := ret[0].(khr_device_group.DeviceGroupPresentModeFlags)
@@ -165,7 +166,7 @@ func (mr *MockExtensionWithKHRSurfaceMockRecorder) DeviceGroupSurfacePresentMode
 }
 
 // PhysicalDevicePresentRectangles mocks base method.
-func (m *MockExtensionWithKHRSurface) PhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+func (m *MockExtensionWithKHRSurface) PhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PhysicalDevicePresentRectangles", physicalDevice, surface)
 	ret0, _ := ret[0].([]core1_0.Rect2D)
@@ -205,7 +206,7 @@ func (m *MockExtensionWithKHRSwapchain) EXPECT() *MockExtensionWithKHRSwapchainM
 }
 
 // AcquireNextImage2 mocks base method.
-func (m *MockExtensionWithKHRSwapchain) AcquireNextImage2(device core1_0.Device, o khr_device_group.AcquireNextImageInfo) (int, common.VkResult, error) {
+func (m *MockExtensionWithKHRSwapchain) AcquireNextImage2(device core.Device, o khr_device_group.AcquireNextImageInfo) (int, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AcquireNextImage2", device, o)
 	ret0, _ := ret[0].(int)

@@ -1,6 +1,7 @@
 package khr_device_group
 
 import (
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
@@ -29,7 +30,7 @@ type Extension interface {
 	// groupCountZ - The number of local workgroups to dispatch in the Z dimension
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdDispatchBase.html
-	CmdDispatchBase(commandBuffer core1_0.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int)
+	CmdDispatchBase(commandBuffer core.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int)
 	// CmdSetDeviceMask modifies the device mask of a CommandBuffer
 	//
 	// commandBuffer - The CommandBuffer to set the Device mask on
@@ -37,7 +38,7 @@ type Extension interface {
 	// deviceMask - The new value of the current Device mask
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdSetDeviceMask.html
-	CmdSetDeviceMask(commandBuffer core1_0.CommandBuffer, deviceMask uint32)
+	CmdSetDeviceMask(commandBuffer core.CommandBuffer, deviceMask uint32)
 	// DeviceGroupPeerMemoryFeatures queries supported peer memory features of a Device
 	//
 	// device - The Device to query peer memory features on
@@ -49,7 +50,7 @@ type Extension interface {
 	// remoteDeviceIndex - The device index of the PhysicalDevice that the memory is allocated for
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetDeviceGroupPeerMemoryFeatures.html
-	DeviceGroupPeerMemoryFeatures(device core1_0.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags
+	DeviceGroupPeerMemoryFeatures(device core.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags
 
 	// WithKHRSurface will return nil if the khr_surface extension is not active, or will return an
 	// object with additional commands that are available when both khr_device_group and khr_surface are
@@ -72,7 +73,7 @@ type ExtensionWithKHRSurface interface {
 	// chained OutData objects
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetDeviceGroupPresentCapabilitiesKHR.html
-	DeviceGroupPresentCapabilities(device core1_0.Device, outData *DeviceGroupPresentCapabilities) (common.VkResult, error)
+	DeviceGroupPresentCapabilities(device core.Device, outData *DeviceGroupPresentCapabilities) (common.VkResult, error)
 	// DeviceGroupSurfacePresentModes queries present capabilities for a khr_surface.Surface
 	//
 	// device - The Device being queried
@@ -80,7 +81,7 @@ type ExtensionWithKHRSurface interface {
 	// surface - The Surface whose present capabilities are being requested
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetDeviceGroupSurfacePresentModesKHR.html
-	DeviceGroupSurfacePresentModes(device core1_0.Device, surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error)
+	DeviceGroupSurfacePresentModes(device core.Device, surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error)
 	// PhysicalDevicePresentRectangles queries present rectangles for a khr_surface.Surface on a PhysicalDevice
 	//
 	// physicalDevice - The PhysicalDevice being queried
@@ -88,7 +89,7 @@ type ExtensionWithKHRSurface interface {
 	// surface - The Surface whose present rectangles are being requested
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetPhysicalDevicePresentRectanglesKHR.html
-	PhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error)
+	PhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error)
 }
 
 // ExtensionWithKHRSwapchain contains commands available when both khr_device_group and khr_swapchain extensions
@@ -101,5 +102,5 @@ type ExtensionWithKHRSwapchain interface {
 	// o - Contains parameters of the acquire operation
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkAcquireNextImage2KHR.html
-	AcquireNextImage2(device core1_0.Device, o AcquireNextImageInfo) (int, common.VkResult, error)
+	AcquireNextImage2(device core.Device, o AcquireNextImageInfo) (int, common.VkResult, error)
 }

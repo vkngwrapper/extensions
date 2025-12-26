@@ -12,6 +12,7 @@ package mock_maintenance3
 import (
 	reflect "reflect"
 
+	core "github.com/vkngwrapper/core/v3"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_maintenance3 "github.com/vkngwrapper/extensions/v3/khr_maintenance3"
 	gomock "go.uber.org/mock/gomock"
@@ -42,7 +43,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // DescriptorSetLayoutSupport mocks base method.
-func (m *MockExtension) DescriptorSetLayoutSupport(device core1_0.Device, setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, outData *khr_maintenance3.DescriptorSetLayoutSupport) error {
+func (m *MockExtension) DescriptorSetLayoutSupport(device core.Device, setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, outData *khr_maintenance3.DescriptorSetLayoutSupport) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DescriptorSetLayoutSupport", device, setLayoutOptions, outData)
 	ret0, _ := ret[0].(error)
