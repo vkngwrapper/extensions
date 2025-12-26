@@ -1,5 +1,9 @@
 package khr_descriptor_update_template
 
+/*
+#include <stdlib.h>
+#include "../vulkan/vulkan.h"
+*/
 import "C"
 import (
 	"unsafe"
