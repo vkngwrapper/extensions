@@ -133,18 +133,17 @@ func TestBindImagePlaneMemoryOptions(t *testing.T) {
 	})
 
 	_, err := extension.BindImageMemory2(
-		[]khr_bind_memory2.BindImageMemoryInfo{
-			{
-				Image:  image,
-				Memory: memory,
+		khr_bind_memory2.BindImageMemoryInfo{
+			Image:  image,
+			Memory: memory,
 
-				NextOptions: common.NextOptions{
-					khr_sampler_ycbcr_conversion.BindImagePlaneMemoryInfo{
-						PlaneAspect: khr_sampler_ycbcr_conversion.ImageAspectPlane2,
-					},
+			NextOptions: common.NextOptions{
+				khr_sampler_ycbcr_conversion.BindImagePlaneMemoryInfo{
+					PlaneAspect: khr_sampler_ycbcr_conversion.ImageAspectPlane2,
 				},
 			},
-		})
+		},
+	)
 	require.NoError(t, err)
 }
 

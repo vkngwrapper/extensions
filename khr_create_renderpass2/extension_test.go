@@ -20,14 +20,14 @@ func TestVulkanExtension_CmdBeginRenderPass2(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	commandPool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
 	renderPass := mocks.NewDummyRenderPass(device)
 	framebuffer := mocks.NewDummyFramebuffer(device)
+
+	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkCmdBeginRenderPass2KHR(
 		commandBuffer.Handle(),
@@ -80,12 +80,12 @@ func TestVulkanExtension_CmdEndRenderPass2(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	commandPool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
+
+	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkCmdEndRenderPass2KHR(
 		commandBuffer.Handle(),
@@ -109,12 +109,12 @@ func TestVulkanExtension_CmdNextSubpass2(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	commandPool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
+
+	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkCmdNextSubpass2KHR(
 		commandBuffer.Handle(),
@@ -152,7 +152,7 @@ func TestVulkanExtension_CreateRenderPass2(t *testing.T) {
 	mockRenderPass := mocks.NewDummyRenderPass(device)
 
 	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),
@@ -278,7 +278,6 @@ func TestVulkanExtension_CreateRenderPass2(t *testing.T) {
 	})
 
 	renderPass, _, err := extension.CreateRenderPass2(
-		device,
 		nil,
 		khr_create_renderpass2.RenderPassCreateInfo2{
 			Flags: 0,

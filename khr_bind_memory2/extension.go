@@ -42,7 +42,7 @@ func CreateExtensionDriverFromLoader(driver khr_bind_memory2_loader.Loader, devi
 	}
 }
 
-func (e *VulkanExtensionDriver) BindBufferMemory2(options []BindBufferMemoryInfo) (common.VkResult, error) {
+func (e *VulkanExtensionDriver) BindBufferMemory2(options ...BindBufferMemoryInfo) (common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -54,7 +54,7 @@ func (e *VulkanExtensionDriver) BindBufferMemory2(options []BindBufferMemoryInfo
 	return e.driver.VkBindBufferMemory2KHR(e.device.Handle(), loader.Uint32(len(options)), (*khr_bind_memory2_loader.VkBindBufferMemoryInfoKHR)(unsafe.Pointer(optionPtr)))
 }
 
-func (e *VulkanExtensionDriver) BindImageMemory2(options []BindImageMemoryInfo) (common.VkResult, error) {
+func (e *VulkanExtensionDriver) BindImageMemory2(options ...BindImageMemoryInfo) (common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

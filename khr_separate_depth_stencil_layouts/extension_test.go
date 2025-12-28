@@ -31,7 +31,7 @@ func TestAttachmentDescriptionStencilLayoutOptions(t *testing.T) {
 	mockRenderPass := mocks.NewDummyRenderPass(device)
 
 	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),
@@ -80,7 +80,6 @@ func TestAttachmentDescriptionStencilLayoutOptions(t *testing.T) {
 	})
 
 	renderPass, _, err := extension.CreateRenderPass2(
-		device,
 		nil,
 		khr_create_renderpass2.RenderPassCreateInfo2{
 			Attachments: []khr_create_renderpass2.AttachmentDescription2{

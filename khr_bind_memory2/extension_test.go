@@ -52,18 +52,18 @@ func TestVulkanExtension_BindBufferMemory(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	_, err := extension.BindBufferMemory2([]khr_bind_memory2.BindBufferMemoryInfo{
-		{
+	_, err := extension.BindBufferMemory2(
+		khr_bind_memory2.BindBufferMemoryInfo{
 			Buffer:       buffer1,
 			Memory:       memory1,
 			MemoryOffset: 1,
 		},
-		{
+		khr_bind_memory2.BindBufferMemoryInfo{
 			Buffer:       buffer2,
 			Memory:       memory2,
 			MemoryOffset: 3,
 		},
-	})
+	)
 	require.NoError(t, err)
 }
 
@@ -103,17 +103,17 @@ func TestVulkanExtension_BindImageMemory(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	_, err := extension.BindImageMemory2([]khr_bind_memory2.BindImageMemoryInfo{
-		{
+	_, err := extension.BindImageMemory2(
+		khr_bind_memory2.BindImageMemoryInfo{
 			Image:        image1,
 			Memory:       memory1,
 			MemoryOffset: 1,
 		},
-		{
+		khr_bind_memory2.BindImageMemoryInfo{
 			Image:        image2,
 			Memory:       memory2,
 			MemoryOffset: 3,
 		},
-	})
+	)
 	require.NoError(t, err)
 }

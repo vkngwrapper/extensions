@@ -13,6 +13,7 @@ import (
 // is the default implementation. See the interface for more documentation.
 type VulkanExtensionDriver struct {
 	driver khr_create_renderpass2_loader.Loader
+	device core.Device
 }
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
@@ -22,14 +23,15 @@ func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) *Vulka
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
-	return CreateExtensionDriverFromLoader(khr_create_renderpass2_loader.CreateLoaderFromCore(coreDriver.Loader()))
+	return CreateExtensionDriverFromLoader(khr_create_renderpass2_loader.CreateLoaderFromCore(coreDriver.Loader()), device)
 }
 
 // CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
-func CreateExtensionDriverFromLoader(driver khr_create_renderpass2_loader.Loader) *VulkanExtensionDriver {
+func CreateExtensionDriverFromLoader(driver khr_create_renderpass2_loader.Loader, device core.Device) *VulkanExtensionDriver {
 	return &VulkanExtensionDriver{
 		driver: driver,
+		device: device,
 	}
 }
 
@@ -105,10 +107,7 @@ func (e *VulkanExtensionDriver) CmdNextSubpass2(commandBuffer core.CommandBuffer
 	return nil
 }
 
-func (e *VulkanExtensionDriver) CreateRenderPass2(device core.Device, allocator *loader.AllocationCallbacks, options RenderPassCreateInfo2) (core.RenderPass, common.VkResult, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) CreateRenderPass2(allocator *loader.AllocationCallbacks, options RenderPassCreateInfo2) (core.RenderPass, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -119,7 +118,7 @@ func (e *VulkanExtensionDriver) CreateRenderPass2(device core.Device, allocator 
 
 	var renderPassHandle loader.VkRenderPass
 	res, err := e.driver.VkCreateRenderPass2KHR(
-		device.Handle(),
+		e.device.Handle(),
 		(*khr_create_renderpass2_loader.VkRenderPassCreateInfo2KHR)(infoPtr),
 		allocator.Handle(),
 		&renderPassHandle,
@@ -129,9 +128,9 @@ func (e *VulkanExtensionDriver) CreateRenderPass2(device core.Device, allocator 
 	}
 
 	renderPass := core.InternalRenderPass(
-		device.Handle(),
+		e.device.Handle(),
 		renderPassHandle,
-		device.APIVersion(),
+		e.device.APIVersion(),
 	)
 
 	return renderPass, res, nil

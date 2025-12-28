@@ -75,7 +75,7 @@ func TestSubpassDescriptionDepthStencilResolveOptions(t *testing.T) {
 	mockRenderPass := mocks.NewDummyRenderPass(device)
 
 	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),
@@ -116,7 +116,7 @@ func TestSubpassDescriptionDepthStencilResolveOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	renderPass, _, err := extension.CreateRenderPass2(device, nil,
+	renderPass, _, err := extension.CreateRenderPass2(nil,
 		khr_create_renderpass2.RenderPassCreateInfo2{
 			Subpasses: []khr_create_renderpass2.SubpassDescription2{
 				{

@@ -575,8 +575,8 @@ func TestBindBufferMemoryDeviceGroupOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	_, err := extension.BindBufferMemory2([]khr_bind_memory2.BindBufferMemoryInfo{
-		{
+	_, err := extension.BindBufferMemory2(
+		khr_bind_memory2.BindBufferMemoryInfo{
 			Buffer:       buffer,
 			Memory:       memory,
 			MemoryOffset: 1,
@@ -587,7 +587,7 @@ func TestBindBufferMemoryDeviceGroupOptions(t *testing.T) {
 				},
 			},
 		},
-	})
+	)
 	require.NoError(t, err)
 }
 
@@ -653,8 +653,8 @@ func TestBindImageMemoryDeviceGroupOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	_, err := extension.BindImageMemory2([]khr_bind_memory2.BindImageMemoryInfo{
-		{
+	_, err := extension.BindImageMemory2(
+		khr_bind_memory2.BindImageMemoryInfo{
 			Image:        image,
 			Memory:       memory,
 			MemoryOffset: 1,
@@ -675,7 +675,7 @@ func TestBindImageMemoryDeviceGroupOptions(t *testing.T) {
 				},
 			},
 		},
-	})
+	)
 	require.NoError(t, err)
 }
 
@@ -717,8 +717,8 @@ func TestBindImageMemorySwapchainOptions(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	_, err := extension.BindImageMemory2([]khr_bind_memory2.BindImageMemoryInfo{
-		{
+	_, err := extension.BindImageMemory2(
+		khr_bind_memory2.BindImageMemoryInfo{
 			Image:        image,
 			Memory:       memory,
 			MemoryOffset: 1,
@@ -730,7 +730,7 @@ func TestBindImageMemorySwapchainOptions(t *testing.T) {
 				},
 			},
 		},
-	})
+	)
 	require.NoError(t, err)
 }
 
