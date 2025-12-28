@@ -11,40 +11,42 @@ import (
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver khr_get_memory_requirements2_loader.Loader
+	device core.Device
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_get_memory_requirements2 loaded
-func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := driver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return &VulkanExtension{
-		driver: khr_get_memory_requirements2_loader.CreateLoaderFromCore(device.Driver()),
+	return &VulkanExtensionDriver{
+		driver: khr_get_memory_requirements2_loader.CreateLoaderFromCore(driver.Loader()),
+		device: device,
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_get_memory_requirements2_loader.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_get_memory_requirements2_loader.Loader, device core.Device) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		driver: driver,
+		device: device,
 	}
 }
 
-func (e *VulkanExtension) GetBufferMemoryRequirements2(device core.Device, o BufferMemoryRequirementsInfo2, out *MemoryRequirements2) error {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) GetBufferMemoryRequirements2(o BufferMemoryRequirementsInfo2, out *MemoryRequirements2) error {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -58,7 +60,7 @@ func (e *VulkanExtension) GetBufferMemoryRequirements2(device core.Device, o Buf
 		return err
 	}
 
-	e.driver.VkGetBufferMemoryRequirements2KHR(device.Handle(),
+	e.driver.VkGetBufferMemoryRequirements2KHR(e.device.Handle(),
 		(*khr_get_memory_requirements2_loader.VkBufferMemoryRequirementsInfo2KHR)(optionPtr),
 		(*khr_get_memory_requirements2_loader.VkMemoryRequirements2KHR)(outDataPtr),
 	)
@@ -66,10 +68,7 @@ func (e *VulkanExtension) GetBufferMemoryRequirements2(device core.Device, o Buf
 	return common.PopulateOutData(out, outDataPtr)
 }
 
-func (e *VulkanExtension) GetImageMemoryRequirements2(device core.Device, o ImageMemoryRequirementsInfo2, out *MemoryRequirements2) error {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) GetImageMemoryRequirements2(o ImageMemoryRequirementsInfo2, out *MemoryRequirements2) error {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -83,7 +82,7 @@ func (e *VulkanExtension) GetImageMemoryRequirements2(device core.Device, o Imag
 		return err
 	}
 
-	e.driver.VkGetImageMemoryRequirements2KHR(device.Handle(),
+	e.driver.VkGetImageMemoryRequirements2KHR(e.device.Handle(),
 		(*khr_get_memory_requirements2_loader.VkImageMemoryRequirementsInfo2KHR)(optionPtr),
 		(*khr_get_memory_requirements2_loader.VkMemoryRequirements2KHR)(outDataPtr),
 	)
@@ -91,10 +90,7 @@ func (e *VulkanExtension) GetImageMemoryRequirements2(device core.Device, o Imag
 	return common.PopulateOutData(out, outDataPtr)
 }
 
-func (e *VulkanExtension) GetImageSparseMemoryRequirements2(device core.Device, o ImageSparseMemoryRequirementsInfo2, outDataFactory func() *SparseImageMemoryRequirements2) ([]*SparseImageMemoryRequirements2, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) GetImageSparseMemoryRequirements2(o ImageSparseMemoryRequirementsInfo2, outDataFactory func() *SparseImageMemoryRequirements2) ([]*SparseImageMemoryRequirements2, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -105,7 +101,7 @@ func (e *VulkanExtension) GetImageSparseMemoryRequirements2(device core.Device, 
 
 	requirementCountPtr := (*loader.Uint32)(arena.Malloc(int(unsafe.Sizeof(C.uint32_t(0)))))
 
-	e.driver.VkGetImageSparseMemoryRequirements2KHR(device.Handle(),
+	e.driver.VkGetImageSparseMemoryRequirements2KHR(e.device.Handle(),
 		(*khr_get_memory_requirements2_loader.VkImageSparseMemoryRequirementsInfo2KHR)(optionPtr),
 		requirementCountPtr,
 		nil,
@@ -132,7 +128,7 @@ func (e *VulkanExtension) GetImageSparseMemoryRequirements2(device core.Device, 
 
 	castOutDataPtr := (*C.VkSparseImageMemoryRequirements2KHR)(outDataPtr)
 
-	e.driver.VkGetImageSparseMemoryRequirements2KHR(device.Handle(),
+	e.driver.VkGetImageSparseMemoryRequirements2KHR(e.device.Handle(),
 		(*khr_get_memory_requirements2_loader.VkImageSparseMemoryRequirementsInfo2KHR)(optionPtr),
 		requirementCountPtr,
 		(*khr_get_memory_requirements2_loader.VkSparseImageMemoryRequirements2KHR)(unsafe.Pointer(castOutDataPtr)),

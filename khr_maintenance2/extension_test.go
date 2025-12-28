@@ -23,11 +23,12 @@ func TestImageViewUsageOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	image := mocks.NewDummyImage(device)
 	expectedImageView := mocks.NewDummyImageView(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateImageView(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(device loader.VkDevice, pCreateInfo *loader.VkImageViewCreateInfo, pAllocator *loader.VkAllocationCallbacks, pImageView *loader.VkImageView) (common.VkResult, error) {
@@ -46,7 +47,7 @@ func TestImageViewUsageOptions(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	imageView, _, err := driver.CreateImageView(device, nil, core1_0.ImageViewCreateInfo{
+	imageView, _, err := driver.CreateImageView(nil, core1_0.ImageViewCreateInfo{
 		Image: image,
 		NextOptions: common.NextOptions{Next: ImageViewUsageCreateInfo{
 			Usage: core1_0.ImageUsageInputAttachment,
@@ -62,9 +63,10 @@ func TestTessellationDomainOriginOptions(t *testing.T) {
 	defer ctrl.Finish()
 
 	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	expectedPipeline := mocks.NewDummyPipeline(device)
+
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateGraphicsPipelines(device.Handle(), loader.VkPipelineCache(0), loader.Uint32(1), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(device loader.VkDevice, pipelineCache loader.VkPipelineCache, createInfoCount loader.Uint32, pCreateInfos *loader.VkGraphicsPipelineCreateInfo, pAllocator *loader.VkAllocationCallbacks, pPipelines *loader.VkPipeline) (common.VkResult, error) {
@@ -97,7 +99,7 @@ func TestTessellationDomainOriginOptions(t *testing.T) {
 	domainOriginState := PipelineTessellationDomainOriginStateCreateInfo{
 		DomainOrigin: TessellationDomainOriginLowerLeft,
 	}
-	pipelines, _, err := driver.CreateGraphicsPipelines(device, nil, nil,
+	pipelines, _, err := driver.CreateGraphicsPipelines(nil, nil,
 		core1_0.GraphicsPipelineCreateInfo{
 			TessellationState: &core1_0.PipelineTessellationStateCreateInfo{
 				PatchControlPoints: 1,
@@ -115,9 +117,9 @@ func TestInputAttachmentAspectOptions(t *testing.T) {
 	defer ctrl.Finish()
 
 	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	expectedRenderPass := mocks.NewDummyRenderPass(device)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateRenderPass(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(device loader.VkDevice, pCreateInfo *loader.VkRenderPassCreateInfo, pAllocator *loader.VkAllocationCallbacks, pRenderPass *loader.VkRenderPass) (common.VkResult, error) {
@@ -162,7 +164,7 @@ func TestInputAttachmentAspectOptions(t *testing.T) {
 			},
 		},
 	}
-	renderPass, _, err := driver.CreateRenderPass(device, nil, core1_0.RenderPassCreateInfo{
+	renderPass, _, err := driver.CreateRenderPass(nil, core1_0.RenderPassCreateInfo{
 		NextOptions: common.NextOptions{Next: aspectOptions},
 	})
 	require.NoError(t, err)
@@ -177,7 +179,7 @@ func TestPointClippingOutData(t *testing.T) {
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceProperties2KHR(physicalDevice.Handle(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(physicalDevice loader.VkPhysicalDevice, pProperties *khr_get_physical_device_properties2_driver.VkPhysicalDeviceProperties2KHR) {

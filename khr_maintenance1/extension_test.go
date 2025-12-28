@@ -19,7 +19,7 @@ func TestVulkanExtension_TrimCommandPool(t *testing.T) {
 	commandPool := mocks.NewDummyCommandPool(device)
 
 	maintDriver := mock_maintenance1.NewMockLoader(ctrl)
-	extension := khr_maintenance1.CreateExtensionFromDriver(maintDriver)
+	extension := khr_maintenance1.CreateExtensionDriverFromLoader(maintDriver)
 
 	maintDriver.EXPECT().VkTrimCommandPoolKHR(device.Handle(), commandPool.Handle(), khr_maintenance1_driver.VkCommandPoolTrimFlagsKHR(0))
 

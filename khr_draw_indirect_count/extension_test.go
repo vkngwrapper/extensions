@@ -15,7 +15,7 @@ func TestVulkanExtension_CmdDrawIndexedIndirectCount(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_draw_indirect_count.NewMockLoader(ctrl)
-	extension := CreateExtensionFromDriver(extDriver)
+	extension := CreateExtensionDriverFromLoader(extDriver)
 
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	commandPool := mocks.NewDummyCommandPool(device)
@@ -49,7 +49,7 @@ func TestVulkanExtension_CmdDrawIndirectCount(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_draw_indirect_count.NewMockLoader(ctrl)
-	extension := CreateExtensionFromDriver(extDriver)
+	extension := CreateExtensionDriverFromLoader(extDriver)
 
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	commandPool := mocks.NewDummyCommandPool(device)

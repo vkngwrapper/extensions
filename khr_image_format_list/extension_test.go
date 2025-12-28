@@ -20,10 +20,11 @@ func TestImageFormatListCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockImage := mocks.NewDummyImage(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateImage(
 		device.Handle(),
@@ -55,7 +56,6 @@ func TestImageFormatListCreateOptions(t *testing.T) {
 	})
 
 	image, _, err := driver.CreateImage(
-		device,
 		nil,
 		core1_0.ImageCreateInfo{
 			NextOptions: common.NextOptions{

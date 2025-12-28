@@ -16,33 +16,35 @@ import (
 	ext_driver "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver ext_driver.Loader
 }
 
-// CreateExtensionFromInstance produces an Extension object from an Instance with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from an Instance with
 // khr_get_physical_device_properties2 loaded
-func CreateExtensionFromInstance(instance core.Instance) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) *VulkanExtensionDriver {
+	instance := coreDriver.Instance()
+
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return &VulkanExtension{
-		driver: ext_driver.CreateLoaderFromCore(instance.Driver()),
+	return &VulkanExtensionDriver{
+		driver: ext_driver.CreateLoaderFromCore(coreDriver.Loader()),
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver ext_driver.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver ext_driver.Loader) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		driver: driver,
 	}
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceFeatures2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceFeatures2) error {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceFeatures2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceFeatures2) error {
 	if physicalDevice.Handle() == 0 {
 		panic("physicalDevice cannot be uninitialized")
 	}
@@ -59,7 +61,7 @@ func (e *VulkanExtension) GetPhysicalDeviceFeatures2(physicalDevice core.Physica
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceFormatProperties2(physicalDevice core.PhysicalDevice, format core1_0.Format, out *FormatProperties2) error {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceFormatProperties2(physicalDevice core.PhysicalDevice, format core1_0.Format, out *FormatProperties2) error {
 	if physicalDevice.Handle() == 0 {
 		panic("physicalDevice cannot be uninitialized")
 	}
@@ -76,7 +78,7 @@ func (e *VulkanExtension) GetPhysicalDeviceFormatProperties2(physicalDevice core
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceImageFormatInfo2, out *ImageFormatProperties2) (common.VkResult, error) {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceImageFormatInfo2, out *ImageFormatProperties2) (common.VkResult, error) {
 	if physicalDevice.Handle() == 0 {
 		panic("physicalDevice cannot be uninitialized")
 	}
@@ -106,7 +108,7 @@ func (e *VulkanExtension) GetPhysicalDeviceImageFormatProperties2(physicalDevice
 	return res, nil
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceMemoryProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceMemoryProperties2) error {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceMemoryProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceMemoryProperties2) error {
 	if physicalDevice.Handle() == 0 {
 		panic("physicalDevice cannot be uninitialized")
 	}
@@ -123,7 +125,7 @@ func (e *VulkanExtension) GetPhysicalDeviceMemoryProperties2(physicalDevice core
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceProperties2) error {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceProperties2) error {
 	if physicalDevice.Handle() == 0 {
 		panic("physicalDevice cannot be uninitialized")
 	}
@@ -140,7 +142,7 @@ func (e *VulkanExtension) GetPhysicalDeviceProperties2(physicalDevice core.Physi
 	return common.PopulateOutData(out, outData)
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceQueueFamilyProperties2(physicalDevice core.PhysicalDevice, outDataFactory func() *QueueFamilyProperties2) ([]*QueueFamilyProperties2, error) {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceQueueFamilyProperties2(physicalDevice core.PhysicalDevice, outDataFactory func() *QueueFamilyProperties2) ([]*QueueFamilyProperties2, error) {
 	if physicalDevice.Handle() == 0 {
 		panic("physicalDevice cannot be uninitialized")
 	}
@@ -176,7 +178,7 @@ func (e *VulkanExtension) GetPhysicalDeviceQueueFamilyProperties2(physicalDevice
 	return out, err
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceSparseImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *SparseImageFormatProperties2) ([]*SparseImageFormatProperties2, error) {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceSparseImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *SparseImageFormatProperties2) ([]*SparseImageFormatProperties2, error) {
 	if physicalDevice.Handle() == 0 {
 		panic("physicalDevice cannot be uninitialized")
 	}
@@ -217,4 +219,4 @@ func (e *VulkanExtension) GetPhysicalDeviceSparseImageFormatProperties2(physical
 	return out, err
 }
 
-var _ Extension = &VulkanExtension{}
+var _ ExtensionDriver = &VulkanExtensionDriver{}

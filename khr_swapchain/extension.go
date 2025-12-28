@@ -17,50 +17,54 @@ import (
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
-	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
+	"github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
-	loader  khr_swapchain_driver.Loader
+type VulkanExtensionDriver struct {
+	loader  khr_swapchain_loader.Loader
 	version common.APIVersion
+	device  core.Device
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_swapchain loaded
-func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := driver.Device()
+
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return &VulkanExtension{
-		loader:  khr_swapchain_driver.CreateDriverFromCore(device.Driver()),
+	return &VulkanExtensionDriver{
+		loader:  khr_swapchain_loader.CreateLoaderFromCore(driver.Loader()),
 		version: device.APIVersion(),
+		device:  device,
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(loader khr_swapchain_driver.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(loader khr_swapchain_loader.Loader, device core.Device) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		loader:  loader,
 		version: common.APIVersion(math.MaxUint32),
+		device:  device,
 	}
 }
 
-func (e *VulkanExtension) Loader() khr_swapchain_driver.Loader {
-	return e.loader
+func (s *VulkanExtensionDriver) Loader() khr_swapchain_loader.Loader {
+	return s.loader
 }
 
-func (e *VulkanExtension) APIVersion() common.APIVersion {
-	return e.version
+func (s *VulkanExtensionDriver) APIVersion() common.APIVersion {
+	return s.version
 }
 
-func (e *VulkanExtension) CreateSwapchain(device core.Device, allocation *loader.AllocationCallbacks, options SwapchainCreateInfo) (Swapchain, common.VkResult, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (s *VulkanExtensionDriver) Device() core.Device { return s.device }
+
+func (s *VulkanExtensionDriver) CreateSwapchain(allocation *loader.AllocationCallbacks, options SwapchainCreateInfo) (Swapchain, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -69,22 +73,22 @@ func (e *VulkanExtension) CreateSwapchain(device core.Device, allocation *loader
 		return Swapchain{}, core1_0.VKErrorUnknown, err
 	}
 
-	var swapchain khr_swapchain_driver.VkSwapchainKHR
+	var swapchain khr_swapchain_loader.VkSwapchainKHR
 
-	res, err := e.loader.VkCreateSwapchainKHR(device.Handle(), (*khr_swapchain_driver.VkSwapchainCreateInfoKHR)(createInfo), allocation.Handle(), &swapchain)
+	res, err := s.loader.VkCreateSwapchainKHR(s.device.Handle(), (*khr_swapchain_loader.VkSwapchainCreateInfoKHR)(createInfo), allocation.Handle(), &swapchain)
 	if err != nil {
 		return Swapchain{}, res, err
 	}
 
 	newSwapchain := Swapchain{
 		handle:     swapchain,
-		device:     device.Handle(),
-		apiVersion: device.APIVersion(),
+		device:     s.device.Handle(),
+		apiVersion: s.device.APIVersion(),
 	}
 	return newSwapchain, res, nil
 }
 
-func (e *VulkanExtension) QueuePresent(queue core.Queue, o PresentInfo) (common.VkResult, error) {
+func (s *VulkanExtensionDriver) QueuePresent(queue core.Queue, o PresentInfo) (common.VkResult, error) {
 	if queue.Handle() == 0 {
 		panic("queue cannot be uninitialized")
 	}
@@ -96,8 +100,8 @@ func (e *VulkanExtension) QueuePresent(queue core.Queue, o PresentInfo) (common.
 		return core1_0.VKErrorUnknown, err
 	}
 
-	createInfoPtr := (*khr_swapchain_driver.VkPresentInfoKHR)(createInfo)
-	res, err := e.loader.VkQueuePresentKHR(queue.Handle(), createInfoPtr)
+	createInfoPtr := (*khr_swapchain_loader.VkPresentInfoKHR)(createInfo)
+	res, err := s.loader.VkQueuePresentKHR(queue.Handle(), createInfoPtr)
 	popErr := o.PopulateOutData(createInfo)
 
 	if popErr != nil {
@@ -109,7 +113,7 @@ func (e *VulkanExtension) QueuePresent(queue core.Queue, o PresentInfo) (common.
 	return res, res.ToError()
 }
 
-func (s *VulkanExtension) attemptImages(swapchain Swapchain) ([]core.Image, common.VkResult, error) {
+func (s *VulkanExtensionDriver) attemptImages(swapchain Swapchain) ([]core.Image, common.VkResult, error) {
 	allocator := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(allocator)
 
@@ -143,7 +147,7 @@ func (s *VulkanExtension) attemptImages(swapchain Swapchain) ([]core.Image, comm
 	return result, res, nil
 }
 
-func (s *VulkanExtension) SwapchainImages(swapchain Swapchain) ([]core.Image, common.VkResult, error) {
+func (s *VulkanExtensionDriver) GetSwapchainImages(swapchain Swapchain) ([]core.Image, common.VkResult, error) {
 	var result []core.Image
 	var res common.VkResult
 	var err error
@@ -155,16 +159,16 @@ func (s *VulkanExtension) SwapchainImages(swapchain Swapchain) ([]core.Image, co
 	return result, res, err
 }
 
-func (s *VulkanExtension) AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore core.Semaphore, fence core.Fence) (int, common.VkResult, error) {
+func (s *VulkanExtensionDriver) AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore *core.Semaphore, fence *core.Fence) (int, common.VkResult, error) {
 	var imageIndex loader.Uint32
 
 	var semaphoreHandle loader.VkSemaphore
 	var fenceHandle loader.VkFence
 
-	if semaphore.Handle() != 0 {
+	if semaphore != nil {
 		semaphoreHandle = semaphore.Handle()
 	}
-	if fence.Handle() != 0 {
+	if fence != nil {
 		fenceHandle = fence.Handle()
 	}
 
@@ -173,9 +177,9 @@ func (s *VulkanExtension) AcquireNextImage(swapchain Swapchain, timeout time.Dur
 	return int(imageIndex), res, err
 }
 
-func (v *VulkanExtension) DestroySwapchain(swapchain Swapchain, callbacks *loader.AllocationCallbacks) {
+func (s *VulkanExtensionDriver) DestroySwapchain(swapchain Swapchain, callbacks *loader.AllocationCallbacks) {
 	if swapchain.Handle() == 0 {
 		panic("swapchain was uninitialized")
 	}
-	v.loader.VkDestroySwapchainKHR(swapchain.DeviceHandle(), swapchain.Handle(), callbacks.Handle())
+	s.loader.VkDestroySwapchainKHR(swapchain.DeviceHandle(), swapchain.Handle(), callbacks.Handle())
 }

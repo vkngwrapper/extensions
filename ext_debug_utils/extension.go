@@ -3,7 +3,7 @@ package ext_debug_utils
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
+	core "github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
@@ -12,16 +12,18 @@ import (
 
 //go:generate mockgen -source extension.go -destination ./mocks/extension.go -package mock_debugutils
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
-	driver ext_driver.Loader
+type VulkanExtensionDriver struct {
+	loader     ext_driver.Loader
+	coreLoader loader.Loader
+	instance   core.Instance
 }
 
-// Extension contains all the commands for the ext_debug_utils extension
+// ExtensionDriver contains all the commands for the ext_debug_utils extension
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_debug_utils.html
-type Extension interface {
+type ExtensionDriver interface {
 	// CreateDebugUtilsMessenger creates a debug messenger object
 	//
 	// instance - the instance the messenger will be used with
@@ -32,7 +34,7 @@ type Extension interface {
 	// trigger the callback
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCreateDebugUtilsMessengerEXT.html
-	CreateDebugUtilsMessenger(instance core.Instance, allocator *loader.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error)
+	CreateDebugUtilsMessenger(allocator *loader.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error)
 
 	// CmdBeginDebugUtilsLabel opens a CommandBuffer debug label region
 	//
@@ -108,34 +110,33 @@ type Extension interface {
 	// data - All the callback-related data
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkSubmitDebugUtilsMessageEXT.html
-	SubmitDebugUtilsMessage(instance core.Instance, severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error
+	SubmitDebugUtilsMessage(severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error
 }
 
-// CreateExtensionFromInstance produces an Extension object from an Instance with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from an Instance with
 // ext_debug_utils loaded
-func CreateExtensionFromInstance(instance core.Instance) *VulkanExtension {
-	driver := ext_driver.CreateLoaderFromCore(instance.Driver())
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) *VulkanExtensionDriver {
+	driver := ext_driver.CreateLoaderFromCore(coreDriver.Loader())
+	instance := coreDriver.Instance()
 
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return CreateExtensionFromDriver(driver)
+	return CreateDriverFromLoader(driver, coreDriver.Loader(), instance)
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver ext_driver.Loader) *VulkanExtension {
-	return &VulkanExtension{
-		driver: driver,
+// CreateDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateDriverFromLoader(loader ext_driver.Loader, coreLoader loader.Loader, instance core.Instance) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
+		loader:     loader,
+		coreLoader: coreLoader,
+		instance:   instance,
 	}
 }
 
-func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core.Instance, allocation *loader.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error) {
-	if instance.Handle() == 0 {
-		panic("instance cannot be uninitialized")
-	}
-
+func (l *VulkanExtensionDriver) CreateDebugUtilsMessenger(allocation *loader.AllocationCallbacks, o DebugUtilsMessengerCreateInfo) (DebugUtilsMessenger, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -145,24 +146,23 @@ func (l *VulkanExtension) CreateDebugUtilsMessenger(instance core.Instance, allo
 	}
 
 	var messenger ext_driver.VkDebugUtilsMessengerEXT
-	res, err := l.driver.VkCreateDebugUtilsMessengerEXT(instance.Handle(), (*ext_driver.VkDebugUtilsMessengerCreateInfoEXT)(createInfo), allocation.Handle(), &messenger)
+	res, err := l.loader.VkCreateDebugUtilsMessengerEXT(l.instance.Handle(), (*ext_driver.VkDebugUtilsMessengerCreateInfoEXT)(createInfo), allocation.Handle(), &messenger)
 
 	if err != nil {
 		return nil, res, err
 	}
 
-	coreLoader := instance.Driver()
 	newMessenger := &VulkanDebugUtilsMessenger{
-		coreLoader: coreLoader,
+		coreLoader: l.coreLoader,
 		handle:     messenger,
-		instance:   instance.Handle(),
-		driver:     l.driver,
+		instance:   l.instance.Handle(),
+		driver:     l.loader,
 	}
 
 	return newMessenger, res, nil
 }
 
-func (l *VulkanExtension) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error {
 	if commandBuffer.Handle() == 0 {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -174,19 +174,19 @@ func (l *VulkanExtension) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuff
 		return err
 	}
 
-	l.driver.VKCmdBeginDebugUtilsLabelEXT(commandBuffer.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
+	l.loader.VKCmdBeginDebugUtilsLabelEXT(commandBuffer.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
 
 	return nil
 }
 
-func (l *VulkanExtension) CmdEndDebugUtilsLabel(buffer core.CommandBuffer) {
+func (l *VulkanExtensionDriver) CmdEndDebugUtilsLabel(buffer core.CommandBuffer) {
 	if buffer.Handle() == 0 {
 		panic("buffer cannot be uninitialized")
 	}
-	l.driver.VkCmdEndDebugUtilsLabelEXT(buffer.Handle())
+	l.loader.VkCmdEndDebugUtilsLabelEXT(buffer.Handle())
 }
 
-func (l *VulkanExtension) CmdInsertDebugUtilsLabel(buffer core.CommandBuffer, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) CmdInsertDebugUtilsLabel(buffer core.CommandBuffer, label DebugUtilsLabel) error {
 	if buffer.Handle() == 0 {
 		panic("buffer cannot be uninitialized")
 	}
@@ -198,12 +198,12 @@ func (l *VulkanExtension) CmdInsertDebugUtilsLabel(buffer core.CommandBuffer, la
 		return err
 	}
 
-	l.driver.VkCmdInsertDebugUtilsLabelEXT(buffer.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
+	l.loader.VkCmdInsertDebugUtilsLabelEXT(buffer.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
 
 	return nil
 }
 
-func (l *VulkanExtension) QueueBeginDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
 	if queue.Handle() == 0 {
 		panic("queue cannot be uninitialized")
 	}
@@ -215,19 +215,19 @@ func (l *VulkanExtension) QueueBeginDebugUtilsLabel(queue core.Queue, label Debu
 		return err
 	}
 
-	l.driver.VkQueueBeginDebugUtilsLabelEXT(queue.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
+	l.loader.VkQueueBeginDebugUtilsLabelEXT(queue.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
 
 	return nil
 }
 
-func (l *VulkanExtension) QueueEndDebugUtilsLabel(queue core.Queue) {
+func (l *VulkanExtensionDriver) QueueEndDebugUtilsLabel(queue core.Queue) {
 	if queue.Handle() == 0 {
 		panic("queue cannot be uninitialized")
 	}
-	l.driver.VkQueueEndDebugUtilsLabelEXT(queue.Handle())
+	l.loader.VkQueueEndDebugUtilsLabelEXT(queue.Handle())
 }
 
-func (l *VulkanExtension) QueueInsertDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) QueueInsertDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
 	if queue.Handle() == 0 {
 		panic("queue cannot be uninitialized")
 	}
@@ -239,12 +239,12 @@ func (l *VulkanExtension) QueueInsertDebugUtilsLabel(queue core.Queue, label Deb
 		return err
 	}
 
-	l.driver.VkQueueInsertDebugUtilsLabelEXT(queue.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
+	l.loader.VkQueueInsertDebugUtilsLabelEXT(queue.Handle(), (*ext_driver.VkDebugUtilsLabelEXT)(labelPtr))
 
 	return nil
 }
 
-func (l *VulkanExtension) SetDebugUtilsObjectName(device core.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
+func (l *VulkanExtensionDriver) SetDebugUtilsObjectName(device core.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
 	if device.Handle() == 0 {
 		panic("device cannot be uninitialized")
 	}
@@ -256,10 +256,10 @@ func (l *VulkanExtension) SetDebugUtilsObjectName(device core.Device, name Debug
 		return core1_0.VKErrorUnknown, err
 	}
 
-	return l.driver.VkSetDebugUtilsObjectNameEXT(device.Handle(), (*ext_driver.VkDebugUtilsObjectNameInfoEXT)(namePtr))
+	return l.loader.VkSetDebugUtilsObjectNameEXT(device.Handle(), (*ext_driver.VkDebugUtilsObjectNameInfoEXT)(namePtr))
 }
 
-func (l *VulkanExtension) SetDebugUtilsObjectTag(device core.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
+func (l *VulkanExtensionDriver) SetDebugUtilsObjectTag(device core.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
 	if device.Handle() == 0 {
 		panic("device cannot be uninitialized")
 	}
@@ -271,13 +271,10 @@ func (l *VulkanExtension) SetDebugUtilsObjectTag(device core.Device, tag DebugUt
 		return core1_0.VKErrorUnknown, err
 	}
 
-	return l.driver.VkSetDebugUtilsObjectTagEXT(device.Handle(), (*ext_driver.VkDebugUtilsObjectTagInfoEXT)(tagPtr))
+	return l.loader.VkSetDebugUtilsObjectTagEXT(device.Handle(), (*ext_driver.VkDebugUtilsObjectTagInfoEXT)(tagPtr))
 }
 
-func (l *VulkanExtension) SubmitDebugUtilsMessage(instance core.Instance, severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error {
-	if instance.Handle() == 0 {
-		panic("instance cannot be uninitialized")
-	}
+func (l *VulkanExtensionDriver) SubmitDebugUtilsMessage(severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -286,7 +283,7 @@ func (l *VulkanExtension) SubmitDebugUtilsMessage(instance core.Instance, severi
 		return err
 	}
 
-	l.driver.VkSubmitDebugUtilsMessageEXT(instance.Handle(),
+	l.loader.VkSubmitDebugUtilsMessageEXT(l.instance.Handle(),
 		ext_driver.VkDebugUtilsMessageSeverityFlagBitsEXT(severity),
 		ext_driver.VkDebugUtilsMessageTypeFlagsEXT(types),
 		(*ext_driver.VkDebugUtilsMessengerCallbackDataEXT)(callbackPtr))

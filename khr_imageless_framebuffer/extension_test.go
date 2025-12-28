@@ -25,10 +25,11 @@ func TestFramebufferAttachmentsCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockFramebuffer := mocks.NewDummyFramebuffer(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateFramebuffer(
 		device.Handle(),
@@ -90,7 +91,6 @@ func TestFramebufferAttachmentsCreateOptions(t *testing.T) {
 	})
 
 	framebuffer, _, err := driver.CreateFramebuffer(
-		device,
 		nil,
 		core1_0.FramebufferCreateInfo{
 			NextOptions: common.NextOptions{
@@ -131,11 +131,12 @@ func TestPhysicalDeviceImagelessFramebufferFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -185,7 +186,7 @@ func TestPhysicalDeviceImagelessFramebufferFeaturesOutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -224,11 +225,12 @@ func TestRenderPassAttachmentBeginInfo(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	commandPool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	imageView1 := mocks.NewDummyImageView(device)
 	imageView2 := mocks.NewDummyImageView(device)

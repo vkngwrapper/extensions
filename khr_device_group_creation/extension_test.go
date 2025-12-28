@@ -34,7 +34,8 @@ func TestVulkanExtension_EnumeratePhysicalDeviceGroups(t *testing.T) {
 	physicalDevice6 := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver := mock_device_group_creation.NewMockLoader(ctrl)
-	extension := khr_device_group_creation.CreateExtensionFromDriver(extDriver)
+	extDriver.EXPECT().CoreLoader().Return(coreLoader).AnyTimes()
+	extension := khr_device_group_creation.CreateExtensionDriverFromLoader(extDriver, instance)
 
 	extDriver.EXPECT().VkEnumeratePhysicalDeviceGroupsKHR(
 		instance.Handle(),
@@ -124,7 +125,7 @@ func TestVulkanExtension_EnumeratePhysicalDeviceGroups(t *testing.T) {
 			*(*loader.Uint32)(unsafe.Pointer(value.FieldByName("apiVersion").UnsafeAddr())) = loader.Uint32(common.Vulkan1_0)
 		})
 
-	groups, _, err := extension.EnumeratePhysicalDeviceGroups(instance, nil)
+	groups, _, err := extension.EnumeratePhysicalDeviceGroups(nil)
 	require.NoError(t, err)
 	require.Len(t, groups, 3)
 	require.True(t, groups[0].SubsetAllocation)
@@ -158,7 +159,8 @@ func TestVulkanExtension_EnumeratePhysicalDeviceGroups_Incomplete(t *testing.T) 
 	physicalDevice6 := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
 	extDriver := mock_device_group_creation.NewMockLoader(ctrl)
-	extension := khr_device_group_creation.CreateExtensionFromDriver(extDriver)
+	extDriver.EXPECT().CoreLoader().Return(coreLoader).AnyTimes()
+	extension := khr_device_group_creation.CreateExtensionDriverFromLoader(extDriver, instance)
 
 	extDriver.EXPECT().VkEnumeratePhysicalDeviceGroupsKHR(
 		instance.Handle(),
@@ -289,7 +291,7 @@ func TestVulkanExtension_EnumeratePhysicalDeviceGroups_Incomplete(t *testing.T) 
 			*(*loader.Uint32)(unsafe.Pointer(value.FieldByName("apiVersion").UnsafeAddr())) = loader.Uint32(common.Vulkan1_0)
 		})
 
-	groups, _, err := extension.EnumeratePhysicalDeviceGroups(instance, nil)
+	groups, _, err := extension.EnumeratePhysicalDeviceGroups(nil)
 	require.NoError(t, err)
 	require.Len(t, groups, 3)
 	require.True(t, groups[0].SubsetAllocation)
@@ -312,10 +314,11 @@ func TestDeviceGroupOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice1 := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	physicalDevice2 := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	physicalDevice3 := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)

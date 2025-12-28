@@ -24,11 +24,12 @@ func TestPhysicalDeviceMemoryPriorityFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -77,8 +78,8 @@ func TestPhysicalDeviceMemoryPriorityFeaturesOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -101,7 +102,7 @@ func TestPhysicalDeviceMemoryPriorityFeaturesOutData(t *testing.T) {
 	})
 
 	var outData ext_memory_priority.PhysicalDeviceMemoryPriorityFeatures
-	err := extension.PhysicalDeviceFeatures2(
+	err := extension.GetPhysicalDeviceFeatures2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceFeatures2{
 			NextOutData: common.NextOutData{&outData},
@@ -117,10 +118,11 @@ func TestPriorityAllocateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockMemory := mocks.NewDummyDeviceMemory(device, 1)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkAllocateMemory(
 		device.Handle(),
@@ -150,7 +152,7 @@ func TestPriorityAllocateOptions(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	memory, _, err := driver.AllocateMemory(device, nil, core1_0.MemoryAllocateInfo{
+	memory, _, err := driver.AllocateMemory(nil, core1_0.MemoryAllocateInfo{
 		AllocationSize:  1,
 		MemoryTypeIndex: 3,
 		NextOptions: common.NextOptions{

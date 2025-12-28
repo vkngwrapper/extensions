@@ -11,33 +11,37 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver khr_timeline_semaphore_loader.Loader
+	device core.Device
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_timeline_semaphore loaded
-func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := driver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return &VulkanExtension{
-		driver: khr_timeline_semaphore_loader.CreateLoaderFromCore(device.Driver()),
+	return &VulkanExtensionDriver{
+		driver: khr_timeline_semaphore_loader.CreateLoaderFromCore(driver.Loader()),
+		device: device,
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_timeline_semaphore_loader.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_timeline_semaphore_loader.Loader, device core.Device) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		driver: driver,
+		device: device,
 	}
 }
 
-func (e *VulkanExtension) SemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
+func (e *VulkanExtensionDriver) GetSemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
 	if semaphore.Handle() == 0 {
 		panic("semaphore cannot be uninitialized")
 	}
@@ -55,10 +59,7 @@ func (e *VulkanExtension) SemaphoreCounterValue(semaphore core.Semaphore) (uint6
 	return uint64(value), res, nil
 }
 
-func (e *VulkanExtension) SignalSemaphore(device core.Device, o SemaphoreSignalInfo) (common.VkResult, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) SignalSemaphore(o SemaphoreSignalInfo) (common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -68,15 +69,12 @@ func (e *VulkanExtension) SignalSemaphore(device core.Device, o SemaphoreSignalI
 	}
 
 	return e.driver.VkSignalSemaphoreKHR(
-		device.Handle(),
+		e.device.Handle(),
 		(*khr_timeline_semaphore_loader.VkSemaphoreSignalInfoKHR)(signalPtr),
 	)
 }
 
-func (e *VulkanExtension) WaitSemaphores(device core.Device, timeout time.Duration, o SemaphoreWaitInfo) (common.VkResult, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) WaitSemaphores(timeout time.Duration, o SemaphoreWaitInfo) (common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -86,7 +84,7 @@ func (e *VulkanExtension) WaitSemaphores(device core.Device, timeout time.Durati
 	}
 
 	return e.driver.VkWaitSemaphoresKHR(
-		device.Handle(),
+		e.device.Handle(),
 		(*khr_timeline_semaphore_loader.VkSemaphoreWaitInfoKHR)(waitPtr),
 		loader.Uint64(common.TimeoutNanoseconds(timeout)),
 	)

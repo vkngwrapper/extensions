@@ -12,107 +12,14 @@ package mock_sampler_ycbcr_conversion
 import (
 	reflect "reflect"
 
+	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
-	driver "github.com/vkngwrapper/core/v3/loader"
+	loader "github.com/vkngwrapper/core/v3/loader"
 	khr_sampler_ycbcr_conversion "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion"
-	khr_sampler_ycbcr_conversion_driver "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/loader"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockSamplerYcbcrConversion is a mock of SamplerYcbcrConversion interface.
-type MockSamplerYcbcrConversion struct {
-	ctrl     *gomock.Controller
-	recorder *MockSamplerYcbcrConversionMockRecorder
-	isgomock struct{}
-}
-
-// MockSamplerYcbcrConversionMockRecorder is the mock recorder for MockSamplerYcbcrConversion.
-type MockSamplerYcbcrConversionMockRecorder struct {
-	mock *MockSamplerYcbcrConversion
-}
-
-// NewMockSamplerYcbcrConversion creates a new mock instance.
-func NewMockSamplerYcbcrConversion(ctrl *gomock.Controller) *MockSamplerYcbcrConversion {
-	mock := &MockSamplerYcbcrConversion{ctrl: ctrl}
-	mock.recorder = &MockSamplerYcbcrConversionMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockSamplerYcbcrConversion) EXPECT() *MockSamplerYcbcrConversionMockRecorder {
-	return m.recorder
-}
-
-// APIVersion mocks base method.
-func (m *MockSamplerYcbcrConversion) APIVersion() common.APIVersion {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "APIVersion")
-	ret0, _ := ret[0].(common.APIVersion)
-	return ret0
-}
-
-// APIVersion indicates an expected call of APIVersion.
-func (mr *MockSamplerYcbcrConversionMockRecorder) APIVersion() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APIVersion", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).APIVersion))
-}
-
-// Destroy mocks base method.
-func (m *MockSamplerYcbcrConversion) Destroy(allocator *driver.AllocationCallbacks) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Destroy", allocator)
-}
-
-// Destroy indicates an expected call of Destroy.
-func (mr *MockSamplerYcbcrConversionMockRecorder) Destroy(allocator any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).Destroy), allocator)
-}
-
-// DeviceHandle mocks base method.
-func (m *MockSamplerYcbcrConversion) DeviceHandle() driver.VkDevice {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeviceHandle")
-	ret0, _ := ret[0].(driver.VkDevice)
-	return ret0
-}
-
-// DeviceHandle indicates an expected call of DeviceHandle.
-func (mr *MockSamplerYcbcrConversionMockRecorder) DeviceHandle() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeviceHandle", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).DeviceHandle))
-}
-
-// Driver mocks base method.
-func (m *MockSamplerYcbcrConversion) Driver() driver.Loader {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Loader")
-	ret0, _ := ret[0].(driver.Loader)
-	return ret0
-}
-
-// Driver indicates an expected call of Driver.
-func (mr *MockSamplerYcbcrConversionMockRecorder) Driver() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Loader", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).Driver))
-}
-
-// Handle mocks base method.
-func (m *MockSamplerYcbcrConversion) Handle() khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionKHR {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Handle")
-	ret0, _ := ret[0].(khr_sampler_ycbcr_conversion_driver.VkSamplerYcbcrConversionKHR)
-	return ret0
-}
-
-// Handle indicates an expected call of Handle.
-func (mr *MockSamplerYcbcrConversionMockRecorder) Handle() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockSamplerYcbcrConversion)(nil).Handle))
-}
-
-// MockExtension is a mock of Extension interface.
+// MockExtension is a mock of ExtensionDriver interface.
 type MockExtension struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtensionMockRecorder
@@ -137,10 +44,10 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // CreateSamplerYcbcrConversion mocks base method.
-func (m *MockExtension) CreateSamplerYcbcrConversion(device core1_0.Device, o khr_sampler_ycbcr_conversion.SamplerYcbcrConversionCreateInfo, allocator *driver.AllocationCallbacks) (khr_sampler_ycbcr_conversion.SamplerYcbcrConversion, common.VkResult, error) {
+func (m *MockExtension) CreateSamplerYcbcrConversion(device core.Device, o khr_sampler_ycbcr_conversion.SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core.SamplerYcbcrConversion, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateSamplerYcbcrConversion", device, o, allocator)
-	ret0, _ := ret[0].(khr_sampler_ycbcr_conversion.SamplerYcbcrConversion)
+	ret0, _ := ret[0].(core.SamplerYcbcrConversion)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
@@ -150,4 +57,16 @@ func (m *MockExtension) CreateSamplerYcbcrConversion(device core1_0.Device, o kh
 func (mr *MockExtensionMockRecorder) CreateSamplerYcbcrConversion(device, o, allocator any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSamplerYcbcrConversion", reflect.TypeOf((*MockExtension)(nil).CreateSamplerYcbcrConversion), device, o, allocator)
+}
+
+// DestroySamplerYcbcrConversion mocks base method.
+func (m *MockExtension) DestroySamplerYcbcrConversion(conversion core.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "DestroySamplerYcbcrConversion", conversion, allocator)
+}
+
+// DestroySamplerYcbcrConversion indicates an expected call of DestroySamplerYcbcrConversion.
+func (mr *MockExtensionMockRecorder) DestroySamplerYcbcrConversion(conversion, allocator any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroySamplerYcbcrConversion", reflect.TypeOf((*MockExtension)(nil).DestroySamplerYcbcrConversion), conversion, allocator)
 }

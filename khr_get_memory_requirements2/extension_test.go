@@ -20,11 +20,11 @@ func TestVulkanExtension_BufferMemoryRequirements(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
-	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	buffer := mocks.NewDummyBuffer(device)
+
+	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
+	extension := khr_get_memory_requirements2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetBufferMemoryRequirements2KHR(
 		device.Handle(),
@@ -50,7 +50,7 @@ func TestVulkanExtension_BufferMemoryRequirements(t *testing.T) {
 	})
 
 	var outData khr_get_memory_requirements2.MemoryRequirements2
-	err := extension.GetBufferMemoryRequirements2(device,
+	err := extension.GetBufferMemoryRequirements2(
 		khr_get_memory_requirements2.BufferMemoryRequirementsInfo2{
 			Buffer: buffer,
 		}, &outData)
@@ -65,11 +65,11 @@ func TestVulkanExtension_ImageMemoryRequirements(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
-	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	image := mocks.NewDummyImage(device)
+
+	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
+	extension := khr_get_memory_requirements2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetImageMemoryRequirements2KHR(
 		device.Handle(),
@@ -95,7 +95,7 @@ func TestVulkanExtension_ImageMemoryRequirements(t *testing.T) {
 	})
 
 	var outData khr_get_memory_requirements2.MemoryRequirements2
-	err := extension.GetImageMemoryRequirements2(device,
+	err := extension.GetImageMemoryRequirements2(
 		khr_get_memory_requirements2.ImageMemoryRequirementsInfo2{
 			Image: image,
 		}, &outData)
@@ -110,11 +110,11 @@ func TestVulkanExtension_SparseImageMemoryRequirements(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
-	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	image := mocks.NewDummyImage(device)
+
+	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
+	extension := khr_get_memory_requirements2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetImageSparseMemoryRequirements2KHR(
 		device.Handle(),
@@ -196,7 +196,7 @@ func TestVulkanExtension_SparseImageMemoryRequirements(t *testing.T) {
 			*(*loader.VkDeviceSize)(unsafe.Pointer(memReqs.FieldByName("imageMipTailStride").UnsafeAddr())) = loader.VkDeviceSize(37)
 		})
 
-	outData, err := extension.GetImageSparseMemoryRequirements2(device,
+	outData, err := extension.GetImageSparseMemoryRequirements2(
 		khr_get_memory_requirements2.ImageSparseMemoryRequirementsInfo2{
 			Image: image,
 		}, nil)

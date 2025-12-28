@@ -31,7 +31,7 @@ func TestAttachmentDescriptionStencilLayoutOptions(t *testing.T) {
 	mockRenderPass := mocks.NewDummyRenderPass(device)
 
 	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),
@@ -114,10 +114,11 @@ func TestPhysicalDeviceSeparateDepthStencilLayoutsFeaturesOptions(t *testing.T) 
 	defer ctrl.Finish()
 
 	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -167,7 +168,7 @@ func TestPhysicalDeviceSeparateDepthStencilLayoutsFeaturesOutData(t *testing.T) 
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)

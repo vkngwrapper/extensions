@@ -24,11 +24,11 @@ func TestDedicatedMemoryRequirementsOutData_Buffer(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_memory_requirements2.NewMockDriver(ctrl)
-	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	buffer := mocks.NewDummyBuffer(device)
+
+	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
+	extension := khr_get_memory_requirements2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetBufferMemoryRequirements2KHR(
 		device.Handle(),
@@ -63,7 +63,7 @@ func TestDedicatedMemoryRequirementsOutData_Buffer(t *testing.T) {
 	var outData = khr_get_memory_requirements2.MemoryRequirements2{
 		NextOutData: common.NextOutData{Next: &memReqs},
 	}
-	err := extension.BufferMemoryRequirements2(device,
+	err := extension.GetBufferMemoryRequirements2(
 		khr_get_memory_requirements2.BufferMemoryRequirementsInfo2{
 			Buffer: buffer,
 		}, &outData)
@@ -80,11 +80,11 @@ func TestDedicatedMemoryRequirementsOutData_Image(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_memory_requirements2.NewMockDriver(ctrl)
-	extension := khr_get_memory_requirements2.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	image := mocks.NewDummyImage(device)
+
+	extDriver := mock_get_memory_requirements2.NewMockLoader(ctrl)
+	extension := khr_get_memory_requirements2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetImageMemoryRequirements2KHR(
 		device.Handle(),
@@ -119,7 +119,7 @@ func TestDedicatedMemoryRequirementsOutData_Image(t *testing.T) {
 	var outData = khr_get_memory_requirements2.MemoryRequirements2{
 		NextOutData: common.NextOutData{Next: &memReqs},
 	}
-	err := extension.ImageMemoryRequirements2(device,
+	err := extension.GetImageMemoryRequirements2(
 		khr_get_memory_requirements2.ImageMemoryRequirementsInfo2{
 			Image: image,
 		}, &outData)
@@ -136,9 +136,10 @@ func TestMemoryDedicatedAllocateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	buffer := mocks.NewDummyBuffer(device)
 	expectedMemory := mocks.NewDummyDeviceMemory(device, 1)
@@ -163,7 +164,7 @@ func TestMemoryDedicatedAllocateOptions(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	memory, _, err := driver.AllocateMemory(device, nil, core1_0.MemoryAllocateInfo{
+	memory, _, err := driver.AllocateMemory(nil, core1_0.MemoryAllocateInfo{
 		AllocationSize:  1,
 		MemoryTypeIndex: 3,
 		NextOptions: common.NextOptions{Next: khr_dedicated_allocation.MemoryDedicatedAllocateInfo{

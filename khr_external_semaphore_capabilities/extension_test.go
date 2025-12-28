@@ -24,7 +24,7 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -92,7 +92,7 @@ func TestVulkanExtension_ExternalSemaphoreProperties(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_external_semaphore_capabilities.NewMockLoader(ctrl)
-	extension := khr_external_semaphore_capabilities.CreateExtensionFromDriver(extDriver)
+	extension := khr_external_semaphore_capabilities.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -122,7 +122,7 @@ func TestVulkanExtension_ExternalSemaphoreProperties(t *testing.T) {
 		})
 
 	var outData khr_external_semaphore_capabilities.ExternalSemaphoreProperties
-	err := extension.PhysicalDeviceExternalSemaphoreProperties(
+	err := extension.GetPhysicalDeviceExternalSemaphoreProperties(
 		physicalDevice,
 		khr_external_semaphore_capabilities.PhysicalDeviceExternalSemaphoreInfo{
 			HandleType: khr_external_semaphore_capabilities.ExternalSemaphoreHandleTypeSyncFD,

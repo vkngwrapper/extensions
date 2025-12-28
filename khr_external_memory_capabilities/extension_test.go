@@ -25,7 +25,7 @@ func TestVulkanExtension_ExternalBufferProperties(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_external_memory_capabilities.NewMockLoader(ctrl)
-	extension := khr_external_memory_capabilities.CreateExtensionFromDriver(extDriver)
+	extension := khr_external_memory_capabilities.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -52,7 +52,7 @@ func TestVulkanExtension_ExternalBufferProperties(t *testing.T) {
 	})
 
 	var outData khr_external_memory_capabilities.ExternalBufferProperties
-	err := extension.PhysicalDeviceExternalBufferProperties(
+	err := extension.GetPhysicalDeviceExternalBufferProperties(
 		physicalDevice,
 		khr_external_memory_capabilities.PhysicalDeviceExternalBufferInfo{
 			Flags:      core1_0.BufferCreateSparseResidency,
@@ -76,7 +76,7 @@ func TestExternalImageFormatOptions(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -149,7 +149,7 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)

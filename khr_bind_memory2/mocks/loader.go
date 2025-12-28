@@ -14,7 +14,7 @@ import (
 
 	common "github.com/vkngwrapper/core/v3/common"
 	loader "github.com/vkngwrapper/core/v3/loader"
-	khr_bind_memory2_driver "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/loader"
+	khr_bind_memory2_loader "github.com/vkngwrapper/extensions/v3/khr_bind_memory2/loader"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -43,7 +43,7 @@ func (m *MockLoader) EXPECT() *MockLoaderMockRecorder {
 }
 
 // VkBindBufferMemory2KHR mocks base method.
-func (m *MockLoader) VkBindBufferMemory2KHR(device loader.VkDevice, bindInfoCount loader.Uint32, pBindInfos *khr_bind_memory2_driver.VkBindBufferMemoryInfoKHR) (common.VkResult, error) {
+func (m *MockLoader) VkBindBufferMemory2KHR(device loader.VkDevice, bindInfoCount loader.Uint32, pBindInfos *khr_bind_memory2_loader.VkBindBufferMemoryInfoKHR) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "VkBindBufferMemory2KHR", device, bindInfoCount, pBindInfos)
 	ret0, _ := ret[0].(common.VkResult)
@@ -58,7 +58,7 @@ func (mr *MockLoaderMockRecorder) VkBindBufferMemory2KHR(device, bindInfoCount, 
 }
 
 // VkBindImageMemory2KHR mocks base method.
-func (m *MockLoader) VkBindImageMemory2KHR(device loader.VkDevice, bindInfoCount loader.Uint32, pBindInfos *khr_bind_memory2_driver.VkBindImageMemoryInfoKHR) (common.VkResult, error) {
+func (m *MockLoader) VkBindImageMemory2KHR(device loader.VkDevice, bindInfoCount loader.Uint32, pBindInfos *khr_bind_memory2_loader.VkBindImageMemoryInfoKHR) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "VkBindImageMemory2KHR", device, bindInfoCount, pBindInfos)
 	ret0, _ := ret[0].(common.VkResult)

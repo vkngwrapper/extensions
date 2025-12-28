@@ -7,10 +7,10 @@ import (
 	khr_surface_loader "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 )
 
-// Extension contains all commands for the khr_surface extension
+// ExtensionDriver contains all commands for the khr_surface extension
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_surface.html
-type Extension interface {
+type ExtensionDriver interface {
 	// CreateSurfaceFromHandle produces a Surface object from a surface handle received from
 	// a windowing library
 	CreateSurfaceFromHandle(surfaceHandle khr_surface_loader.VkSurfaceKHR) (Surface, error)

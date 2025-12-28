@@ -42,6 +42,20 @@ func (m *MockLoader) EXPECT() *MockLoaderMockRecorder {
 	return m.recorder
 }
 
+// CoreLoader mocks base method.
+func (m *MockLoader) CoreLoader() loader.Loader {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CoreLoader")
+	ret0, _ := ret[0].(loader.Loader)
+	return ret0
+}
+
+// CoreLoader indicates an expected call of CoreLoader.
+func (mr *MockLoaderMockRecorder) CoreLoader() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CoreLoader", reflect.TypeOf((*MockLoader)(nil).CoreLoader))
+}
+
 // VkEnumeratePhysicalDeviceGroupsKHR mocks base method.
 func (m *MockLoader) VkEnumeratePhysicalDeviceGroupsKHR(instance loader.VkInstance, pPhysicalDeviceGroupCount *loader.Uint32, pPhysicalDeviceGroupProperties *khr_device_group_creation_loader.VkPhysicalDeviceGroupPropertiesKHR) (common.VkResult, error) {
 	m.ctrl.T.Helper()

@@ -6,10 +6,10 @@ import (
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_host_query_reset
 
-// Extension contains all the commands for the ext_host_query_reset extension
+// ExtensionDriver contains all the commands for the ext_host_query_reset extension
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_host_query_reset.html
-type Extension interface {
+type ExtensionDriver interface {
 	// ResetQueryPool resets queries in the provided core1_0.QueryPool
 	//
 	// queryPool - the core1_0.QueryPool to reset

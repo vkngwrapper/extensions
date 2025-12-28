@@ -25,11 +25,11 @@ func TestVulkanExtension_GetBufferDeviceAddress(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
-	extension := khr_buffer_device_address.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	buffer := mocks.NewDummyBuffer(device)
+
+	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
+	extension := khr_buffer_device_address.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetBufferDeviceAddressKHR(
 		device.Handle(),
@@ -45,7 +45,6 @@ func TestVulkanExtension_GetBufferDeviceAddress(t *testing.T) {
 	})
 
 	address, err := extension.GetBufferDeviceAddress(
-		device,
 		khr_buffer_device_address.BufferDeviceAddressInfo{
 			Buffer: buffer,
 		})
@@ -57,11 +56,11 @@ func TestVulkanExtension_GetBufferOpaqueCaptureAddress(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
-	extension := khr_buffer_device_address.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	buffer := mocks.NewDummyBuffer(device)
+
+	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
+	extension := khr_buffer_device_address.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetBufferOpaqueCaptureAddressKHR(
 		device.Handle(),
@@ -77,7 +76,6 @@ func TestVulkanExtension_GetBufferOpaqueCaptureAddress(t *testing.T) {
 	})
 
 	address, err := extension.GetBufferOpaqueCaptureAddress(
-		device,
 		khr_buffer_device_address.BufferDeviceAddressInfo{
 			Buffer: buffer,
 		})
@@ -89,11 +87,11 @@ func TestVulkanExtension_GetDeviceMemoryOpaqueCaptureAddress(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
-	extension := khr_buffer_device_address.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	deviceMemory := mocks.NewDummyDeviceMemory(device, 1)
+
+	extDriver := mock_buffer_device_address.NewMockDriver(ctrl)
+	extension := khr_buffer_device_address.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetDeviceMemoryOpaqueCaptureAddressKHR(
 		device.Handle(),
@@ -109,7 +107,6 @@ func TestVulkanExtension_GetDeviceMemoryOpaqueCaptureAddress(t *testing.T) {
 	})
 
 	address, err := extension.GetDeviceMemoryOpaqueCaptureAddress(
-		device,
 		khr_buffer_device_address.DeviceMemoryOpaqueCaptureAddressInfo{
 			Memory: deviceMemory,
 		})
@@ -121,10 +118,11 @@ func TestBufferOpaqueCaptureAddressCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockBuffer := mocks.NewDummyBuffer(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateBuffer(
 		device.Handle(),
@@ -152,7 +150,6 @@ func TestBufferOpaqueCaptureAddressCreateOptions(t *testing.T) {
 	})
 
 	buffer, _, err := driver.CreateBuffer(
-		device,
 		nil,
 		core1_0.BufferCreateInfo{
 			NextOptions: common.NextOptions{
@@ -169,10 +166,11 @@ func TestMemoryOpaqueCaptureAddressAllocateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockMemory := mocks.NewDummyDeviceMemory(device, 1)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkAllocateMemory(
 		device.Handle(),
@@ -200,7 +198,6 @@ func TestMemoryOpaqueCaptureAddressAllocateOptions(t *testing.T) {
 	})
 
 	memory, _, err := driver.AllocateMemory(
-		device,
 		nil,
 		core1_0.MemoryAllocateInfo{
 			NextOptions: common.NextOptions{
@@ -217,11 +214,12 @@ func TestPhysicalDeviceBufferAddressFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -273,8 +271,8 @@ func TestPhysicalDeviceBufferAddressFeaturesOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -299,7 +297,7 @@ func TestPhysicalDeviceBufferAddressFeaturesOutData(t *testing.T) {
 	})
 
 	var outData khr_buffer_device_address.PhysicalDeviceBufferDeviceAddressFeatures
-	err := extension.PhysicalDeviceFeatures2(
+	err := extension.GetPhysicalDeviceFeatures2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceFeatures2{
 			NextOutData: common.NextOutData{&outData},

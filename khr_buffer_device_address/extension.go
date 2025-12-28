@@ -4,36 +4,37 @@ import (
 	"github.com/CannibalVox/cgoparam"
 	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver khr_buffer_device_address_loader.Loader
+	device core.Device
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_buffer_device_address loaded
-func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := coreDriver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
-	return CreateExtensionFromDriver(khr_buffer_device_address_loader.CreateLoaderFromCore(device.Driver()))
+	return CreateExtensionDriverFromLoader(khr_buffer_device_address_loader.CreateLoaderFromCore(coreDriver.Loader()), device)
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_buffer_device_address_loader.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_buffer_device_address_loader.Loader, device core.Device) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		driver: driver,
+		device: device,
 	}
 }
 
-func (e *VulkanExtension) GetBufferDeviceAddress(device core.Device, o BufferDeviceAddressInfo) (uint64, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) GetBufferDeviceAddress(o BufferDeviceAddressInfo) (uint64, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -43,16 +44,13 @@ func (e *VulkanExtension) GetBufferDeviceAddress(device core.Device, o BufferDev
 	}
 
 	address := e.driver.VkGetBufferDeviceAddressKHR(
-		device.Handle(),
+		e.device.Handle(),
 		(*khr_buffer_device_address_loader.VkBufferDeviceAddressInfoKHR)(info),
 	)
 	return uint64(address), nil
 }
 
-func (e *VulkanExtension) GetBufferOpaqueCaptureAddress(device core.Device, o BufferDeviceAddressInfo) (uint64, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) GetBufferOpaqueCaptureAddress(o BufferDeviceAddressInfo) (uint64, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -62,16 +60,13 @@ func (e *VulkanExtension) GetBufferOpaqueCaptureAddress(device core.Device, o Bu
 	}
 
 	address := e.driver.VkGetBufferOpaqueCaptureAddressKHR(
-		device.Handle(),
+		e.device.Handle(),
 		(*khr_buffer_device_address_loader.VkBufferDeviceAddressInfoKHR)(info),
 	)
 	return uint64(address), nil
 }
 
-func (e *VulkanExtension) GetDeviceMemoryOpaqueCaptureAddress(device core.Device, o DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) GetDeviceMemoryOpaqueCaptureAddress(o DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -81,7 +76,7 @@ func (e *VulkanExtension) GetDeviceMemoryOpaqueCaptureAddress(device core.Device
 	}
 
 	address := e.driver.VkGetDeviceMemoryOpaqueCaptureAddressKHR(
-		device.Handle(),
+		e.device.Handle(),
 		(*khr_buffer_device_address_loader.VkDeviceMemoryOpaqueCaptureAddressInfoKHR)(info),
 	)
 	return uint64(address), nil

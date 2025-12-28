@@ -16,38 +16,38 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of Extension interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // ResetQueryPool mocks base method.
-func (m *MockExtension) ResetQueryPool(queryPool core.QueryPool, firstQuery, queryCount int) {
+func (m *MockExtensionDriver) ResetQueryPool(queryPool core.QueryPool, firstQuery, queryCount int) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "ResetQueryPool", queryPool, firstQuery, queryCount)
 }
 
 // ResetQueryPool indicates an expected call of ResetQueryPool.
-func (mr *MockExtensionMockRecorder) ResetQueryPool(queryPool, firstQuery, queryCount any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) ResetQueryPool(queryPool, firstQuery, queryCount any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResetQueryPool", reflect.TypeOf((*MockExtension)(nil).ResetQueryPool), queryPool, firstQuery, queryCount)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResetQueryPool", reflect.TypeOf((*MockExtensionDriver)(nil).ResetQueryPool), queryPool, firstQuery, queryCount)
 }

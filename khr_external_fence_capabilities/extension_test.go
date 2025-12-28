@@ -24,7 +24,7 @@ func TestVulkanExtension_PhysicalDeviceExternalFenceProperties(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_external_fence_capabilities.NewMockLoader(ctrl)
-	extension := khr_external_fence_capabilities.CreateExtensionFromDriver(extDriver)
+	extension := khr_external_fence_capabilities.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -49,7 +49,7 @@ func TestVulkanExtension_PhysicalDeviceExternalFenceProperties(t *testing.T) {
 	})
 
 	var outData khr_external_fence_capabilities.ExternalFenceProperties
-	err := extension.PhysicalDeviceExternalFenceProperties(
+	err := extension.GetPhysicalDeviceExternalFenceProperties(
 		physicalDevice,
 		khr_external_fence_capabilities.PhysicalDeviceExternalFenceInfo{
 			HandleType: khr_external_fence_capabilities.ExternalFenceHandleTypeOpaqueWin32KMT,
@@ -69,7 +69,7 @@ func TestPhysicalDeviceIDOutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)

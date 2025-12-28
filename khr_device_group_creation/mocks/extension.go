@@ -12,40 +12,39 @@ package mock_device_group_creation
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
 	khr_device_group_creation "github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of Extension interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // EnumeratePhysicalDeviceGroups mocks base method.
-func (m *MockExtension) EnumeratePhysicalDeviceGroups(instance core.Instance, outDataFactory func() *khr_device_group_creation.PhysicalDeviceGroupProperties) ([]*khr_device_group_creation.PhysicalDeviceGroupProperties, common.VkResult, error) {
+func (m *MockExtensionDriver) EnumeratePhysicalDeviceGroups(outDataFactory func() *khr_device_group_creation.PhysicalDeviceGroupProperties) ([]*khr_device_group_creation.PhysicalDeviceGroupProperties, common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnumeratePhysicalDeviceGroups", instance, outDataFactory)
+	ret := m.ctrl.Call(m, "EnumeratePhysicalDeviceGroups", outDataFactory)
 	ret0, _ := ret[0].([]*khr_device_group_creation.PhysicalDeviceGroupProperties)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
@@ -53,7 +52,7 @@ func (m *MockExtension) EnumeratePhysicalDeviceGroups(instance core.Instance, ou
 }
 
 // EnumeratePhysicalDeviceGroups indicates an expected call of EnumeratePhysicalDeviceGroups.
-func (mr *MockExtensionMockRecorder) EnumeratePhysicalDeviceGroups(instance, outDataFactory any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) EnumeratePhysicalDeviceGroups(outDataFactory any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnumeratePhysicalDeviceGroups", reflect.TypeOf((*MockExtension)(nil).EnumeratePhysicalDeviceGroups), instance, outDataFactory)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnumeratePhysicalDeviceGroups", reflect.TypeOf((*MockExtensionDriver)(nil).EnumeratePhysicalDeviceGroups), outDataFactory)
 }

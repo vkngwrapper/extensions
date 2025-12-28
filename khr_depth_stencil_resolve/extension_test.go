@@ -24,8 +24,8 @@ func TestPhysicalDeviceDepthStencilResolveOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -53,7 +53,7 @@ func TestPhysicalDeviceDepthStencilResolveOutData(t *testing.T) {
 	})
 
 	var outData PhysicalDeviceDepthStencilResolveProperties
-	err := extension.PhysicalDeviceProperties2(
+	err := extension.GetPhysicalDeviceProperties2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceProperties2{
 			NextOutData: common.NextOutData{&outData},
@@ -75,7 +75,7 @@ func TestSubpassDescriptionDepthStencilResolveOptions(t *testing.T) {
 	mockRenderPass := mocks.NewDummyRenderPass(device)
 
 	extDriver := mock_create_renderpass2.NewMockDriver(ctrl)
-	extension := khr_create_renderpass2.CreateExtensionFromDriver(extDriver)
+	extension := khr_create_renderpass2.CreateExtensionDriverFromLoader(extDriver)
 
 	extDriver.EXPECT().VkCreateRenderPass2KHR(
 		device.Handle(),

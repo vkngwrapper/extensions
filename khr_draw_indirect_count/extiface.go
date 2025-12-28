@@ -6,8 +6,8 @@ import (
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_draw_indirect_count
 
-// Extension contains all the commands for the khr_draw_indirect_count extension
-type Extension interface {
+// ExtensionDriver contains all the commands for the khr_draw_indirect_count extension
+type ExtensionDriver interface {
 	// CmdDrawIndexedIndirectCount draws with indirect parameters, indexed vertices, and draw count
 	//
 	// commandBuffer - The CommandBuffer to queue the draw to

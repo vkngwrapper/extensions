@@ -12,8 +12,8 @@ package mock_debugutils
 import (
 	reflect "reflect"
 
-	driver "github.com/vkngwrapper/core/v3/loader"
-	ext_debug_utils_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
+	loader "github.com/vkngwrapper/core/v3/loader"
+	ext_debug_utils_loader "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -42,7 +42,7 @@ func (m *MockDebugUtilsMessenger) EXPECT() *MockDebugUtilsMessengerMockRecorder 
 }
 
 // Destroy mocks base method.
-func (m *MockDebugUtilsMessenger) Destroy(callbacks *driver.AllocationCallbacks) {
+func (m *MockDebugUtilsMessenger) Destroy(callbacks *loader.AllocationCallbacks) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Destroy", callbacks)
 }
@@ -54,10 +54,10 @@ func (mr *MockDebugUtilsMessengerMockRecorder) Destroy(callbacks any) *gomock.Ca
 }
 
 // Handle mocks base method.
-func (m *MockDebugUtilsMessenger) Handle() ext_debug_utils_driver.VkDebugUtilsMessengerEXT {
+func (m *MockDebugUtilsMessenger) Handle() ext_debug_utils_loader.VkDebugUtilsMessengerEXT {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Handle")
-	ret0, _ := ret[0].(ext_debug_utils_driver.VkDebugUtilsMessengerEXT)
+	ret0, _ := ret[0].(ext_debug_utils_loader.VkDebugUtilsMessengerEXT)
 	return ret0
 }
 

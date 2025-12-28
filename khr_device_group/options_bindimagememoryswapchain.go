@@ -36,7 +36,7 @@ func (o BindImageMemorySwapchainInfo) PopulateCPointer(allocator *cgoparam.Alloc
 	info.swapchain = nil
 	info.imageIndex = C.uint32_t(o.ImageIndex)
 
-	if o.Swapchain != nil {
+	if o.Swapchain.Handle() != 0 {
 		info.swapchain = C.VkSwapchainKHR(unsafe.Pointer(o.Swapchain.Handle()))
 	}
 

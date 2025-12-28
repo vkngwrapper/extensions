@@ -79,3 +79,11 @@ func (s Surface) InstanceHandle() loader.VkInstance {
 func (s Surface) APIVersion() common.APIVersion {
 	return s.apiVersion
 }
+
+func InternalSurface(instance loader.VkInstance, handle ext_driver.VkSurfaceKHR, version common.APIVersion) Surface {
+	return Surface{
+		instance:   instance,
+		handle:     handle,
+		apiVersion: version,
+	}
+}

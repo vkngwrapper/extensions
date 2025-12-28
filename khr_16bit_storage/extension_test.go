@@ -24,12 +24,12 @@ func TestDevice16BitStorageOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
-
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	expectedDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(physicalDevice.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(physicalDevice loader.VkPhysicalDevice, pCreateInfo *loader.VkDeviceCreateInfo, pAllocator *loader.VkAllocationCallbacks, pDevice *loader.VkDevice) (common.VkResult, error) {
@@ -80,8 +80,8 @@ func TestDevice16BitStorageOutData(t *testing.T) {
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	extDriver.EXPECT().VkGetPhysicalDeviceFeatures2KHR(physicalDevice.Handle(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(physicalDevice loader.VkPhysicalDevice, pFeatures *khr_get_physical_device_properties2_driver.VkPhysicalDeviceFeatures2KHR) {
@@ -105,7 +105,7 @@ func TestDevice16BitStorageOutData(t *testing.T) {
 		NextOutData: common.NextOutData{Next: outData},
 	}
 
-	err := extension.PhysicalDeviceFeatures2(physicalDevice, features)
+	err := extension.GetPhysicalDeviceFeatures2(physicalDevice, features)
 	require.NoError(t, err)
 
 	require.True(t, outData.StoragePushConstant16)

@@ -9,10 +9,10 @@ import (
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_device_group
 
-// Extension contains all the commands for the khr_device_group extension
+// ExtensionDriver contains all the commands for the khr_device_group extension
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_device_group.html
-type Extension interface {
+type ExtensionDriver interface {
 	// CmdDispatchBase dispatches compute work items with non-zero base values for the workgroup IDs
 	//
 	// commandBuffer - The CommandBuffer to dispatch the work items on
@@ -39,7 +39,7 @@ type Extension interface {
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdSetDeviceMask.html
 	CmdSetDeviceMask(commandBuffer core.CommandBuffer, deviceMask uint32)
-	// DeviceGroupPeerMemoryFeatures queries supported peer memory features of a Device
+	// GetDeviceGroupPeerMemoryFeatures queries supported peer memory features of a Device
 	//
 	// device - The Device to query peer memory features on
 	//
@@ -50,22 +50,22 @@ type Extension interface {
 	// remoteDeviceIndex - The device index of the PhysicalDevice that the memory is allocated for
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetDeviceGroupPeerMemoryFeatures.html
-	DeviceGroupPeerMemoryFeatures(device core.Device, heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags
+	GetDeviceGroupPeerMemoryFeatures(heapIndex, localDeviceIndex, remoteDeviceIndex int) PeerMemoryFeatureFlags
 
 	// WithKHRSurface will return nil if the khr_surface extension is not active, or will return an
 	// object with additional commands that are available when both khr_device_group and khr_surface are
 	// both active
-	WithKHRSurface() ExtensionWithKHRSurface
+	WithKHRSurface() ExtensionDriverWithKHRSurface
 	// WithKHRSwapchain will return nil if the khr_swapchain extension is not active, or will return an
 	// object with additional commands that are available when both khr_device_group and khr_swapchain are
 	// both active
-	WithKHRSwapchain() ExtensionWithKHRSwapchain
+	WithKHRSwapchain() ExtensionDriverWithKHRSwapchain
 }
 
-// ExtensionWithKHRSurface contains commands available when both khr_device_group and khr_surface extensions
+// ExtensionDriverWithKHRSurface contains commands available when both khr_device_group and khr_surface extensions
 // are active
-type ExtensionWithKHRSurface interface {
-	// DeviceGroupPresentCapabilities queries Device group present capabilities for a surface
+type ExtensionDriverWithKHRSurface interface {
+	// GetDeviceGroupPresentCapabilities queries Device group present capabilities for a surface
 	//
 	// device - The Device being queried
 	//
@@ -73,28 +73,28 @@ type ExtensionWithKHRSurface interface {
 	// chained OutData objects
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetDeviceGroupPresentCapabilitiesKHR.html
-	DeviceGroupPresentCapabilities(device core.Device, outData *DeviceGroupPresentCapabilities) (common.VkResult, error)
-	// DeviceGroupSurfacePresentModes queries present capabilities for a khr_surface.Surface
+	GetDeviceGroupPresentCapabilities(outData *DeviceGroupPresentCapabilities) (common.VkResult, error)
+	// GetDeviceGroupSurfacePresentModes queries present capabilities for a khr_surface.Surface
 	//
 	// device - The Device being queried
 	//
 	// surface - The Surface whose present capabilities are being requested
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetDeviceGroupSurfacePresentModesKHR.html
-	DeviceGroupSurfacePresentModes(device core.Device, surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error)
-	// PhysicalDevicePresentRectangles queries present rectangles for a khr_surface.Surface on a PhysicalDevice
+	GetDeviceGroupSurfacePresentModes(surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error)
+	// GetPhysicalDevicePresentRectangles queries present rectangles for a khr_surface.Surface on a PhysicalDevice
 	//
 	// physicalDevice - The PhysicalDevice being queried
 	//
 	// surface - The Surface whose present rectangles are being requested
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetPhysicalDevicePresentRectanglesKHR.html
-	PhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error)
+	GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error)
 }
 
-// ExtensionWithKHRSwapchain contains commands available when both khr_device_group and khr_swapchain extensions
+// ExtensionDriverWithKHRSwapchain contains commands available when both khr_device_group and khr_swapchain extensions
 // are active
-type ExtensionWithKHRSwapchain interface {
+type ExtensionDriverWithKHRSwapchain interface {
 	// AcquireNextImage2 retrieves the index of the next available presentable Image
 	//
 	// device - The Device which owns the requested khr_swapchain.Swapchain
@@ -102,5 +102,5 @@ type ExtensionWithKHRSwapchain interface {
 	// o - Contains parameters of the acquire operation
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkAcquireNextImage2KHR.html
-	AcquireNextImage2(device core.Device, o AcquireNextImageInfo) (int, common.VkResult, error)
+	AcquireNextImage2(o AcquireNextImageInfo) (int, common.VkResult, error)
 }

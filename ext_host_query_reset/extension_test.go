@@ -26,7 +26,7 @@ func TestVulkanExtension_ResetQueryPool(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_host_query_reset.NewMockDriver(ctrl)
-	extension := ext_host_query_reset.CreateExtensionFromDriver(extDriver)
+	extension := ext_host_query_reset.CreateExtensionDriverFromLoader(extDriver)
 
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	queryPool := mocks.NewDummyQueryPool(device)
@@ -47,11 +47,12 @@ func TestPhysicalDeviceHostQueryResetFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -100,8 +101,8 @@ func TestPhysicalDeviceHostQueryResetFeaturesOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -124,7 +125,7 @@ func TestPhysicalDeviceHostQueryResetFeaturesOutData(t *testing.T) {
 	})
 
 	var outData ext_host_query_reset.PhysicalDeviceHostQueryResetFeatures
-	err := extension.PhysicalDeviceFeatures2(
+	err := extension.GetPhysicalDeviceFeatures2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceFeatures2{
 			NextOutData: common.NextOutData{&outData},

@@ -90,7 +90,7 @@ type Loader interface {
 	VkGetPhysicalDevicePresentRectanglesKHR(physicalDevice loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pRectCount *loader.Uint32, pRects *loader.VkRect2D) (common.VkResult, error)
 }
 
-func CreateDriverFromCore(coreLoader loader.Loader) *CLoader {
+func CreateLoaderFromCore(coreLoader loader.Loader) *CLoader {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 

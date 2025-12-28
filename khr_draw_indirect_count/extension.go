@@ -2,37 +2,40 @@ package khr_draw_indirect_count
 
 import (
 	"github.com/vkngwrapper/core/v3"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver khr_draw_indirect_count_loader.Loader
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_draw_indirect_count loaded
-func CreateExtensionFromDevice(device core.Device, instance core.Instance) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := driver.Device()
+
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return CreateExtensionFromDriver(khr_draw_indirect_count_loader.CreateDriverFromCore(device.Driver()))
+	return CreateExtensionDriverFromLoader(khr_draw_indirect_count_loader.CreateDriverFromCore(driver.Loader()))
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_draw_indirect_count_loader.Loader) *VulkanExtension {
-	ext := &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_draw_indirect_count_loader.Loader) *VulkanExtensionDriver {
+	ext := &VulkanExtensionDriver{
 		driver: driver,
 	}
 
 	return ext
 }
 
-func (e *VulkanExtension) CmdDrawIndexedIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+func (e *VulkanExtensionDriver) CmdDrawIndexedIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
 	if commandBuffer.Handle() == 0 {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -53,7 +56,7 @@ func (e *VulkanExtension) CmdDrawIndexedIndirectCount(commandBuffer core.Command
 	)
 }
 
-func (e *VulkanExtension) CmdDrawIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+func (e *VulkanExtensionDriver) CmdDrawIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
 	if commandBuffer.Handle() == 0 {
 		panic("commandBuffer cannot be uninitialized")
 	}

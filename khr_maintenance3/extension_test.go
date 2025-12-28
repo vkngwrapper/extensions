@@ -24,9 +24,8 @@ func TestVulkanExtension_DescriptorSetLayoutSupport(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_maintenance3.NewMockLoader(ctrl)
-	extension := khr_maintenance3.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	extension := khr_maintenance3.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetDescriptorSetLayoutSupportKHR(
 		device.Handle(),
@@ -53,7 +52,7 @@ func TestVulkanExtension_DescriptorSetLayoutSupport(t *testing.T) {
 		})
 
 	outData := &khr_maintenance3.DescriptorSetLayoutSupport{}
-	err := extension.DescriptorSetLayoutSupport(device, core1_0.DescriptorSetLayoutCreateInfo{
+	err := extension.DescriptorSetLayoutSupport(core1_0.DescriptorSetLayoutCreateInfo{
 		Bindings: []core1_0.DescriptorSetLayoutBinding{
 			{
 				Binding:         1,
@@ -70,7 +69,7 @@ func TestMaintenance3OutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)

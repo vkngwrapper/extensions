@@ -9,30 +9,31 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_create_renderpass2/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver khr_create_renderpass2_loader.Loader
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_create_renderpass2 loaded
-func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := coreDriver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
-	return CreateExtensionFromDriver(khr_create_renderpass2_loader.CreateLoaderFromCore(device.Driver()))
+	return CreateExtensionDriverFromLoader(khr_create_renderpass2_loader.CreateLoaderFromCore(coreDriver.Loader()))
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_create_renderpass2_loader.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_create_renderpass2_loader.Loader) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		driver: driver,
 	}
 }
 
-func (e *VulkanExtension) CmdBeginRenderPass2(commandBuffer core.CommandBuffer, renderPassBegin core1_0.RenderPassBeginInfo, subpassBegin SubpassBeginInfo) error {
+func (e *VulkanExtensionDriver) CmdBeginRenderPass2(commandBuffer core.CommandBuffer, renderPassBegin core1_0.RenderPassBeginInfo, subpassBegin SubpassBeginInfo) error {
 	if commandBuffer.Handle() == 0 {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -58,7 +59,7 @@ func (e *VulkanExtension) CmdBeginRenderPass2(commandBuffer core.CommandBuffer, 
 	return nil
 }
 
-func (e *VulkanExtension) CmdEndRenderPass2(commandBuffer core.CommandBuffer, subpassEnd SubpassEndInfo) error {
+func (e *VulkanExtensionDriver) CmdEndRenderPass2(commandBuffer core.CommandBuffer, subpassEnd SubpassEndInfo) error {
 	if commandBuffer.Handle() == 0 {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -78,7 +79,7 @@ func (e *VulkanExtension) CmdEndRenderPass2(commandBuffer core.CommandBuffer, su
 	return nil
 }
 
-func (e *VulkanExtension) CmdNextSubpass2(commandBuffer core.CommandBuffer, subpassBegin SubpassBeginInfo, subpassEnd SubpassEndInfo) error {
+func (e *VulkanExtensionDriver) CmdNextSubpass2(commandBuffer core.CommandBuffer, subpassBegin SubpassBeginInfo, subpassEnd SubpassEndInfo) error {
 	if commandBuffer.Handle() == 0 {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -104,7 +105,7 @@ func (e *VulkanExtension) CmdNextSubpass2(commandBuffer core.CommandBuffer, subp
 	return nil
 }
 
-func (e *VulkanExtension) CreateRenderPass2(device core.Device, allocator *loader.AllocationCallbacks, options RenderPassCreateInfo2) (core.RenderPass, common.VkResult, error) {
+func (e *VulkanExtensionDriver) CreateRenderPass2(device core.Device, allocator *loader.AllocationCallbacks, options RenderPassCreateInfo2) (core.RenderPass, common.VkResult, error) {
 	if device.Handle() == 0 {
 		panic("device cannot be uninitialized")
 	}

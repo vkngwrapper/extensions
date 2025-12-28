@@ -27,10 +27,11 @@ func TestDescriptorSetLayoutBindingFlagsCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockDescriptorSetLayout := mocks.NewDummyDescriptorSetLayout(device)
+
+	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDescriptorSetLayout(
 		device.Handle(),
@@ -58,7 +59,6 @@ func TestDescriptorSetLayoutBindingFlagsCreateOptions(t *testing.T) {
 	})
 
 	descriptorSetLayout, _, err := driver.CreateDescriptorSetLayout(
-		device,
 		nil,
 		core1_0.DescriptorSetLayoutCreateInfo{
 			NextOptions: common.NextOptions{
@@ -78,14 +78,15 @@ func TestDescriptorSetVariableDescriptorCountAllocateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	descriptorPool := mocks.NewDummyDescriptorPool(device)
 	descriptorLayout1 := mocks.NewDummyDescriptorSetLayout(device)
 	descriptorLayout2 := mocks.NewDummyDescriptorSetLayout(device)
 	descriptorLayout3 := mocks.NewDummyDescriptorSetLayout(device)
 	descriptorLayout4 := mocks.NewDummyDescriptorSetLayout(device)
+
+	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	mockDescriptorSet1 := mocks.NewDummyDescriptorSet(descriptorPool, device)
 	mockDescriptorSet2 := mocks.NewDummyDescriptorSet(descriptorPool, device)
@@ -157,10 +158,10 @@ func TestDescriptorSetVariableDescriptorCountLayoutSupportOutData(t *testing.T) 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_maintenance3.NewMockDriver(ctrl)
-	extension := khr_maintenance3.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	extDriver := mock_maintenance3.NewMockLoader(ctrl)
+	extension := khr_maintenance3.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetDescriptorSetLayoutSupportKHR(
 		device.Handle(),
@@ -182,7 +183,6 @@ func TestDescriptorSetVariableDescriptorCountLayoutSupportOutData(t *testing.T) 
 
 	var outData DescriptorSetVariableDescriptorCountLayoutSupport
 	err := extension.DescriptorSetLayoutSupport(
-		device,
 		core1_0.DescriptorSetLayoutCreateInfo{},
 		&khr_maintenance3.DescriptorSetLayoutSupport{
 			NextOutData: common.NextOutData{&outData},
@@ -197,12 +197,12 @@ func TestPhysicalDeviceDescriptorIndexingFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
-
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_loader.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -289,8 +289,8 @@ func TestPhysicalDeviceDescriptorIndexingFeaturesOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -331,7 +331,7 @@ func TestPhysicalDeviceDescriptorIndexingFeaturesOutData(t *testing.T) {
 	})
 
 	var outData PhysicalDeviceDescriptorIndexingFeatures
-	err := extension.PhysicalDeviceFeatures2(
+	err := extension.GetPhysicalDeviceFeatures2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceFeatures2{
 			NextOutData: common.NextOutData{&outData},
@@ -365,8 +365,8 @@ func TestPhysicalDeviceDescriptorIndexingOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_get_physical_device_properties2.NewMockDriver(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -412,7 +412,7 @@ func TestPhysicalDeviceDescriptorIndexingOutData(t *testing.T) {
 	})
 
 	var outData PhysicalDeviceDescriptorIndexingProperties
-	err := extension.PhysicalDeviceProperties2(
+	err := extension.GetPhysicalDeviceProperties2(
 		physicalDevice,
 		&khr_get_physical_device_properties2.PhysicalDeviceProperties2{
 			NextOutData: common.NextOutData{&outData},

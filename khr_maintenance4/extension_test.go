@@ -26,11 +26,12 @@ func TestPhysicalDeviceMaintenance4Options(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -80,7 +81,7 @@ func TestPhysicalDeviceMaintenance4OutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -120,7 +121,7 @@ func TestMaintenance4PropertiesOutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -158,10 +159,10 @@ func TestVulkanExtension_DeviceBufferMemoryRequirements(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_maintenance4.NewMockLoader(ctrl)
-	extension := khr_maintenance4.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	extDriver := mock_maintenance4.NewMockLoader(ctrl)
+	extension := khr_maintenance4.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetDeviceBufferMemoryRequirementsKHR(
 		device.Handle(),
@@ -194,7 +195,7 @@ func TestVulkanExtension_DeviceBufferMemoryRequirements(t *testing.T) {
 		})
 
 	outData := &core1_1.MemoryRequirements2{}
-	err := extension.DeviceBufferMemoryRequirements(device, khr_maintenance4.DeviceBufferMemoryRequirements{
+	err := extension.GetDeviceBufferMemoryRequirements(khr_maintenance4.DeviceBufferMemoryRequirements{
 		CreateInfo: core1_0.BufferCreateInfo{
 			Size:  7,
 			Usage: core1_0.BufferUsageIndirectBuffer,
@@ -215,10 +216,10 @@ func TestVulkanExtension_DeviceImageMemoryRequirements(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_maintenance4.NewMockLoader(ctrl)
-	extension := khr_maintenance4.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	extDriver := mock_maintenance4.NewMockLoader(ctrl)
+	extension := khr_maintenance4.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetDeviceImageMemoryRequirementsKHR(
 		device.Handle(),
@@ -254,7 +255,7 @@ func TestVulkanExtension_DeviceImageMemoryRequirements(t *testing.T) {
 		})
 
 	outData := &core1_1.MemoryRequirements2{}
-	err := extension.DeviceImageMemoryRequirements(device, khr_maintenance4.DeviceImageMemoryRequirements{
+	err := extension.GetDeviceImageMemoryRequirements(khr_maintenance4.DeviceImageMemoryRequirements{
 		CreateInfo: core1_0.ImageCreateInfo{
 			Extent: core1_0.Extent3D{
 				Width:  7,
@@ -279,10 +280,10 @@ func TestVulkanExtension_SparseImageMemoryRequirements(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_maintenance4.NewMockLoader(ctrl)
-	extension := khr_maintenance4.CreateExtensionFromDriver(extDriver)
-	
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	extDriver := mock_maintenance4.NewMockLoader(ctrl)
+	extension := khr_maintenance4.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetDeviceImageSparseMemoryRequirementsKHR(
 		device.Handle(),
@@ -388,7 +389,7 @@ func TestVulkanExtension_SparseImageMemoryRequirements(t *testing.T) {
 			*(*loader.VkDeviceSize)(unsafe.Pointer(memReqs.FieldByName("imageMipTailStride").UnsafeAddr())) = loader.VkDeviceSize(37)
 		})
 
-	outData, err := extension.DeviceImageSparseMemoryRequirements(device,
+	outData, err := extension.GetDeviceImageSparseMemoryRequirements(
 		khr_maintenance4.DeviceImageMemoryRequirements{
 			CreateInfo: core1_0.ImageCreateInfo{
 				Extent: core1_0.Extent3D{

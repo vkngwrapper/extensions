@@ -9,10 +9,10 @@ import (
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_create_renderpass2
 
-// Extension contains all the commands for the khr_create_renderpass2 extension
+// ExtensionDriver contains all the commands for the khr_create_renderpass2 extension
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_create_renderpass2.html
-type Extension interface {
+type ExtensionDriver interface {
 	// CmdBeginRenderPass2 begins a new RenderPass
 	//
 	// commandBuffer - The CommandBuffer to begin the RenderPass in

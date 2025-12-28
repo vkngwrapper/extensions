@@ -10,15 +10,15 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
+	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
-	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
-// PresentOutData represents optionally-returned data from the Extension.QueuePresent command
+// PresentOutData represents optionally-returned data from the ExtensionDriver.QueuePresent command
 type PresentOutData struct {
 	// Results is a slice of status codes, one for each Swapchain provided in PresentInfo.
 	// This slice allows the caller to inspect the results of each individual Swapchain presentation
-	// executed by Extension.QueuePresent
+	// executed by ExtensionDriver.QueuePresent
 	Results []common.VkResult
 }
 
@@ -27,7 +27,7 @@ type PresentOutData struct {
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPresentInfoKHR.html
 type PresentInfo struct {
 	// WaitSemaphores is a slice of Semaphore objects to wait for before issuing the present request
-	WaitSemaphores []core1_0.Semaphore
+	WaitSemaphores []core.Semaphore
 	// Swapchains is a slice of Swapchain objects being presented to by this command
 	Swapchains []Swapchain
 	// ImageIndices is a slice of indices into the array of each Swapchain object's presentable Image objects.
@@ -62,9 +62,9 @@ func (o PresentInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocate
 		semaphoreSlice := ([]C.VkSemaphore)(unsafe.Slice(semaphorePtr, waitSemaphoreCount))
 
 		for i := 0; i < waitSemaphoreCount; i++ {
-			if o.WaitSemaphores[i] == nil {
-				return nil, errors.Errorf("khr_swapchain.PresentInfo.WaitSemaphores cannot contain nil "+
-					"elements, but element %d is nil", i)
+			if o.WaitSemaphores[i].Handle() == 0 {
+				return nil, errors.Errorf("khr_swapchain.PresentInfo.WaitSemaphores cannot contain uninitialized "+
+					"elements, but element %d is uninitialized", i)
 			}
 			semaphoreHandle := (C.VkSemaphore)(unsafe.Pointer(o.WaitSemaphores[i].Handle()))
 			semaphoreSlice[i] = semaphoreHandle
@@ -88,9 +88,9 @@ func (o PresentInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocate
 		resultPtr := (*C.VkResult)(allocator.Malloc(swapchainCount * int(unsafe.Sizeof(C.VkResult(0)))))
 
 		for i := 0; i < swapchainCount; i++ {
-			if o.Swapchains[i] == nil {
-				return nil, errors.Errorf("khr_swapchain.PresentInfo.Swapchains cannot contain nil "+
-					"elements, but element %d is nil", i)
+			if o.Swapchains[i].Handle() == 0 {
+				return nil, errors.Errorf("khr_swapchain.PresentInfo.Swapchains cannot contain uninitialized "+
+					"elements, but element %d is uninitialized", i)
 			}
 			swapchainSlice[i] = (C.VkSwapchainKHR)(unsafe.Pointer(o.Swapchains[i].Handle()))
 			imageIndexSlice[i] = (C.uint32_t)(o.ImageIndices[i])

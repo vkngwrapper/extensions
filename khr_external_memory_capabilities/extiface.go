@@ -6,9 +6,9 @@ import (
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_external_memory_capabilities
 
-// Extension contains all the commands for the khr_external_memory_capabilities extension
-type Extension interface {
-	// PhysicalDeviceExternalBufferProperties queries external types supported by Buffer objects
+// ExtensionDriver contains all the commands for the khr_external_memory_capabilities extension
+type ExtensionDriver interface {
+	// GetPhysicalDeviceExternalBufferProperties queries external types supported by Buffer objects
 	//
 	// physicalDevice - The PhysicalDevice being queried
 	//
@@ -18,5 +18,5 @@ type Extension interface {
 	// desired chained OutData objects.
 	//
 	// https://www.khronos.org/registry/VulkanSC/specs/1.0-extensions/man/html/vkGetPhysicalDeviceExternalBufferProperties.html
-	PhysicalDeviceExternalBufferProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalBufferInfo, outData *ExternalBufferProperties) error
+	GetPhysicalDeviceExternalBufferProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalBufferInfo, outData *ExternalBufferProperties) error
 }

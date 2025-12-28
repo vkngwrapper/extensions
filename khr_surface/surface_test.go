@@ -21,13 +21,12 @@ func TestVulkanSurface_PresentModes(t *testing.T) {
 	defer ctrl.Finish()
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
-	surfaceDriver := mock_surface.NewMockDriver(ctrl)
+	surfaceDriver := mock_surface.NewMockLoader(ctrl)
 	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+	extension := khr_surface.CreateExtensionDriverFromLoader(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurfaceFromHandle(0)
-	require.NoError(t, err)
+	surface := mock_surface.NewDummySurface(instance)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfacePresentModesKHR(
 		device.Handle(),
@@ -68,13 +67,12 @@ func TestVulkanSurface_PresentModes_Incomplete(t *testing.T) {
 	defer ctrl.Finish()
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
-	surfaceDriver := mock_surface.NewMockDriver(ctrl)
+	surfaceDriver := mock_surface.NewMockLoader(ctrl)
 	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+	extension := khr_surface.CreateExtensionDriverFromLoader(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurfaceFromHandle(0)
-	require.NoError(t, err)
+	surface := mock_surface.NewDummySurface(instance)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfacePresentModesKHR(
 		device.Handle(),
@@ -140,14 +138,12 @@ func TestVulkanSurface_SupportsDevice(t *testing.T) {
 	defer ctrl.Finish()
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
-	surfaceDriver := mock_surface.NewMockDriver(ctrl)
+	surfaceDriver := mock_surface.NewMockLoader(ctrl)
 	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+	extension := khr_surface.CreateExtensionDriverFromLoader(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurfaceFromHandle(0)
-	require.NoError(t, err)
-
+	surface := mock_surface.NewDummySurface(instance)
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceSupportKHR(
 		device.Handle(),
 		loader.Uint32(3),
@@ -170,13 +166,12 @@ func TestVulkanSurface_Capabilities(t *testing.T) {
 	defer ctrl.Finish()
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
-	surfaceDriver := mock_surface.NewMockDriver(ctrl)
+	surfaceDriver := mock_surface.NewMockLoader(ctrl)
 	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+	extension := khr_surface.CreateExtensionDriverFromLoader(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurfaceFromHandle(0)
-	require.NoError(t, err)
+	surface := mock_surface.NewDummySurface(instance)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceCapabilitiesKHR(
 		device.Handle(),
@@ -234,13 +229,12 @@ func TestVulkanSurface_Formats(t *testing.T) {
 	defer ctrl.Finish()
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
-	surfaceDriver := mock_surface.NewMockDriver(ctrl)
+	surfaceDriver := mock_surface.NewMockLoader(ctrl)
 	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+	extension := khr_surface.CreateExtensionDriverFromLoader(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurfaceFromHandle(0)
-	require.NoError(t, err)
+	surface := mock_surface.NewDummySurface(instance)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceFormatsKHR(
 		device.Handle(),
@@ -293,13 +287,12 @@ func TestVulkanSurface_Formats_Incomplete(t *testing.T) {
 	defer ctrl.Finish()
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
-	surfaceDriver := mock_surface.NewMockDriver(ctrl)
+	surfaceDriver := mock_surface.NewMockLoader(ctrl)
 	device := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 
-	extension := khr_surface.CreateExtensionFromDriver(surfaceDriver, instance)
+	extension := khr_surface.CreateExtensionDriverFromLoader(surfaceDriver, instance)
 
-	surface, err := extension.CreateSurfaceFromHandle(0)
-	require.NoError(t, err)
+	surface := mock_surface.NewDummySurface(instance)
 
 	surfaceDriver.EXPECT().VkGetPhysicalDeviceSurfaceFormatsKHR(
 		device.Handle(),

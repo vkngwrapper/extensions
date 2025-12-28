@@ -12,39 +12,39 @@ package mock_debugutils
 import (
 	reflect "reflect"
 
+	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
-	driver "github.com/vkngwrapper/core/v3/loader"
+	loader "github.com/vkngwrapper/core/v3/loader"
 	ext_debug_utils "github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of Extension interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // CmdBeginDebugUtilsLabel mocks base method.
-func (m *MockExtension) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CmdBeginDebugUtilsLabel", commandBuffer, label)
 	ret0, _ := ret[0].(error)
@@ -52,25 +52,25 @@ func (m *MockExtension) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuf
 }
 
 // CmdBeginDebugUtilsLabel indicates an expected call of CmdBeginDebugUtilsLabel.
-func (mr *MockExtensionMockRecorder) CmdBeginDebugUtilsLabel(commandBuffer, label any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) CmdBeginDebugUtilsLabel(commandBuffer, label any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CmdBeginDebugUtilsLabel", reflect.TypeOf((*MockExtension)(nil).CmdBeginDebugUtilsLabel), commandBuffer, label)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CmdBeginDebugUtilsLabel", reflect.TypeOf((*MockExtensionDriver)(nil).CmdBeginDebugUtilsLabel), commandBuffer, label)
 }
 
 // CmdEndDebugUtilsLabel mocks base method.
-func (m *MockExtension) CmdEndDebugUtilsLabel(commandBuffer core1_0.CommandBuffer) {
+func (m *MockExtensionDriver) CmdEndDebugUtilsLabel(commandBuffer core.CommandBuffer) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdEndDebugUtilsLabel", commandBuffer)
 }
 
 // CmdEndDebugUtilsLabel indicates an expected call of CmdEndDebugUtilsLabel.
-func (mr *MockExtensionMockRecorder) CmdEndDebugUtilsLabel(commandBuffer any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) CmdEndDebugUtilsLabel(commandBuffer any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CmdEndDebugUtilsLabel", reflect.TypeOf((*MockExtension)(nil).CmdEndDebugUtilsLabel), commandBuffer)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CmdEndDebugUtilsLabel", reflect.TypeOf((*MockExtensionDriver)(nil).CmdEndDebugUtilsLabel), commandBuffer)
 }
 
 // CmdInsertDebugUtilsLabel mocks base method.
-func (m *MockExtension) CmdInsertDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) CmdInsertDebugUtilsLabel(commandBuffer core.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CmdInsertDebugUtilsLabel", commandBuffer, label)
 	ret0, _ := ret[0].(error)
@@ -78,13 +78,13 @@ func (m *MockExtension) CmdInsertDebugUtilsLabel(commandBuffer core1_0.CommandBu
 }
 
 // CmdInsertDebugUtilsLabel indicates an expected call of CmdInsertDebugUtilsLabel.
-func (mr *MockExtensionMockRecorder) CmdInsertDebugUtilsLabel(commandBuffer, label any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) CmdInsertDebugUtilsLabel(commandBuffer, label any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CmdInsertDebugUtilsLabel", reflect.TypeOf((*MockExtension)(nil).CmdInsertDebugUtilsLabel), commandBuffer, label)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CmdInsertDebugUtilsLabel", reflect.TypeOf((*MockExtensionDriver)(nil).CmdInsertDebugUtilsLabel), commandBuffer, label)
 }
 
 // CreateDebugUtilsMessenger mocks base method.
-func (m *MockExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, allocator *driver.AllocationCallbacks, o ext_debug_utils.DebugUtilsMessengerCreateInfo) (ext_debug_utils.DebugUtilsMessenger, common.VkResult, error) {
+func (m *MockExtensionDriver) CreateDebugUtilsMessenger(instance core.Instance, allocator *loader.AllocationCallbacks, o ext_debug_utils.DebugUtilsMessengerCreateInfo) (ext_debug_utils.DebugUtilsMessenger, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateDebugUtilsMessenger", instance, allocator, o)
 	ret0, _ := ret[0].(ext_debug_utils.DebugUtilsMessenger)
@@ -94,13 +94,13 @@ func (m *MockExtension) CreateDebugUtilsMessenger(instance core1_0.Instance, all
 }
 
 // CreateDebugUtilsMessenger indicates an expected call of CreateDebugUtilsMessenger.
-func (mr *MockExtensionMockRecorder) CreateDebugUtilsMessenger(instance, allocator, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) CreateDebugUtilsMessenger(instance, allocator, o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateDebugUtilsMessenger", reflect.TypeOf((*MockExtension)(nil).CreateDebugUtilsMessenger), instance, allocator, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateDebugUtilsMessenger", reflect.TypeOf((*MockExtensionDriver)(nil).CreateDebugUtilsMessenger), instance, allocator, o)
 }
 
 // QueueBeginDebugUtilsLabel mocks base method.
-func (m *MockExtension) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "QueueBeginDebugUtilsLabel", queue, label)
 	ret0, _ := ret[0].(error)
@@ -108,25 +108,25 @@ func (m *MockExtension) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label ext
 }
 
 // QueueBeginDebugUtilsLabel indicates an expected call of QueueBeginDebugUtilsLabel.
-func (mr *MockExtensionMockRecorder) QueueBeginDebugUtilsLabel(queue, label any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) QueueBeginDebugUtilsLabel(queue, label any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueBeginDebugUtilsLabel", reflect.TypeOf((*MockExtension)(nil).QueueBeginDebugUtilsLabel), queue, label)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueBeginDebugUtilsLabel", reflect.TypeOf((*MockExtensionDriver)(nil).QueueBeginDebugUtilsLabel), queue, label)
 }
 
 // QueueEndDebugUtilsLabel mocks base method.
-func (m *MockExtension) QueueEndDebugUtilsLabel(queue core1_0.Queue) {
+func (m *MockExtensionDriver) QueueEndDebugUtilsLabel(queue core.Queue) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "QueueEndDebugUtilsLabel", queue)
 }
 
 // QueueEndDebugUtilsLabel indicates an expected call of QueueEndDebugUtilsLabel.
-func (mr *MockExtensionMockRecorder) QueueEndDebugUtilsLabel(queue any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) QueueEndDebugUtilsLabel(queue any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueEndDebugUtilsLabel", reflect.TypeOf((*MockExtension)(nil).QueueEndDebugUtilsLabel), queue)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueEndDebugUtilsLabel", reflect.TypeOf((*MockExtensionDriver)(nil).QueueEndDebugUtilsLabel), queue)
 }
 
 // QueueInsertDebugUtilsLabel mocks base method.
-func (m *MockExtension) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) QueueInsertDebugUtilsLabel(queue core.Queue, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "QueueInsertDebugUtilsLabel", queue, label)
 	ret0, _ := ret[0].(error)
@@ -134,13 +134,13 @@ func (m *MockExtension) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label ex
 }
 
 // QueueInsertDebugUtilsLabel indicates an expected call of QueueInsertDebugUtilsLabel.
-func (mr *MockExtensionMockRecorder) QueueInsertDebugUtilsLabel(queue, label any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) QueueInsertDebugUtilsLabel(queue, label any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueInsertDebugUtilsLabel", reflect.TypeOf((*MockExtension)(nil).QueueInsertDebugUtilsLabel), queue, label)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueInsertDebugUtilsLabel", reflect.TypeOf((*MockExtensionDriver)(nil).QueueInsertDebugUtilsLabel), queue, label)
 }
 
 // SetDebugUtilsObjectName mocks base method.
-func (m *MockExtension) SetDebugUtilsObjectName(device core1_0.Device, name ext_debug_utils.DebugUtilsObjectNameInfo) (common.VkResult, error) {
+func (m *MockExtensionDriver) SetDebugUtilsObjectName(device core.Device, name ext_debug_utils.DebugUtilsObjectNameInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetDebugUtilsObjectName", device, name)
 	ret0, _ := ret[0].(common.VkResult)
@@ -149,13 +149,13 @@ func (m *MockExtension) SetDebugUtilsObjectName(device core1_0.Device, name ext_
 }
 
 // SetDebugUtilsObjectName indicates an expected call of SetDebugUtilsObjectName.
-func (mr *MockExtensionMockRecorder) SetDebugUtilsObjectName(device, name any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) SetDebugUtilsObjectName(device, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDebugUtilsObjectName", reflect.TypeOf((*MockExtension)(nil).SetDebugUtilsObjectName), device, name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDebugUtilsObjectName", reflect.TypeOf((*MockExtensionDriver)(nil).SetDebugUtilsObjectName), device, name)
 }
 
 // SetDebugUtilsObjectTag mocks base method.
-func (m *MockExtension) SetDebugUtilsObjectTag(device core1_0.Device, tag ext_debug_utils.DebugUtilsObjectTagInfo) (common.VkResult, error) {
+func (m *MockExtensionDriver) SetDebugUtilsObjectTag(device core.Device, tag ext_debug_utils.DebugUtilsObjectTagInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetDebugUtilsObjectTag", device, tag)
 	ret0, _ := ret[0].(common.VkResult)
@@ -164,13 +164,13 @@ func (m *MockExtension) SetDebugUtilsObjectTag(device core1_0.Device, tag ext_de
 }
 
 // SetDebugUtilsObjectTag indicates an expected call of SetDebugUtilsObjectTag.
-func (mr *MockExtensionMockRecorder) SetDebugUtilsObjectTag(device, tag any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) SetDebugUtilsObjectTag(device, tag any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDebugUtilsObjectTag", reflect.TypeOf((*MockExtension)(nil).SetDebugUtilsObjectTag), device, tag)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDebugUtilsObjectTag", reflect.TypeOf((*MockExtensionDriver)(nil).SetDebugUtilsObjectTag), device, tag)
 }
 
 // SubmitDebugUtilsMessage mocks base method.
-func (m *MockExtension) SubmitDebugUtilsMessage(instance core1_0.Instance, severity ext_debug_utils.DebugUtilsMessageSeverityFlags, types ext_debug_utils.DebugUtilsMessageTypeFlags, data ext_debug_utils.DebugUtilsMessengerCallbackData) error {
+func (m *MockExtensionDriver) SubmitDebugUtilsMessage(instance core.Instance, severity ext_debug_utils.DebugUtilsMessageSeverityFlags, types ext_debug_utils.DebugUtilsMessageTypeFlags, data ext_debug_utils.DebugUtilsMessengerCallbackData) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SubmitDebugUtilsMessage", instance, severity, types, data)
 	ret0, _ := ret[0].(error)
@@ -178,7 +178,7 @@ func (m *MockExtension) SubmitDebugUtilsMessage(instance core1_0.Instance, sever
 }
 
 // SubmitDebugUtilsMessage indicates an expected call of SubmitDebugUtilsMessage.
-func (mr *MockExtensionMockRecorder) SubmitDebugUtilsMessage(instance, severity, types, data any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) SubmitDebugUtilsMessage(instance, severity, types, data any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubmitDebugUtilsMessage", reflect.TypeOf((*MockExtension)(nil).SubmitDebugUtilsMessage), instance, severity, types, data)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubmitDebugUtilsMessage", reflect.TypeOf((*MockExtensionDriver)(nil).SubmitDebugUtilsMessage), instance, severity, types, data)
 }

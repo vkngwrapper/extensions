@@ -20,13 +20,13 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromBuffer(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
-	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	descriptorPool := mocks.NewDummyDescriptorPool(device)
 	descriptorSet := mocks.NewDummyDescriptorSet(descriptorPool, device)
 	buffer := mocks.NewDummyBuffer(device)
+
+	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
+	extension := khr_descriptor_update_template.CreateExtensionDriverFromLoader(extDriver, device)
 
 	expectedTemplate := mocks.NewDummyDescriptorUpdateTemplate(device)
 
@@ -49,7 +49,7 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromBuffer(t *testing.T) {
 	extDriver.EXPECT().VkUpdateDescriptorSetWithTemplateKHR(
 		device.Handle(),
 		descriptorSet.Handle(),
-		expectedTemplate.Handle(),
+		khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR(expectedTemplate.Handle()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(func(
 		device loader.VkDevice,
@@ -64,7 +64,7 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromBuffer(t *testing.T) {
 		require.Equal(t, uint64(3), info.FieldByName("_range").Uint())
 	})
 
-	template, _, err := extension.CreateDescriptorUpdateTemplate(device, khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{}, nil)
+	template, _, err := extension.CreateDescriptorUpdateTemplate(khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, template)
 
@@ -79,14 +79,14 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromImage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
-	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	descriptorPool := mocks.NewDummyDescriptorPool(device)
 	descriptorSet := mocks.NewDummyDescriptorSet(descriptorPool, device)
 	sampler := mocks.NewDummySampler(device)
 	imageView := mocks.NewDummyImageView(device)
+
+	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
+	extension := khr_descriptor_update_template.CreateExtensionDriverFromLoader(extDriver, device)
 
 	expectedTemplate := mocks.NewDummyDescriptorUpdateTemplate(device)
 
@@ -109,7 +109,7 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromImage(t *testing.T) {
 	extDriver.EXPECT().VkUpdateDescriptorSetWithTemplateKHR(
 		device.Handle(),
 		descriptorSet.Handle(),
-		expectedTemplate.Handle(),
+		khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR(expectedTemplate.Handle()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(func(
 		device loader.VkDevice,
@@ -124,7 +124,7 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromImage(t *testing.T) {
 		require.Equal(t, uint64(7), info.FieldByName("imageLayout").Uint()) // VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL
 	})
 
-	template, _, err := extension.CreateDescriptorUpdateTemplate(device, khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{}, nil)
+	template, _, err := extension.CreateDescriptorUpdateTemplate(khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, template)
 
@@ -139,13 +139,13 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromObjectHandle(t *testing
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
-	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	descriptorPool := mocks.NewDummyDescriptorPool(device)
 	descriptorSet := mocks.NewDummyDescriptorSet(descriptorPool, device)
 	bufferView := mocks.NewDummyBufferView(device)
+
+	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
+	extension := khr_descriptor_update_template.CreateExtensionDriverFromLoader(extDriver, device)
 
 	expectedTemplate := mocks.NewDummyDescriptorUpdateTemplate(device)
 
@@ -168,7 +168,7 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromObjectHandle(t *testing
 	extDriver.EXPECT().VkUpdateDescriptorSetWithTemplateKHR(
 		device.Handle(),
 		descriptorSet.Handle(),
-		expectedTemplate.Handle(),
+		khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR(expectedTemplate.Handle()),
 		gomock.Not(gomock.Nil()),
 	).DoAndReturn(func(
 		device loader.VkDevice,
@@ -180,7 +180,7 @@ func TestVulkanDescriptorTemplate_UpdateDescriptorSetFromObjectHandle(t *testing
 		require.Equal(t, bufferView.Handle(), info)
 	})
 
-	template, _, err := extension.CreateDescriptorUpdateTemplate(device, khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{}, nil)
+	template, _, err := extension.CreateDescriptorUpdateTemplate(khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, template)
 

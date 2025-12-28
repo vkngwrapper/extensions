@@ -16,43 +16,41 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 )
 
-// CreateExtensionFromInstance produces an Extension object from an Insstance with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from an Insstance with
 // khr_surface loaded
-func CreateExtensionFromInstance(instance core.Instance) *VulkanExtension {
-	if instance.Handle() == 0 {
-		panic("instance cannot be uninitialized")
-	}
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) *VulkanExtensionDriver {
+	instance := coreDriver.Instance()
 
 	if !instance.IsInstanceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return &VulkanExtension{
-		driver:   khr_surface_loader.CreateDriverFromCore(instance.Driver()),
+	return &VulkanExtensionDriver{
+		driver:   khr_surface_loader.CreateDriverFromCore(coreDriver.Loader()),
 		instance: instance,
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_surface_loader.Loader, instance core.Instance) *VulkanExtension {
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_surface_loader.Loader, instance core.Instance) *VulkanExtensionDriver {
 	if instance.Handle() == 0 {
 		panic("instance cannot be uninitialized")
 	}
-	return &VulkanExtension{
+	return &VulkanExtensionDriver{
 		driver:   driver,
 		instance: instance,
 	}
 }
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver   khr_surface_loader.Loader
 	instance core.Instance
 }
 
-func (e *VulkanExtension) CreateSurfaceFromHandle(surfaceHandle khr_surface_loader.VkSurfaceKHR) (Surface, error) {
+func (e *VulkanExtensionDriver) CreateSurfaceFromHandle(surfaceHandle khr_surface_loader.VkSurfaceKHR) (Surface, error) {
 	instanceHandle := e.instance.Handle()
 	apiVersion := e.instance.APIVersion()
 
@@ -64,14 +62,14 @@ func (e *VulkanExtension) CreateSurfaceFromHandle(surfaceHandle khr_surface_load
 	return surface, nil
 }
 
-func (e *VulkanExtension) DestroySurface(surface Surface, callbacks *loader.AllocationCallbacks) {
+func (e *VulkanExtensionDriver) DestroySurface(surface Surface, callbacks *loader.AllocationCallbacks) {
 	if surface.Handle() == 0 {
 		panic("surface cannot be uninitialized")
 	}
 	e.driver.VkDestroySurfaceKHR(surface.InstanceHandle(), surface.Handle(), callbacks.Handle())
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceSurfaceSupport(surface Surface, physicalDevice core.PhysicalDevice, queueFamilyIndex int) (bool, common.VkResult, error) {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfaceSupport(surface Surface, physicalDevice core.PhysicalDevice, queueFamilyIndex int) (bool, common.VkResult, error) {
 	if surface.Handle() == 0 {
 		panic("surface cannot be uninitialized")
 	}
@@ -85,7 +83,7 @@ func (e *VulkanExtension) GetPhysicalDeviceSurfaceSupport(surface Surface, physi
 	return canPresent != C.VK_FALSE, res, err
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceSurfaceCapabilities(surface Surface, device core.PhysicalDevice) (*SurfaceCapabilities, common.VkResult, error) {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfaceCapabilities(surface Surface, device core.PhysicalDevice) (*SurfaceCapabilities, common.VkResult, error) {
 	if surface.Handle() == 0 {
 		panic("surface cannot be uninitialized")
 	}
@@ -128,7 +126,7 @@ func (e *VulkanExtension) GetPhysicalDeviceSurfaceCapabilities(surface Surface, 
 	}, res, nil
 }
 
-func (e *VulkanExtension) attemptFormats(surface Surface, device core.PhysicalDevice) ([]SurfaceFormat, common.VkResult, error) {
+func (e *VulkanExtensionDriver) attemptFormats(surface Surface, device core.PhysicalDevice) ([]SurfaceFormat, common.VkResult, error) {
 	allocator := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(allocator)
 
@@ -165,7 +163,7 @@ func (e *VulkanExtension) attemptFormats(surface Surface, device core.PhysicalDe
 	return result, res, nil
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceSurfaceFormats(surface Surface, device core.PhysicalDevice) ([]SurfaceFormat, common.VkResult, error) {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfaceFormats(surface Surface, device core.PhysicalDevice) ([]SurfaceFormat, common.VkResult, error) {
 	if surface.Handle() == 0 {
 		panic("surface cannot be uninitialized")
 	}
@@ -182,7 +180,7 @@ func (e *VulkanExtension) GetPhysicalDeviceSurfaceFormats(surface Surface, devic
 	return formats, result, err
 }
 
-func (e *VulkanExtension) attemptPresentModes(surface Surface, device core.PhysicalDevice) ([]PresentMode, common.VkResult, error) {
+func (e *VulkanExtensionDriver) attemptPresentModes(surface Surface, device core.PhysicalDevice) ([]PresentMode, common.VkResult, error) {
 	allocator := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(allocator)
 
@@ -216,7 +214,7 @@ func (e *VulkanExtension) attemptPresentModes(surface Surface, device core.Physi
 	return result, res, nil
 }
 
-func (e *VulkanExtension) GetPhysicalDeviceSurfacePresentModes(surface Surface, device core.PhysicalDevice) ([]PresentMode, common.VkResult, error) {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfacePresentModes(surface Surface, device core.PhysicalDevice) ([]PresentMode, common.VkResult, error) {
 	if surface.Handle() == 0 {
 		panic("surface cannot be uninitialized")
 	}

@@ -9,36 +9,37 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance3/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver khr_maintenance3_loader.Loader
+	device core.Device
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_maintenance3 loaded
-func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := driver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return &VulkanExtension{
-		driver: khr_maintenance3_loader.CreateLoaderFromCore(device.Driver()),
+	return &VulkanExtensionDriver{
+		driver: khr_maintenance3_loader.CreateLoaderFromCore(driver.Loader()),
+		device: device,
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_maintenance3_loader.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_maintenance3_loader.Loader, device core.Device) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		driver: driver,
+		device: device,
 	}
 }
 
-func (e *VulkanExtension) DescriptorSetLayoutSupport(device core.Device, setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, support *DescriptorSetLayoutSupport) error {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) DescriptorSetLayoutSupport(setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, support *DescriptorSetLayoutSupport) error {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -52,9 +53,9 @@ func (e *VulkanExtension) DescriptorSetLayoutSupport(device core.Device, setLayo
 		return err
 	}
 
-	e.driver.VkGetDescriptorSetLayoutSupportKHR(device.Handle(), (*loader.VkDescriptorSetLayoutCreateInfo)(optionsPtr), (*khr_maintenance3_loader.VkDescriptorSetLayoutSupportKHR)(outDataPtr))
+	e.driver.VkGetDescriptorSetLayoutSupportKHR(e.device.Handle(), (*loader.VkDescriptorSetLayoutCreateInfo)(optionsPtr), (*khr_maintenance3_loader.VkDescriptorSetLayoutSupportKHR)(outDataPtr))
 
 	return common.PopulateOutData(support, outDataPtr)
 }
 
-var _ Extension = &VulkanExtension{}
+var _ ExtensionDriver = &VulkanExtensionDriver{}

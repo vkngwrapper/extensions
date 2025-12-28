@@ -1,19 +1,16 @@
 package khr_maintenance3
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_maintenance3
 
-// Extension contains all commands for the khr_maintenance3 extension
+// ExtensionDriver contains all commands for the khr_maintenance3 extension
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_maintenance3.html
-type Extension interface {
+type ExtensionDriver interface {
 	// DescriptorSetLayoutSupport queries whether a DescriptorSetLayout can be created
-	//
-	// device - The Device which will be used to create the DescriptorSetLayout
 	//
 	// setLayoutOptions - Specifies the state of the DescriptorSetLayout object
 	//
@@ -21,5 +18,5 @@ type Extension interface {
 	// object will be populated. It should include any desired chained OutData objects
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetDescriptorSetLayoutSupport.html
-	DescriptorSetLayoutSupport(device core.Device, setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, outData *DescriptorSetLayoutSupport) error
+	DescriptorSetLayoutSupport(setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, outData *DescriptorSetLayoutSupport) error
 }

@@ -15,7 +15,7 @@ import (
 	common "github.com/vkngwrapper/core/v3/common"
 	loader "github.com/vkngwrapper/core/v3/loader"
 	khr_device_group_loader "github.com/vkngwrapper/extensions/v3/khr_device_group/loader"
-	khr_surface_driver "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
+	khr_surface_loader "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -110,7 +110,7 @@ func (mr *MockLoaderMockRecorder) VkGetDeviceGroupPresentCapabilitiesKHR(device,
 }
 
 // VkGetDeviceGroupSurfacePresentModesKHR mocks base method.
-func (m *MockLoader) VkGetDeviceGroupSurfacePresentModesKHR(device loader.VkDevice, surface khr_surface_driver.VkSurfaceKHR, pModes *khr_device_group_loader.VkDeviceGroupPresentModeFlagsKHR) (common.VkResult, error) {
+func (m *MockLoader) VkGetDeviceGroupSurfacePresentModesKHR(device loader.VkDevice, surface khr_surface_loader.VkSurfaceKHR, pModes *khr_device_group_loader.VkDeviceGroupPresentModeFlagsKHR) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "VkGetDeviceGroupSurfacePresentModesKHR", device, surface, pModes)
 	ret0, _ := ret[0].(common.VkResult)
@@ -125,7 +125,7 @@ func (mr *MockLoaderMockRecorder) VkGetDeviceGroupSurfacePresentModesKHR(device,
 }
 
 // VkGetPhysicalDevicePresentRectanglesKHR mocks base method.
-func (m *MockLoader) VkGetPhysicalDevicePresentRectanglesKHR(physicalDevice loader.VkPhysicalDevice, surface khr_surface_driver.VkSurfaceKHR, pRectCount *loader.Uint32, pRects *loader.VkRect2D) (common.VkResult, error) {
+func (m *MockLoader) VkGetPhysicalDevicePresentRectanglesKHR(physicalDevice loader.VkPhysicalDevice, surface khr_surface_loader.VkSurfaceKHR, pRectCount *loader.Uint32, pRects *loader.VkRect2D) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "VkGetPhysicalDevicePresentRectanglesKHR", physicalDevice, surface, pRectCount, pRects)
 	ret0, _ := ret[0].(common.VkResult)

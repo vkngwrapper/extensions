@@ -9,36 +9,36 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion/loader"
 )
 
-// VulkanExtension is an implementation of the Extension interface that actually communicates with Vulkan. This
+// VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanExtension struct {
+type VulkanExtensionDriver struct {
 	driver khr_sampler_ycbcr_conversion_loader.Loader
+	device core.Device
 }
 
-// CreateExtensionFromDevice produces an Extension object from a Device with
+// CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_sampler_ycbcr_conversion loaded
-func CreateExtensionFromDevice(device core.Device) *VulkanExtension {
+func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) *VulkanExtensionDriver {
+	device := driver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil
 	}
 
-	return &VulkanExtension{
-		driver: khr_sampler_ycbcr_conversion_loader.CreateLoaderFromCore(device.Driver()),
+	return &VulkanExtensionDriver{
+		driver: khr_sampler_ycbcr_conversion_loader.CreateLoaderFromCore(driver.Loader()),
 	}
 }
 
-// CreateExtensionFromDriver generates an Extension from a loader.Loader object- this is usually
-// used in tests to build an Extension from mock drivers
-func CreateExtensionFromDriver(driver khr_sampler_ycbcr_conversion_loader.Loader) *VulkanExtension {
-	return &VulkanExtension{
+// CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
+// used in tests to build an ExtensionDriver from mock drivers
+func CreateExtensionDriverFromLoader(driver khr_sampler_ycbcr_conversion_loader.Loader, device core.Device) *VulkanExtensionDriver {
+	return &VulkanExtensionDriver{
 		driver: driver,
+		device: device,
 	}
 }
 
-func (e *VulkanExtension) CreateSamplerYcbcrConversion(device core.Device, o SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core.SamplerYcbcrConversion, common.VkResult, error) {
-	if device.Handle() == 0 {
-		panic("device cannot be uninitialized")
-	}
+func (e *VulkanExtensionDriver) CreateSamplerYcbcrConversion(o SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core.SamplerYcbcrConversion, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -49,7 +49,7 @@ func (e *VulkanExtension) CreateSamplerYcbcrConversion(device core.Device, o Sam
 
 	var ycbcrHandle khr_sampler_ycbcr_conversion_loader.VkSamplerYcbcrConversionKHR
 	res, err := e.driver.VkCreateSamplerYcbcrConversionKHR(
-		device.Handle(),
+		e.device.Handle(),
 		(*khr_sampler_ycbcr_conversion_loader.VkSamplerYcbcrConversionCreateInfoKHR)(optionPtr),
 		allocator.Handle(),
 		&ycbcrHandle,
@@ -58,11 +58,11 @@ func (e *VulkanExtension) CreateSamplerYcbcrConversion(device core.Device, o Sam
 		return core.SamplerYcbcrConversion{}, res, err
 	}
 
-	ycbcr := core.InternalSamplerYcbcrConversion(device.Handle(), loader.VkSamplerYcbcrConversion(ycbcrHandle), device.APIVersion())
+	ycbcr := core.InternalSamplerYcbcrConversion(e.device.Handle(), loader.VkSamplerYcbcrConversion(ycbcrHandle), e.device.APIVersion())
 
 	return ycbcr, res, nil
 }
 
-func (e *VulkanExtension) DestroySamplerYcbcrConversion(conversion core.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks) {
+func (e *VulkanExtensionDriver) DestroySamplerYcbcrConversion(conversion core.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks) {
 	e.driver.VkDestroySamplerYcbcrConversionKHR(conversion.DeviceHandle(), khr_sampler_ycbcr_conversion_loader.VkSamplerYcbcrConversionKHR(conversion.Handle()), allocator.Handle())
 }

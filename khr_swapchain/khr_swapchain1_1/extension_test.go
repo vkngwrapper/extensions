@@ -24,10 +24,10 @@ func TestVulkanExtension_GetDeviceGroupPresentCapabilities(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
+
+	extDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, device)
 
 	extDriver.EXPECT().VkGetDeviceGroupPresentCapabilitiesKHR(
 		device.Handle(),
@@ -52,13 +52,12 @@ func TestVulkanExtension_GetDeviceGroupPresentCapabilities(t *testing.T) {
 	})
 
 	var outData khr_swapchain1_1.DeviceGroupPresentCapabilities
-	_, err := extension.DeviceGroupPresentCapabilities(
-		device,
+	_, err := extension.GetDeviceGroupPresentCapabilities(
 		&outData,
 	)
 	require.NoError(t, err)
 	require.Equal(t, khr_swapchain1_1.DeviceGroupPresentCapabilities{
-		PresentMask: []uint32{1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		PresentMask: [32]uint32{1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	}, outData)
 }
 
@@ -66,11 +65,12 @@ func TestVulkanExtension_GetDeviceGroupSurfacePresentModes(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
-	surface := mock_surface.EasyMockSurface(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_1, []string{})
+	surface := mock_surface.NewDummySurface(instance)
+
+	extDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, device)
 
 	extDriver.EXPECT().VkGetDeviceGroupSurfacePresentModesKHR(
 		device.Handle(),
@@ -85,7 +85,7 @@ func TestVulkanExtension_GetDeviceGroupSurfacePresentModes(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	modes, _, err := extension.DeviceGroupSurfacePresentModes(device, surface)
+	modes, _, err := extension.DeviceGroupSurfacePresentModeFlags(surface)
 	require.NoError(t, err)
 	require.Equal(t, khr_swapchain1_1.DeviceGroupPresentModeSum, modes)
 }
@@ -94,12 +94,13 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
-
 	instance := mocks.NewDummyInstance(common.Vulkan1_1, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_1)
-	surface := mock_surface.EasyMockSurface(ctrl)
+	surface := mock_surface.NewDummySurface(instance)
+	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
+
+	extDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, device)
 
 	extDriver.EXPECT().VkGetPhysicalDevicePresentRectanglesKHR(
 		physicalDevice.Handle(),
@@ -152,7 +153,7 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	rects, _, err := extension.PhysicalDevicePresentRectangles(physicalDevice, surface)
+	rects, _, err := extension.GetPhysicalDevicePresentRectangles(physicalDevice, surface)
 	require.NoError(t, err)
 	require.Equal(t, []core1_0.Rect2D{
 		{
@@ -174,12 +175,13 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
-
 	instance := mocks.NewDummyInstance(common.Vulkan1_1, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_1)
-	surface := mock_surface.EasyMockSurface(ctrl)
+	surface := mock_surface.NewDummySurface(instance)
+	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
+
+	extDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, device)
 
 	extDriver.EXPECT().VkGetPhysicalDevicePresentRectanglesKHR(
 		physicalDevice.Handle(),
@@ -277,7 +279,7 @@ func TestVulkanExtension_GetPhysicalDevicePresentRectangles_Incomplete(t *testin
 		return core1_0.VKSuccess, nil
 	})
 
-	rects, _, err := extension.PhysicalDevicePresentRectangles(physicalDevice, surface)
+	rects, _, err := extension.GetPhysicalDevicePresentRectangles(physicalDevice, surface)
 	require.NoError(t, err)
 	require.Equal(t, []core1_0.Rect2D{
 		{
@@ -299,12 +301,12 @@ func TestVulkanExtensionWithKHRSwapchain_AcquireNextImage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_1, []string{})
 	swapchain := khr_swapchain.NewDummySwapchain(device)
 	semaphore := mocks.NewDummySemaphore(device)
+
+	extDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain1_1.CreateExtensionFromDriver(extDriver, device)
 
 	extDriver.EXPECT().VkAcquireNextImage2KHR(
 		device.Handle(),
@@ -329,7 +331,6 @@ func TestVulkanExtensionWithKHRSwapchain_AcquireNextImage(t *testing.T) {
 	})
 
 	index, _, err := extension.AcquireNextImage2(
-		device,
 		khr_swapchain1_1.AcquireNextImageInfo{
 			Swapchain:  swapchain,
 			Timeout:    time.Second,

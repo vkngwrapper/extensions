@@ -27,11 +27,11 @@ func TestVulkanExtension_SemaphoreCounterValue(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
-	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	semaphore := mocks.NewDummySemaphore(device)
+
+	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
+	extension := khr_timeline_semaphore.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkGetSemaphoreCounterValueKHR(
 		device.Handle(),
@@ -45,7 +45,7 @@ func TestVulkanExtension_SemaphoreCounterValue(t *testing.T) {
 		return core1_0.VKSuccess, nil
 	})
 
-	value, _, err := extension.SemaphoreCounterValue(
+	value, _, err := extension.GetSemaphoreCounterValue(
 		semaphore,
 	)
 	require.NoError(t, err)
@@ -56,11 +56,11 @@ func TestVulkanExtension_SignalSemaphore(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
-	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	semaphore := mocks.NewDummySemaphore(device)
+
+	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
+	extension := khr_timeline_semaphore.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkSignalSemaphoreKHR(
 		device.Handle(),
@@ -78,7 +78,6 @@ func TestVulkanExtension_SignalSemaphore(t *testing.T) {
 	})
 
 	_, err := extension.SignalSemaphore(
-		device,
 		khr_timeline_semaphore.SemaphoreSignalInfo{
 			Semaphore: semaphore,
 			Value:     uint64(13),
@@ -90,10 +89,10 @@ func TestVulkanExtension_WaitSemaphores(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
-	extension := khr_timeline_semaphore.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	extDriver := mock_timeline_semaphore.NewMockLoader(ctrl)
+	extension := khr_timeline_semaphore.CreateExtensionDriverFromLoader(extDriver, device)
 
 	semaphore1 := mocks.NewDummySemaphore(device)
 	semaphore2 := mocks.NewDummySemaphore(device)
@@ -124,7 +123,6 @@ func TestVulkanExtension_WaitSemaphores(t *testing.T) {
 	})
 
 	_, err := extension.WaitSemaphores(
-		device,
 		time.Minute,
 		khr_timeline_semaphore.SemaphoreWaitInfo{
 			Flags: khr_timeline_semaphore.SemaphoreWaitAny,
@@ -144,11 +142,12 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalCoreInstanceDriver(coreLoader)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
 	mockDevice := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalCoreInstanceDriver(instance, coreLoader)
 
 	coreLoader.EXPECT().VkCreateDevice(
 		physicalDevice.Handle(),
@@ -198,7 +197,7 @@ func TestPhysicalDeviceTimelineSemaphoreFeaturesOutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)
@@ -237,10 +236,11 @@ func TestSemaphoreTypeCreateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockSemaphore := mocks.NewDummySemaphore(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateSemaphore(
 		device.Handle(),
@@ -269,7 +269,6 @@ func TestSemaphoreTypeCreateOptions(t *testing.T) {
 	})
 
 	semaphore, _, err := driver.CreateSemaphore(
-		device,
 		nil,
 		core1_0.SemaphoreCreateInfo{
 			NextOptions: common.NextOptions{khr_timeline_semaphore.SemaphoreTypeCreateInfo{
@@ -285,11 +284,12 @@ func TestTimelineSemaphoreSubmitOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	queue := mocks.NewDummyQueue(device)
 	fence := mocks.NewDummyFence(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkQueueSubmit(
 		queue.Handle(),
@@ -342,7 +342,7 @@ func TestPhysicalDeviceTimelineSemaphoreOutData(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_get_physical_device_properties2.NewMockLoader(ctrl)
-	extension := khr_get_physical_device_properties2.CreateExtensionFromDriver(extDriver)
+	extension := khr_get_physical_device_properties2.CreateExtensionDriverFromLoader(extDriver)
 
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	physicalDevice := mocks.NewDummyPhysicalDevice(instance, common.Vulkan1_0)

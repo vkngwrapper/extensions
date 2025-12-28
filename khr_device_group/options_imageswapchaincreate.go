@@ -33,7 +33,7 @@ func (o ImageSwapchainCreateInfo) PopulateCPointer(allocator *cgoparam.Allocator
 	info.pNext = next
 	info.swapchain = nil
 
-	if o.Swapchain != nil {
+	if o.Swapchain.Handle() != 0 {
 		info.swapchain = C.VkSwapchainKHR(unsafe.Pointer(o.Swapchain.Handle()))
 	}
 

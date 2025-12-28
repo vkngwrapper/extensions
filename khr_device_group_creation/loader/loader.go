@@ -21,6 +21,7 @@ import (
 //go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_device_group_creation
 
 type Loader interface {
+	CoreLoader() loader.Loader
 	VkEnumeratePhysicalDeviceGroupsKHR(instance loader.VkInstance, pPhysicalDeviceGroupCount *loader.Uint32, pPhysicalDeviceGroupProperties *VkPhysicalDeviceGroupPropertiesKHR) (common.VkResult, error)
 }
 
@@ -42,6 +43,10 @@ func CreateLoaderFromCore(coreLoader loader.Loader) *CLoader {
 
 		enumeratePhysicalDeviceGroups: (C.PFN_vkEnumeratePhysicalDeviceGroupsKHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkEnumeratePhysicalDeviceGroupsKHR")))),
 	}
+}
+
+func (d *CLoader) CoreLoader() loader.Loader {
+	return d.coreLoader
 }
 
 func (d *CLoader) VkEnumeratePhysicalDeviceGroupsKHR(instance loader.VkInstance, pPhysicalDeviceGroupCount *loader.Uint32, pPhysicalDeviceGroupProperties *VkPhysicalDeviceGroupPropertiesKHR) (common.VkResult, error) {

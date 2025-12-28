@@ -8,8 +8,8 @@ import (
 	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
-// Extension contains all commands for the khr_get_physical_device_properties2 extension
-type Extension interface {
+// ExtensionDriver contains all commands for the khr_get_physical_device_properties2 extension
+type ExtensionDriver interface {
 	// GetPhysicalDeviceFeatures2 reports capabilities of a PhysicalDevice
 	//
 	// physicalDevice - The PhysicalDevice whose features are being queried

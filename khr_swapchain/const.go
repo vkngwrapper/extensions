@@ -38,7 +38,7 @@ const (
 	ObjectTypeSwapchain core1_0.ObjectType = C.VK_OBJECT_TYPE_SWAPCHAIN_KHR
 
 	// ImageLayoutPresentSrc must only be used for presenting a presentable Image for display.
-	// A Swapchain object's Image must be transitioned to this layout before calling Extension.QueuePresent,
+	// A Swapchain object's Image must be transitioned to this layout before calling ExtensionDriver.QueuePresent,
 	// and must be transitioned away from this layout after calling Swapchain.AcquireNextImage
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkImageLayout.html

@@ -20,12 +20,12 @@ func TestVulkanExtension_CreateDescriptorUpdateTemplate(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
-	extension := khr_descriptor_update_template.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	descriptorLayout := mocks.NewDummyDescriptorSetLayout(device)
 	pipelineLayout := mocks.NewDummyPipelineLayout(device)
+
+	extDriver := mock_descriptor_update_template.NewMockLoader(ctrl)
+	extension := khr_descriptor_update_template.CreateExtensionDriverFromLoader(extDriver, device)
 
 	handle := mocks.NewFakeDescriptorUpdateTemplate()
 
@@ -77,11 +77,11 @@ func TestVulkanExtension_CreateDescriptorUpdateTemplate(t *testing.T) {
 	})
 	extDriver.EXPECT().VkDestroyDescriptorUpdateTemplateKHR(
 		device.Handle(),
-		handle,
+		khr_descriptor_update_template_driver.VkDescriptorUpdateTemplateKHR(handle),
 		gomock.Nil(),
 	)
 
-	template, _, err := extension.CreateDescriptorUpdateTemplate(device, khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{
+	template, _, err := extension.CreateDescriptorUpdateTemplate(khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo{
 		DescriptorUpdateEntries: []khr_descriptor_update_template.DescriptorUpdateTemplateEntry{
 			{
 				DstBinding:      1,

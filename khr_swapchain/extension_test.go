@@ -24,13 +24,14 @@ func TestVulkanExtension_CreateSwapchain(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	swapchainDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver)
-
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	expectedSwapchain := khr_swapchain.NewDummySwapchain(device)
-	surface := mock_surface.EasyMockSurface(ctrl)
+	surface := mock_surface.NewDummySurface(instance)
 	oldSwapchain := khr_swapchain.NewDummySwapchain(device)
+
+	swapchainDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain.CreateExtensionDriverFromLoader(swapchainDriver, device)
 
 	swapchainDriver.EXPECT().VkCreateSwapchainKHR(device.Handle(), gomock.Not(gomock.Nil()), gomock.Nil(), gomock.Not(gomock.Nil())).
 		DoAndReturn(func(device loader.VkDevice, pCreateInfo *khr_swapchain_driver.VkSwapchainCreateInfoKHR, pAllocator *loader.VkAllocationCallbacks, pSwapchain *khr_swapchain_driver.VkSwapchainKHR) (common.VkResult, error) {
@@ -72,7 +73,7 @@ func TestVulkanExtension_CreateSwapchain(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	swapchain, _, err := extension.CreateSwapchain(device, nil, khr_swapchain.SwapchainCreateInfo{
+	swapchain, _, err := extension.CreateSwapchain(nil, khr_swapchain.SwapchainCreateInfo{
 		Surface:            surface,
 		MinImageCount:      1,
 		ImageFormat:        core1_0.FormatA2B10G10R10SignedScaledPacked,
@@ -97,12 +98,12 @@ func TestVulkanExtension_PresentToQueue_NullOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	swapchainDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	swapchain := khr_swapchain.NewDummySwapchain(device)
 	queue := mocks.NewDummyQueue(device)
+
+	swapchainDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain.CreateExtensionDriverFromLoader(swapchainDriver, device)
 
 	semaphore1 := mocks.NewDummySemaphore(device)
 	semaphore2 := mocks.NewDummySemaphore(device)
@@ -153,12 +154,12 @@ func TestVulkanExtension_PresentToQueue_RealOutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	swapchainDriver := mock_swapchain.NewMockDriver(ctrl)
-	extension := khr_swapchain.CreateExtensionFromDriver(swapchainDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	swapchain := khr_swapchain.NewDummySwapchain(device)
 	queue := mocks.NewDummyQueue(device)
+
+	swapchainDriver := mock_swapchain.NewMockLoader(ctrl)
+	extension := khr_swapchain.CreateExtensionDriverFromLoader(swapchainDriver, device)
 
 	semaphore1 := mocks.NewDummySemaphore(device)
 	semaphore2 := mocks.NewDummySemaphore(device)

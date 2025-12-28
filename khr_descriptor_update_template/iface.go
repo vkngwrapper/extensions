@@ -9,7 +9,7 @@ import (
 
 //go:generate mockgen -source iface.go -destination ./mocks/extension.go -package mock_descriptor_update_template
 
-type Extension interface {
+type ExtensionDriver interface {
 	// CreateDescriptorUpdateTemplate creates a new DescriptorUpdateTemplate
 	//
 	// device - The Device to create DescriptorUpdateTemplate from
@@ -19,7 +19,7 @@ type Extension interface {
 	// allocator - Controls host allocation behavior
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCreateDescriptorUpdateTemplate.html
-	CreateDescriptorUpdateTemplate(device core.Device, o DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core.DescriptorUpdateTemplate, common.VkResult, error)
+	CreateDescriptorUpdateTemplate(o DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core.DescriptorUpdateTemplate, common.VkResult, error)
 	// DestroyDescriptorUpdateTemplate destroys a DescriptorUpdateTemplate object and the underlying structures. **Warning** after
 	// destruction, the object will continue to exist, but the Vulkan object handle that backs it will
 	// be invalid. Do not call further methods with the DescriptorUpdateTemplate.

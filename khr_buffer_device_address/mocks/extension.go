@@ -12,12 +12,12 @@ package mock_buffer_device_address
 import (
 	reflect "reflect"
 
-	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
+	core "github.com/vkngwrapper/core/v3"
 	khr_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of Extension interface.
+// MockExtension is a mock of ExtensionDriver interface.
 type MockExtension struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtensionMockRecorder
@@ -42,7 +42,7 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // GetBufferDeviceAddress mocks base method.
-func (m *MockExtension) GetBufferDeviceAddress(device core1_0.Device, o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
+func (m *MockExtension) GetBufferDeviceAddress(device core.Device, o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBufferDeviceAddress", device, o)
 	ret0, _ := ret[0].(uint64)
@@ -57,7 +57,7 @@ func (mr *MockExtensionMockRecorder) GetBufferDeviceAddress(device, o any) *gomo
 }
 
 // GetBufferOpaqueCaptureAddress mocks base method.
-func (m *MockExtension) GetBufferOpaqueCaptureAddress(device core1_0.Device, o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
+func (m *MockExtension) GetBufferOpaqueCaptureAddress(device core.Device, o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBufferOpaqueCaptureAddress", device, o)
 	ret0, _ := ret[0].(uint64)
@@ -72,7 +72,7 @@ func (mr *MockExtensionMockRecorder) GetBufferOpaqueCaptureAddress(device, o any
 }
 
 // GetDeviceMemoryOpaqueCaptureAddress mocks base method.
-func (m *MockExtension) GetDeviceMemoryOpaqueCaptureAddress(device core1_0.Device, o khr_buffer_device_address.DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
+func (m *MockExtension) GetDeviceMemoryOpaqueCaptureAddress(device core.Device, o khr_buffer_device_address.DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetDeviceMemoryOpaqueCaptureAddress", device, o)
 	ret0, _ := ret[0].(uint64)

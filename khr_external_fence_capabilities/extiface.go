@@ -6,9 +6,9 @@ import (
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_external_fence_capabilities
 
-// Extension contains all the commands for the khr_external_fence_capabilities extension
-type Extension interface {
-	// PhysicalDeviceExternalFenceProperties queries external Fence capabilities
+// ExtensionDriver contains all the commands for the khr_external_fence_capabilities extension
+type ExtensionDriver interface {
+	// GetPhysicalDeviceExternalFenceProperties queries external Fence capabilities
 	//
 	// physicalDevice - The PhysicalDevice to retrieve capabilities for
 	//
@@ -18,5 +18,5 @@ type Extension interface {
 	// any desired chained OutData objects.
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkGetPhysicalDeviceExternalFenceProperties.html
-	PhysicalDeviceExternalFenceProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalFenceInfo, outData *ExternalFenceProperties) error
+	GetPhysicalDeviceExternalFenceProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalFenceInfo, outData *ExternalFenceProperties) error
 }

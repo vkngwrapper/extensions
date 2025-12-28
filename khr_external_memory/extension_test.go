@@ -21,10 +21,10 @@ func TestExternalMemoryAllocateOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockMemory := mocks.NewDummyDeviceMemory(device, 1)
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkAllocateMemory(
 		device.Handle(),
@@ -54,7 +54,7 @@ func TestExternalMemoryAllocateOptions(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	memory, _, err := driver.AllocateMemory(device, nil, core1_0.MemoryAllocateInfo{
+	memory, _, err := driver.AllocateMemory(nil, core1_0.MemoryAllocateInfo{
 		AllocationSize:  1,
 		MemoryTypeIndex: 3,
 		NextOptions: common.NextOptions{
@@ -71,10 +71,11 @@ func TestExternalMemoryImageOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockImage := mocks.NewDummyImage(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateImage(
 		device.Handle(),
@@ -105,7 +106,6 @@ func TestExternalMemoryImageOptions(t *testing.T) {
 		})
 
 	image, _, err := driver.CreateImage(
-		device,
 		nil,
 		core1_0.ImageCreateInfo{
 			MipLevels:   1,
@@ -125,10 +125,11 @@ func TestExternalMemoryBufferOptions(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
-	driver := mocks1_0.InternalDeviceDriver(coreLoader)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	mockBuffer := mocks.NewDummyBuffer(device)
+
+	coreLoader := mock_driver.LoaderForVersion(ctrl, common.Vulkan1_0)
+	driver := mocks1_0.InternalDeviceDriver(device, coreLoader)
 
 	coreLoader.EXPECT().VkCreateBuffer(
 		device.Handle(),
@@ -159,7 +160,6 @@ func TestExternalMemoryBufferOptions(t *testing.T) {
 		})
 
 	buffer, _, err := driver.CreateBuffer(
-		device,
 		nil,
 		core1_0.BufferCreateInfo{
 			Size:  1,

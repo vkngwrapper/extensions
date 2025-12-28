@@ -6,9 +6,9 @@ import (
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_external_semaphore_capabilities
 
-// Extension contains all commands for the khr_external_semaphore_capabilities extension
-type Extension interface {
-	// PhysicalDeviceExternalSemaphoreProperties queries external Semaphore capabilities
+// ExtensionDriver contains all commands for the khr_external_semaphore_capabilities extension
+type ExtensionDriver interface {
+	// GetPhysicalDeviceExternalSemaphoreProperties queries external Semaphore capabilities
 	//
 	// physicalDevice - The PhysicalDevice being queried
 	//
@@ -18,5 +18,5 @@ type Extension interface {
 	// desired chained OutData objects.
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkGetPhysicalDeviceExternalSemaphoreProperties.html
-	PhysicalDeviceExternalSemaphoreProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalSemaphoreInfo, outData *ExternalSemaphoreProperties) error
+	GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalSemaphoreInfo, outData *ExternalSemaphoreProperties) error
 }

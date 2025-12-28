@@ -11,6 +11,7 @@ import (
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
+	mock_loader "github.com/vkngwrapper/core/v3/loader/mocks"
 	"github.com/vkngwrapper/core/v3/mocks"
 	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	ext_debug_utils_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
@@ -48,9 +49,10 @@ func TestVulkanExtension_CreateMessenger(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 
 	calledRightFunction := false
 	var cb ext_debug_utils.CallbackFunction = func(msgType ext_debug_utils.DebugUtilsMessageTypeFlags, severity ext_debug_utils.DebugUtilsMessageSeverityFlags, data *ext_debug_utils.DebugUtilsMessengerCallbackData) bool {
@@ -85,7 +87,7 @@ func TestVulkanExtension_CreateMessenger(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	messenger, _, err := extension.CreateDebugUtilsMessenger(instance, nil, ext_debug_utils.DebugUtilsMessengerCreateInfo{
+	messenger, _, err := extension.CreateDebugUtilsMessenger(nil, ext_debug_utils.DebugUtilsMessengerCreateInfo{
 		MessageSeverity: ext_debug_utils.SeverityWarning,
 		MessageType:     ext_debug_utils.TypeValidation,
 		UserCallback:    cb,
@@ -99,8 +101,10 @@ func TestVulkanExtension_CmdBeginLabel(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	pool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(pool, device)
@@ -137,8 +141,10 @@ func TestVulkanExtension_CmdEndLabel(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	pool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(pool, device)
@@ -152,8 +158,10 @@ func TestVulkanExtension_CmdInsertLabel(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	pool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(pool, device)
@@ -190,8 +198,10 @@ func TestVulkanExtension_QueueBeginLabel(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	queue := mocks.NewDummyQueue(device)
 
@@ -227,8 +237,10 @@ func TestVulkanExtension_QueueEndLabel(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	queue := mocks.NewDummyQueue(device)
 
@@ -241,8 +253,10 @@ func TestVulkanExtension_QueueInsertLabel(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	queue := mocks.NewDummyQueue(device)
 
@@ -278,8 +292,10 @@ func TestVulkanExtension_SetObjectName(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	pool := mocks.NewDummyCommandPool(device)
 	commandBuffer := mocks.NewDummyCommandBuffer(pool, device)
@@ -317,8 +333,10 @@ func TestVulkanExtension_SetObjectTag(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
+	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	queryPool := mocks.NewDummyQueryPool(device)
 
@@ -358,9 +376,10 @@ func TestVulkanExtension_SubmitMessage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	debugDriver := mock_debugutils.NewMockDriver(ctrl)
-	extension := ext_debug_utils.CreateExtensionFromDriver(debugDriver)
+	debugDriver := mock_debugutils.NewMockLoader(ctrl)
 	instance := mocks.NewDummyInstance(common.Vulkan1_0, []string{})
+	coreLoader := mock_loader.NewMockLoader(ctrl)
+	extension := ext_debug_utils.CreateDriverFromLoader(debugDriver, coreLoader, instance)
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
 	pipeline := mocks.NewDummyPipeline(device)
 
@@ -509,6 +528,6 @@ func TestVulkanExtension_SubmitMessage(t *testing.T) {
 			require.Equal(t, expectedObjectName, actualObjectName)
 		})
 
-	err := extension.SubmitDebugUtilsMessage(instance, ext_debug_utils.SeverityError, ext_debug_utils.TypeValidation, callbackData)
+	err := extension.SubmitDebugUtilsMessage(ext_debug_utils.SeverityError, ext_debug_utils.TypeValidation, callbackData)
 	require.NoError(t, err)
 }

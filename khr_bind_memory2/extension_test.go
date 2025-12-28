@@ -20,10 +20,9 @@ func TestVulkanExtension_BindBufferMemory(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	extDriver := mock_bind_memory2.NewMockLoader(ctrl)
-	extension := khr_bind_memory2.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	extDriver := mock_bind_memory2.NewMockLoader(ctrl)
+	extension := khr_bind_memory2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	buffer1 := mocks.NewDummyBuffer(device)
 	buffer2 := mocks.NewDummyBuffer(device)
@@ -53,7 +52,7 @@ func TestVulkanExtension_BindBufferMemory(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	_, err := extension.BindBufferMemory2(device, []khr_bind_memory2.BindBufferMemoryInfo{
+	_, err := extension.BindBufferMemory2([]khr_bind_memory2.BindBufferMemoryInfo{
 		{
 			Buffer:       buffer1,
 			Memory:       memory1,
@@ -73,9 +72,8 @@ func TestVulkanExtension_BindImageMemory(t *testing.T) {
 	defer ctrl.Finish()
 
 	extDriver := mock_bind_memory2.NewMockLoader(ctrl)
-	extension := khr_bind_memory2.CreateExtensionFromDriver(extDriver)
-
 	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	extension := khr_bind_memory2.CreateExtensionDriverFromLoader(extDriver, device)
 
 	image1 := mocks.NewDummyImage(device)
 	image2 := mocks.NewDummyImage(device)
@@ -105,7 +103,7 @@ func TestVulkanExtension_BindImageMemory(t *testing.T) {
 			return core1_0.VKSuccess, nil
 		})
 
-	_, err := extension.BindImageMemory2(device, []khr_bind_memory2.BindImageMemoryInfo{
+	_, err := extension.BindImageMemory2([]khr_bind_memory2.BindImageMemoryInfo{
 		{
 			Image:        image1,
 			Memory:       memory1,

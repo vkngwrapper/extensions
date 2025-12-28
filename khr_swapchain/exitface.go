@@ -9,26 +9,26 @@ import (
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 )
 
-// Extension contains all commands for the khr_swapchain extension (that were not added in core 1.1)
+// ExtensionDriver contains all commands for the khr_swapchain extension (that were not added in core 1.1)
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_KHR_swapchain.html
-type Extension interface {
-	// Loader is the Vulkan wrapper loader used by this Extension
+type ExtensionDriver interface {
+	// Loader is the Vulkan wrapper loader used by this ExtensionDriver
 	Loader() khr_swapchain_driver.Loader
-	// APIVersion is the maximum Vulkan API version supported by this Extension. If it is at least Vulkan 1.1,
-	// khr_swapchain1_1.PromoteExtension can be used to promote this to a khr_swapchain1_1.Extension
+	// APIVersion is the maximum Vulkan API version supported by this ExtensionDriver. If it is at least Vulkan 1.1,
+	// khr_swapchain1_1.PromoteExtension can be used to promote this to a khr_swapchain1_1.ExtensionDriver
 	APIVersion() common.APIVersion
+	// Device is the vulkan Device object that backs this device extension
+	Device() core.Device
 
 	// CreateSwapchain creates a Swapchain
-	//
-	// device - The Device to create the Swapchain for
 	//
 	// allocation - Controls host memory allocation behavior
 	//
 	// options - Specifies the parameters of the created Swapchain
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCreateSwapchainKHR.html
-	CreateSwapchain(device core.Device, allocation *loader.AllocationCallbacks, options SwapchainCreateInfo) (Swapchain, common.VkResult, error)
+	CreateSwapchain(allocation *loader.AllocationCallbacks, options SwapchainCreateInfo) (Swapchain, common.VkResult, error)
 	// QueuePresent queues an Image for presentation
 	// queue - A core1_0.Queue that is capable of presentation to the target khr_surface.Surface object's
 	// platform on the same Device as the Image object's Swapchain
@@ -46,10 +46,10 @@ type Extension interface {
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkDestroySwapchainKHR.html
 	DestroySwapchain(swapchain Swapchain, callbacks *loader.AllocationCallbacks)
-	// SwapchainImages obtains a slice of the presentable Image objects associated with a Swapchain
+	// GetSwapchainImages obtains a slice of the presentable Image objects associated with a Swapchain
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetSwapchainImagesKHR.html
-	SwapchainImages(swapchain Swapchain) ([]core.Image, common.VkResult, error)
+	GetSwapchainImages(swapchain Swapchain) ([]core.Image, common.VkResult, error)
 	// AcquireNextImage retrieves the index of the next available presentable Image in a Swapchain
 	//
 	// timeout - Specifies how long the function waits, in nanoseconds, if no Image is available, before
@@ -62,5 +62,5 @@ type Extension interface {
 	// fence - Optionally, a Fence to signal when the Image is acquired
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkAcquireNextImageKHR.html
-	AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore core.Semaphore, fence core.Fence) (int, common.VkResult, error)
+	AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore *core.Semaphore, fence *core.Fence) (int, common.VkResult, error)
 }

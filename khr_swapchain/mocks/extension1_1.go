@@ -20,34 +20,34 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension1_1 is a mock of Extension interface.
-type MockExtension1_1 struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtension1_1MockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtension1_1MockRecorder is the mock recorder for MockExtension1_1.
-type MockExtension1_1MockRecorder struct {
-	mock *MockExtension1_1
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension1_1 creates a new mock instance.
-func NewMockExtension1_1(ctrl *gomock.Controller) *MockExtension1_1 {
-	mock := &MockExtension1_1{ctrl: ctrl}
-	mock.recorder = &MockExtension1_1MockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension1_1) EXPECT() *MockExtension1_1MockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // AcquireNextImage2 mocks base method.
-func (m *MockExtension1_1) AcquireNextImage2(device core.Device, o khr_swapchain1_1.AcquireNextImageInfo) (int, common.VkResult, error) {
+func (m *MockExtensionDriver) AcquireNextImage2(o khr_swapchain1_1.AcquireNextImageInfo) (int, common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AcquireNextImage2", device, o)
+	ret := m.ctrl.Call(m, "AcquireNextImage2", o)
 	ret0, _ := ret[0].(int)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
@@ -55,30 +55,30 @@ func (m *MockExtension1_1) AcquireNextImage2(device core.Device, o khr_swapchain
 }
 
 // AcquireNextImage2 indicates an expected call of AcquireNextImage2.
-func (mr *MockExtension1_1MockRecorder) AcquireNextImage2(device, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) AcquireNextImage2(o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AcquireNextImage2", reflect.TypeOf((*MockExtension1_1)(nil).AcquireNextImage2), device, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AcquireNextImage2", reflect.TypeOf((*MockExtensionDriver)(nil).AcquireNextImage2), o)
 }
 
-// DeviceGroupPresentCapabilities mocks base method.
-func (m *MockExtension1_1) DeviceGroupPresentCapabilities(device core.Device, outData *khr_swapchain1_1.DeviceGroupPresentCapabilities) (common.VkResult, error) {
+// GetDeviceGroupPresentCapabilities mocks base method.
+func (m *MockExtensionDriver) GetDeviceGroupPresentCapabilities(outData *khr_swapchain1_1.DeviceGroupPresentCapabilities) (common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeviceGroupPresentCapabilities", device, outData)
+	ret := m.ctrl.Call(m, "GetDeviceGroupPresentCapabilities", outData)
 	ret0, _ := ret[0].(common.VkResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DeviceGroupPresentCapabilities indicates an expected call of DeviceGroupPresentCapabilities.
-func (mr *MockExtension1_1MockRecorder) DeviceGroupPresentCapabilities(device, outData any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) DeviceGroupPresentCapabilities(outData any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeviceGroupPresentCapabilities", reflect.TypeOf((*MockExtension1_1)(nil).DeviceGroupPresentCapabilities), device, outData)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceGroupPresentCapabilities", reflect.TypeOf((*MockExtensionDriver)(nil).GetDeviceGroupPresentCapabilities), outData)
 }
 
-// DeviceGroupSurfacePresentModes mocks base method.
-func (m *MockExtension1_1) DeviceGroupSurfacePresentModes(device core.Device, surface khr_surface.Surface) (khr_swapchain1_1.DeviceGroupPresentModeFlags, common.VkResult, error) {
+// GetDeviceGroupSurfacePresentModes mocks base method.
+func (m *MockExtensionDriver) DeviceGroupSurfacePresentModeFlags(surface khr_surface.Surface) (khr_swapchain1_1.DeviceGroupPresentModeFlags, common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeviceGroupSurfacePresentModes", device, surface)
+	ret := m.ctrl.Call(m, "DeviceGroupSurfacePresentModeFlags", surface)
 	ret0, _ := ret[0].(khr_swapchain1_1.DeviceGroupPresentModeFlags)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
@@ -86,15 +86,15 @@ func (m *MockExtension1_1) DeviceGroupSurfacePresentModes(device core.Device, su
 }
 
 // DeviceGroupSurfacePresentModes indicates an expected call of DeviceGroupSurfacePresentModes.
-func (mr *MockExtension1_1MockRecorder) DeviceGroupSurfacePresentModes(device, surface any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) DeviceGroupSurfacePresentModes(surface any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeviceGroupSurfacePresentModes", reflect.TypeOf((*MockExtension1_1)(nil).DeviceGroupSurfacePresentModes), device, surface)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeviceGroupSurfacePresentModeFlags", reflect.TypeOf((*MockExtensionDriver)(nil).DeviceGroupSurfacePresentModeFlags), surface)
 }
 
-// PhysicalDevicePresentRectangles mocks base method.
-func (m *MockExtension1_1) PhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+// GetPhysicalDevicePresentRectangles mocks base method.
+func (m *MockExtensionDriver) GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PhysicalDevicePresentRectangles", physicalDevice, surface)
+	ret := m.ctrl.Call(m, "GetPhysicalDevicePresentRectangles", physicalDevice, surface)
 	ret0, _ := ret[0].([]core1_0.Rect2D)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
@@ -102,7 +102,7 @@ func (m *MockExtension1_1) PhysicalDevicePresentRectangles(physicalDevice core.P
 }
 
 // PhysicalDevicePresentRectangles indicates an expected call of PhysicalDevicePresentRectangles.
-func (mr *MockExtension1_1MockRecorder) PhysicalDevicePresentRectangles(physicalDevice, surface any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) PhysicalDevicePresentRectangles(physicalDevice, surface any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PhysicalDevicePresentRectangles", reflect.TypeOf((*MockExtension1_1)(nil).PhysicalDevicePresentRectangles), physicalDevice, surface)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPhysicalDevicePresentRectangles", reflect.TypeOf((*MockExtensionDriver)(nil).GetPhysicalDevicePresentRectangles), physicalDevice, surface)
 }

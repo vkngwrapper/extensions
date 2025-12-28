@@ -19,7 +19,7 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of Extension interface.
+// MockExtension is a mock of ExtensionDriver interface.
 type MockExtension struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtensionMockRecorder
@@ -44,9 +44,9 @@ func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
 }
 
 // SemaphoreCounterValue mocks base method.
-func (m *MockExtension) SemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
+func (m *MockExtension) GetSemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SemaphoreCounterValue", semaphore)
+	ret := m.ctrl.Call(m, "GetSemaphoreCounterValue", semaphore)
 	ret0, _ := ret[0].(uint64)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
@@ -56,7 +56,7 @@ func (m *MockExtension) SemaphoreCounterValue(semaphore core.Semaphore) (uint64,
 // SemaphoreCounterValue indicates an expected call of SemaphoreCounterValue.
 func (mr *MockExtensionMockRecorder) SemaphoreCounterValue(semaphore any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SemaphoreCounterValue", reflect.TypeOf((*MockExtension)(nil).SemaphoreCounterValue), semaphore)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSemaphoreCounterValue", reflect.TypeOf((*MockExtension)(nil).GetSemaphoreCounterValue), semaphore)
 }
 
 // SignalSemaphore mocks base method.
