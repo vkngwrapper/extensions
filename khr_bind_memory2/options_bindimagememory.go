@@ -6,43 +6,7 @@ package khr_bind_memory2
 */
 import "C"
 import (
-	"unsafe"
-
-	"github.com/CannibalVox/cgoparam"
-	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v3"
-	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_1"
 )
 
-// BindImageMemoryInfo specifies how to bind an Image to DeviceMemory
-type BindImageMemoryInfo struct {
-	// Image is the image to be attached to DeviceMemory
-	Image core.Image
-	// Memory describes the DeviceMemory to attach
-	Memory core.DeviceMemory
-	// MemoryOffset is the start offset of the region of DeviceMemory to be bound to the Image
-	MemoryOffset uint64
-
-	common.NextOptions
-}
-
-func (o BindImageMemoryInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
-	if o.Image.Handle() == 0 {
-		return nil, errors.New("khr_bind_memory2.BindImageMemoryInfo.Image cannot be uninitialized")
-	}
-	if preallocatedPointer == nil {
-		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkBindImageMemoryInfoKHR{})))
-	}
-
-	createInfo := (*C.VkBindImageMemoryInfoKHR)(preallocatedPointer)
-	createInfo.sType = C.VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_INFO_KHR
-	createInfo.pNext = next
-	createInfo.image = (C.VkImage)(unsafe.Pointer(o.Image.Handle()))
-	createInfo.memory = nil
-	if o.Memory.Handle() != 0 {
-		createInfo.memory = (C.VkDeviceMemory)(unsafe.Pointer(o.Memory.Handle()))
-	}
-	createInfo.memoryOffset = C.VkDeviceSize(o.MemoryOffset)
-
-	return preallocatedPointer, nil
-}
+type BindImageMemoryInfo = core1_1.BindImageMemoryInfo

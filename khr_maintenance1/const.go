@@ -8,21 +8,10 @@ import "C"
 import (
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_1"
 )
 
-// CommandPoolTrimFlags is reserved for future use
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkCommandPoolTrimFlagsKHR.html
-type CommandPoolTrimFlags int32
-
-var commandPoolTrimFlagsMapping = common.NewFlagStringMapping[CommandPoolTrimFlags]()
-
-func (f CommandPoolTrimFlags) Register(str string) {
-	commandPoolTrimFlagsMapping.Register(f, str)
-}
-func (f CommandPoolTrimFlags) String() string {
-	return commandPoolTrimFlagsMapping.FlagsToString(f)
-}
+type CommandPoolTrimFlags = core1_1.CommandPoolTrimFlags
 
 ////
 

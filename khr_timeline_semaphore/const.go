@@ -5,38 +5,15 @@ package khr_timeline_semaphore
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v3/common"
+import (
+	"github.com/vkngwrapper/core/v3/core1_2"
+)
 
-// SemaphoreType specifies the type of a Semaphore object
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSemaphoreType.html
-type SemaphoreType int32
-
-var semaphoreTypeMapping = make(map[SemaphoreType]string)
-
-func (e SemaphoreType) Register(str string) {
-	semaphoreTypeMapping[e] = str
-}
-
-func (e SemaphoreType) String() string {
-	return semaphoreTypeMapping[e]
-}
+type SemaphoreType = core1_2.SemaphoreType
 
 ////
 
-// SemaphoreWaitFlags specifies additional parameters of a Semaphore wait operation
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSemaphoreWaitFlagBits.html
-type SemaphoreWaitFlags int32
-
-var semaphoreWaitFlagsMapping = common.NewFlagStringMapping[SemaphoreWaitFlags]()
-
-func (f SemaphoreWaitFlags) Register(str string) {
-	semaphoreWaitFlagsMapping.Register(f, str)
-}
-func (f SemaphoreWaitFlags) String() string {
-	return semaphoreWaitFlagsMapping.FlagsToString(f)
-}
+type SemaphoreWaitFlags = core1_2.SemaphoreWaitFlags
 
 ////
 

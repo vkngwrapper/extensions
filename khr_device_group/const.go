@@ -8,6 +8,7 @@ import "C"
 import (
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_1"
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
 )
 
@@ -28,19 +29,7 @@ func (f MemoryAllocateFlags) String() string {
 
 ////
 
-// PeerMemoryFeatureFlags specifies supported peer memory features
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPeerMemoryFeatureFlagBits.html
-type PeerMemoryFeatureFlags int32
-
-var peerMemoryFeaturesMapping = common.NewFlagStringMapping[PeerMemoryFeatureFlags]()
-
-func (f PeerMemoryFeatureFlags) Register(str string) {
-	peerMemoryFeaturesMapping.Register(f, str)
-}
-func (f PeerMemoryFeatureFlags) String() string {
-	return peerMemoryFeaturesMapping.FlagsToString(f)
-}
+type PeerMemoryFeatureFlags = core1_1.PeerMemoryFeatureFlags
 
 ///
 

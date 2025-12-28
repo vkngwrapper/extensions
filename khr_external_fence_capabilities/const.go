@@ -5,39 +5,21 @@ package khr_external_fence_capabilities
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v3/common"
+import (
+	"github.com/vkngwrapper/core/v3/core1_1"
+)
 
 // ExternalFenceFeatureFlags describes features of an external Fence handle type
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalFenceFeatureFlagBits.html
-type ExternalFenceFeatureFlags int32
-
-var externalFenceFeaturesMapping = common.NewFlagStringMapping[ExternalFenceFeatureFlags]()
-
-func (f ExternalFenceFeatureFlags) Register(str string) {
-	externalFenceFeaturesMapping.Register(f, str)
-}
-
-func (f ExternalFenceFeatureFlags) String() string {
-	return externalFenceFeaturesMapping.FlagsToString(f)
-}
+type ExternalFenceFeatureFlags = core1_1.ExternalFenceFeatureFlags
 
 ////
 
 // ExternalFenceHandleTypeFlags is a bitmask of valid external Fence handle types
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalFenceHandleTypeFlagBits.html
-type ExternalFenceHandleTypeFlags int32
-
-var externalFenceHandleTypesMapping = common.NewFlagStringMapping[ExternalFenceHandleTypeFlags]()
-
-func (f ExternalFenceHandleTypeFlags) Register(str string) {
-	externalFenceHandleTypesMapping.Register(f, str)
-}
-
-func (f ExternalFenceHandleTypeFlags) String() string {
-	return externalFenceHandleTypesMapping.FlagsToString(f)
-}
+type ExternalFenceHandleTypeFlags = core1_1.ExternalFenceHandleTypeFlags
 
 ////
 

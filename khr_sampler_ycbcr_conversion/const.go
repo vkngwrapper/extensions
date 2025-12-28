@@ -7,56 +7,18 @@ package khr_sampler_ycbcr_conversion
 import "C"
 import (
 	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_1"
 )
 
-// ChromaLocation is the position of downsampled chroma samples
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkChromaLocation.html
-type ChromaLocation int32
-
-var chromaLocationMapping = make(map[ChromaLocation]string)
-
-func (e ChromaLocation) Register(str string) {
-	chromaLocationMapping[e] = str
-}
-
-func (e ChromaLocation) String() string {
-	return chromaLocationMapping[e]
-}
+type ChromaLocation = core1_1.ChromaLocation
 
 ////
 
-// SamplerYcbcrModelConversion is the color model component of a color space
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerYcbcrModelConversion.html
-type SamplerYcbcrModelConversion int32
-
-var samplerModelConversionMapping = make(map[SamplerYcbcrModelConversion]string)
-
-func (e SamplerYcbcrModelConversion) Register(str string) {
-	samplerModelConversionMapping[e] = str
-}
-
-func (e SamplerYcbcrModelConversion) String() string {
-	return samplerModelConversionMapping[e]
-}
+type SamplerYcbcrModelConversion = core1_1.SamplerYcbcrModelConversion
 
 ////
 
-// SamplerYcbcrRange is a range of encoded values in a color space
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerYcbcrRange.html
-type SamplerYcbcrRange int32
-
-var samplerRangeMapping = make(map[SamplerYcbcrRange]string)
-
-func (e SamplerYcbcrRange) Register(str string) {
-	samplerRangeMapping[e] = str
-}
-
-func (e SamplerYcbcrRange) String() string {
-	return samplerRangeMapping[e]
-}
+type SamplerYcbcrRange = core1_1.SamplerYcbcrRange
 
 ////
 

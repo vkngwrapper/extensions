@@ -5,39 +5,21 @@ package khr_external_semaphore_capabilities
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v3/common"
+import (
+	"github.com/vkngwrapper/core/v3/core1_1"
+)
 
 // ExternalSemaphoreFeatureFlags describes features of an external Semaphore handle type
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalSemaphoreFeatureFlagBits.html
-type ExternalSemaphoreFeatureFlags int32
-
-var externalSemaphoreFeaturesMapping = common.NewFlagStringMapping[ExternalSemaphoreFeatureFlags]()
-
-func (f ExternalSemaphoreFeatureFlags) Register(str string) {
-	externalSemaphoreFeaturesMapping.Register(f, str)
-}
-
-func (f ExternalSemaphoreFeatureFlags) String() string {
-	return externalSemaphoreFeaturesMapping.FlagsToString(f)
-}
+type ExternalSemaphoreFeatureFlags = core1_1.ExternalSemaphoreFeatureFlags
 
 ////
 
 // ExternalSemaphoreHandleTypeFlags is a bitmask of valid external Semaphore handle types
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalSemaphoreHandleTypeFlagBits.html
-type ExternalSemaphoreHandleTypeFlags int32
-
-var externalSemaphoreHandleTypesMapping = common.NewFlagStringMapping[ExternalSemaphoreHandleTypeFlags]()
-
-func (f ExternalSemaphoreHandleTypeFlags) Register(str string) {
-	externalSemaphoreHandleTypesMapping.Register(f, str)
-}
-
-func (f ExternalSemaphoreHandleTypeFlags) String() string {
-	return externalSemaphoreHandleTypesMapping.FlagsToString(f)
-}
+type ExternalSemaphoreHandleTypeFlags = core1_1.ExternalSemaphoreHandleTypeFlags
 
 ////
 

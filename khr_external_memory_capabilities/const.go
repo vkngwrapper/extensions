@@ -5,39 +5,15 @@ package khr_external_memory_capabilities
 #include "../vulkan/vulkan.h"
 */
 import "C"
-import "github.com/vkngwrapper/core/v3/common"
+import (
+	"github.com/vkngwrapper/core/v3/core1_1"
+)
 
-// ExternalMemoryFeatureFlags specifies features of an external memory handle type
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalMemoryFeatureFlagBits.html
-type ExternalMemoryFeatureFlags int32
-
-var externalMemoryFeaturesMapping = common.NewFlagStringMapping[ExternalMemoryFeatureFlags]()
-
-func (f ExternalMemoryFeatureFlags) Register(str string) {
-	externalMemoryFeaturesMapping.Register(f, str)
-}
-
-func (f ExternalMemoryFeatureFlags) String() string {
-	return externalMemoryFeaturesMapping.FlagsToString(f)
-}
+type ExternalMemoryFeatureFlags = core1_1.ExternalMemoryFeatureFlags
 
 ////
 
-// ExternalMemoryHandleTypeFlags specifies external memory handle types
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkExternalMemoryHandleTypeFlagBits.html
-type ExternalMemoryHandleTypeFlags int32
-
-var externalMemoryHandleTypesMapping = common.NewFlagStringMapping[ExternalMemoryHandleTypeFlags]()
-
-func (f ExternalMemoryHandleTypeFlags) Register(str string) {
-	externalMemoryHandleTypesMapping.Register(f, str)
-}
-
-func (f ExternalMemoryHandleTypeFlags) String() string {
-	return externalMemoryHandleTypesMapping.FlagsToString(f)
-}
+type ExternalMemoryHandleTypeFlags = core1_1.ExternalMemoryHandleTypeFlags
 
 ////
 

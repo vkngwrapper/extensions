@@ -6,37 +6,10 @@ package khr_buffer_device_address
 */
 import "C"
 import (
-	"unsafe"
-
-	"github.com/CannibalVox/cgoparam"
-	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v3"
-	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_2"
 )
 
 // BufferDeviceAddressInfo specifies the Buffer to query an address for
 //
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkBufferDeviceAddressInfo.html
-type BufferDeviceAddressInfo struct {
-	// Buffer specifies the Buffer whose address is being queried
-	Buffer core.Buffer
-
-	common.NextOptions
-}
-
-func (o BufferDeviceAddressInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
-	if o.Buffer.Handle() == 0 {
-		return nil, errors.New("khr_buffer_device_address.DeviceMemoryAddressOptions.Buffer cannot be uninitialized")
-	}
-
-	if preallocatedPointer == nil {
-		preallocatedPointer = allocator.Malloc(int(unsafe.Sizeof(C.VkBufferDeviceAddressInfoKHR{})))
-	}
-
-	info := (*C.VkBufferDeviceAddressInfoKHR)(preallocatedPointer)
-	info.sType = C.VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR
-	info.pNext = next
-	info.buffer = C.VkBuffer(unsafe.Pointer(o.Buffer.Handle()))
-
-	return preallocatedPointer, nil
-}
+type BufferDeviceAddressInfo = core1_2.BufferDeviceAddressInfo

@@ -89,7 +89,7 @@ func (e *VulkanExtensionDriver) attemptEnumeratePhysicalDeviceGroups(outDataFact
 		return nil, res, err
 	}
 
-	err = common.PopulateOutDataSlice[C.VkPhysicalDeviceGroupPropertiesKHR, *PhysicalDeviceGroupProperties](outDataSlice, unsafe.Pointer(outData), e.instance, e.loader.CoreLoader())
+	err = common.PopulateOutDataSlice[C.VkPhysicalDeviceGroupPropertiesKHR, *PhysicalDeviceGroupProperties](outDataSlice, unsafe.Pointer(outData), e.instance, e.instance.APIVersion(), e.loader.CoreLoader())
 	if err != nil {
 		return nil, core1_0.VKErrorUnknown, err
 	}
