@@ -323,7 +323,7 @@ func constructorIsInstance(pkg *packages.Package, decl *ast.FuncDecl, core10Path
 
 	// Instance constructor should only ever have one param
 	if firstParamType == "CoreInstanceDriver" && len(params) != 1 {
-		log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has the wrong number of parameters- when the first parameter of type core1_0.CoreInstanceDriver, there should be only one parameter")
+		log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has the wrong number of parameters- when the first parameter of type core1_0.CoreInstanceDriver, there should be only one parameter\n", pkg.PkgPath)
 	} else if firstParamType == "CoreInstanceDriver" {
 		return true, 1
 	}
