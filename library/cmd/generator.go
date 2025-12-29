@@ -28,22 +28,13 @@ type DeviceStruct struct {
 func main() {
 	packageData := findRelevantPackages()
 
-	cfg := &packages.Config{
-		Mode: packages.LoadTypes,
-		Dir:  ".",
-	}
-	pkgs, err := packages.Load(cfg, ".")
+	ifaceContents := buildIfaceFile("library", packageData)
+	err := os.WriteFile("./library/iface.go", []byte(ifaceContents), os.FileMode(0777))
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	ifaceContents := buildIfaceFile(pkgs[0].Name, packageData)
-	err = os.WriteFile("./library/iface.go", []byte(ifaceContents), os.FileMode(0777))
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	libraryContents := buildLibraryFile(pkgs[0].Name, packageData)
+	libraryContents := buildLibraryFile("library", packageData)
 	err = os.WriteFile("./library/library.go", []byte(libraryContents), os.FileMode(0777))
 	if err != nil {
 		log.Fatalln(err)

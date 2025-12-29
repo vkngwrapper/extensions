@@ -6,8 +6,8 @@
 //	mockgen -source=./library/iface.go -destination=./library/mocks/library.go
 //
 
-// Package mock_extensions is a generated GoMock package.
-package mock_extensions
+// Package mock_library is a generated GoMock package.
+package mock_library
 
 import (
 	reflect "reflect"
