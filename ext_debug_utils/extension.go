@@ -163,7 +163,7 @@ func (l *VulkanExtensionDriver) CreateDebugUtilsMessenger(allocation *loader.All
 }
 
 func (l *VulkanExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -180,14 +180,14 @@ func (l *VulkanExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core.Comma
 }
 
 func (l *VulkanExtensionDriver) CmdEndDebugUtilsLabel(buffer core.CommandBuffer) {
-	if buffer.Handle() == 0 {
+	if !buffer.Initialized() {
 		panic("buffer cannot be uninitialized")
 	}
 	l.loader.VkCmdEndDebugUtilsLabelEXT(buffer.Handle())
 }
 
 func (l *VulkanExtensionDriver) CmdInsertDebugUtilsLabel(buffer core.CommandBuffer, label DebugUtilsLabel) error {
-	if buffer.Handle() == 0 {
+	if !buffer.Initialized() {
 		panic("buffer cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -204,7 +204,7 @@ func (l *VulkanExtensionDriver) CmdInsertDebugUtilsLabel(buffer core.CommandBuff
 }
 
 func (l *VulkanExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
-	if queue.Handle() == 0 {
+	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -221,14 +221,14 @@ func (l *VulkanExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, labe
 }
 
 func (l *VulkanExtensionDriver) QueueEndDebugUtilsLabel(queue core.Queue) {
-	if queue.Handle() == 0 {
+	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
 	l.loader.VkQueueEndDebugUtilsLabelEXT(queue.Handle())
 }
 
 func (l *VulkanExtensionDriver) QueueInsertDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
-	if queue.Handle() == 0 {
+	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -245,7 +245,7 @@ func (l *VulkanExtensionDriver) QueueInsertDebugUtilsLabel(queue core.Queue, lab
 }
 
 func (l *VulkanExtensionDriver) SetDebugUtilsObjectName(device core.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
-	if device.Handle() == 0 {
+	if !device.Initialized() {
 		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -260,7 +260,7 @@ func (l *VulkanExtensionDriver) SetDebugUtilsObjectName(device core.Device, name
 }
 
 func (l *VulkanExtensionDriver) SetDebugUtilsObjectTag(device core.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
-	if device.Handle() == 0 {
+	if !device.Initialized() {
 		panic("device cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()

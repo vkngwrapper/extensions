@@ -98,7 +98,7 @@ func (v *VulkanExtensionDriver) GetDeviceGroupPresentCapabilities(outData *Devic
 }
 
 func (v *VulkanExtensionDriver) DeviceGroupSurfacePresentModeFlags(surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error) {
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -163,10 +163,10 @@ func (v *VulkanExtensionDriver) attemptGetPhysicalDevicePresentRectangles(physic
 }
 
 func (v *VulkanExtensionDriver) GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
 	var outData []core1_0.Rect2D

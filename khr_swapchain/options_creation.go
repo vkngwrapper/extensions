@@ -70,7 +70,7 @@ type SwapchainCreateInfo struct {
 }
 
 func (o SwapchainCreateInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
-	if o.Surface.Handle() == 0 {
+	if !o.Surface.Initialized() {
 		return nil, errors.New("khr_swapchain.SwapchainCreateInfo.Surface cannot be uninitialized")
 	}
 
@@ -117,7 +117,7 @@ func (o SwapchainCreateInfo) PopulateCPointer(allocator *cgoparam.Allocator, pre
 	}
 
 	createInfo.oldSwapchain = nil
-	if o.OldSwapchain.Handle() != 0 {
+	if o.OldSwapchain.Initialized() {
 		createInfo.oldSwapchain = (C.VkSwapchainKHR)(unsafe.Pointer(o.OldSwapchain.Handle()))
 	}
 

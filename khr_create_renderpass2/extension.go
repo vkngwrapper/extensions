@@ -36,7 +36,7 @@ func CreateExtensionDriverFromLoader(driver khr_create_renderpass2_loader.Loader
 }
 
 func (e *VulkanExtensionDriver) CmdBeginRenderPass2(commandBuffer core.CommandBuffer, renderPassBegin core1_0.RenderPassBeginInfo, subpassBegin SubpassBeginInfo) error {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -62,7 +62,7 @@ func (e *VulkanExtensionDriver) CmdBeginRenderPass2(commandBuffer core.CommandBu
 }
 
 func (e *VulkanExtensionDriver) CmdEndRenderPass2(commandBuffer core.CommandBuffer, subpassEnd SubpassEndInfo) error {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -82,7 +82,7 @@ func (e *VulkanExtensionDriver) CmdEndRenderPass2(commandBuffer core.CommandBuff
 }
 
 func (e *VulkanExtensionDriver) CmdNextSubpass2(commandBuffer core.CommandBuffer, subpassBegin SubpassBeginInfo, subpassEnd SubpassEndInfo) error {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()

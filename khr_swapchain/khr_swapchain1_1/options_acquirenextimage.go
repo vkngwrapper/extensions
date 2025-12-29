@@ -38,7 +38,7 @@ type AcquireNextImageInfo struct {
 }
 
 func (o AcquireNextImageInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
-	if o.Swapchain.Handle() == 0 {
+	if !o.Swapchain.Initialized() {
 		return nil, errors.New("field Swapchain of AcquireNextImageInfo must contain a valid swapchain")
 	}
 
@@ -55,10 +55,10 @@ func (o AcquireNextImageInfo) PopulateCPointer(allocator *cgoparam.Allocator, pr
 	info.timeout = C.uint64_t(common.TimeoutNanoseconds(o.Timeout))
 	info.deviceMask = C.uint32_t(o.DeviceMask)
 
-	if o.Semaphore.Handle() != 0 {
+	if o.Semaphore.Initialized() {
 		info.semaphore = C.VkSemaphore(unsafe.Pointer(o.Semaphore.Handle()))
 	}
-	if o.Fence.Handle() != 0 {
+	if o.Fence.Initialized() {
 		info.fence = C.VkFence(unsafe.Pointer(o.Fence.Handle()))
 	}
 

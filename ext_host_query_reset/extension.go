@@ -36,7 +36,7 @@ func CreateExtensionDriverFromLoader(driver ext_host_query_reset_driver.Loader) 
 }
 
 func (e *VulkanExtensionDriver) ResetQueryPool(queryPool core.QueryPool, firstQuery, queryCount int) {
-	if queryPool.Handle() == 0 {
+	if !queryPool.Initialized() {
 		panic("queryPool cannot be uninitialized")
 	}
 	e.driver.VkResetQueryPoolEXT(queryPool.DeviceHandle(), queryPool.Handle(), loader.Uint32(firstQuery), loader.Uint32(queryCount))

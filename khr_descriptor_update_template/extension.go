@@ -71,17 +71,17 @@ func (e *VulkanExtensionDriver) CreateDescriptorUpdateTemplate(o DescriptorUpdat
 }
 
 func (t *VulkanExtensionDriver) DestroyDescriptorUpdateTemplate(template core.DescriptorUpdateTemplate, allocator *loader.AllocationCallbacks) {
-	if template.Handle() == 0 {
+	if !template.Initialized() {
 		panic("template cannot be uninitialized")
 	}
 	t.driver.VkDestroyDescriptorUpdateTemplateKHR(template.DeviceHandle(), khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR(template.Handle()), allocator.Handle())
 }
 
 func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorImageInfo) {
-	if descriptorSet.Handle() == 0 {
+	if !descriptorSet.Initialized() {
 		panic("descriptorSet cannot be uninitialized")
 	}
-	if template.Handle() == 0 {
+	if !template.Initialized() {
 		panic("template cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -93,11 +93,11 @@ func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descrip
 	info.sampler = nil
 	info.imageLayout = C.VkImageLayout(data.ImageLayout)
 
-	if data.Sampler.Handle() != 0 {
+	if data.Sampler.Initialized() {
 		info.sampler = C.VkSampler(unsafe.Pointer(data.Sampler.Handle()))
 	}
 
-	if data.ImageView.Handle() != 0 {
+	if data.ImageView.Initialized() {
 		info.imageView = C.VkImageView(unsafe.Pointer(data.ImageView.Handle()))
 	}
 
@@ -110,10 +110,10 @@ func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descrip
 }
 
 func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorBufferInfo) {
-	if descriptorSet.Handle() == 0 {
+	if !descriptorSet.Initialized() {
 		panic("descriptorSet cannot be uninitialized")
 	}
-	if template.Handle() == 0 {
+	if !template.Initialized() {
 		panic("template cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -125,7 +125,7 @@ func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descri
 	info.offset = C.VkDeviceSize(data.Offset)
 	info._range = C.VkDeviceSize(data.Range)
 
-	if data.Buffer.Handle() != 0 {
+	if data.Buffer.Initialized() {
 		info.buffer = C.VkBuffer(unsafe.Pointer(data.Buffer.Handle()))
 	}
 
@@ -138,10 +138,10 @@ func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descri
 }
 
 func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data loader.VulkanHandle) {
-	if descriptorSet.Handle() == 0 {
+	if !descriptorSet.Initialized() {
 		panic("descriptorSet cannot be uninitialized")
 	}
-	if template.Handle() == 0 {
+	if !template.Initialized() {
 		panic("template cannot be uninitialized")
 	}
 	t.driver.VkUpdateDescriptorSetWithTemplateKHR(

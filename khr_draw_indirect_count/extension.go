@@ -36,13 +36,13 @@ func CreateExtensionDriverFromLoader(driver khr_draw_indirect_count_loader.Loade
 }
 
 func (e *VulkanExtensionDriver) CmdDrawIndexedIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
-	if buffer.Handle() == 0 {
+	if !buffer.Initialized() {
 		panic("buffer cannot be uninitialized")
 	}
-	if countBuffer.Handle() == 0 {
+	if !countBuffer.Initialized() {
 		panic("countBuffer cannot be uninitialized")
 	}
 	e.driver.VkCmdDrawIndexedIndirectCountKHR(
@@ -57,13 +57,13 @@ func (e *VulkanExtensionDriver) CmdDrawIndexedIndirectCount(commandBuffer core.C
 }
 
 func (e *VulkanExtensionDriver) CmdDrawIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
-	if buffer.Handle() == 0 {
+	if !buffer.Initialized() {
 		panic("buffer cannot be uninitialized")
 	}
-	if countBuffer.Handle() == 0 {
+	if !countBuffer.Initialized() {
 		panic("countBuffer cannot be uninitialized")
 	}
 	e.driver.VkCmdDrawIndirectCountKHR(

@@ -34,7 +34,7 @@ func CreateExtensionDriverFromLoader(driver khr_external_semaphore_capabilities_
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalSemaphoreInfo, outData *ExternalSemaphoreProperties) error {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()

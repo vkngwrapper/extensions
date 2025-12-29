@@ -34,7 +34,7 @@ func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) 
 // CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
 func CreateExtensionDriverFromLoader(driver khr_surface_loader.Loader, instance core.Instance) *VulkanExtensionDriver {
-	if instance.Handle() == 0 {
+	if !instance.Initialized() {
 		panic("instance cannot be uninitialized")
 	}
 	return &VulkanExtensionDriver{
@@ -63,17 +63,17 @@ func (e *VulkanExtensionDriver) CreateSurfaceFromHandle(surfaceHandle khr_surfac
 }
 
 func (e *VulkanExtensionDriver) DestroySurface(surface Surface, callbacks *loader.AllocationCallbacks) {
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
 	e.driver.VkDestroySurfaceKHR(surface.InstanceHandle(), surface.Handle(), callbacks.Handle())
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfaceSupport(surface Surface, physicalDevice core.PhysicalDevice, queueFamilyIndex int) (bool, common.VkResult, error) {
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	var canPresent loader.VkBool32
@@ -84,10 +84,10 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfaceSupport(surface Surface,
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfaceCapabilities(surface Surface, device core.PhysicalDevice) (*SurfaceCapabilities, common.VkResult, error) {
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
-	if device.Handle() == 0 {
+	if !device.Initialized() {
 		panic("device cannot be uninitialized")
 	}
 	allocator := cgoparam.GetAlloc()
@@ -164,10 +164,10 @@ func (e *VulkanExtensionDriver) attemptFormats(surface Surface, device core.Phys
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfaceFormats(surface Surface, device core.PhysicalDevice) ([]SurfaceFormat, common.VkResult, error) {
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
-	if device.Handle() == 0 {
+	if !device.Initialized() {
 		panic("device cannot be uninitialized")
 	}
 	var formats []SurfaceFormat
@@ -215,10 +215,10 @@ func (e *VulkanExtensionDriver) attemptPresentModes(surface Surface, device core
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceSurfacePresentModes(surface Surface, device core.PhysicalDevice) ([]PresentMode, common.VkResult, error) {
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
-	if device.Handle() == 0 {
+	if !device.Initialized() {
 		panic("device cannot be uninitialized")
 	}
 	var presentModes []PresentMode

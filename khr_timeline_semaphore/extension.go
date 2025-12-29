@@ -42,7 +42,7 @@ func CreateExtensionDriverFromLoader(driver khr_timeline_semaphore_loader.Loader
 }
 
 func (e *VulkanExtensionDriver) GetSemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
-	if semaphore.Handle() == 0 {
+	if !semaphore.Initialized() {
 		panic("semaphore cannot be uninitialized")
 	}
 

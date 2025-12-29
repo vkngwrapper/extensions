@@ -34,6 +34,10 @@ func (s Swapchain) APIVersion() common.APIVersion {
 	return s.apiVersion
 }
 
+func (s Swapchain) Initialized() bool {
+	return s.handle != 0
+}
+
 func NewDummySwapchain(device core.Device) Swapchain {
 	return Swapchain{
 		handle:     khr_swapchain_driver.VkSwapchainKHR(unsafe.Pointer(uintptr(rand.Int()))),

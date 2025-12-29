@@ -72,7 +72,7 @@ func (v *VulkanExtensionDriver) WithKHRSwapchain() ExtensionDriverWithKHRSwapcha
 }
 
 func (v *VulkanExtensionDriver) CmdDispatchBase(commandBuffer core.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
 	v.driver.VkCmdDispatchBaseKHR(commandBuffer.Handle(),
@@ -85,7 +85,7 @@ func (v *VulkanExtensionDriver) CmdDispatchBase(commandBuffer core.CommandBuffer
 }
 
 func (v *VulkanExtensionDriver) CmdSetDeviceMask(commandBuffer core.CommandBuffer, deviceMask uint32) {
-	if commandBuffer.Handle() == 0 {
+	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
 	v.driver.VkCmdSetDeviceMaskKHR(commandBuffer.Handle(), loader.Uint32(deviceMask))
@@ -139,7 +139,7 @@ func (v *VulkanExtensionDriverWithKHRSurface) GetDeviceGroupPresentCapabilities(
 }
 
 func (v *VulkanExtensionDriverWithKHRSurface) GetDeviceGroupSurfacePresentModes(surface khr_surface.Surface) (DeviceGroupPresentModeFlags, common.VkResult, error) {
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -160,10 +160,10 @@ func (v *VulkanExtensionDriverWithKHRSurface) GetDeviceGroupSurfacePresentModes(
 }
 
 func (v *VulkanExtensionDriverWithKHRSurface) attemptGetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
-	if surface.Handle() == 0 {
+	if !surface.Initialized() {
 		panic("surface cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -210,7 +210,7 @@ func (v *VulkanExtensionDriverWithKHRSurface) attemptGetPhysicalDevicePresentRec
 }
 
 func (v *VulkanExtensionDriverWithKHRSurface) GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		return nil, core1_0.VKErrorUnknown, fmt.Errorf("physicalDevice cannot be uninitialized")
 	}
 	var outData []core1_0.Rect2D

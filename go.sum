@@ -26,6 +26,8 @@ github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 github.com/vkngwrapper/core/v3 v3.0.0-20251225220806-a2e91d20e61a h1:2wzY9MSja37PRaiM5y0id5IGRyuuCSQhicL/pQS9Bzg=
 github.com/vkngwrapper/core/v3 v3.0.0-20251225220806-a2e91d20e61a/go.mod h1:lIcOUaI3UePxmy+LW29EqmozCaVKF+r+pncbtx36qO4=
+github.com/vkngwrapper/core/v3 v3.0.0-20251228065631-e77e9749ad14 h1:5vVkyayF+GnHhRU+zQTwcYgqwhxoaAKKV4Qgs0js3os=
+github.com/vkngwrapper/core/v3 v3.0.0-20251228065631-e77e9749ad14/go.mod h1:lIcOUaI3UePxmy+LW29EqmozCaVKF+r+pncbtx36qO4=
 go.uber.org/mock v0.6.0 h1:hyF9dfmbgIX5EfOdasqLsWD6xqpNZlXblLB/Dbnwv3Y=
 go.uber.org/mock v0.6.0/go.mod h1:KiVJ4BqZJaMj4svdfmHM0AUx4NJYO8ZNpPnZn1Z+BBU=
 golang.org/x/image v0.34.0 h1:33gCkyw9hmwbZJeZkct8XyR11yH889EQt/QH4VmXMn8=

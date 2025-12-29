@@ -25,7 +25,7 @@ type SamplerYcbcrConversionInfo struct {
 }
 
 func (o SamplerYcbcrConversionInfo) PopulateCPointer(allocator *cgoparam.Allocator, preallocatedPointer unsafe.Pointer, next unsafe.Pointer) (unsafe.Pointer, error) {
-	if o.Conversion.Handle() == 0 {
+	if !o.Conversion.Initialized() {
 		return nil, errors.New("khr_sampler_ycbcr_conversion.SamplerYcbcrConversionInfo.Conversion cannot be uninitialized")
 	}
 	if preallocatedPointer == nil {

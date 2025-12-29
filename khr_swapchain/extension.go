@@ -89,7 +89,7 @@ func (s *VulkanExtensionDriver) CreateSwapchain(allocation *loader.AllocationCal
 }
 
 func (s *VulkanExtensionDriver) QueuePresent(queue core.Queue, o PresentInfo) (common.VkResult, error) {
-	if queue.Handle() == 0 {
+	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -178,7 +178,7 @@ func (s *VulkanExtensionDriver) AcquireNextImage(swapchain Swapchain, timeout ti
 }
 
 func (s *VulkanExtensionDriver) DestroySwapchain(swapchain Swapchain, callbacks *loader.AllocationCallbacks) {
-	if swapchain.Handle() == 0 {
+	if !swapchain.Initialized() {
 		panic("swapchain was uninitialized")
 	}
 	s.loader.VkDestroySwapchainKHR(swapchain.DeviceHandle(), swapchain.Handle(), callbacks.Handle())

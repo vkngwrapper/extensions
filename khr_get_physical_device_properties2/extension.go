@@ -45,7 +45,7 @@ func CreateExtensionDriverFromLoader(driver ext_driver.Loader) *VulkanExtensionD
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceFeatures2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceFeatures2) error {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -62,7 +62,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceFeatures2(physicalDevice core.P
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceFormatProperties2(physicalDevice core.PhysicalDevice, format core1_0.Format, out *FormatProperties2) error {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -79,7 +79,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceFormatProperties2(physicalDevic
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceImageFormatInfo2, out *ImageFormatProperties2) (common.VkResult, error) {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -109,7 +109,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceImageFormatProperties2(physical
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceMemoryProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceMemoryProperties2) error {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -126,7 +126,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceMemoryProperties2(physicalDevic
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceProperties2(physicalDevice core.PhysicalDevice, out *PhysicalDeviceProperties2) error {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -143,7 +143,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceProperties2(physicalDevice core
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceQueueFamilyProperties2(physicalDevice core.PhysicalDevice, outDataFactory func() *QueueFamilyProperties2) ([]*QueueFamilyProperties2, error) {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
@@ -179,7 +179,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceQueueFamilyProperties2(physical
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceSparseImageFormatProperties2(physicalDevice core.PhysicalDevice, options PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *SparseImageFormatProperties2) ([]*SparseImageFormatProperties2, error) {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()

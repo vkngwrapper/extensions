@@ -50,7 +50,7 @@ func CreateExtensionDriverFromLoader(driver khr_maintenance1_loader.Loader) *Vul
 }
 
 func (e *VulkanExtensionDriver) TrimCommandPool(commandPool core.CommandPool, flags CommandPoolTrimFlags) {
-	if commandPool.Handle() == 0 {
+	if !commandPool.Initialized() {
 		panic("commandPool cannot be uninitialized")
 	}
 	e.driver.VkTrimCommandPoolKHR(commandPool.DeviceHandle(), commandPool.Handle(), khr_maintenance1_loader.VkCommandPoolTrimFlagsKHR(flags))

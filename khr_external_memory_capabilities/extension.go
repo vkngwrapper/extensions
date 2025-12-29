@@ -34,7 +34,7 @@ func CreateExtensionDriverFromLoader(driver khr_external_memory_capabilities_loa
 }
 
 func (e *VulkanExtensionDriver) GetPhysicalDeviceExternalBufferProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalBufferInfo, outData *ExternalBufferProperties) error {
-	if physicalDevice.Handle() == 0 {
+	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}
 	arena := cgoparam.GetAlloc()
