@@ -1,7 +1,5 @@
 package ext_debug_utils
 
-//go:generate mockgen -source messenger.go -destination ./mocks/messenger.go -package mock_debugutils
-
 /*
 #include <stdlib.h>
 #include "../vulkan/vulkan.h"
@@ -13,39 +11,41 @@ import (
 	"runtime/cgo"
 	"unsafe"
 
+	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/loader"
 	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
 )
 
-// DebugUtilsMessenger is a messenger object which handles passing along debug
-// messages to a provided debug callback
-//
-// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDebugUtilsMessengerEXT.html
-type DebugUtilsMessenger interface {
-	// Handle is the internal Vulkan object handle for this DebugUtilsMessenger
-	Handle() ext_driver.VkDebugUtilsMessengerEXT
-
-	// Destroy destroys the DebugUtilsMessenger object and the underlying structures. **Warning** after
-	// destruction, this object will continue to exist, but the Vulkan object handle that backs it will
-	// be invalid. Do not call further methods on this object.
-	Destroy(callbacks *loader.AllocationCallbacks)
-}
-
-// VulkanDebugUtilsMessenger is an implementation of the DebugUtilsMessenger interface that actually communicates with Vulkan. This
+// DebugUtilsMessenger is an implementation of the DebugUtilsMessenger interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.
-type VulkanDebugUtilsMessenger struct {
+type DebugUtilsMessenger struct {
 	instance   loader.VkInstance
 	handle     ext_driver.VkDebugUtilsMessengerEXT
-	coreLoader loader.Loader
-	driver     ext_driver.Loader
+	apiVersion common.APIVersion
 }
 
-func (m *VulkanDebugUtilsMessenger) Destroy(callbacks *loader.AllocationCallbacks) {
-	m.driver.VkDestroyDebugUtilsMessengerEXT(m.instance, m.handle, callbacks.Handle())
+func (m DebugUtilsMessenger) InstanceHandle() loader.VkInstance {
+	return m.instance
 }
 
-func (m *VulkanDebugUtilsMessenger) Handle() ext_driver.VkDebugUtilsMessengerEXT {
+func (m DebugUtilsMessenger) Handle() ext_driver.VkDebugUtilsMessengerEXT {
 	return m.handle
+}
+
+func (m DebugUtilsMessenger) APIVersion() common.APIVersion {
+	return m.apiVersion
+}
+
+func (m DebugUtilsMessenger) Initialized() bool {
+	return m.handle != 0
+}
+
+func InternalDebugUtilsMessenger(instance loader.VkInstance, handle ext_driver.VkDebugUtilsMessengerEXT, apiVersion common.APIVersion) DebugUtilsMessenger {
+	return DebugUtilsMessenger{
+		instance:   instance,
+		handle:     handle,
+		apiVersion: apiVersion,
+	}
 }
 
 // CallbackFunction is the application callback function type

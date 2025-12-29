@@ -4,17 +4,15 @@ import (
 	"math/rand"
 	"unsafe"
 
+	"github.com/vkngwrapper/core/v3"
+	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
-	gomock "go.uber.org/mock/gomock"
 )
 
 func NewFakeMessenger() ext_driver.VkDebugUtilsMessengerEXT {
 	return ext_driver.VkDebugUtilsMessengerEXT(unsafe.Pointer(uintptr(rand.Int())))
 }
 
-func EasyMockMessenger(ctrl *gomock.Controller) *MockDebugUtilsMessenger {
-	messenger := NewMockDebugUtilsMessenger(ctrl)
-	messenger.EXPECT().Handle().Return(NewFakeMessenger()).AnyTimes()
-
-	return messenger
+func NewDummyMessenger(instance core.Instance) ext_debug_utils.DebugUtilsMessenger {
+	return ext_debug_utils.InternalDebugUtilsMessenger(instance.Handle(), NewFakeMessenger(), instance.APIVersion())
 }

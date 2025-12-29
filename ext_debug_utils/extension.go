@@ -111,6 +111,8 @@ type ExtensionDriver interface {
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkSubmitDebugUtilsMessageEXT.html
 	SubmitDebugUtilsMessage(severity DebugUtilsMessageSeverityFlags, types DebugUtilsMessageTypeFlags, data DebugUtilsMessengerCallbackData) error
+
+	DestroyDebugUtilsMessenger(messenger DebugUtilsMessenger, callbacks *loader.AllocationCallbacks)
 }
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from an Instance with
@@ -142,21 +144,20 @@ func (l *VulkanExtensionDriver) CreateDebugUtilsMessenger(allocation *loader.All
 
 	createInfo, err := common.AllocOptions(arena, o)
 	if err != nil {
-		return nil, core1_0.VKErrorUnknown, err
+		return DebugUtilsMessenger{}, core1_0.VKErrorUnknown, err
 	}
 
 	var messenger ext_driver.VkDebugUtilsMessengerEXT
 	res, err := l.loader.VkCreateDebugUtilsMessengerEXT(l.instance.Handle(), (*ext_driver.VkDebugUtilsMessengerCreateInfoEXT)(createInfo), allocation.Handle(), &messenger)
 
 	if err != nil {
-		return nil, res, err
+		return DebugUtilsMessenger{}, res, err
 	}
 
-	newMessenger := &VulkanDebugUtilsMessenger{
-		coreLoader: l.coreLoader,
+	newMessenger := DebugUtilsMessenger{
 		handle:     messenger,
 		instance:   l.instance.Handle(),
-		driver:     l.loader,
+		apiVersion: l.instance.APIVersion(),
 	}
 
 	return newMessenger, res, nil
@@ -289,4 +290,8 @@ func (l *VulkanExtensionDriver) SubmitDebugUtilsMessage(severity DebugUtilsMessa
 		(*ext_driver.VkDebugUtilsMessengerCallbackDataEXT)(callbackPtr))
 
 	return nil
+}
+
+func (l *VulkanExtensionDriver) DestroyDebugUtilsMessenger(messenger DebugUtilsMessenger, callbacks *loader.AllocationCallbacks) {
+	l.loader.VkDestroyDebugUtilsMessengerEXT(messenger.instance, messenger.handle, callbacks.Handle())
 }

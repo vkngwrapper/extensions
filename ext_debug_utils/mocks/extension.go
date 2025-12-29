@@ -99,6 +99,18 @@ func (mr *MockExtensionDriverMockRecorder) CreateDebugUtilsMessenger(allocator, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateDebugUtilsMessenger", reflect.TypeOf((*MockExtensionDriver)(nil).CreateDebugUtilsMessenger), allocator, o)
 }
 
+// DestroyDebugUtilsMessenger mocks base method.
+func (m *MockExtensionDriver) DestroyDebugUtilsMessenger(messenger ext_debug_utils.DebugUtilsMessenger, callbacks *loader.AllocationCallbacks) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "DestroyDebugUtilsMessenger", messenger, callbacks)
+}
+
+// DestroyDebugUtilsMessenger indicates an expected call of DestroyDebugUtilsMessenger.
+func (mr *MockExtensionDriverMockRecorder) DestroyDebugUtilsMessenger(messenger, callbacks any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyDebugUtilsMessenger", reflect.TypeOf((*MockExtensionDriver)(nil).DestroyDebugUtilsMessenger), messenger, callbacks)
+}
+
 // QueueBeginDebugUtilsLabel mocks base method.
 func (m *MockExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()

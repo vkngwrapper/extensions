@@ -60,7 +60,7 @@ func TestVulkanExtension_CreateMessenger(t *testing.T) {
 		return true
 	}
 
-	expectedMessenger := mock_debugutils.EasyMockMessenger(ctrl)
+	expectedMessenger := mock_debugutils.NewDummyMessenger(instance)
 
 	debugDriver.EXPECT().VkCreateDebugUtilsMessengerEXT(
 		instance.Handle(),
