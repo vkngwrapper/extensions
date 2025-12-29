@@ -17,40 +17,40 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
-// PhysicalDeviceExternalBufferProperties mocks base method.
-func (m *MockExtension) GetPhysicalDeviceExternalBufferProperties(physicalDevice core.PhysicalDevice, o khr_external_memory_capabilities.PhysicalDeviceExternalBufferInfo, outData *khr_external_memory_capabilities.ExternalBufferProperties) error {
+// GetPhysicalDeviceExternalBufferProperties mocks base method.
+func (m *MockExtensionDriver) GetPhysicalDeviceExternalBufferProperties(physicalDevice core.PhysicalDevice, o khr_external_memory_capabilities.PhysicalDeviceExternalBufferInfo, outData *khr_external_memory_capabilities.ExternalBufferProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceExternalBufferProperties", physicalDevice, o, outData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// PhysicalDeviceExternalBufferProperties indicates an expected call of PhysicalDeviceExternalBufferProperties.
-func (mr *MockExtensionMockRecorder) PhysicalDeviceExternalBufferProperties(physicalDevice, o, outData any) *gomock.Call {
+// GetPhysicalDeviceExternalBufferProperties indicates an expected call of GetPhysicalDeviceExternalBufferProperties.
+func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceExternalBufferProperties(physicalDevice, o, outData any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPhysicalDeviceExternalBufferProperties", reflect.TypeOf((*MockExtension)(nil).GetPhysicalDeviceExternalBufferProperties), physicalDevice, o, outData)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPhysicalDeviceExternalBufferProperties", reflect.TypeOf((*MockExtensionDriver)(nil).GetPhysicalDeviceExternalBufferProperties), physicalDevice, o, outData)
 }

@@ -18,7 +18,7 @@ import (
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from an Insstance with
 // khr_surface loaded
-func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) *VulkanExtensionDriver {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) ExtensionDriver {
 	instance := coreDriver.Instance()
 
 	if !instance.IsInstanceExtensionActive(ExtensionName) {

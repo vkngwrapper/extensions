@@ -12,46 +12,45 @@ package mock_maintenance3
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_maintenance3 "github.com/vkngwrapper/extensions/v3/khr_maintenance3"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // DescriptorSetLayoutSupport mocks base method.
-func (m *MockExtension) DescriptorSetLayoutSupport(device core.Device, setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, outData *khr_maintenance3.DescriptorSetLayoutSupport) error {
+func (m *MockExtensionDriver) DescriptorSetLayoutSupport(setLayoutOptions core1_0.DescriptorSetLayoutCreateInfo, outData *khr_maintenance3.DescriptorSetLayoutSupport) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DescriptorSetLayoutSupport", device, setLayoutOptions, outData)
+	ret := m.ctrl.Call(m, "DescriptorSetLayoutSupport", setLayoutOptions, outData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DescriptorSetLayoutSupport indicates an expected call of DescriptorSetLayoutSupport.
-func (mr *MockExtensionMockRecorder) DescriptorSetLayoutSupport(device, setLayoutOptions, outData any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) DescriptorSetLayoutSupport(setLayoutOptions, outData any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescriptorSetLayoutSupport", reflect.TypeOf((*MockExtension)(nil).DescriptorSetLayoutSupport), device, setLayoutOptions, outData)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescriptorSetLayoutSupport", reflect.TypeOf((*MockExtensionDriver)(nil).DescriptorSetLayoutSupport), setLayoutOptions, outData)
 }

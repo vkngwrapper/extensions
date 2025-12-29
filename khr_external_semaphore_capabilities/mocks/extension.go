@@ -17,40 +17,40 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
-// PhysicalDeviceExternalSemaphoreProperties mocks base method.
-func (m *MockExtension) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core.PhysicalDevice, o khr_external_semaphore_capabilities.PhysicalDeviceExternalSemaphoreInfo, outData *khr_external_semaphore_capabilities.ExternalSemaphoreProperties) error {
+// GetPhysicalDeviceExternalSemaphoreProperties mocks base method.
+func (m *MockExtensionDriver) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core.PhysicalDevice, o khr_external_semaphore_capabilities.PhysicalDeviceExternalSemaphoreInfo, outData *khr_external_semaphore_capabilities.ExternalSemaphoreProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceExternalSemaphoreProperties", physicalDevice, o, outData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// PhysicalDeviceExternalSemaphoreProperties indicates an expected call of PhysicalDeviceExternalSemaphoreProperties.
-func (mr *MockExtensionMockRecorder) PhysicalDeviceExternalSemaphoreProperties(physicalDevice, o, outData any) *gomock.Call {
+// GetPhysicalDeviceExternalSemaphoreProperties indicates an expected call of GetPhysicalDeviceExternalSemaphoreProperties.
+func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice, o, outData any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPhysicalDeviceExternalSemaphoreProperties", reflect.TypeOf((*MockExtension)(nil).GetPhysicalDeviceExternalSemaphoreProperties), physicalDevice, o, outData)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPhysicalDeviceExternalSemaphoreProperties", reflect.TypeOf((*MockExtensionDriver)(nil).GetPhysicalDeviceExternalSemaphoreProperties), physicalDevice, o, outData)
 }

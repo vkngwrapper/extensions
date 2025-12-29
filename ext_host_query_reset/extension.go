@@ -15,7 +15,7 @@ type VulkanExtensionDriver struct {
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // ext_host_query_reset loaded
-func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) *VulkanExtensionDriver {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) ExtensionDriver {
 	device := coreDriver.Device()
 
 	if !device.IsDeviceExtensionActive(ExtensionName) {

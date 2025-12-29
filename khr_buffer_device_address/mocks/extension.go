@@ -12,76 +12,75 @@ package mock_buffer_device_address
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	khr_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // GetBufferDeviceAddress mocks base method.
-func (m *MockExtension) GetBufferDeviceAddress(device core.Device, o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
+func (m *MockExtensionDriver) GetBufferDeviceAddress(o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBufferDeviceAddress", device, o)
+	ret := m.ctrl.Call(m, "GetBufferDeviceAddress", o)
 	ret0, _ := ret[0].(uint64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBufferDeviceAddress indicates an expected call of GetBufferDeviceAddress.
-func (mr *MockExtensionMockRecorder) GetBufferDeviceAddress(device, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) GetBufferDeviceAddress(o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBufferDeviceAddress", reflect.TypeOf((*MockExtension)(nil).GetBufferDeviceAddress), device, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBufferDeviceAddress", reflect.TypeOf((*MockExtensionDriver)(nil).GetBufferDeviceAddress), o)
 }
 
 // GetBufferOpaqueCaptureAddress mocks base method.
-func (m *MockExtension) GetBufferOpaqueCaptureAddress(device core.Device, o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
+func (m *MockExtensionDriver) GetBufferOpaqueCaptureAddress(o khr_buffer_device_address.BufferDeviceAddressInfo) (uint64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBufferOpaqueCaptureAddress", device, o)
+	ret := m.ctrl.Call(m, "GetBufferOpaqueCaptureAddress", o)
 	ret0, _ := ret[0].(uint64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBufferOpaqueCaptureAddress indicates an expected call of GetBufferOpaqueCaptureAddress.
-func (mr *MockExtensionMockRecorder) GetBufferOpaqueCaptureAddress(device, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) GetBufferOpaqueCaptureAddress(o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBufferOpaqueCaptureAddress", reflect.TypeOf((*MockExtension)(nil).GetBufferOpaqueCaptureAddress), device, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBufferOpaqueCaptureAddress", reflect.TypeOf((*MockExtensionDriver)(nil).GetBufferOpaqueCaptureAddress), o)
 }
 
 // GetDeviceMemoryOpaqueCaptureAddress mocks base method.
-func (m *MockExtension) GetDeviceMemoryOpaqueCaptureAddress(device core.Device, o khr_buffer_device_address.DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
+func (m *MockExtensionDriver) GetDeviceMemoryOpaqueCaptureAddress(o khr_buffer_device_address.DeviceMemoryOpaqueCaptureAddressInfo) (uint64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDeviceMemoryOpaqueCaptureAddress", device, o)
+	ret := m.ctrl.Call(m, "GetDeviceMemoryOpaqueCaptureAddress", o)
 	ret0, _ := ret[0].(uint64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDeviceMemoryOpaqueCaptureAddress indicates an expected call of GetDeviceMemoryOpaqueCaptureAddress.
-func (mr *MockExtensionMockRecorder) GetDeviceMemoryOpaqueCaptureAddress(device, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) GetDeviceMemoryOpaqueCaptureAddress(o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceMemoryOpaqueCaptureAddress", reflect.TypeOf((*MockExtension)(nil).GetDeviceMemoryOpaqueCaptureAddress), device, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceMemoryOpaqueCaptureAddress", reflect.TypeOf((*MockExtensionDriver)(nil).GetDeviceMemoryOpaqueCaptureAddress), o)
 }

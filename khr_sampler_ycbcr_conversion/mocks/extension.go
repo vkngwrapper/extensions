@@ -19,34 +19,34 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // CreateSamplerYcbcrConversion mocks base method.
-func (m *MockExtension) CreateSamplerYcbcrConversion(device core.Device, o khr_sampler_ycbcr_conversion.SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core.SamplerYcbcrConversion, common.VkResult, error) {
+func (m *MockExtensionDriver) CreateSamplerYcbcrConversion(o khr_sampler_ycbcr_conversion.SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core.SamplerYcbcrConversion, common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateSamplerYcbcrConversion", device, o, allocator)
+	ret := m.ctrl.Call(m, "CreateSamplerYcbcrConversion", o, allocator)
 	ret0, _ := ret[0].(core.SamplerYcbcrConversion)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
@@ -54,19 +54,19 @@ func (m *MockExtension) CreateSamplerYcbcrConversion(device core.Device, o khr_s
 }
 
 // CreateSamplerYcbcrConversion indicates an expected call of CreateSamplerYcbcrConversion.
-func (mr *MockExtensionMockRecorder) CreateSamplerYcbcrConversion(device, o, allocator any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) CreateSamplerYcbcrConversion(o, allocator any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSamplerYcbcrConversion", reflect.TypeOf((*MockExtension)(nil).CreateSamplerYcbcrConversion), device, o, allocator)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSamplerYcbcrConversion", reflect.TypeOf((*MockExtensionDriver)(nil).CreateSamplerYcbcrConversion), o, allocator)
 }
 
 // DestroySamplerYcbcrConversion mocks base method.
-func (m *MockExtension) DestroySamplerYcbcrConversion(conversion core.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks) {
+func (m *MockExtensionDriver) DestroySamplerYcbcrConversion(conversion core.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "DestroySamplerYcbcrConversion", conversion, allocator)
 }
 
 // DestroySamplerYcbcrConversion indicates an expected call of DestroySamplerYcbcrConversion.
-func (mr *MockExtensionMockRecorder) DestroySamplerYcbcrConversion(conversion, allocator any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) DestroySamplerYcbcrConversion(conversion, allocator any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroySamplerYcbcrConversion", reflect.TypeOf((*MockExtension)(nil).DestroySamplerYcbcrConversion), conversion, allocator)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroySamplerYcbcrConversion", reflect.TypeOf((*MockExtensionDriver)(nil).DestroySamplerYcbcrConversion), conversion, allocator)
 }

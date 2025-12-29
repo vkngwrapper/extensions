@@ -19,32 +19,32 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
-// SemaphoreCounterValue mocks base method.
-func (m *MockExtension) GetSemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
+// GetSemaphoreCounterValue mocks base method.
+func (m *MockExtensionDriver) GetSemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSemaphoreCounterValue", semaphore)
 	ret0, _ := ret[0].(uint64)
@@ -53,38 +53,38 @@ func (m *MockExtension) GetSemaphoreCounterValue(semaphore core.Semaphore) (uint
 	return ret0, ret1, ret2
 }
 
-// SemaphoreCounterValue indicates an expected call of SemaphoreCounterValue.
-func (mr *MockExtensionMockRecorder) SemaphoreCounterValue(semaphore any) *gomock.Call {
+// GetSemaphoreCounterValue indicates an expected call of GetSemaphoreCounterValue.
+func (mr *MockExtensionDriverMockRecorder) GetSemaphoreCounterValue(semaphore any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSemaphoreCounterValue", reflect.TypeOf((*MockExtension)(nil).GetSemaphoreCounterValue), semaphore)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSemaphoreCounterValue", reflect.TypeOf((*MockExtensionDriver)(nil).GetSemaphoreCounterValue), semaphore)
 }
 
 // SignalSemaphore mocks base method.
-func (m *MockExtension) SignalSemaphore(device core.Device, o khr_timeline_semaphore.SemaphoreSignalInfo) (common.VkResult, error) {
+func (m *MockExtensionDriver) SignalSemaphore(o khr_timeline_semaphore.SemaphoreSignalInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SignalSemaphore", device, o)
+	ret := m.ctrl.Call(m, "SignalSemaphore", o)
 	ret0, _ := ret[0].(common.VkResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SignalSemaphore indicates an expected call of SignalSemaphore.
-func (mr *MockExtensionMockRecorder) SignalSemaphore(device, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) SignalSemaphore(o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignalSemaphore", reflect.TypeOf((*MockExtension)(nil).SignalSemaphore), device, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignalSemaphore", reflect.TypeOf((*MockExtensionDriver)(nil).SignalSemaphore), o)
 }
 
 // WaitSemaphores mocks base method.
-func (m *MockExtension) WaitSemaphores(device core.Device, timeout time.Duration, o khr_timeline_semaphore.SemaphoreWaitInfo) (common.VkResult, error) {
+func (m *MockExtensionDriver) WaitSemaphores(timeout time.Duration, o khr_timeline_semaphore.SemaphoreWaitInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WaitSemaphores", device, timeout, o)
+	ret := m.ctrl.Call(m, "WaitSemaphores", timeout, o)
 	ret0, _ := ret[0].(common.VkResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WaitSemaphores indicates an expected call of WaitSemaphores.
-func (mr *MockExtensionMockRecorder) WaitSemaphores(device, timeout, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) WaitSemaphores(timeout, o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitSemaphores", reflect.TypeOf((*MockExtension)(nil).WaitSemaphores), device, timeout, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitSemaphores", reflect.TypeOf((*MockExtensionDriver)(nil).WaitSemaphores), timeout, o)
 }

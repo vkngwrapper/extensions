@@ -30,7 +30,7 @@ type VulkanExtensionDriver struct {
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_device_group loaded
-func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver, instance core.Instance) *VulkanExtensionDriver {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver, instance core.Instance) ExtensionDriver {
 	device := coreDriver.Device()
 
 	if !device.IsDeviceExtensionActive(ExtensionName) {

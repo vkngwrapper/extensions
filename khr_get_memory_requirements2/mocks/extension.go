@@ -12,74 +12,73 @@ package mock_get_memory_requirements2
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	khr_get_memory_requirements2 "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // GetBufferMemoryRequirements2 mocks base method.
-func (m *MockExtension) GetBufferMemoryRequirements2(device core.Device, o khr_get_memory_requirements2.BufferMemoryRequirementsInfo2, out *khr_get_memory_requirements2.MemoryRequirements2) error {
+func (m *MockExtensionDriver) GetBufferMemoryRequirements2(o khr_get_memory_requirements2.BufferMemoryRequirementsInfo2, out *khr_get_memory_requirements2.MemoryRequirements2) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBufferMemoryRequirements2", device, o, out)
+	ret := m.ctrl.Call(m, "GetBufferMemoryRequirements2", o, out)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // GetBufferMemoryRequirements2 indicates an expected call of GetBufferMemoryRequirements2.
-func (mr *MockExtensionMockRecorder) GetBufferMemoryRequirements2(device, o, out any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) GetBufferMemoryRequirements2(o, out any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBufferMemoryRequirements2", reflect.TypeOf((*MockExtension)(nil).GetBufferMemoryRequirements2), device, o, out)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBufferMemoryRequirements2", reflect.TypeOf((*MockExtensionDriver)(nil).GetBufferMemoryRequirements2), o, out)
 }
 
 // GetImageMemoryRequirements2 mocks base method.
-func (m *MockExtension) GetImageMemoryRequirements2(device core.Device, o khr_get_memory_requirements2.ImageMemoryRequirementsInfo2, out *khr_get_memory_requirements2.MemoryRequirements2) error {
+func (m *MockExtensionDriver) GetImageMemoryRequirements2(o khr_get_memory_requirements2.ImageMemoryRequirementsInfo2, out *khr_get_memory_requirements2.MemoryRequirements2) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetImageMemoryRequirements2", device, o, out)
+	ret := m.ctrl.Call(m, "GetImageMemoryRequirements2", o, out)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // GetImageMemoryRequirements2 indicates an expected call of GetImageMemoryRequirements2.
-func (mr *MockExtensionMockRecorder) GetImageMemoryRequirements2(device, o, out any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) GetImageMemoryRequirements2(o, out any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetImageMemoryRequirements2", reflect.TypeOf((*MockExtension)(nil).GetImageMemoryRequirements2), device, o, out)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetImageMemoryRequirements2", reflect.TypeOf((*MockExtensionDriver)(nil).GetImageMemoryRequirements2), o, out)
 }
 
 // GetImageSparseMemoryRequirements2 mocks base method.
-func (m *MockExtension) GetImageSparseMemoryRequirements2(device core.Device, o khr_get_memory_requirements2.ImageSparseMemoryRequirementsInfo2, outDataFactory func() *khr_get_memory_requirements2.SparseImageMemoryRequirements2) ([]*khr_get_memory_requirements2.SparseImageMemoryRequirements2, error) {
+func (m *MockExtensionDriver) GetImageSparseMemoryRequirements2(o khr_get_memory_requirements2.ImageSparseMemoryRequirementsInfo2, outDataFactory func() *khr_get_memory_requirements2.SparseImageMemoryRequirements2) ([]*khr_get_memory_requirements2.SparseImageMemoryRequirements2, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetImageSparseMemoryRequirements2", device, o, outDataFactory)
+	ret := m.ctrl.Call(m, "GetImageSparseMemoryRequirements2", o, outDataFactory)
 	ret0, _ := ret[0].([]*khr_get_memory_requirements2.SparseImageMemoryRequirements2)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetImageSparseMemoryRequirements2 indicates an expected call of GetImageSparseMemoryRequirements2.
-func (mr *MockExtensionMockRecorder) GetImageSparseMemoryRequirements2(device, o, outDataFactory any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) GetImageSparseMemoryRequirements2(o, outDataFactory any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetImageSparseMemoryRequirements2", reflect.TypeOf((*MockExtension)(nil).GetImageSparseMemoryRequirements2), device, o, outDataFactory)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetImageSparseMemoryRequirements2", reflect.TypeOf((*MockExtensionDriver)(nil).GetImageSparseMemoryRequirements2), o, outDataFactory)
 }

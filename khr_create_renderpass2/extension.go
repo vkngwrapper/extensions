@@ -18,7 +18,7 @@ type VulkanExtensionDriver struct {
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_create_renderpass2 loaded
-func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) *VulkanExtensionDriver {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) ExtensionDriver {
 	device := coreDriver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil

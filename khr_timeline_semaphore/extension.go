@@ -20,7 +20,7 @@ type VulkanExtensionDriver struct {
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
 // khr_timeline_semaphore loaded
-func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) *VulkanExtensionDriver {
+func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) ExtensionDriver {
 	device := driver.Device()
 	if !device.IsDeviceExtensionActive(ExtensionName) {
 		return nil

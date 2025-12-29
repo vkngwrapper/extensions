@@ -17,38 +17,38 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
 // TrimCommandPool mocks base method.
-func (m *MockExtension) TrimCommandPool(commandPool core.CommandPool, flags khr_maintenance1.CommandPoolTrimFlags) {
+func (m *MockExtensionDriver) TrimCommandPool(commandPool core.CommandPool, flags khr_maintenance1.CommandPoolTrimFlags) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "TrimCommandPool", commandPool, flags)
 }
 
 // TrimCommandPool indicates an expected call of TrimCommandPool.
-func (mr *MockExtensionMockRecorder) TrimCommandPool(commandPool, flags any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) TrimCommandPool(commandPool, flags any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TrimCommandPool", reflect.TypeOf((*MockExtension)(nil).TrimCommandPool), commandPool, flags)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TrimCommandPool", reflect.TypeOf((*MockExtensionDriver)(nil).TrimCommandPool), commandPool, flags)
 }

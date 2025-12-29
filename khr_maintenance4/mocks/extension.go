@@ -12,75 +12,74 @@ package mock_maintenance4
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	core1_1 "github.com/vkngwrapper/core/v3/core1_1"
 	khr_maintenance4 "github.com/vkngwrapper/extensions/v3/khr_maintenance4"
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
-// DeviceBufferMemoryRequirements mocks base method.
-func (m *MockExtension) GetDeviceBufferMemoryRequirements(device core.Device, options khr_maintenance4.DeviceBufferMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
+// GetDeviceBufferMemoryRequirements mocks base method.
+func (m *MockExtensionDriver) GetDeviceBufferMemoryRequirements(options khr_maintenance4.DeviceBufferMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDeviceBufferMemoryRequirements", device, options, outData)
+	ret := m.ctrl.Call(m, "GetDeviceBufferMemoryRequirements", options, outData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeviceBufferMemoryRequirements indicates an expected call of DeviceBufferMemoryRequirements.
-func (mr *MockExtensionMockRecorder) DeviceBufferMemoryRequirements(device, options, outData any) *gomock.Call {
+// GetDeviceBufferMemoryRequirements indicates an expected call of GetDeviceBufferMemoryRequirements.
+func (mr *MockExtensionDriverMockRecorder) GetDeviceBufferMemoryRequirements(options, outData any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceBufferMemoryRequirements", reflect.TypeOf((*MockExtension)(nil).GetDeviceBufferMemoryRequirements), device, options, outData)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceBufferMemoryRequirements", reflect.TypeOf((*MockExtensionDriver)(nil).GetDeviceBufferMemoryRequirements), options, outData)
 }
 
-// DeviceImageMemoryRequirements mocks base method.
-func (m *MockExtension) DeviceImageMemoryRequirements(device core.Device, options khr_maintenance4.DeviceImageMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
+// GetDeviceImageMemoryRequirements mocks base method.
+func (m *MockExtensionDriver) GetDeviceImageMemoryRequirements(options khr_maintenance4.DeviceImageMemoryRequirements, outData *core1_1.MemoryRequirements2) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDeviceImageMemoryRequirements", device, options, outData)
+	ret := m.ctrl.Call(m, "GetDeviceImageMemoryRequirements", options, outData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeviceImageMemoryRequirements indicates an expected call of DeviceImageMemoryRequirements.
-func (mr *MockExtensionMockRecorder) DeviceImageMemoryRequirements(device, options, outData any) *gomock.Call {
+// GetDeviceImageMemoryRequirements indicates an expected call of GetDeviceImageMemoryRequirements.
+func (mr *MockExtensionDriverMockRecorder) GetDeviceImageMemoryRequirements(options, outData any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceImageMemoryRequirements", reflect.TypeOf((*MockExtension)(nil).DeviceImageMemoryRequirements), device, options, outData)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceImageMemoryRequirements", reflect.TypeOf((*MockExtensionDriver)(nil).GetDeviceImageMemoryRequirements), options, outData)
 }
 
-// DeviceImageSparseMemoryRequirements mocks base method.
-func (m *MockExtension) DeviceImageSparseMemoryRequirements(device core.Device, options khr_maintenance4.DeviceImageMemoryRequirements, outDataFactory func() *core1_1.SparseImageMemoryRequirements2) ([]*core1_1.SparseImageMemoryRequirements2, error) {
+// GetDeviceImageSparseMemoryRequirements mocks base method.
+func (m *MockExtensionDriver) GetDeviceImageSparseMemoryRequirements(options khr_maintenance4.DeviceImageMemoryRequirements, outDataFactory func() *core1_1.SparseImageMemoryRequirements2) ([]*core1_1.SparseImageMemoryRequirements2, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDeviceImageSparseMemoryRequirements", device, options, outDataFactory)
+	ret := m.ctrl.Call(m, "GetDeviceImageSparseMemoryRequirements", options, outDataFactory)
 	ret0, _ := ret[0].([]*core1_1.SparseImageMemoryRequirements2)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DeviceImageSparseMemoryRequirements indicates an expected call of DeviceImageSparseMemoryRequirements.
-func (mr *MockExtensionMockRecorder) DeviceImageSparseMemoryRequirements(device, options, outDataFactory any) *gomock.Call {
+// GetDeviceImageSparseMemoryRequirements indicates an expected call of GetDeviceImageSparseMemoryRequirements.
+func (mr *MockExtensionDriverMockRecorder) GetDeviceImageSparseMemoryRequirements(options, outDataFactory any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceImageSparseMemoryRequirements", reflect.TypeOf((*MockExtension)(nil).DeviceImageSparseMemoryRequirements), device, options, outDataFactory)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceImageSparseMemoryRequirements", reflect.TypeOf((*MockExtensionDriver)(nil).GetDeviceImageSparseMemoryRequirements), options, outDataFactory)
 }

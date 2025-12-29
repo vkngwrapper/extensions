@@ -84,9 +84,9 @@ func (mr *MockExtensionDriverMockRecorder) CmdInsertDebugUtilsLabel(commandBuffe
 }
 
 // CreateDebugUtilsMessenger mocks base method.
-func (m *MockExtensionDriver) CreateDebugUtilsMessenger(instance core.Instance, allocator *loader.AllocationCallbacks, o ext_debug_utils.DebugUtilsMessengerCreateInfo) (ext_debug_utils.DebugUtilsMessenger, common.VkResult, error) {
+func (m *MockExtensionDriver) CreateDebugUtilsMessenger(allocator *loader.AllocationCallbacks, o ext_debug_utils.DebugUtilsMessengerCreateInfo) (ext_debug_utils.DebugUtilsMessenger, common.VkResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateDebugUtilsMessenger", instance, allocator, o)
+	ret := m.ctrl.Call(m, "CreateDebugUtilsMessenger", allocator, o)
 	ret0, _ := ret[0].(ext_debug_utils.DebugUtilsMessenger)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
@@ -94,9 +94,9 @@ func (m *MockExtensionDriver) CreateDebugUtilsMessenger(instance core.Instance, 
 }
 
 // CreateDebugUtilsMessenger indicates an expected call of CreateDebugUtilsMessenger.
-func (mr *MockExtensionDriverMockRecorder) CreateDebugUtilsMessenger(instance, allocator, o any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) CreateDebugUtilsMessenger(allocator, o any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateDebugUtilsMessenger", reflect.TypeOf((*MockExtensionDriver)(nil).CreateDebugUtilsMessenger), instance, allocator, o)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateDebugUtilsMessenger", reflect.TypeOf((*MockExtensionDriver)(nil).CreateDebugUtilsMessenger), allocator, o)
 }
 
 // QueueBeginDebugUtilsLabel mocks base method.
@@ -170,15 +170,15 @@ func (mr *MockExtensionDriverMockRecorder) SetDebugUtilsObjectTag(device, tag an
 }
 
 // SubmitDebugUtilsMessage mocks base method.
-func (m *MockExtensionDriver) SubmitDebugUtilsMessage(instance core.Instance, severity ext_debug_utils.DebugUtilsMessageSeverityFlags, types ext_debug_utils.DebugUtilsMessageTypeFlags, data ext_debug_utils.DebugUtilsMessengerCallbackData) error {
+func (m *MockExtensionDriver) SubmitDebugUtilsMessage(severity ext_debug_utils.DebugUtilsMessageSeverityFlags, types ext_debug_utils.DebugUtilsMessageTypeFlags, data ext_debug_utils.DebugUtilsMessengerCallbackData) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SubmitDebugUtilsMessage", instance, severity, types, data)
+	ret := m.ctrl.Call(m, "SubmitDebugUtilsMessage", severity, types, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SubmitDebugUtilsMessage indicates an expected call of SubmitDebugUtilsMessage.
-func (mr *MockExtensionDriverMockRecorder) SubmitDebugUtilsMessage(instance, severity, types, data any) *gomock.Call {
+func (mr *MockExtensionDriverMockRecorder) SubmitDebugUtilsMessage(severity, types, data any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubmitDebugUtilsMessage", reflect.TypeOf((*MockExtensionDriver)(nil).SubmitDebugUtilsMessage), instance, severity, types, data)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubmitDebugUtilsMessage", reflect.TypeOf((*MockExtensionDriver)(nil).SubmitDebugUtilsMessage), severity, types, data)
 }

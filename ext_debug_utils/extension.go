@@ -115,7 +115,7 @@ type ExtensionDriver interface {
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from an Instance with
 // ext_debug_utils loaded
-func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) *VulkanExtensionDriver {
+func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) ExtensionDriver {
 	driver := ext_driver.CreateLoaderFromCore(coreDriver.Loader())
 	instance := coreDriver.Instance()
 

@@ -17,40 +17,40 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExtension is a mock of ExtensionDriver interface.
-type MockExtension struct {
+// MockExtensionDriver is a mock of ExtensionDriver interface.
+type MockExtensionDriver struct {
 	ctrl     *gomock.Controller
-	recorder *MockExtensionMockRecorder
+	recorder *MockExtensionDriverMockRecorder
 	isgomock struct{}
 }
 
-// MockExtensionMockRecorder is the mock recorder for MockExtension.
-type MockExtensionMockRecorder struct {
-	mock *MockExtension
+// MockExtensionDriverMockRecorder is the mock recorder for MockExtensionDriver.
+type MockExtensionDriverMockRecorder struct {
+	mock *MockExtensionDriver
 }
 
-// NewMockExtension creates a new mock instance.
-func NewMockExtension(ctrl *gomock.Controller) *MockExtension {
-	mock := &MockExtension{ctrl: ctrl}
-	mock.recorder = &MockExtensionMockRecorder{mock}
+// NewMockExtensionDriver creates a new mock instance.
+func NewMockExtensionDriver(ctrl *gomock.Controller) *MockExtensionDriver {
+	mock := &MockExtensionDriver{ctrl: ctrl}
+	mock.recorder = &MockExtensionDriverMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExtension) EXPECT() *MockExtensionMockRecorder {
+func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 	return m.recorder
 }
 
-// PhysicalDeviceExternalFenceProperties mocks base method.
-func (m *MockExtension) GetPhysicalDeviceExternalFenceProperties(physicalDevice core.PhysicalDevice, o khr_external_fence_capabilities.PhysicalDeviceExternalFenceInfo, outData *khr_external_fence_capabilities.ExternalFenceProperties) error {
+// GetPhysicalDeviceExternalFenceProperties mocks base method.
+func (m *MockExtensionDriver) GetPhysicalDeviceExternalFenceProperties(physicalDevice core.PhysicalDevice, o khr_external_fence_capabilities.PhysicalDeviceExternalFenceInfo, outData *khr_external_fence_capabilities.ExternalFenceProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceExternalFenceProperties", physicalDevice, o, outData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// PhysicalDeviceExternalFenceProperties indicates an expected call of PhysicalDeviceExternalFenceProperties.
-func (mr *MockExtensionMockRecorder) PhysicalDeviceExternalFenceProperties(physicalDevice, o, outData any) *gomock.Call {
+// GetPhysicalDeviceExternalFenceProperties indicates an expected call of GetPhysicalDeviceExternalFenceProperties.
+func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceExternalFenceProperties(physicalDevice, o, outData any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPhysicalDeviceExternalFenceProperties", reflect.TypeOf((*MockExtension)(nil).GetPhysicalDeviceExternalFenceProperties), physicalDevice, o, outData)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPhysicalDeviceExternalFenceProperties", reflect.TypeOf((*MockExtensionDriver)(nil).GetPhysicalDeviceExternalFenceProperties), physicalDevice, o, outData)
 }
