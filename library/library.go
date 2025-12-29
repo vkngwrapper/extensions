@@ -33,16 +33,16 @@ type extensionLibrary struct {
 func NewLibrary() Library {
 	return &extensionLibrary{}}
 
+func (l *extensionLibrary) ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_debug_utils.ExtensionDriver {
+	return ext_debug_utils.CreateExtensionDriverFromCoreDriver(driver)
+}
+
 func (l *extensionLibrary) KhrGetPhysicalDeviceProperties2(driver core1_0.CoreInstanceDriver) khr_get_physical_device_properties2.ExtensionDriver {
 	return khr_get_physical_device_properties2.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrSurface(driver core1_0.CoreInstanceDriver) khr_surface.ExtensionDriver {
 	return khr_surface.CreateExtensionDriverFromCoreDriver(driver)
-}
-
-func (l *extensionLibrary) ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_debug_utils.ExtensionDriver {
-	return ext_debug_utils.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) ExtHostQueryReset(driver core1_0.DeviceDriver) ext_host_query_reset.ExtensionDriver {
@@ -57,24 +57,36 @@ func (l *extensionLibrary) KhrBufferDeviceAddress(driver core1_0.DeviceDriver) k
 	 return khr_buffer_device_address.CreateExtensionDriverFromCoreDriver(driver)
 }
 
+func (l *extensionLibrary) KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_create_renderpass2.ExtensionDriver {
+	 return khr_create_renderpass2.CreateExtensionDriverFromCoreDriver(driver)
+}
+
 func (l *extensionLibrary) KhrDescriptorUpdateTemplate(driver core1_0.DeviceDriver) khr_descriptor_update_template.ExtensionDriver {
 	 return khr_descriptor_update_template.CreateExtensionDriverFromCoreDriver(driver)
 }
 
-func (l *extensionLibrary) KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver {
-	 return khr_external_fence_capabilities.CreateExtensionDriverFromCoreDriver(driver)
-}
-
-func (l *extensionLibrary) KhrSamplerYcbcrConversion(driver core1_0.DeviceDriver) khr_sampler_ycbcr_conversion.ExtensionDriver {
-	 return khr_sampler_ycbcr_conversion.CreateExtensionDriverFromCoreDriver(driver)
+func (l *extensionLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance core.Instance) khr_device_group.ExtensionDriver {
+	 return khr_device_group.CreateExtensionDriverFromCoreDriver(driver, instance)
 }
 
 func (l *extensionLibrary) KhrDrawIndirectCount(driver core1_0.DeviceDriver) khr_draw_indirect_count.ExtensionDriver {
 	 return khr_draw_indirect_count.CreateExtensionDriverFromCoreDriver(driver)
 }
 
+func (l *extensionLibrary) KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver {
+	 return khr_external_fence_capabilities.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrExternalMemoryCapabilities(driver core1_0.DeviceDriver) khr_external_memory_capabilities.ExtensionDriver {
+	 return khr_external_memory_capabilities.CreateExtensionDriverFromCoreDriver(driver)
+}
+
 func (l *extensionLibrary) KhrExternalSemaphoreCapabilities(driver core1_0.DeviceDriver) khr_external_semaphore_capabilities.ExtensionDriver {
 	 return khr_external_semaphore_capabilities.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrGetMemoryRequirements2(driver core1_0.DeviceDriver) khr_get_memory_requirements2.ExtensionDriver {
+	 return khr_get_memory_requirements2.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrMaintenance1(driver core1_0.DeviceDriver) khr_maintenance1.ExtensionDriver {
@@ -85,31 +97,19 @@ func (l *extensionLibrary) KhrMaintenance3(driver core1_0.DeviceDriver) khr_main
 	 return khr_maintenance3.CreateExtensionDriverFromCoreDriver(driver)
 }
 
-func (l *extensionLibrary) KhrTimelineSemaphore(driver core1_0.DeviceDriver) khr_timeline_semaphore.ExtensionDriver {
-	 return khr_timeline_semaphore.CreateExtensionDriverFromCoreDriver(driver)
+func (l *extensionLibrary) KhrMaintenance4(driver core1_0.DeviceDriver) khr_maintenance4.ExtensionDriver {
+	 return khr_maintenance4.CreateExtensionDriverFromCoreDriver(driver)
 }
 
-func (l *extensionLibrary) KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_create_renderpass2.ExtensionDriver {
-	 return khr_create_renderpass2.CreateExtensionDriverFromCoreDriver(driver)
-}
-
-func (l *extensionLibrary) KhrExternalMemoryCapabilities(driver core1_0.DeviceDriver) khr_external_memory_capabilities.ExtensionDriver {
-	 return khr_external_memory_capabilities.CreateExtensionDriverFromCoreDriver(driver)
-}
-
-func (l *extensionLibrary) KhrGetMemoryRequirements2(driver core1_0.DeviceDriver) khr_get_memory_requirements2.ExtensionDriver {
-	 return khr_get_memory_requirements2.CreateExtensionDriverFromCoreDriver(driver)
+func (l *extensionLibrary) KhrSamplerYcbcrConversion(driver core1_0.DeviceDriver) khr_sampler_ycbcr_conversion.ExtensionDriver {
+	 return khr_sampler_ycbcr_conversion.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrSwapchain(driver core1_0.DeviceDriver) khr_swapchain.ExtensionDriver {
 	 return khr_swapchain.CreateExtensionDriverFromCoreDriver(driver)
 }
 
-func (l *extensionLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance core.Instance) khr_device_group.ExtensionDriver {
-	 return khr_device_group.CreateExtensionDriverFromCoreDriver(driver, instance)
-}
-
-func (l *extensionLibrary) KhrMaintenance4(driver core1_0.DeviceDriver) khr_maintenance4.ExtensionDriver {
-	 return khr_maintenance4.CreateExtensionDriverFromCoreDriver(driver)
+func (l *extensionLibrary) KhrTimelineSemaphore(driver core1_0.DeviceDriver) khr_timeline_semaphore.ExtensionDriver {
+	 return khr_timeline_semaphore.CreateExtensionDriverFromCoreDriver(driver)
 }
 

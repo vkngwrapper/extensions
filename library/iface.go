@@ -29,23 +29,23 @@ import (
 
 type Library interface {
 	ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_debug_utils.ExtensionDriver
-	KhrGetPhysicalDeviceProperties2(driver core1_0.CoreInstanceDriver) khr_get_physical_device_properties2.ExtensionDriver
-	KhrSurface(driver core1_0.CoreInstanceDriver) khr_surface.ExtensionDriver
-	KhrSwapchain(driver core1_0.DeviceDriver) khr_swapchain.ExtensionDriver
-	KhrDeviceGroup(driver core1_0.DeviceDriver, instance core.Instance) khr_device_group.ExtensionDriver
-	KhrMaintenance4(driver core1_0.DeviceDriver) khr_maintenance4.ExtensionDriver
 	ExtHostQueryReset(driver core1_0.DeviceDriver) ext_host_query_reset.ExtensionDriver
 	KhrBindMemory2(driver core1_0.DeviceDriver) khr_bind_memory2.ExtensionDriver
 	KhrBufferDeviceAddress(driver core1_0.DeviceDriver) khr_buffer_device_address.ExtensionDriver
+	KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_create_renderpass2.ExtensionDriver
 	KhrDescriptorUpdateTemplate(driver core1_0.DeviceDriver) khr_descriptor_update_template.ExtensionDriver
-	KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver
-	KhrSamplerYcbcrConversion(driver core1_0.DeviceDriver) khr_sampler_ycbcr_conversion.ExtensionDriver
+	KhrDeviceGroup(driver core1_0.DeviceDriver, instance core.Instance) khr_device_group.ExtensionDriver
 	KhrDrawIndirectCount(driver core1_0.DeviceDriver) khr_draw_indirect_count.ExtensionDriver
+	KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver
+	KhrExternalMemoryCapabilities(driver core1_0.DeviceDriver) khr_external_memory_capabilities.ExtensionDriver
 	KhrExternalSemaphoreCapabilities(driver core1_0.DeviceDriver) khr_external_semaphore_capabilities.ExtensionDriver
+	KhrGetMemoryRequirements2(driver core1_0.DeviceDriver) khr_get_memory_requirements2.ExtensionDriver
+	KhrGetPhysicalDeviceProperties2(driver core1_0.CoreInstanceDriver) khr_get_physical_device_properties2.ExtensionDriver
 	KhrMaintenance1(driver core1_0.DeviceDriver) khr_maintenance1.ExtensionDriver
 	KhrMaintenance3(driver core1_0.DeviceDriver) khr_maintenance3.ExtensionDriver
+	KhrMaintenance4(driver core1_0.DeviceDriver) khr_maintenance4.ExtensionDriver
+	KhrSamplerYcbcrConversion(driver core1_0.DeviceDriver) khr_sampler_ycbcr_conversion.ExtensionDriver
+	KhrSurface(driver core1_0.CoreInstanceDriver) khr_surface.ExtensionDriver
+	KhrSwapchain(driver core1_0.DeviceDriver) khr_swapchain.ExtensionDriver
 	KhrTimelineSemaphore(driver core1_0.DeviceDriver) khr_timeline_semaphore.ExtensionDriver
-	KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_create_renderpass2.ExtensionDriver
-	KhrExternalMemoryCapabilities(driver core1_0.DeviceDriver) khr_external_memory_capabilities.ExtensionDriver
-	KhrGetMemoryRequirements2(driver core1_0.DeviceDriver) khr_get_memory_requirements2.ExtensionDriver
 }

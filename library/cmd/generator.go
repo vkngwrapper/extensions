@@ -16,6 +16,7 @@ import (
 type PackageData struct {
 	CorePackagePath    string
 	Core1_0PackagePath string
+	SortedPackages     []string
 	InstancePackages   map[string]*packages.Package
 	DevicePackages     map[string]DeviceStruct
 }
@@ -58,18 +59,9 @@ func libraryHeader(contents *strings.Builder, pkgName string, packageData Packag
 	contents.WriteRune('\n')
 	contents.WriteString("import (\n")
 
-	var sortedImports []string
-	for path := range packageData.InstancePackages {
-		sortedImports = append(sortedImports, path)
-	}
-	for path := range packageData.DevicePackages {
-		sortedImports = append(sortedImports, path)
-	}
-	sort.Strings(sortedImports)
-
 	contents.WriteString(fmt.Sprintf("\t\"%s\"\n", packageData.CorePackagePath))
 	contents.WriteString(fmt.Sprintf("\t\"%s\"\n", packageData.Core1_0PackagePath))
-	for _, path := range sortedImports {
+	for _, path := range packageData.SortedPackages {
 		contents.WriteString(fmt.Sprintf("\t\"%s\"\n", path))
 	}
 
@@ -88,13 +80,22 @@ func buildLibraryFile(pkgName string, packageData PackageData) string {
 	contents.WriteString("\treturn &extensionLibrary{}")
 	contents.WriteString("}\n")
 	contents.WriteString("\n")
-	for _, pkg := range packageData.InstancePackages {
+	for _, pkgPath := range packageData.SortedPackages {
+		pkg, ok := packageData.InstancePackages[pkgPath]
+		if !ok {
+			continue
+		}
+
 		contents.WriteString(fmt.Sprintf("func (l *extensionLibrary) %s(driver core1_0.CoreInstanceDriver) %s.ExtensionDriver {\n", toTitleCase(pkg.Name), pkg.Name))
 		contents.WriteString(fmt.Sprintf("\treturn %s.CreateExtensionDriverFromCoreDriver(driver)\n", pkg.Name))
 		contents.WriteString("}\n")
 		contents.WriteString("\n")
 	}
-	for _, data := range packageData.DevicePackages {
+	for _, pkgPath := range packageData.SortedPackages {
+		data, ok := packageData.DevicePackages[pkgPath]
+		if !ok {
+			continue
+		}
 		contents.WriteString(fmt.Sprintf("func (l *extensionLibrary) %s(driver core1_0.DeviceDriver", toTitleCase(data.Package.Name)))
 		if data.ParamCount > 1 {
 			contents.WriteString(", instance core.Instance")
@@ -117,16 +118,25 @@ func buildIfaceFile(pkgName string, packageData PackageData) string {
 	libraryHeader(&contents, pkgName, packageData)
 
 	contents.WriteString("type Library interface {\n")
-	for _, pkg := range packageData.InstancePackages {
-		contents.WriteString(fmt.Sprintf("\t%s(driver core1_0.CoreInstanceDriver) %s.ExtensionDriver\n", toTitleCase(pkg.Name), pkg.Name))
-	}
-	for _, data := range packageData.DevicePackages {
+	for _, pkgPath := range packageData.SortedPackages {
+		pkg, ok := packageData.InstancePackages[pkgPath]
+		if ok {
+			contents.WriteString(fmt.Sprintf("\t%s(driver core1_0.CoreInstanceDriver) %s.ExtensionDriver\n", toTitleCase(pkg.Name), pkg.Name))
+			continue
+		}
+
+		data, ok := packageData.DevicePackages[pkgPath]
+		if !ok {
+			continue
+		}
+
 		contents.WriteString(fmt.Sprintf("\t%s(driver core1_0.DeviceDriver", toTitleCase(data.Package.Name)))
 		if data.ParamCount > 1 {
 			contents.WriteString(", instance core.Instance")
 		}
 		contents.WriteString(fmt.Sprintf(") %s.ExtensionDriver\n", data.Package.Name))
 	}
+
 	contents.WriteString("}\n")
 
 	return contents.String()
@@ -163,21 +173,21 @@ func findRelevantPackages() PackageData {
 		log.Fatalln(err)
 	}
 
-	var sortedPackagePaths []string
 	allPackages := make(map[string]*packages.Package)
+	var sortedPackages []string
 	packageData.InstancePackages = make(map[string]*packages.Package)
 	packageData.DevicePackages = make(map[string]DeviceStruct)
 
 	for _, pkg := range pkgs {
-		sortedPackagePaths = append(sortedPackagePaths, pkg.PkgPath)
+		sortedPackages = append(sortedPackages, pkg.PkgPath)
 		allPackages[pkg.PkgPath] = pkg
 	}
 
-	sort.Strings(sortedPackagePaths)
+	sort.Strings(sortedPackages)
 
 	lastRelevantPackagePath := ""
 
-	for _, path := range sortedPackagePaths {
+	for _, path := range sortedPackages {
 		if len(lastRelevantPackagePath) > 0 && strings.HasPrefix(path, lastRelevantPackagePath) {
 			continue
 		}
@@ -239,6 +249,7 @@ func findRelevantPackages() PackageData {
 						ParamCount: paramCount,
 					}
 				}
+				packageData.SortedPackages = append(packageData.SortedPackages, path)
 
 				return true
 			})
