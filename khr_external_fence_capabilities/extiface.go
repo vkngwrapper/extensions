@@ -1,7 +1,7 @@
 package khr_external_fence_capabilities
 
 import (
-	"github.com/vkngwrapper/core/v3"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_external_fence_capabilities
@@ -18,5 +18,5 @@ type ExtensionDriver interface {
 	// any desired chained OutData objects.
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkGetPhysicalDeviceExternalFenceProperties.html
-	GetPhysicalDeviceExternalFenceProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalFenceInfo, outData *ExternalFenceProperties) error
+	GetPhysicalDeviceExternalFenceProperties(physicalDevice core1_0.PhysicalDevice, o PhysicalDeviceExternalFenceInfo, outData *ExternalFenceProperties) error
 }

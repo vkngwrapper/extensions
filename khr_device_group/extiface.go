@@ -1,7 +1,6 @@
 package khr_device_group
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
@@ -30,7 +29,7 @@ type ExtensionDriver interface {
 	// groupCountZ - The number of local workgroups to dispatch in the Z dimension
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdDispatchBase.html
-	CmdDispatchBase(commandBuffer core.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int)
+	CmdDispatchBase(commandBuffer core1_0.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int)
 	// CmdSetDeviceMask modifies the device mask of a CommandBuffer
 	//
 	// commandBuffer - The CommandBuffer to set the Device mask on
@@ -38,7 +37,7 @@ type ExtensionDriver interface {
 	// deviceMask - The new value of the current Device mask
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdSetDeviceMask.html
-	CmdSetDeviceMask(commandBuffer core.CommandBuffer, deviceMask uint32)
+	CmdSetDeviceMask(commandBuffer core1_0.CommandBuffer, deviceMask uint32)
 	// GetDeviceGroupPeerMemoryFeatures queries supported peer memory features of a Device
 	//
 	// device - The Device to query peer memory features on
@@ -89,7 +88,7 @@ type ExtensionDriverWithKHRSurface interface {
 	// surface - The Surface whose present rectangles are being requested
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetPhysicalDevicePresentRectanglesKHR.html
-	GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error)
+	GetPhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error)
 }
 
 // ExtensionDriverWithKHRSwapchain contains commands available when both khr_device_group and khr_swapchain extensions

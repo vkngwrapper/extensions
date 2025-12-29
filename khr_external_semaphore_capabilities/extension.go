@@ -2,7 +2,6 @@ package khr_external_semaphore_capabilities
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities/loader"
@@ -33,7 +32,7 @@ func CreateExtensionDriverFromLoader(driver khr_external_semaphore_capabilities_
 	}
 }
 
-func (e *VulkanExtensionDriver) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalSemaphoreInfo, outData *ExternalSemaphoreProperties) error {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core1_0.PhysicalDevice, o PhysicalDeviceExternalSemaphoreInfo, outData *ExternalSemaphoreProperties) error {
 	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}

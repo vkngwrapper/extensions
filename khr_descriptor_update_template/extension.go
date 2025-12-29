@@ -9,9 +9,9 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
+	"github.com/vkngwrapper/core/v3/core1_1"
 	"github.com/vkngwrapper/core/v3/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template/loader"
 )
@@ -20,7 +20,7 @@ import (
 // is the default implementation. See the interface for more documentation.
 type VulkanExtensionDriver struct {
 	driver khr_descriptor_update_template_loader.Loader
-	device core.Device
+	device core1_0.Device
 }
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
@@ -35,20 +35,20 @@ func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) Extens
 
 // CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
-func CreateExtensionDriverFromLoader(driver khr_descriptor_update_template_loader.Loader, device core.Device) *VulkanExtensionDriver {
+func CreateExtensionDriverFromLoader(driver khr_descriptor_update_template_loader.Loader, device core1_0.Device) *VulkanExtensionDriver {
 	return &VulkanExtensionDriver{
 		driver: driver,
 		device: device,
 	}
 }
 
-func (e *VulkanExtensionDriver) CreateDescriptorUpdateTemplate(o DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core.DescriptorUpdateTemplate, common.VkResult, error) {
+func (e *VulkanExtensionDriver) CreateDescriptorUpdateTemplate(o DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core1_1.DescriptorUpdateTemplate, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
 	createInfoPtr, err := common.AllocOptions(arena, o)
 	if err != nil {
-		return core.DescriptorUpdateTemplate{}, core1_0.VKErrorUnknown, err
+		return core1_1.DescriptorUpdateTemplate{}, core1_0.VKErrorUnknown, err
 	}
 
 	var templateHandle khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR
@@ -58,10 +58,10 @@ func (e *VulkanExtensionDriver) CreateDescriptorUpdateTemplate(o DescriptorUpdat
 		&templateHandle,
 	)
 	if err != nil {
-		return core.DescriptorUpdateTemplate{}, res, err
+		return core1_1.DescriptorUpdateTemplate{}, res, err
 	}
 
-	descriptorTemplate := core.InternalDescriptorUpdateTemplate(
+	descriptorTemplate := core1_1.InternalDescriptorUpdateTemplate(
 		e.device.Handle(),
 		loader.VkDescriptorUpdateTemplate(templateHandle),
 		e.device.APIVersion(),
@@ -70,14 +70,14 @@ func (e *VulkanExtensionDriver) CreateDescriptorUpdateTemplate(o DescriptorUpdat
 	return descriptorTemplate, res, nil
 }
 
-func (t *VulkanExtensionDriver) DestroyDescriptorUpdateTemplate(template core.DescriptorUpdateTemplate, allocator *loader.AllocationCallbacks) {
+func (t *VulkanExtensionDriver) DestroyDescriptorUpdateTemplate(template core1_1.DescriptorUpdateTemplate, allocator *loader.AllocationCallbacks) {
 	if !template.Initialized() {
 		panic("template cannot be uninitialized")
 	}
 	t.driver.VkDestroyDescriptorUpdateTemplateKHR(template.DeviceHandle(), khr_descriptor_update_template_loader.VkDescriptorUpdateTemplateKHR(template.Handle()), allocator.Handle())
 }
 
-func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorImageInfo) {
+func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descriptorSet core1_0.DescriptorSet, template core1_1.DescriptorUpdateTemplate, data core1_0.DescriptorImageInfo) {
 	if !descriptorSet.Initialized() {
 		panic("descriptorSet cannot be uninitialized")
 	}
@@ -109,7 +109,7 @@ func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descrip
 	)
 }
 
-func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorBufferInfo) {
+func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet core1_0.DescriptorSet, template core1_1.DescriptorUpdateTemplate, data core1_0.DescriptorBufferInfo) {
 	if !descriptorSet.Initialized() {
 		panic("descriptorSet cannot be uninitialized")
 	}
@@ -137,7 +137,7 @@ func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descri
 	)
 }
 
-func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data loader.VulkanHandle) {
+func (t *VulkanExtensionDriver) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet core1_0.DescriptorSet, template core1_1.DescriptorUpdateTemplate, data loader.VulkanHandle) {
 	if !descriptorSet.Initialized() {
 		panic("descriptorSet cannot be uninitialized")
 	}

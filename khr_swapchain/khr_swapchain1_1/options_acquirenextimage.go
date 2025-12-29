@@ -11,8 +11,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
 )
 
@@ -27,9 +27,9 @@ type AcquireNextImageInfo struct {
 	// implementation timeout accuracy, which may be substantially longer than the requested timeout.
 	Timeout time.Duration
 	// Semaphore is, optionally, a Semaphore to signal when acquisition is complete
-	Semaphore core.Semaphore
+	Semaphore core1_0.Semaphore
 	// Fence is, optionally, a Fence to signal when acquisition is complete
-	Fence core.Fence
+	Fence core1_0.Fence
 	// DeviceMask is a mask of PhysicalDevice objects for which the khr_swapchain.Swapchain Image will be
 	// ready to use when the Semaphore or Fence is signaled
 	DeviceMask uint32

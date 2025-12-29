@@ -3,7 +3,6 @@
 package extensions
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	"github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
@@ -65,7 +64,7 @@ func (l *extensionLibrary) KhrDescriptorUpdateTemplate(driver core1_0.DeviceDriv
 	 return khr_descriptor_update_template.CreateExtensionDriverFromCoreDriver(driver)
 }
 
-func (l *extensionLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance core.Instance) khr_device_group.ExtensionDriver {
+func (l *extensionLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance core1_0.Instance) khr_device_group.ExtensionDriver {
 	 return khr_device_group.CreateExtensionDriverFromCoreDriver(driver, instance)
 }
 

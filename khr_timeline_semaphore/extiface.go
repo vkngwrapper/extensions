@@ -3,8 +3,8 @@ package khr_timeline_semaphore
 import (
 	"time"
 
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 //go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_timeline_semaphore
@@ -18,7 +18,7 @@ type ExtensionDriver interface {
 	// semaphore - The Semaphore to query
 	//
 	// https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkGetSemaphoreCounterValue.html
-	GetSemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error)
+	GetSemaphoreCounterValue(semaphore core1_0.Semaphore) (uint64, common.VkResult, error)
 	// SignalSemaphore signals a timeline Semaphore on the host
 	//
 	// device - The Device which owns the Semaphore being signaled

@@ -12,7 +12,7 @@ package mock_external_semaphore_capabilities
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_external_semaphore_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -42,7 +42,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // GetPhysicalDeviceExternalSemaphoreProperties mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core.PhysicalDevice, o khr_external_semaphore_capabilities.PhysicalDeviceExternalSemaphoreInfo, outData *khr_external_semaphore_capabilities.ExternalSemaphoreProperties) error {
+func (m *MockExtensionDriver) GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice core1_0.PhysicalDevice, o khr_external_semaphore_capabilities.PhysicalDeviceExternalSemaphoreInfo, outData *khr_external_semaphore_capabilities.ExternalSemaphoreProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceExternalSemaphoreProperties", physicalDevice, o, outData)
 	ret0, _ := ret[0].(error)

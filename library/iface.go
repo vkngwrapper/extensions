@@ -3,7 +3,6 @@
 package extensions
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	"github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
@@ -34,7 +33,7 @@ type Library interface {
 	KhrBufferDeviceAddress(driver core1_0.DeviceDriver) khr_buffer_device_address.ExtensionDriver
 	KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_create_renderpass2.ExtensionDriver
 	KhrDescriptorUpdateTemplate(driver core1_0.DeviceDriver) khr_descriptor_update_template.ExtensionDriver
-	KhrDeviceGroup(driver core1_0.DeviceDriver, instance core.Instance) khr_device_group.ExtensionDriver
+	KhrDeviceGroup(driver core1_0.DeviceDriver, instance core1_0.Instance) khr_device_group.ExtensionDriver
 	KhrDrawIndirectCount(driver core1_0.DeviceDriver) khr_draw_indirect_count.ExtensionDriver
 	KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver
 	KhrExternalMemoryCapabilities(driver core1_0.DeviceDriver) khr_external_memory_capabilities.ExtensionDriver

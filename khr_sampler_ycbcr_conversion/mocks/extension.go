@@ -12,8 +12,8 @@ package mock_sampler_ycbcr_conversion
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
+	core1_1 "github.com/vkngwrapper/core/v3/core1_1"
 	loader "github.com/vkngwrapper/core/v3/loader"
 	khr_sampler_ycbcr_conversion "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion"
 	gomock "go.uber.org/mock/gomock"
@@ -44,10 +44,10 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // CreateSamplerYcbcrConversion mocks base method.
-func (m *MockExtensionDriver) CreateSamplerYcbcrConversion(o khr_sampler_ycbcr_conversion.SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core.SamplerYcbcrConversion, common.VkResult, error) {
+func (m *MockExtensionDriver) CreateSamplerYcbcrConversion(o khr_sampler_ycbcr_conversion.SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core1_1.SamplerYcbcrConversion, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateSamplerYcbcrConversion", o, allocator)
-	ret0, _ := ret[0].(core.SamplerYcbcrConversion)
+	ret0, _ := ret[0].(core1_1.SamplerYcbcrConversion)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
@@ -60,7 +60,7 @@ func (mr *MockExtensionDriverMockRecorder) CreateSamplerYcbcrConversion(o, alloc
 }
 
 // DestroySamplerYcbcrConversion mocks base method.
-func (m *MockExtensionDriver) DestroySamplerYcbcrConversion(conversion core.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks) {
+func (m *MockExtensionDriver) DestroySamplerYcbcrConversion(conversion core1_1.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "DestroySamplerYcbcrConversion", conversion, allocator)
 }

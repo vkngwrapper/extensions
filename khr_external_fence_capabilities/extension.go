@@ -2,7 +2,6 @@ package khr_external_fence_capabilities
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities/loader"
@@ -33,7 +32,7 @@ func CreateExtensionDriverFromLoader(driver khr_external_fence_capabilities_load
 	}
 }
 
-func (e *VulkanExtensionDriver) GetPhysicalDeviceExternalFenceProperties(physicalDevice core.PhysicalDevice, o PhysicalDeviceExternalFenceInfo, outData *ExternalFenceProperties) error {
+func (e *VulkanExtensionDriver) GetPhysicalDeviceExternalFenceProperties(physicalDevice core1_0.PhysicalDevice, o PhysicalDeviceExternalFenceInfo, outData *ExternalFenceProperties) error {
 	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}

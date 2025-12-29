@@ -3,7 +3,6 @@ package ext_debug_utils
 import "C"
 import (
 	"github.com/CannibalVox/cgoparam"
-	core "github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
@@ -17,7 +16,7 @@ import (
 type VulkanExtensionDriver struct {
 	loader     ext_driver.Loader
 	coreLoader loader.Loader
-	instance   core.Instance
+	instance   core1_0.Instance
 }
 
 // ExtensionDriver contains all the commands for the ext_debug_utils extension
@@ -43,13 +42,13 @@ type ExtensionDriver interface {
 	// label - specifies parameters of the label region to open
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdBeginDebugUtilsLabelEXT.html
-	CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error
+	CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label DebugUtilsLabel) error
 	// CmdEndDebugUtilsLabel closes a CommandBuffer label region
 	//
 	// commandBuffer - the CommandBuffer into which the command is recorded
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdEndDebugUtilsLabelEXT.html
-	CmdEndDebugUtilsLabel(commandBuffer core.CommandBuffer)
+	CmdEndDebugUtilsLabel(commandBuffer core1_0.CommandBuffer)
 	// CmdInsertDebugUtilsLabel inserts a label into a CommandBuffer
 	//
 	// commandBuffer - the CommandBuffer into which the command is recorded
@@ -57,7 +56,7 @@ type ExtensionDriver interface {
 	// label - specifies parameters of the label to insert
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCmdInsertDebugUtilsLabelEXT.html
-	CmdInsertDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error
+	CmdInsertDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label DebugUtilsLabel) error
 
 	// QueueBeginDebugUtilsLabel opens a Queue debug label region
 	//
@@ -66,13 +65,13 @@ type ExtensionDriver interface {
 	// label - Specifies parameters of the label region to open
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkQueueBeginDebugUtilsLabelEXT.html
-	QueueBeginDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error
+	QueueBeginDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error
 	// QueueEndDebugUtilsLabel closes a Queue debug label region
 	//
 	// queue - The Queue in which a debug label region should be closed
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkQueueEndDebugUtilsLabelEXT.html
-	QueueEndDebugUtilsLabel(queue core.Queue)
+	QueueEndDebugUtilsLabel(queue core1_0.Queue)
 	// QueueInsertDebugUtilsLabel inserts a label into a Queue
 	//
 	// queue - The Queue into which a debug label will be inserted
@@ -80,7 +79,7 @@ type ExtensionDriver interface {
 	// label - Specifies parameters of the label to insert
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkQueueInsertDebugUtilsLabelEXT.html
-	QueueInsertDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error
+	QueueInsertDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error
 
 	// SetDebugUtilsObjectName gives a user-friendly name to an object
 	//
@@ -89,7 +88,7 @@ type ExtensionDriver interface {
 	// name - Specifies parameters of the name to set on the object
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkSetDebugUtilsObjectNameEXT.html
-	SetDebugUtilsObjectName(device core.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error)
+	SetDebugUtilsObjectName(device core1_0.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error)
 	// SetDebugUtilsObjectTag attaches arbitrary data to an object
 	//
 	// device - The Device that created the object
@@ -97,7 +96,7 @@ type ExtensionDriver interface {
 	// tag - Specifies parameters of the tag to attach to the object
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkSetDebugUtilsObjectTagEXT.html
-	SetDebugUtilsObjectTag(device core.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error)
+	SetDebugUtilsObjectTag(device core1_0.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error)
 
 	// SubmitDebugUtilsMessage injects a message into a debug stream
 	//
@@ -130,7 +129,7 @@ func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.CoreInstanceDriver) 
 
 // CreateDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
-func CreateDriverFromLoader(loader ext_driver.Loader, coreLoader loader.Loader, instance core.Instance) *VulkanExtensionDriver {
+func CreateDriverFromLoader(loader ext_driver.Loader, coreLoader loader.Loader, instance core1_0.Instance) *VulkanExtensionDriver {
 	return &VulkanExtensionDriver{
 		loader:     loader,
 		coreLoader: coreLoader,
@@ -163,7 +162,7 @@ func (l *VulkanExtensionDriver) CreateDebugUtilsMessenger(allocation *loader.All
 	return newMessenger, res, nil
 }
 
-func (l *VulkanExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label DebugUtilsLabel) error {
 	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -180,14 +179,14 @@ func (l *VulkanExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core.Comma
 	return nil
 }
 
-func (l *VulkanExtensionDriver) CmdEndDebugUtilsLabel(buffer core.CommandBuffer) {
+func (l *VulkanExtensionDriver) CmdEndDebugUtilsLabel(buffer core1_0.CommandBuffer) {
 	if !buffer.Initialized() {
 		panic("buffer cannot be uninitialized")
 	}
 	l.loader.VkCmdEndDebugUtilsLabelEXT(buffer.Handle())
 }
 
-func (l *VulkanExtensionDriver) CmdInsertDebugUtilsLabel(buffer core.CommandBuffer, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) CmdInsertDebugUtilsLabel(buffer core1_0.CommandBuffer, label DebugUtilsLabel) error {
 	if !buffer.Initialized() {
 		panic("buffer cannot be uninitialized")
 	}
@@ -204,7 +203,7 @@ func (l *VulkanExtensionDriver) CmdInsertDebugUtilsLabel(buffer core.CommandBuff
 	return nil
 }
 
-func (l *VulkanExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error {
 	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
@@ -221,14 +220,14 @@ func (l *VulkanExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, labe
 	return nil
 }
 
-func (l *VulkanExtensionDriver) QueueEndDebugUtilsLabel(queue core.Queue) {
+func (l *VulkanExtensionDriver) QueueEndDebugUtilsLabel(queue core1_0.Queue) {
 	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
 	l.loader.VkQueueEndDebugUtilsLabelEXT(queue.Handle())
 }
 
-func (l *VulkanExtensionDriver) QueueInsertDebugUtilsLabel(queue core.Queue, label DebugUtilsLabel) error {
+func (l *VulkanExtensionDriver) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label DebugUtilsLabel) error {
 	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
@@ -245,7 +244,7 @@ func (l *VulkanExtensionDriver) QueueInsertDebugUtilsLabel(queue core.Queue, lab
 	return nil
 }
 
-func (l *VulkanExtensionDriver) SetDebugUtilsObjectName(device core.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
+func (l *VulkanExtensionDriver) SetDebugUtilsObjectName(device core1_0.Device, name DebugUtilsObjectNameInfo) (common.VkResult, error) {
 	if !device.Initialized() {
 		panic("device cannot be uninitialized")
 	}
@@ -260,7 +259,7 @@ func (l *VulkanExtensionDriver) SetDebugUtilsObjectName(device core.Device, name
 	return l.loader.VkSetDebugUtilsObjectNameEXT(device.Handle(), (*ext_driver.VkDebugUtilsObjectNameInfoEXT)(namePtr))
 }
 
-func (l *VulkanExtensionDriver) SetDebugUtilsObjectTag(device core.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
+func (l *VulkanExtensionDriver) SetDebugUtilsObjectTag(device core1_0.Device, tag DebugUtilsObjectTagInfo) (common.VkResult, error) {
 	if !device.Initialized() {
 		panic("device cannot be uninitialized")
 	}

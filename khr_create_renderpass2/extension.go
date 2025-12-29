@@ -2,7 +2,6 @@ package khr_create_renderpass2
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
@@ -13,7 +12,7 @@ import (
 // is the default implementation. See the interface for more documentation.
 type VulkanExtensionDriver struct {
 	driver khr_create_renderpass2_loader.Loader
-	device core.Device
+	device core1_0.Device
 }
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
@@ -28,14 +27,14 @@ func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) Extens
 
 // CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
-func CreateExtensionDriverFromLoader(driver khr_create_renderpass2_loader.Loader, device core.Device) *VulkanExtensionDriver {
+func CreateExtensionDriverFromLoader(driver khr_create_renderpass2_loader.Loader, device core1_0.Device) *VulkanExtensionDriver {
 	return &VulkanExtensionDriver{
 		driver: driver,
 		device: device,
 	}
 }
 
-func (e *VulkanExtensionDriver) CmdBeginRenderPass2(commandBuffer core.CommandBuffer, renderPassBegin core1_0.RenderPassBeginInfo, subpassBegin SubpassBeginInfo) error {
+func (e *VulkanExtensionDriver) CmdBeginRenderPass2(commandBuffer core1_0.CommandBuffer, renderPassBegin core1_0.RenderPassBeginInfo, subpassBegin SubpassBeginInfo) error {
 	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -61,7 +60,7 @@ func (e *VulkanExtensionDriver) CmdBeginRenderPass2(commandBuffer core.CommandBu
 	return nil
 }
 
-func (e *VulkanExtensionDriver) CmdEndRenderPass2(commandBuffer core.CommandBuffer, subpassEnd SubpassEndInfo) error {
+func (e *VulkanExtensionDriver) CmdEndRenderPass2(commandBuffer core1_0.CommandBuffer, subpassEnd SubpassEndInfo) error {
 	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -81,7 +80,7 @@ func (e *VulkanExtensionDriver) CmdEndRenderPass2(commandBuffer core.CommandBuff
 	return nil
 }
 
-func (e *VulkanExtensionDriver) CmdNextSubpass2(commandBuffer core.CommandBuffer, subpassBegin SubpassBeginInfo, subpassEnd SubpassEndInfo) error {
+func (e *VulkanExtensionDriver) CmdNextSubpass2(commandBuffer core1_0.CommandBuffer, subpassBegin SubpassBeginInfo, subpassEnd SubpassEndInfo) error {
 	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -107,13 +106,13 @@ func (e *VulkanExtensionDriver) CmdNextSubpass2(commandBuffer core.CommandBuffer
 	return nil
 }
 
-func (e *VulkanExtensionDriver) CreateRenderPass2(allocator *loader.AllocationCallbacks, options RenderPassCreateInfo2) (core.RenderPass, common.VkResult, error) {
+func (e *VulkanExtensionDriver) CreateRenderPass2(allocator *loader.AllocationCallbacks, options RenderPassCreateInfo2) (core1_0.RenderPass, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
 	infoPtr, err := common.AllocOptions(arena, options)
 	if err != nil {
-		return core.RenderPass{}, core1_0.VKErrorUnknown, err
+		return core1_0.RenderPass{}, core1_0.VKErrorUnknown, err
 	}
 
 	var renderPassHandle loader.VkRenderPass
@@ -124,10 +123,10 @@ func (e *VulkanExtensionDriver) CreateRenderPass2(allocator *loader.AllocationCa
 		&renderPassHandle,
 	)
 	if err != nil {
-		return core.RenderPass{}, res, err
+		return core1_0.RenderPass{}, res, err
 	}
 
-	renderPass := core.InternalRenderPass(
+	renderPass := core1_0.InternalRenderPass(
 		e.device.Handle(),
 		renderPassHandle,
 		e.device.APIVersion(),

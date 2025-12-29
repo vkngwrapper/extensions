@@ -12,9 +12,9 @@ package mock_descriptor_update_template
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
+	core1_1 "github.com/vkngwrapper/core/v3/core1_1"
 	loader "github.com/vkngwrapper/core/v3/loader"
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	gomock "go.uber.org/mock/gomock"
@@ -45,10 +45,10 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // CreateDescriptorUpdateTemplate mocks base method.
-func (m *MockExtensionDriver) CreateDescriptorUpdateTemplate(o khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core.DescriptorUpdateTemplate, common.VkResult, error) {
+func (m *MockExtensionDriver) CreateDescriptorUpdateTemplate(o khr_descriptor_update_template.DescriptorUpdateTemplateCreateInfo, allocator *loader.AllocationCallbacks) (core1_1.DescriptorUpdateTemplate, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateDescriptorUpdateTemplate", o, allocator)
-	ret0, _ := ret[0].(core.DescriptorUpdateTemplate)
+	ret0, _ := ret[0].(core1_1.DescriptorUpdateTemplate)
 	ret1, _ := ret[1].(common.VkResult)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
@@ -61,7 +61,7 @@ func (mr *MockExtensionDriverMockRecorder) CreateDescriptorUpdateTemplate(o, all
 }
 
 // DestroyDescriptorUpdateTemplate mocks base method.
-func (m *MockExtensionDriver) DestroyDescriptorUpdateTemplate(template core.DescriptorUpdateTemplate, allocator *loader.AllocationCallbacks) {
+func (m *MockExtensionDriver) DestroyDescriptorUpdateTemplate(template core1_1.DescriptorUpdateTemplate, allocator *loader.AllocationCallbacks) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "DestroyDescriptorUpdateTemplate", template, allocator)
 }
@@ -73,7 +73,7 @@ func (mr *MockExtensionDriverMockRecorder) DestroyDescriptorUpdateTemplate(templ
 }
 
 // UpdateDescriptorSetWithTemplateFromBuffer mocks base method.
-func (m *MockExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorBufferInfo) {
+func (m *MockExtensionDriver) UpdateDescriptorSetWithTemplateFromBuffer(descriptorSet core1_0.DescriptorSet, template core1_1.DescriptorUpdateTemplate, data core1_0.DescriptorBufferInfo) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "UpdateDescriptorSetWithTemplateFromBuffer", descriptorSet, template, data)
 }
@@ -85,7 +85,7 @@ func (mr *MockExtensionDriverMockRecorder) UpdateDescriptorSetWithTemplateFromBu
 }
 
 // UpdateDescriptorSetWithTemplateFromImage mocks base method.
-func (m *MockExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data core1_0.DescriptorImageInfo) {
+func (m *MockExtensionDriver) UpdateDescriptorSetWithTemplateFromImage(descriptorSet core1_0.DescriptorSet, template core1_1.DescriptorUpdateTemplate, data core1_0.DescriptorImageInfo) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "UpdateDescriptorSetWithTemplateFromImage", descriptorSet, template, data)
 }
@@ -97,7 +97,7 @@ func (mr *MockExtensionDriverMockRecorder) UpdateDescriptorSetWithTemplateFromIm
 }
 
 // UpdateDescriptorSetWithTemplateFromObjectHandle mocks base method.
-func (m *MockExtensionDriver) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet core.DescriptorSet, template core.DescriptorUpdateTemplate, data loader.VulkanHandle) {
+func (m *MockExtensionDriver) UpdateDescriptorSetWithTemplateFromObjectHandle(descriptorSet core1_0.DescriptorSet, template core1_1.DescriptorUpdateTemplate, data loader.VulkanHandle) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "UpdateDescriptorSetWithTemplateFromObjectHandle", descriptorSet, template, data)
 }

@@ -10,8 +10,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // RenderPassAttachmentBeginInfo specifies Image objects to be used as Framebuffer attachments
@@ -20,7 +20,7 @@ import (
 type RenderPassAttachmentBeginInfo struct {
 	// Attachments is a slice of ImageView objects, each of which will be used as the corresponding
 	// attachment in the RenderPass instance
-	Attachments []core.ImageView
+	Attachments []core1_0.ImageView
 
 	common.NextOptions
 }

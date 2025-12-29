@@ -10,8 +10,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_1"
 )
 
 // SamplerYcbcrConversionInfo specifies a Y'CbCr conversion to a Sampler or ImageView
@@ -19,7 +19,7 @@ import (
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkSamplerYcbcrConversionInfo.html
 type SamplerYcbcrConversionInfo struct {
 	// Conversion is a SamplerYcbcrConversion object created from the Device
-	Conversion core.SamplerYcbcrConversion
+	Conversion core1_1.SamplerYcbcrConversion
 
 	common.NextOptions
 }

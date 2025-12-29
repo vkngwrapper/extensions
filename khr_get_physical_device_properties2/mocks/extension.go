@@ -12,7 +12,6 @@ package mock_get_physical_device_properties2
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
@@ -44,7 +43,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // GetPhysicalDeviceFeatures2 mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceFeatures2(physicalDevice core.PhysicalDevice, out *khr_get_physical_device_properties2.PhysicalDeviceFeatures2) error {
+func (m *MockExtensionDriver) GetPhysicalDeviceFeatures2(physicalDevice core1_0.PhysicalDevice, out *khr_get_physical_device_properties2.PhysicalDeviceFeatures2) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceFeatures2", physicalDevice, out)
 	ret0, _ := ret[0].(error)
@@ -58,7 +57,7 @@ func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceFeatures2(physicalDe
 }
 
 // GetPhysicalDeviceFormatProperties2 mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceFormatProperties2(physicalDevice core.PhysicalDevice, format core1_0.Format, out *khr_get_physical_device_properties2.FormatProperties2) error {
+func (m *MockExtensionDriver) GetPhysicalDeviceFormatProperties2(physicalDevice core1_0.PhysicalDevice, format core1_0.Format, out *khr_get_physical_device_properties2.FormatProperties2) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceFormatProperties2", physicalDevice, format, out)
 	ret0, _ := ret[0].(error)
@@ -72,7 +71,7 @@ func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceFormatProperties2(ph
 }
 
 // GetPhysicalDeviceImageFormatProperties2 mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceImageFormatProperties2(physicalDevice core.PhysicalDevice, options khr_get_physical_device_properties2.PhysicalDeviceImageFormatInfo2, out *khr_get_physical_device_properties2.ImageFormatProperties2) (common.VkResult, error) {
+func (m *MockExtensionDriver) GetPhysicalDeviceImageFormatProperties2(physicalDevice core1_0.PhysicalDevice, options khr_get_physical_device_properties2.PhysicalDeviceImageFormatInfo2, out *khr_get_physical_device_properties2.ImageFormatProperties2) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceImageFormatProperties2", physicalDevice, options, out)
 	ret0, _ := ret[0].(common.VkResult)
@@ -87,7 +86,7 @@ func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceImageFormatPropertie
 }
 
 // GetPhysicalDeviceMemoryProperties2 mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceMemoryProperties2(physicalDevice core.PhysicalDevice, out *khr_get_physical_device_properties2.PhysicalDeviceMemoryProperties2) error {
+func (m *MockExtensionDriver) GetPhysicalDeviceMemoryProperties2(physicalDevice core1_0.PhysicalDevice, out *khr_get_physical_device_properties2.PhysicalDeviceMemoryProperties2) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceMemoryProperties2", physicalDevice, out)
 	ret0, _ := ret[0].(error)
@@ -101,7 +100,7 @@ func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceMemoryProperties2(ph
 }
 
 // GetPhysicalDeviceProperties2 mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceProperties2(physicalDevice core.PhysicalDevice, out *khr_get_physical_device_properties2.PhysicalDeviceProperties2) error {
+func (m *MockExtensionDriver) GetPhysicalDeviceProperties2(physicalDevice core1_0.PhysicalDevice, out *khr_get_physical_device_properties2.PhysicalDeviceProperties2) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceProperties2", physicalDevice, out)
 	ret0, _ := ret[0].(error)
@@ -115,7 +114,7 @@ func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceProperties2(physical
 }
 
 // GetPhysicalDeviceQueueFamilyProperties2 mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceQueueFamilyProperties2(physicalDevice core.PhysicalDevice, outDataFactory func() *khr_get_physical_device_properties2.QueueFamilyProperties2) ([]*khr_get_physical_device_properties2.QueueFamilyProperties2, error) {
+func (m *MockExtensionDriver) GetPhysicalDeviceQueueFamilyProperties2(physicalDevice core1_0.PhysicalDevice, outDataFactory func() *khr_get_physical_device_properties2.QueueFamilyProperties2) ([]*khr_get_physical_device_properties2.QueueFamilyProperties2, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceQueueFamilyProperties2", physicalDevice, outDataFactory)
 	ret0, _ := ret[0].([]*khr_get_physical_device_properties2.QueueFamilyProperties2)
@@ -130,7 +129,7 @@ func (mr *MockExtensionDriverMockRecorder) GetPhysicalDeviceQueueFamilyPropertie
 }
 
 // GetPhysicalDeviceSparseImageFormatProperties2 mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceSparseImageFormatProperties2(physicalDevice core.PhysicalDevice, options khr_get_physical_device_properties2.PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *khr_get_physical_device_properties2.SparseImageFormatProperties2) ([]*khr_get_physical_device_properties2.SparseImageFormatProperties2, error) {
+func (m *MockExtensionDriver) GetPhysicalDeviceSparseImageFormatProperties2(physicalDevice core1_0.PhysicalDevice, options khr_get_physical_device_properties2.PhysicalDeviceSparseImageFormatInfo2, outDataFactory func() *khr_get_physical_device_properties2.SparseImageFormatProperties2) ([]*khr_get_physical_device_properties2.SparseImageFormatProperties2, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceSparseImageFormatProperties2", physicalDevice, options, outDataFactory)
 	ret0, _ := ret[0].([]*khr_get_physical_device_properties2.SparseImageFormatProperties2)

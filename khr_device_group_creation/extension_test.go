@@ -6,7 +6,6 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
@@ -360,7 +359,7 @@ func TestDeviceGroupOptions(t *testing.T) {
 			},
 		},
 		NextOptions: common.NextOptions{Next: khr_device_group_creation.DeviceGroupDeviceCreateInfo{
-			PhysicalDevices: []core.PhysicalDevice{physicalDevice1, physicalDevice2, physicalDevice3},
+			PhysicalDevices: []core1_0.PhysicalDevice{physicalDevice1, physicalDevice2, physicalDevice3},
 		}},
 	})
 	require.NoError(t, err)

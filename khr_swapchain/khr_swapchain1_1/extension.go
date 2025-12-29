@@ -9,7 +9,6 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
@@ -42,7 +41,7 @@ func PromoteExtension(extension khr_swapchain.ExtensionDriver) *VulkanExtensionD
 
 // CreateExtensionFromDriver generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
-func CreateExtensionFromDriver(driver khr_swapchain_driver.Loader, device core.Device) *VulkanExtensionDriver {
+func CreateExtensionFromDriver(driver khr_swapchain_driver.Loader, device core1_0.Device) *VulkanExtensionDriver {
 	return &VulkanExtensionDriver{
 		ExtensionDriver: khr_swapchain.CreateExtensionDriverFromLoader(driver, device),
 		driver:          driver,
@@ -118,7 +117,7 @@ func (v *VulkanExtensionDriver) DeviceGroupSurfacePresentModeFlags(surface khr_s
 	return DeviceGroupPresentModeFlags(*flagsPtr), res, nil
 }
 
-func (v *VulkanExtensionDriver) attemptGetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+func (v *VulkanExtensionDriver) attemptGetPhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(arena)
 
@@ -162,7 +161,7 @@ func (v *VulkanExtensionDriver) attemptGetPhysicalDevicePresentRectangles(physic
 	return outRects, res, nil
 }
 
-func (v *VulkanExtensionDriver) GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+func (v *VulkanExtensionDriver) GetPhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
 	if !physicalDevice.Initialized() {
 		panic("physicalDevice cannot be uninitialized")
 	}

@@ -1,8 +1,8 @@
 package khr_sampler_ycbcr_conversion
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_1"
 	"github.com/vkngwrapper/core/v3/loader"
 )
 
@@ -21,7 +21,7 @@ type ExtensionDriver interface {
 	// allocator - Controls host allocation behavior
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkCreateSamplerYcbcrConversion.html
-	CreateSamplerYcbcrConversion(o SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core.SamplerYcbcrConversion, common.VkResult, error)
+	CreateSamplerYcbcrConversion(o SamplerYcbcrConversionCreateInfo, allocator *loader.AllocationCallbacks) (core1_1.SamplerYcbcrConversion, common.VkResult, error)
 
 	// DestroySamplerYcbcrConversion destroys the SamplerYcbcrConversion object and the underlying structures. **Warning** after
 	// destruction, this object will continue to exist, but the Vulkan object handle that backs it will
@@ -30,5 +30,5 @@ type ExtensionDriver interface {
 	// callbacks - Controls host memory deallocation
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkDestroySamplerYcbcrConversion.html
-	DestroySamplerYcbcrConversion(conversion core.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks)
+	DestroySamplerYcbcrConversion(conversion core1_1.SamplerYcbcrConversion, allocator *loader.AllocationCallbacks)
 }

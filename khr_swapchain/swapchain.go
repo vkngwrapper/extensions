@@ -9,8 +9,8 @@ import (
 	"math/rand"
 	"unsafe"
 
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 )
@@ -38,7 +38,7 @@ func (s Swapchain) Initialized() bool {
 	return s.handle != 0
 }
 
-func NewDummySwapchain(device core.Device) Swapchain {
+func NewDummySwapchain(device core1_0.Device) Swapchain {
 	return Swapchain{
 		handle:     khr_swapchain_driver.VkSwapchainKHR(unsafe.Pointer(uintptr(rand.Int()))),
 		device:     device.Handle(),

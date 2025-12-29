@@ -12,7 +12,6 @@ package mock_swapchain
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_surface "github.com/vkngwrapper/extensions/v3/khr_surface"
@@ -92,7 +91,7 @@ func (mr *MockExtensionDriverMockRecorder) GetDeviceGroupPresentCapabilities(out
 }
 
 // GetPhysicalDevicePresentRectangles mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+func (m *MockExtensionDriver) GetPhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDevicePresentRectangles", physicalDevice, surface)
 	ret0, _ := ret[0].([]core1_0.Rect2D)

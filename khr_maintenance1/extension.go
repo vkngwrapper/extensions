@@ -3,7 +3,6 @@ package khr_maintenance1
 //go:generate mockgen -source extension.go -destination ./mocks/extension.go -package mock_maintenance1
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance1/loader"
 )
@@ -19,7 +18,7 @@ type ExtensionDriver interface {
 	// flags - Reserved for future use
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkTrimCommandPool.html
-	TrimCommandPool(commandPool core.CommandPool, flags CommandPoolTrimFlags)
+	TrimCommandPool(commandPool core1_0.CommandPool, flags CommandPoolTrimFlags)
 }
 
 // VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
@@ -49,7 +48,7 @@ func CreateExtensionDriverFromLoader(driver khr_maintenance1_loader.Loader) *Vul
 	}
 }
 
-func (e *VulkanExtensionDriver) TrimCommandPool(commandPool core.CommandPool, flags CommandPoolTrimFlags) {
+func (e *VulkanExtensionDriver) TrimCommandPool(commandPool core1_0.CommandPool, flags CommandPoolTrimFlags) {
 	if !commandPool.Initialized() {
 		panic("commandPool cannot be uninitialized")
 	}

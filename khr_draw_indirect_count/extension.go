@@ -1,7 +1,6 @@
 package khr_draw_indirect_count
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
 	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count/loader"
@@ -35,7 +34,7 @@ func CreateExtensionDriverFromLoader(driver khr_draw_indirect_count_loader.Loade
 	return ext
 }
 
-func (e *VulkanExtensionDriver) CmdDrawIndexedIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+func (e *VulkanExtensionDriver) CmdDrawIndexedIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
 	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
@@ -56,7 +55,7 @@ func (e *VulkanExtensionDriver) CmdDrawIndexedIndirectCount(commandBuffer core.C
 	)
 }
 
-func (e *VulkanExtensionDriver) CmdDrawIndirectCount(commandBuffer core.CommandBuffer, buffer core.Buffer, offset uint64, countBuffer core.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
+func (e *VulkanExtensionDriver) CmdDrawIndirectCount(commandBuffer core1_0.CommandBuffer, buffer core1_0.Buffer, offset uint64, countBuffer core1_0.Buffer, countBufferOffset uint64, maxDrawCount, stride int) {
 	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}

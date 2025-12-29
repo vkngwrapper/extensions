@@ -10,8 +10,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // DeviceGroupDeviceCreateInfo creates a logical Device from multiple PhysicalDevice objects
@@ -19,7 +19,7 @@ import (
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkDeviceGroupDeviceCreateInfo.html
 type DeviceGroupDeviceCreateInfo struct {
 	// PhysicalDevices is a slice of PhysicalDevice objects belonging to the same Device group
-	PhysicalDevices []core.PhysicalDevice
+	PhysicalDevices []core1_0.PhysicalDevice
 
 	common.NextOptions
 }

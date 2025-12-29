@@ -12,7 +12,7 @@ package mock_external_fence_capabilities
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_external_fence_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -42,7 +42,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // GetPhysicalDeviceExternalFenceProperties mocks base method.
-func (m *MockExtensionDriver) GetPhysicalDeviceExternalFenceProperties(physicalDevice core.PhysicalDevice, o khr_external_fence_capabilities.PhysicalDeviceExternalFenceInfo, outData *khr_external_fence_capabilities.ExternalFenceProperties) error {
+func (m *MockExtensionDriver) GetPhysicalDeviceExternalFenceProperties(physicalDevice core1_0.PhysicalDevice, o khr_external_fence_capabilities.PhysicalDeviceExternalFenceInfo, outData *khr_external_fence_capabilities.ExternalFenceProperties) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDeviceExternalFenceProperties", physicalDevice, o, outData)
 	ret0, _ := ret[0].(error)

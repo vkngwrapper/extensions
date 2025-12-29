@@ -2,7 +2,6 @@ package khr_buffer_device_address
 
 import (
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address/loader"
@@ -12,7 +11,7 @@ import (
 // is the default implementation. See the interface for more documentation.
 type VulkanExtensionDriver struct {
 	driver khr_buffer_device_address_loader.Loader
-	device core.Device
+	device core1_0.Device
 }
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
@@ -27,7 +26,7 @@ func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) Extens
 
 // CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
-func CreateExtensionDriverFromLoader(driver khr_buffer_device_address_loader.Loader, device core.Device) *VulkanExtensionDriver {
+func CreateExtensionDriverFromLoader(driver khr_buffer_device_address_loader.Loader, device core1_0.Device) *VulkanExtensionDriver {
 	return &VulkanExtensionDriver{
 		driver: driver,
 		device: device,

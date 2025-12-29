@@ -13,8 +13,8 @@ import (
 	reflect "reflect"
 	time "time"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_timeline_semaphore "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -44,7 +44,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // GetSemaphoreCounterValue mocks base method.
-func (m *MockExtensionDriver) GetSemaphoreCounterValue(semaphore core.Semaphore) (uint64, common.VkResult, error) {
+func (m *MockExtensionDriver) GetSemaphoreCounterValue(semaphore core1_0.Semaphore) (uint64, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSemaphoreCounterValue", semaphore)
 	ret0, _ := ret[0].(uint64)

@@ -4,12 +4,12 @@ import (
 	"math/rand"
 	"unsafe"
 
-	"github.com/vkngwrapper/core/v3"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
 	khr_surface_loader "github.com/vkngwrapper/extensions/v3/khr_surface/loader"
 )
 
-func NewDummySurface(instance core.Instance) khr_surface.Surface {
+func NewDummySurface(instance core1_0.Instance) khr_surface.Surface {
 	return khr_surface.InternalSurface(instance.Handle(), NewFakeSurfaceHandle(), instance.APIVersion())
 }
 

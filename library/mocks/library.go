@@ -12,7 +12,6 @@ package mock_extensions
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	ext_debug_utils "github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	ext_host_query_reset "github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
@@ -146,7 +145,7 @@ func (mr *MockLibraryMockRecorder) KhrDescriptorUpdateTemplate(driver any) *gomo
 }
 
 // KhrDeviceGroup mocks base method.
-func (m *MockLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance core.Instance) khr_device_group.ExtensionDriver {
+func (m *MockLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance core1_0.Instance) khr_device_group.ExtensionDriver {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "KhrDeviceGroup", driver, instance)
 	ret0, _ := ret[0].(khr_device_group.ExtensionDriver)

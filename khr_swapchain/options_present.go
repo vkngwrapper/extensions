@@ -10,8 +10,8 @@ import (
 
 	"github.com/CannibalVox/cgoparam"
 	"github.com/pkg/errors"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
 // PresentOutData represents optionally-returned data from the ExtensionDriver.QueuePresent command
@@ -27,7 +27,7 @@ type PresentOutData struct {
 // https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPresentInfoKHR.html
 type PresentInfo struct {
 	// WaitSemaphores is a slice of Semaphore objects to wait for before issuing the present request
-	WaitSemaphores []core.Semaphore
+	WaitSemaphores []core1_0.Semaphore
 	// Swapchains is a slice of Swapchain objects being presented to by this command
 	Swapchains []Swapchain
 	// ImageIndices is a slice of indices into the array of each Swapchain object's presentable Image objects.

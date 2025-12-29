@@ -12,7 +12,7 @@ package mock_maintenance1
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_maintenance1 "github.com/vkngwrapper/extensions/v3/khr_maintenance1"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -42,7 +42,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // TrimCommandPool mocks base method.
-func (m *MockExtensionDriver) TrimCommandPool(commandPool core.CommandPool, flags khr_maintenance1.CommandPoolTrimFlags) {
+func (m *MockExtensionDriver) TrimCommandPool(commandPool core1_0.CommandPool, flags khr_maintenance1.CommandPoolTrimFlags) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "TrimCommandPool", commandPool, flags)
 }

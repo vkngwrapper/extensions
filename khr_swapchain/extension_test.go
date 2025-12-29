@@ -6,7 +6,6 @@ import (
 	"unsafe"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
@@ -141,7 +140,7 @@ func TestVulkanExtension_PresentToQueue_NullOutData(t *testing.T) {
 		})
 
 	options := khr_swapchain.PresentInfo{
-		WaitSemaphores: []core.Semaphore{semaphore1, semaphore2},
+		WaitSemaphores: []core1_0.Semaphore{semaphore1, semaphore2},
 		Swapchains:     []khr_swapchain.Swapchain{swapchain},
 		ImageIndices:   []int{2},
 	}
@@ -198,7 +197,7 @@ func TestVulkanExtension_PresentToQueue_RealOutData(t *testing.T) {
 
 	outData := khr_swapchain.PresentOutData{}
 	_, err := extension.QueuePresent(queue, khr_swapchain.PresentInfo{
-		WaitSemaphores: []core.Semaphore{semaphore1, semaphore2},
+		WaitSemaphores: []core1_0.Semaphore{semaphore1, semaphore2},
 		Swapchains:     []khr_swapchain.Swapchain{swapchain},
 		ImageIndices:   []int{2},
 		OutData:        &outData,

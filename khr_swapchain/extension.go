@@ -13,7 +13,6 @@ import (
 	"unsafe"
 
 	"github.com/CannibalVox/cgoparam"
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
@@ -25,7 +24,7 @@ import (
 type VulkanExtensionDriver struct {
 	loader  khr_swapchain_loader.Loader
 	version common.APIVersion
-	device  core.Device
+	device  core1_0.Device
 }
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
@@ -46,7 +45,7 @@ func CreateExtensionDriverFromCoreDriver(driver core1_0.DeviceDriver) ExtensionD
 
 // CreateExtensionDriverFromLoader generates an ExtensionDriver from a loader.Loader object- this is usually
 // used in tests to build an ExtensionDriver from mock drivers
-func CreateExtensionDriverFromLoader(loader khr_swapchain_loader.Loader, device core.Device) *VulkanExtensionDriver {
+func CreateExtensionDriverFromLoader(loader khr_swapchain_loader.Loader, device core1_0.Device) *VulkanExtensionDriver {
 	return &VulkanExtensionDriver{
 		loader:  loader,
 		version: common.APIVersion(math.MaxUint32),
@@ -62,7 +61,7 @@ func (s *VulkanExtensionDriver) APIVersion() common.APIVersion {
 	return s.version
 }
 
-func (s *VulkanExtensionDriver) Device() core.Device { return s.device }
+func (s *VulkanExtensionDriver) Device() core1_0.Device { return s.device }
 
 func (s *VulkanExtensionDriver) CreateSwapchain(allocation *loader.AllocationCallbacks, options SwapchainCreateInfo) (Swapchain, common.VkResult, error) {
 	arena := cgoparam.GetAlloc()
@@ -88,7 +87,7 @@ func (s *VulkanExtensionDriver) CreateSwapchain(allocation *loader.AllocationCal
 	return newSwapchain, res, nil
 }
 
-func (s *VulkanExtensionDriver) QueuePresent(queue core.Queue, o PresentInfo) (common.VkResult, error) {
+func (s *VulkanExtensionDriver) QueuePresent(queue core1_0.Queue, o PresentInfo) (common.VkResult, error) {
 	if !queue.Initialized() {
 		panic("queue cannot be uninitialized")
 	}
@@ -113,7 +112,7 @@ func (s *VulkanExtensionDriver) QueuePresent(queue core.Queue, o PresentInfo) (c
 	return res, res.ToError()
 }
 
-func (s *VulkanExtensionDriver) attemptImages(swapchain Swapchain) ([]core.Image, common.VkResult, error) {
+func (s *VulkanExtensionDriver) attemptImages(swapchain Swapchain) ([]core1_0.Image, common.VkResult, error) {
 	allocator := cgoparam.GetAlloc()
 	defer cgoparam.ReturnAlloc(allocator)
 
@@ -138,17 +137,17 @@ func (s *VulkanExtensionDriver) attemptImages(swapchain Swapchain) ([]core.Image
 	}
 
 	imagesSlice := ([]loader.VkImage)(unsafe.Slice(imagesPtr, imageCount))
-	var result []core.Image
+	var result []core1_0.Image
 	for i := 0; i < imageCount; i++ {
-		image := core.InternalImage(swapchain.DeviceHandle(), imagesSlice[i], swapchain.APIVersion())
+		image := core1_0.InternalImage(swapchain.DeviceHandle(), imagesSlice[i], swapchain.APIVersion())
 		result = append(result, image)
 	}
 
 	return result, res, nil
 }
 
-func (s *VulkanExtensionDriver) GetSwapchainImages(swapchain Swapchain) ([]core.Image, common.VkResult, error) {
-	var result []core.Image
+func (s *VulkanExtensionDriver) GetSwapchainImages(swapchain Swapchain) ([]core1_0.Image, common.VkResult, error) {
+	var result []core1_0.Image
 	var res common.VkResult
 	var err error
 
@@ -159,7 +158,7 @@ func (s *VulkanExtensionDriver) GetSwapchainImages(swapchain Swapchain) ([]core.
 	return result, res, err
 }
 
-func (s *VulkanExtensionDriver) AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore *core.Semaphore, fence *core.Fence) (int, common.VkResult, error) {
+func (s *VulkanExtensionDriver) AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore *core1_0.Semaphore, fence *core1_0.Fence) (int, common.VkResult, error) {
 	var imageIndex loader.Uint32
 
 	var semaphoreHandle loader.VkSemaphore

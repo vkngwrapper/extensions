@@ -12,8 +12,8 @@ package mock_debugutils
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	loader "github.com/vkngwrapper/core/v3/loader"
 	ext_debug_utils "github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	gomock "go.uber.org/mock/gomock"
@@ -44,7 +44,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // CmdBeginDebugUtilsLabel mocks base method.
-func (m *MockExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) CmdBeginDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CmdBeginDebugUtilsLabel", commandBuffer, label)
 	ret0, _ := ret[0].(error)
@@ -58,7 +58,7 @@ func (mr *MockExtensionDriverMockRecorder) CmdBeginDebugUtilsLabel(commandBuffer
 }
 
 // CmdEndDebugUtilsLabel mocks base method.
-func (m *MockExtensionDriver) CmdEndDebugUtilsLabel(commandBuffer core.CommandBuffer) {
+func (m *MockExtensionDriver) CmdEndDebugUtilsLabel(commandBuffer core1_0.CommandBuffer) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdEndDebugUtilsLabel", commandBuffer)
 }
@@ -70,7 +70,7 @@ func (mr *MockExtensionDriverMockRecorder) CmdEndDebugUtilsLabel(commandBuffer a
 }
 
 // CmdInsertDebugUtilsLabel mocks base method.
-func (m *MockExtensionDriver) CmdInsertDebugUtilsLabel(commandBuffer core.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) CmdInsertDebugUtilsLabel(commandBuffer core1_0.CommandBuffer, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CmdInsertDebugUtilsLabel", commandBuffer, label)
 	ret0, _ := ret[0].(error)
@@ -112,7 +112,7 @@ func (mr *MockExtensionDriverMockRecorder) DestroyDebugUtilsMessenger(messenger,
 }
 
 // QueueBeginDebugUtilsLabel mocks base method.
-func (m *MockExtensionDriver) QueueBeginDebugUtilsLabel(queue core.Queue, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) QueueBeginDebugUtilsLabel(queue core1_0.Queue, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "QueueBeginDebugUtilsLabel", queue, label)
 	ret0, _ := ret[0].(error)
@@ -126,7 +126,7 @@ func (mr *MockExtensionDriverMockRecorder) QueueBeginDebugUtilsLabel(queue, labe
 }
 
 // QueueEndDebugUtilsLabel mocks base method.
-func (m *MockExtensionDriver) QueueEndDebugUtilsLabel(queue core.Queue) {
+func (m *MockExtensionDriver) QueueEndDebugUtilsLabel(queue core1_0.Queue) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "QueueEndDebugUtilsLabel", queue)
 }
@@ -138,7 +138,7 @@ func (mr *MockExtensionDriverMockRecorder) QueueEndDebugUtilsLabel(queue any) *g
 }
 
 // QueueInsertDebugUtilsLabel mocks base method.
-func (m *MockExtensionDriver) QueueInsertDebugUtilsLabel(queue core.Queue, label ext_debug_utils.DebugUtilsLabel) error {
+func (m *MockExtensionDriver) QueueInsertDebugUtilsLabel(queue core1_0.Queue, label ext_debug_utils.DebugUtilsLabel) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "QueueInsertDebugUtilsLabel", queue, label)
 	ret0, _ := ret[0].(error)
@@ -152,7 +152,7 @@ func (mr *MockExtensionDriverMockRecorder) QueueInsertDebugUtilsLabel(queue, lab
 }
 
 // SetDebugUtilsObjectName mocks base method.
-func (m *MockExtensionDriver) SetDebugUtilsObjectName(device core.Device, name ext_debug_utils.DebugUtilsObjectNameInfo) (common.VkResult, error) {
+func (m *MockExtensionDriver) SetDebugUtilsObjectName(device core1_0.Device, name ext_debug_utils.DebugUtilsObjectNameInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetDebugUtilsObjectName", device, name)
 	ret0, _ := ret[0].(common.VkResult)
@@ -167,7 +167,7 @@ func (mr *MockExtensionDriverMockRecorder) SetDebugUtilsObjectName(device, name 
 }
 
 // SetDebugUtilsObjectTag mocks base method.
-func (m *MockExtensionDriver) SetDebugUtilsObjectTag(device core.Device, tag ext_debug_utils.DebugUtilsObjectTagInfo) (common.VkResult, error) {
+func (m *MockExtensionDriver) SetDebugUtilsObjectTag(device core1_0.Device, tag ext_debug_utils.DebugUtilsObjectTagInfo) (common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetDebugUtilsObjectTag", device, tag)
 	ret0, _ := ret[0].(common.VkResult)

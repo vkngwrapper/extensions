@@ -12,7 +12,6 @@ package mock_device_group
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
 	common "github.com/vkngwrapper/core/v3/common"
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	khr_device_group "github.com/vkngwrapper/extensions/v3/khr_device_group"
@@ -45,7 +44,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // CmdDispatchBase mocks base method.
-func (m *MockExtensionDriver) CmdDispatchBase(commandBuffer core.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
+func (m *MockExtensionDriver) CmdDispatchBase(commandBuffer core1_0.CommandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ int) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdDispatchBase", commandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ)
 }
@@ -57,7 +56,7 @@ func (mr *MockExtensionDriverMockRecorder) CmdDispatchBase(commandBuffer, baseGr
 }
 
 // CmdSetDeviceMask mocks base method.
-func (m *MockExtensionDriver) CmdSetDeviceMask(commandBuffer core.CommandBuffer, deviceMask uint32) {
+func (m *MockExtensionDriver) CmdSetDeviceMask(commandBuffer core1_0.CommandBuffer, deviceMask uint32) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CmdSetDeviceMask", commandBuffer, deviceMask)
 }
@@ -166,7 +165,7 @@ func (mr *MockExtensionDriverWithKHRSurfaceMockRecorder) GetDeviceGroupSurfacePr
 }
 
 // GetPhysicalDevicePresentRectangles mocks base method.
-func (m *MockExtensionDriverWithKHRSurface) GetPhysicalDevicePresentRectangles(physicalDevice core.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
+func (m *MockExtensionDriverWithKHRSurface) GetPhysicalDevicePresentRectangles(physicalDevice core1_0.PhysicalDevice, surface khr_surface.Surface) ([]core1_0.Rect2D, common.VkResult, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPhysicalDevicePresentRectangles", physicalDevice, surface)
 	ret0, _ := ret[0].([]core1_0.Rect2D)

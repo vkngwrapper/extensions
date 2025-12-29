@@ -14,7 +14,6 @@ import (
 )
 
 type PackageData struct {
-	CorePackagePath    string
 	Core1_0PackagePath string
 	SortedPackages     []string
 	InstancePackages   map[string]*packages.Package
@@ -59,7 +58,6 @@ func libraryHeader(contents *strings.Builder, pkgName string, packageData Packag
 	contents.WriteRune('\n')
 	contents.WriteString("import (\n")
 
-	contents.WriteString(fmt.Sprintf("\t\"%s\"\n", packageData.CorePackagePath))
 	contents.WriteString(fmt.Sprintf("\t\"%s\"\n", packageData.Core1_0PackagePath))
 	for _, path := range packageData.SortedPackages {
 		contents.WriteString(fmt.Sprintf("\t\"%s\"\n", path))
@@ -98,7 +96,7 @@ func buildLibraryFile(pkgName string, packageData PackageData) string {
 		}
 		contents.WriteString(fmt.Sprintf("func (l *extensionLibrary) %s(driver core1_0.DeviceDriver", toTitleCase(data.Package.Name)))
 		if data.ParamCount > 1 {
-			contents.WriteString(", instance core.Instance")
+			contents.WriteString(", instance core1_0.Instance")
 		}
 		contents.WriteString(fmt.Sprintf(") %s.ExtensionDriver {\n", data.Package.Name))
 		contents.WriteString(fmt.Sprintf("\t return %s.CreateExtensionDriverFromCoreDriver(driver", data.Package.Name))
@@ -132,7 +130,7 @@ func buildIfaceFile(pkgName string, packageData PackageData) string {
 
 		contents.WriteString(fmt.Sprintf("\t%s(driver core1_0.DeviceDriver", toTitleCase(data.Package.Name)))
 		if data.ParamCount > 1 {
-			contents.WriteString(", instance core.Instance")
+			contents.WriteString(", instance core1_0.Instance")
 		}
 		contents.WriteString(fmt.Sprintf(") %s.ExtensionDriver\n", data.Package.Name))
 	}
@@ -225,7 +223,7 @@ func findRelevantPackages() PackageData {
 			log.Fatalf("missing ExtensionName in %s but ExtensionDriver and CreateExtensionDriverFromCoreDriver are present\n", pkg.PkgPath)
 		}
 
-		if packageData.CorePackagePath == "" || packageData.Core1_0PackagePath == "" {
+		if packageData.Core1_0PackagePath == "" {
 			fillPackagePaths(pkg, &packageData)
 		}
 
@@ -240,7 +238,7 @@ func findRelevantPackages() PackageData {
 					return true
 				}
 
-				isInstance, paramCount := constructorIsInstance(pkg, funcDecl, packageData.Core1_0PackagePath, packageData.CorePackagePath)
+				isInstance, paramCount := constructorIsInstance(pkg, funcDecl, packageData.Core1_0PackagePath)
 				if isInstance {
 					packageData.InstancePackages[path] = pkg
 				} else {
@@ -272,16 +270,9 @@ func fillPackagePaths(pkg *packages.Package, packageData *PackageData) {
 	if packageData.Core1_0PackagePath == "" {
 		log.Fatalf("package %s did not imported the vkngwrapper core1_0 package", pkg.PkgPath)
 	}
-
-	for _, importedPkg := range pkg.Imports {
-		path := importedPkg.PkgPath
-		if path != packageData.Core1_0PackagePath && strings.HasPrefix(packageData.Core1_0PackagePath, path) {
-			packageData.CorePackagePath = path
-		}
-	}
 }
 
-func constructorIsInstance(pkg *packages.Package, decl *ast.FuncDecl, core10Path, corePath string) (instance bool, paramCount int) {
+func constructorIsInstance(pkg *packages.Package, decl *ast.FuncDecl, core10Path string) (instance bool, paramCount int) {
 	if decl.Type.Params == nil {
 		log.Fatalf("%s/CreateExtensionDriverFromCoreDriver does not have parameters, must have a single parameter of type core1_0.CoreInstanceDriver or core1_0.DeviceDriver\n", pkg.PkgPath)
 	}
@@ -341,20 +332,20 @@ func constructorIsInstance(pkg *packages.Package, decl *ast.FuncDecl, core10Path
 
 	// Device constructor may have one or two parameters
 	if len(params) == 2 {
-		// Second parameter must be core.Instance
+		// Second parameter must be core1_0.Instance
 		secondParamPath, secondParamType, ok := extractNamedType(pkg, params[1])
 		if !ok && secondParamPath == "" && secondParamType == "" {
-			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect parameter, second parameter must be of type core.Instance but was not a named type\n", pkg.PkgPath)
+			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect parameter, second parameter must be of type core1_0.Instance but was not a named type\n", pkg.PkgPath)
 		} else if !ok {
-			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect parameter, second parameter must be of type core.Instance but was a type alias named %s/%s\n", pkg.PkgPath, secondParamPath, secondParamType)
+			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect parameter, second parameter must be of type core1_0.Instance but was a type alias named %s/%s\n", pkg.PkgPath, secondParamPath, secondParamType)
 		}
 
 		if secondParamType != "Instance" {
-			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect parameter, must be of type core.Instance but was %s\n", pkg.PkgPath, secondParamType)
+			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect parameter, must be of type core1_0.Instance but was %s\n", pkg.PkgPath, secondParamType)
 		}
 
-		if secondParamPath != corePath {
-			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect second parameter: the type name is correct but the package is %s instead of %s\n", pkg.PkgPath, secondParamPath, corePath)
+		if secondParamPath != core10Path {
+			log.Fatalf("%s/CreateExtensionDriverFromCoreDriver has an incorrect second parameter: the type name is correct but the package is %s instead of %s\n", pkg.PkgPath, secondParamPath, core10Path)
 		}
 	}
 

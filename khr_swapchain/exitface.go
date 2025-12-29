@@ -3,8 +3,8 @@ package khr_swapchain
 import (
 	"time"
 
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/common"
+	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
 	khr_swapchain_driver "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 )
@@ -19,7 +19,7 @@ type ExtensionDriver interface {
 	// khr_swapchain1_1.PromoteExtension can be used to promote this to a khr_swapchain1_1.ExtensionDriver
 	APIVersion() common.APIVersion
 	// Device is the vulkan Device object that backs this device extension
-	Device() core.Device
+	Device() core1_0.Device
 
 	// CreateSwapchain creates a Swapchain
 	//
@@ -36,7 +36,7 @@ type ExtensionDriver interface {
 	// o - Specifies parameters of the presentation
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkQueuePresentKHR.html
-	QueuePresent(queue core.Queue, o PresentInfo) (common.VkResult, error)
+	QueuePresent(queue core1_0.Queue, o PresentInfo) (common.VkResult, error)
 
 	// DestroySwapchain deletes a Swapchain and underlying structures from the device. **Warning**
 	// after destruction, the object will still exist, but the Vulkan object handle
@@ -49,7 +49,7 @@ type ExtensionDriver interface {
 	// GetSwapchainImages obtains a slice of the presentable Image objects associated with a Swapchain
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetSwapchainImagesKHR.html
-	GetSwapchainImages(swapchain Swapchain) ([]core.Image, common.VkResult, error)
+	GetSwapchainImages(swapchain Swapchain) ([]core1_0.Image, common.VkResult, error)
 	// AcquireNextImage retrieves the index of the next available presentable Image in a Swapchain
 	//
 	// timeout - Specifies how long the function waits, in nanoseconds, if no Image is available, before
@@ -62,5 +62,5 @@ type ExtensionDriver interface {
 	// fence - Optionally, a Fence to signal when the Image is acquired
 	//
 	// https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkAcquireNextImageKHR.html
-	AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore *core.Semaphore, fence *core.Fence) (int, common.VkResult, error)
+	AcquireNextImage(swapchain Swapchain, timeout time.Duration, semaphore *core1_0.Semaphore, fence *core1_0.Fence) (int, common.VkResult, error)
 }

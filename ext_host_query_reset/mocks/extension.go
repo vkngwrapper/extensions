@@ -12,7 +12,7 @@ package mock_host_query_reset
 import (
 	reflect "reflect"
 
-	core "github.com/vkngwrapper/core/v3"
+	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -41,7 +41,7 @@ func (m *MockExtensionDriver) EXPECT() *MockExtensionDriverMockRecorder {
 }
 
 // ResetQueryPool mocks base method.
-func (m *MockExtensionDriver) ResetQueryPool(queryPool core.QueryPool, firstQuery, queryCount int) {
+func (m *MockExtensionDriver) ResetQueryPool(queryPool core1_0.QueryPool, firstQuery, queryCount int) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "ResetQueryPool", queryPool, firstQuery, queryCount)
 }

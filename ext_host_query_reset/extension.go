@@ -1,7 +1,6 @@
 package ext_host_query_reset
 
 import (
-	"github.com/vkngwrapper/core/v3"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
 	ext_host_query_reset_driver "github.com/vkngwrapper/extensions/v3/ext_host_query_reset/loader"
@@ -35,7 +34,7 @@ func CreateExtensionDriverFromLoader(driver ext_host_query_reset_driver.Loader) 
 	}
 }
 
-func (e *VulkanExtensionDriver) ResetQueryPool(queryPool core.QueryPool, firstQuery, queryCount int) {
+func (e *VulkanExtensionDriver) ResetQueryPool(queryPool core1_0.QueryPool, firstQuery, queryCount int) {
 	if !queryPool.Initialized() {
 		panic("queryPool cannot be uninitialized")
 	}
