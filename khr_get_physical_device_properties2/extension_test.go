@@ -268,7 +268,7 @@ func TestVulkanDevice_CreateDeviceWithFeatures(t *testing.T) {
 	actualDevice, _, err := driver.CreateDevice(physicalDevice, nil, options)
 	require.NoError(t, err)
 	require.NotNil(t, actualDevice)
-	require.Equal(t, device.Handle(), actualDevice.Handle())
+	require.Equal(t, device.Handle(), actualDevice.Device().Handle())
 }
 
 func TestVulkanExtension_PhysicalDeviceFormatProperties(t *testing.T) {

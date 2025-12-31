@@ -71,7 +71,7 @@ func TestPhysicalDeviceCoherentMemoryFeaturesOptions(t *testing.T) {
 			},
 		})
 	require.NoError(t, err)
-	require.Equal(t, mockDevice.Handle(), device.Handle())
+	require.Equal(t, mockDevice.Handle(), device.Device().Handle())
 }
 
 func TestPhysicalDeviceCoherentMemoryFeaturesOutData(t *testing.T) {

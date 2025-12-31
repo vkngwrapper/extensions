@@ -71,7 +71,7 @@ func TestPhysicalDeviceMemoryPriorityFeaturesOptions(t *testing.T) {
 			},
 		})
 	require.NoError(t, err)
-	require.Equal(t, mockDevice.Handle(), device.Handle())
+	require.Equal(t, mockDevice.Handle(), device.Device().Handle())
 }
 
 func TestPhysicalDeviceMemoryPriorityFeaturesOutData(t *testing.T) {

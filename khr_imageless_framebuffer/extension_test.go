@@ -177,7 +177,7 @@ func TestPhysicalDeviceImagelessFramebufferFeaturesOptions(t *testing.T) {
 			},
 		})
 	require.NoError(t, err)
-	require.Equal(t, mockDevice.Handle(), device.Handle())
+	require.Equal(t, mockDevice.Handle(), device.Device().Handle())
 }
 
 func TestPhysicalDeviceImagelessFramebufferFeaturesOutData(t *testing.T) {

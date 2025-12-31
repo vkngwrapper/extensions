@@ -73,7 +73,7 @@ func TestPhysicalDeviceMaintenance4Options(t *testing.T) {
 			},
 		})
 	require.NoError(t, err)
-	require.Equal(t, mockDevice.Handle(), device.Handle())
+	require.Equal(t, mockDevice.Handle(), device.Device().Handle())
 }
 
 func TestPhysicalDeviceMaintenance4OutData(t *testing.T) {

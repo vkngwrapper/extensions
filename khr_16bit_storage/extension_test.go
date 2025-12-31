@@ -70,7 +70,7 @@ func TestDevice16BitStorageOptions(t *testing.T) {
 
 	require.NoError(t, err)
 	require.NotNil(t, device)
-	require.Equal(t, expectedDevice.Handle(), device.Handle())
+	require.Equal(t, expectedDevice.Handle(), device.Device().Handle())
 }
 
 func TestDevice16BitStorageOutData(t *testing.T) {

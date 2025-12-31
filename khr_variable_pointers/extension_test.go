@@ -72,7 +72,7 @@ func TestVariablePointersFeaturesOptions(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.NotNil(t, device)
-	require.Equal(t, mockDevice.Handle(), device.Handle())
+	require.Equal(t, mockDevice.Handle(), device.Device().Handle())
 }
 
 func TestVariablePointersFeaturesOutData(t *testing.T) {

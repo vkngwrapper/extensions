@@ -363,5 +363,5 @@ func TestDeviceGroupOptions(t *testing.T) {
 		}},
 	})
 	require.NoError(t, err)
-	require.Equal(t, handle, device.Handle())
+	require.Equal(t, handle, device.Device().Handle())
 }
