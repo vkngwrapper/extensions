@@ -17,6 +17,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
 	"github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
+	"github.com/vkngwrapper/extensions/v3/khr_get_surface_capabilities2"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance1"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance3"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance4"
@@ -40,6 +41,7 @@ type Library interface {
 	KhrExternalSemaphoreCapabilities(driver core1_0.DeviceDriver) khr_external_semaphore_capabilities.ExtensionDriver
 	KhrGetMemoryRequirements2(driver core1_0.DeviceDriver) khr_get_memory_requirements2.ExtensionDriver
 	KhrGetPhysicalDeviceProperties2(driver core1_0.CoreInstanceDriver) khr_get_physical_device_properties2.ExtensionDriver
+	KhrGetSurfaceCapabilities2(driver core1_0.CoreInstanceDriver) khr_get_surface_capabilities2.ExtensionDriver
 	KhrMaintenance1(driver core1_0.DeviceDriver) khr_maintenance1.ExtensionDriver
 	KhrMaintenance3(driver core1_0.DeviceDriver) khr_maintenance3.ExtensionDriver
 	KhrMaintenance4(driver core1_0.DeviceDriver) khr_maintenance4.ExtensionDriver

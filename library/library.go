@@ -17,6 +17,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
 	"github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
+	"github.com/vkngwrapper/extensions/v3/khr_get_surface_capabilities2"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance1"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance3"
 	"github.com/vkngwrapper/extensions/v3/khr_maintenance4"
@@ -38,6 +39,10 @@ func (l *extensionLibrary) ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_
 
 func (l *extensionLibrary) KhrGetPhysicalDeviceProperties2(driver core1_0.CoreInstanceDriver) khr_get_physical_device_properties2.ExtensionDriver {
 	return khr_get_physical_device_properties2.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrGetSurfaceCapabilities2(driver core1_0.CoreInstanceDriver) khr_get_surface_capabilities2.ExtensionDriver {
+	return khr_get_surface_capabilities2.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrSurface(driver core1_0.CoreInstanceDriver) khr_surface.ExtensionDriver {

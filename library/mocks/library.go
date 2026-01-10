@@ -26,6 +26,7 @@ import (
 	khr_external_semaphore_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
 	khr_get_memory_requirements2 "github.com/vkngwrapper/extensions/v3/khr_get_memory_requirements2"
 	khr_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
+	khr_get_surface_capabilities2 "github.com/vkngwrapper/extensions/v3/khr_get_surface_capabilities2"
 	khr_maintenance1 "github.com/vkngwrapper/extensions/v3/khr_maintenance1"
 	khr_maintenance3 "github.com/vkngwrapper/extensions/v3/khr_maintenance3"
 	khr_maintenance4 "github.com/vkngwrapper/extensions/v3/khr_maintenance4"
@@ -240,6 +241,20 @@ func (m *MockLibrary) KhrGetPhysicalDeviceProperties2(driver core1_0.CoreInstanc
 func (mr *MockLibraryMockRecorder) KhrGetPhysicalDeviceProperties2(driver any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrGetPhysicalDeviceProperties2", reflect.TypeOf((*MockLibrary)(nil).KhrGetPhysicalDeviceProperties2), driver)
+}
+
+// KhrGetSurfaceCapabilities2 mocks base method.
+func (m *MockLibrary) KhrGetSurfaceCapabilities2(driver core1_0.CoreInstanceDriver) khr_get_surface_capabilities2.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KhrGetSurfaceCapabilities2", driver)
+	ret0, _ := ret[0].(khr_get_surface_capabilities2.ExtensionDriver)
+	return ret0
+}
+
+// KhrGetSurfaceCapabilities2 indicates an expected call of KhrGetSurfaceCapabilities2.
+func (mr *MockLibraryMockRecorder) KhrGetSurfaceCapabilities2(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrGetSurfaceCapabilities2", reflect.TypeOf((*MockLibrary)(nil).KhrGetSurfaceCapabilities2), driver)
 }
 
 // KhrMaintenance1 mocks base method.
