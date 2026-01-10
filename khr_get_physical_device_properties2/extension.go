@@ -157,14 +157,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceQueueFamilyProperties2(physical
 		return nil, nil
 	}
 
-	out := make([]*QueueFamilyProperties2, outDataCount)
-	for i := 0; i < outDataCount; i++ {
-		if outDataFactory != nil {
-			out[i] = outDataFactory()
-		} else {
-			out[i] = &QueueFamilyProperties2{}
-		}
-	}
+	out := common.InitSlice[QueueFamilyProperties2](outDataCount, outDataFactory)
 
 	outData, err := common.AllocOutDataHeaderSlice[C.VkQueueFamilyProperties2KHR, *QueueFamilyProperties2](arena, out)
 	if err != nil {
@@ -197,14 +190,7 @@ func (e *VulkanExtensionDriver) GetPhysicalDeviceSparseImageFormatProperties2(ph
 		return nil, nil
 	}
 
-	out := make([]*SparseImageFormatProperties2, outDataCount)
-	for i := 0; i < outDataCount; i++ {
-		if outDataFactory != nil {
-			out[i] = outDataFactory()
-		} else {
-			out[i] = &SparseImageFormatProperties2{}
-		}
-	}
+	out := common.InitSlice[SparseImageFormatProperties2](outDataCount, outDataFactory)
 
 	outData, err := common.AllocOutDataHeaderSlice[C.VkSparseImageFormatProperties2KHR, *SparseImageFormatProperties2](arena, out)
 	if err != nil {
