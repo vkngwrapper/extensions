@@ -14,6 +14,7 @@ import (
 
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	ext_debug_utils "github.com/vkngwrapper/extensions/v3/ext_debug_utils"
+	ext_full_screen_exclusive "github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	ext_host_query_reset "github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
 	khr_bind_memory2 "github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	khr_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
@@ -73,6 +74,20 @@ func (m *MockLibrary) ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_debug
 func (mr *MockLibraryMockRecorder) ExtDebugUtils(driver any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExtDebugUtils", reflect.TypeOf((*MockLibrary)(nil).ExtDebugUtils), driver)
+}
+
+// ExtFullScreenExclusive mocks base method.
+func (m *MockLibrary) ExtFullScreenExclusive(driver core1_0.DeviceDriver, instance core1_0.Instance) ext_full_screen_exclusive.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ExtFullScreenExclusive", driver, instance)
+	ret0, _ := ret[0].(ext_full_screen_exclusive.ExtensionDriver)
+	return ret0
+}
+
+// ExtFullScreenExclusive indicates an expected call of ExtFullScreenExclusive.
+func (mr *MockLibraryMockRecorder) ExtFullScreenExclusive(driver, instance any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExtFullScreenExclusive", reflect.TypeOf((*MockLibrary)(nil).ExtFullScreenExclusive), driver, instance)
 }
 
 // ExtHostQueryReset mocks base method.

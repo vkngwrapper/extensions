@@ -5,6 +5,7 @@ package library
 import (
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
+	"github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	"github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
 	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
@@ -29,6 +30,7 @@ import (
 
 type Library interface {
 	ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_debug_utils.ExtensionDriver
+	ExtFullScreenExclusive(driver core1_0.DeviceDriver, instance core1_0.Instance) ext_full_screen_exclusive.ExtensionDriver
 	ExtHostQueryReset(driver core1_0.DeviceDriver) ext_host_query_reset.ExtensionDriver
 	KhrBindMemory2(driver core1_0.DeviceDriver) khr_bind_memory2.ExtensionDriver
 	KhrBufferDeviceAddress(driver core1_0.DeviceDriver) khr_buffer_device_address.ExtensionDriver
