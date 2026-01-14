@@ -7,9 +7,11 @@ import (
 	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	"github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	"github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
+	"github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
 	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
 	"github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
+	"github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	"github.com/vkngwrapper/extensions/v3/khr_device_group"
 	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
@@ -58,6 +60,10 @@ func (l *extensionLibrary) ExtHostQueryReset(driver core1_0.DeviceDriver) ext_ho
 	 return ext_host_query_reset.CreateExtensionDriverFromCoreDriver(driver)
 }
 
+func (l *extensionLibrary) KhrAccelerationStructure(driver core1_0.DeviceDriver) khr_acceleration_structure.ExtensionDriver {
+	 return khr_acceleration_structure.CreateExtensionDriverFromCoreDriver(driver)
+}
+
 func (l *extensionLibrary) KhrBindMemory2(driver core1_0.DeviceDriver) khr_bind_memory2.ExtensionDriver {
 	 return khr_bind_memory2.CreateExtensionDriverFromCoreDriver(driver)
 }
@@ -68,6 +74,10 @@ func (l *extensionLibrary) KhrBufferDeviceAddress(driver core1_0.DeviceDriver) k
 
 func (l *extensionLibrary) KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_create_renderpass2.ExtensionDriver {
 	 return khr_create_renderpass2.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrDeferredHostOperations(driver core1_0.DeviceDriver) khr_deferred_host_operations.ExtensionDriver {
+	 return khr_deferred_host_operations.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrDescriptorUpdateTemplate(driver core1_0.DeviceDriver) khr_descriptor_update_template.ExtensionDriver {

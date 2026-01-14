@@ -16,9 +16,11 @@ import (
 	ext_debug_utils "github.com/vkngwrapper/extensions/v3/ext_debug_utils"
 	ext_full_screen_exclusive "github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	ext_host_query_reset "github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
+	khr_acceleration_structure "github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
 	khr_bind_memory2 "github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	khr_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
 	khr_create_renderpass2 "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
+	khr_deferred_host_operations "github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	khr_device_group "github.com/vkngwrapper/extensions/v3/khr_device_group"
 	khr_draw_indirect_count "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
@@ -104,6 +106,20 @@ func (mr *MockLibraryMockRecorder) ExtHostQueryReset(driver any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExtHostQueryReset", reflect.TypeOf((*MockLibrary)(nil).ExtHostQueryReset), driver)
 }
 
+// KhrAccelerationStructure mocks base method.
+func (m *MockLibrary) KhrAccelerationStructure(driver core1_0.DeviceDriver) khr_acceleration_structure.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KhrAccelerationStructure", driver)
+	ret0, _ := ret[0].(khr_acceleration_structure.ExtensionDriver)
+	return ret0
+}
+
+// KhrAccelerationStructure indicates an expected call of KhrAccelerationStructure.
+func (mr *MockLibraryMockRecorder) KhrAccelerationStructure(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrAccelerationStructure", reflect.TypeOf((*MockLibrary)(nil).KhrAccelerationStructure), driver)
+}
+
 // KhrBindMemory2 mocks base method.
 func (m *MockLibrary) KhrBindMemory2(driver core1_0.DeviceDriver) khr_bind_memory2.ExtensionDriver {
 	m.ctrl.T.Helper()
@@ -144,6 +160,20 @@ func (m *MockLibrary) KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_crea
 func (mr *MockLibraryMockRecorder) KhrCreateRenderpass2(driver any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrCreateRenderpass2", reflect.TypeOf((*MockLibrary)(nil).KhrCreateRenderpass2), driver)
+}
+
+// KhrDeferredHostOperations mocks base method.
+func (m *MockLibrary) KhrDeferredHostOperations(driver core1_0.DeviceDriver) khr_deferred_host_operations.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KhrDeferredHostOperations", driver)
+	ret0, _ := ret[0].(khr_deferred_host_operations.ExtensionDriver)
+	return ret0
+}
+
+// KhrDeferredHostOperations indicates an expected call of KhrDeferredHostOperations.
+func (mr *MockLibraryMockRecorder) KhrDeferredHostOperations(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrDeferredHostOperations", reflect.TypeOf((*MockLibrary)(nil).KhrDeferredHostOperations), driver)
 }
 
 // KhrDescriptorUpdateTemplate mocks base method.
