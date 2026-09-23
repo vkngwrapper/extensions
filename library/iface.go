@@ -15,6 +15,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	"github.com/vkngwrapper/extensions/v3/khr_device_group"
 	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
+	"github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
 	"github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities"
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
@@ -42,6 +43,7 @@ type Library interface {
 	KhrDescriptorUpdateTemplate(driver core1_0.DeviceDriver) khr_descriptor_update_template.ExtensionDriver
 	KhrDeviceGroup(driver core1_0.DeviceDriver, instance core1_0.Instance) khr_device_group.ExtensionDriver
 	KhrDrawIndirectCount(driver core1_0.DeviceDriver) khr_draw_indirect_count.ExtensionDriver
+	KhrDynamicRendering(driver core1_0.DeviceDriver) khr_dynamic_rendering.ExtensionDriver
 	KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver
 	KhrExternalMemoryCapabilities(driver core1_0.DeviceDriver) khr_external_memory_capabilities.ExtensionDriver
 	KhrExternalSemaphoreCapabilities(driver core1_0.DeviceDriver) khr_external_semaphore_capabilities.ExtensionDriver
