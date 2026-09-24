@@ -50,14 +50,12 @@ func (e *VulkanExtensionDriver) CmdBeginRendering(commandBuffer core1_0.CommandB
 	return nil
 }
 
-func (e *VulkanExtensionDriver) CmdEndRendering(commandBuffer core1_0.CommandBuffer) error {
+func (e *VulkanExtensionDriver) CmdEndRendering(commandBuffer core1_0.CommandBuffer) {
 	if !commandBuffer.Initialized() {
 		panic("commandBuffer cannot be uninitialized")
 	}
 
 	e.driver.VkCmdEndRenderingKHR(commandBuffer.Handle())
-
-	return nil
 }
 
 var _ ExtensionDriver = &VulkanExtensionDriver{}

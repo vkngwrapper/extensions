@@ -21,5 +21,5 @@ type ExtensionDriver interface {
 	// commandBuffer - The CommandBuffer to end rendering in
 	//
 	// https://docs.vulkan.org/refpages/latest/refpages/source/vkCmdEndRenderingKHR.html
-	CmdEndRendering(commandBuffer core1_0.CommandBuffer) error
+	CmdEndRendering(commandBuffer core1_0.CommandBuffer)
 }

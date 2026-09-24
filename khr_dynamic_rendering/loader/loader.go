@@ -36,8 +36,8 @@ type VkPhysicalDeviceDynamicRenderingFeaturesKHR C.VkPhysicalDeviceDynamicRender
 type CLoader struct {
 	coreLoader loader.Loader
 
-	beginRendering C.PFN_vkCmdBeginRenderingKHR
-	endRendering   C.PFN_vkCmdEndRenderingKHR
+	cmdBeginRendering C.PFN_vkCmdBeginRenderingKHR
+	cmdEndRendering   C.PFN_vkCmdEndRenderingKHR
 }
 
 func CreateLoaderFromCore(coreLoader loader.Loader) *CLoader {
@@ -47,29 +47,29 @@ func CreateLoaderFromCore(coreLoader loader.Loader) *CLoader {
 	return &CLoader{
 		coreLoader: coreLoader,
 
-		beginRendering: (C.PFN_vkCmdBeginRenderingKHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkCmdBeginRenderingKHR")))),
-		endRendering:   (C.PFN_vkCmdEndRenderingKHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkCmdEndRenderingKHR")))),
+		cmdBeginRendering: (C.PFN_vkCmdBeginRenderingKHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkCmdBeginRenderingKHR")))),
+		cmdEndRendering:   (C.PFN_vkCmdEndRenderingKHR)(coreLoader.LoadProcAddr((*loader.Char)(arena.CString("vkCmdEndRenderingKHR")))),
 	}
 }
 
 func (d *CLoader) VkCmdBeginRenderingKHR(commandBuffer loader.VkCommandBuffer, pRenderingInfo *VkRenderingInfoKHR) {
-	if d.beginRendering == nil {
+	if d.cmdBeginRendering == nil {
 		panic("attempt to call extension method vkCmdBeginRenderingKHR when extension not present")
 	}
 
 	C.cgoCmdBeginRenderingKHR(
-		d.beginRendering,
+		d.cmdBeginRendering,
 		C.VkCommandBuffer(unsafe.Pointer(commandBuffer)),
 		(*C.VkRenderingInfoKHR)(pRenderingInfo),
 	)
 }
 
 func (d *CLoader) VkCmdEndRenderingKHR(commandBuffer loader.VkCommandBuffer) {
-	if d.endRendering == nil {
+	if d.cmdEndRendering == nil {
 		panic("attempt to call extension method vkCmdEndRenderingKHR when extension not present")
 	}
 
-	C.cgoCmdEndRenderingKHR(d.endRendering, C.VkCommandBuffer(unsafe.Pointer(commandBuffer)))
+	C.cgoCmdEndRenderingKHR(d.cmdEndRendering, C.VkCommandBuffer(unsafe.Pointer(commandBuffer)))
 }
 
 var _ Loader = &CLoader{}

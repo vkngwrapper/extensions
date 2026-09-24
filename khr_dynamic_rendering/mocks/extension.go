@@ -56,11 +56,9 @@ func (mr *MockExtensionDriverMockRecorder) CmdBeginRendering(commandBuffer, rend
 }
 
 // CmdEndRendering mocks base method.
-func (m *MockExtensionDriver) CmdEndRendering(commandBuffer core1_0.CommandBuffer) error {
+func (m *MockExtensionDriver) CmdEndRendering(commandBuffer core1_0.CommandBuffer) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CmdEndRendering", commandBuffer)
-	ret0, _ := ret[0].(error)
-	return ret0
+	m.ctrl.Call(m, "CmdEndRendering", commandBuffer)
 }
 
 // CmdEndRendering indicates an expected call of CmdEndRendering.

@@ -17,6 +17,7 @@ import (
 	khr_dynamic_rendering_loader "github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering/loader"
 	mock_dynamic_rendering "github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering/mocks"
 	"github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2"
+	"github.com/vkngwrapper/extensions/v3/khr_separate_depth_stencil_layouts"
 	khr_get_physical_device_properties2_loader "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/loader"
 	mock_get_physical_device_properties2 "github.com/vkngwrapper/extensions/v3/khr_get_physical_device_properties2/mocks"
 	"go.uber.org/mock/gomock"
@@ -44,7 +45,7 @@ func TestVulkanExtension_UninitializedCommandBuffer(t *testing.T) {
 		_ = extension.CmdBeginRendering(core1_0.CommandBuffer{}, khr_dynamic_rendering.RenderingInfo{})
 	})
 	require.PanicsWithValue(t, "commandBuffer cannot be uninitialized", func() {
-		_ = extension.CmdEndRendering(core1_0.CommandBuffer{})
+		extension.CmdEndRendering(core1_0.CommandBuffer{})
 	})
 }
 
@@ -193,6 +194,53 @@ func TestVulkanExtension_CmdBeginRendering_Minimal(t *testing.T) {
 	require.NoError(t, err)
 }
 
+func TestVulkanExtension_CmdBeginRendering_StencilOnly(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	device := mocks.NewDummyDevice(common.Vulkan1_0, []string{})
+	commandPool := mocks.NewDummyCommandPool(device)
+	commandBuffer := mocks.NewDummyCommandBuffer(commandPool, device)
+	stencilView := mocks.NewDummyImageView(device)
+	extDriver := mock_dynamic_rendering.NewMockLoader(ctrl)
+	extension := khr_dynamic_rendering.CreateExtensionDriverFromLoader(extDriver, device)
+
+	extDriver.EXPECT().VkCmdBeginRenderingKHR(commandBuffer.Handle(), gomock.Not(gomock.Nil())).
+		DoAndReturn(func(commandBuffer loader.VkCommandBuffer, pRenderingInfo *khr_dynamic_rendering_loader.VkRenderingInfoKHR) {
+			val := reflect.ValueOf(pRenderingInfo).Elem()
+			require.Equal(t, uint64(1000044000), val.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_RENDERING_INFO_KHR
+			require.Equal(t, uint64(0), val.FieldByName("colorAttachmentCount").Uint())
+			require.True(t, val.FieldByName("pColorAttachments").IsNil())
+			require.True(t, val.FieldByName("pDepthAttachment").IsNil())
+
+			attachment := val.FieldByName("pStencilAttachment").Elem()
+			require.Equal(t, uint64(1000044001), attachment.FieldByName("sType").Uint()) // VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR
+			require.True(t, attachment.FieldByName("pNext").IsNil())
+			require.Equal(t, stencilView.Handle(), loader.VkImageView(attachment.FieldByName("imageView").UnsafePointer()))
+			require.Equal(t, uint64(1000241002), attachment.FieldByName("imageLayout").Uint()) // VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL_KHR
+			require.Equal(t, uint64(0), attachment.FieldByName("resolveMode").Uint()) // VK_RESOLVE_MODE_NONE_KHR
+			require.True(t, attachment.FieldByName("resolveImageView").IsNil())
+			require.Equal(t, uint64(1), attachment.FieldByName("loadOp").Uint())  // VK_ATTACHMENT_LOAD_OP_CLEAR
+			require.Equal(t, uint64(0), attachment.FieldByName("storeOp").Uint()) // VK_ATTACHMENT_STORE_OP_STORE
+			clearPointer := unsafe.Pointer(attachment.FieldByName("clearValue").UnsafeAddr())
+			require.InDelta(t, 0.25, float32(*(*loader.Float)(clearPointer)), 0.0001)
+			require.Equal(t, uint32(200), *(*uint32)(unsafe.Add(clearPointer, 4)))
+		})
+
+	err := extension.CmdBeginRendering(commandBuffer, khr_dynamic_rendering.RenderingInfo{
+		RenderArea: core1_0.Rect2D{Extent: core1_0.Extent2D{Width: 4, Height: 4}},
+		LayerCount: 1,
+		StencilAttachment: &khr_dynamic_rendering.RenderingAttachmentInfo{
+			ImageView:   stencilView,
+			ImageLayout: khr_separate_depth_stencil_layouts.ImageLayoutStencilAttachmentOptimal,
+			LoadOp:      core1_0.AttachmentLoadOpClear,
+			StoreOp:     core1_0.AttachmentStoreOpStore,
+			ClearValue:  core1_0.ClearValueDepthStencil{Depth: 0.25, Stencil: 200},
+		},
+	})
+	require.NoError(t, err)
+}
+
 func TestVulkanExtension_CmdEndRendering(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -204,7 +252,7 @@ func TestVulkanExtension_CmdEndRendering(t *testing.T) {
 	extension := khr_dynamic_rendering.CreateExtensionDriverFromLoader(extDriver, device)
 
 	extDriver.EXPECT().VkCmdEndRenderingKHR(commandBuffer.Handle())
-	require.NoError(t, extension.CmdEndRendering(commandBuffer))
+	extension.CmdEndRendering(commandBuffer)
 }
 
 func TestPipelineRenderingCreateInfo_AsPipelineNext(t *testing.T) {
