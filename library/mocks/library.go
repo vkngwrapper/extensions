@@ -24,6 +24,7 @@ import (
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	khr_device_group "github.com/vkngwrapper/extensions/v3/khr_device_group"
 	khr_draw_indirect_count "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
+	khr_dynamic_rendering "github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering"
 	khr_external_fence_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
 	khr_external_memory_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities"
 	khr_external_semaphore_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
@@ -216,6 +217,20 @@ func (m *MockLibrary) KhrDrawIndirectCount(driver core1_0.DeviceDriver) khr_draw
 func (mr *MockLibraryMockRecorder) KhrDrawIndirectCount(driver any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrDrawIndirectCount", reflect.TypeOf((*MockLibrary)(nil).KhrDrawIndirectCount), driver)
+}
+
+// KhrDynamicRendering mocks base method.
+func (m *MockLibrary) KhrDynamicRendering(driver core1_0.DeviceDriver) khr_dynamic_rendering.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KhrDynamicRendering", driver)
+	ret0, _ := ret[0].(khr_dynamic_rendering.ExtensionDriver)
+	return ret0
+}
+
+// KhrDynamicRendering indicates an expected call of KhrDynamicRendering.
+func (mr *MockLibraryMockRecorder) KhrDynamicRendering(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrDynamicRendering", reflect.TypeOf((*MockLibrary)(nil).KhrDynamicRendering), driver)
 }
 
 // KhrExternalFenceCapabilities mocks base method.

@@ -15,6 +15,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	"github.com/vkngwrapper/extensions/v3/khr_device_group"
 	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
+	"github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
 	"github.com/vkngwrapper/extensions/v3/khr_external_memory_capabilities"
 	"github.com/vkngwrapper/extensions/v3/khr_external_semaphore_capabilities"
@@ -90,6 +91,10 @@ func (l *extensionLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance 
 
 func (l *extensionLibrary) KhrDrawIndirectCount(driver core1_0.DeviceDriver) khr_draw_indirect_count.ExtensionDriver {
 	 return khr_draw_indirect_count.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrDynamicRendering(driver core1_0.DeviceDriver) khr_dynamic_rendering.ExtensionDriver {
+	 return khr_dynamic_rendering.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver {
