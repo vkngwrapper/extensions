@@ -25,7 +25,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_get_memory_requirements2
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_get_memory_requirements2
 
 type Loader interface {
 	VkGetBufferMemoryRequirements2KHR(device loader.VkDevice, pInfo *VkBufferMemoryRequirementsInfo2KHR, pMemoryRequirements *VkMemoryRequirements2KHR)

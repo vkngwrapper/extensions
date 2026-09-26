@@ -21,7 +21,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_draw_indirect_count
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_draw_indirect_count
 
 type Loader interface {
 	VkCmdDrawIndexedIndirectCountKHR(commandBuffer loader.VkCommandBuffer, buffer loader.VkBuffer, offset loader.VkDeviceSize, countBuffer loader.VkBuffer, countBufferOffset loader.VkDeviceSize, maxDrawCount loader.Uint32, stride loader.Uint32)

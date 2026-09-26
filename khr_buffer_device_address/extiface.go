@@ -1,6 +1,6 @@
 package khr_buffer_device_address
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_buffer_device_address
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_buffer_device_address
 
 // ExtensionDriver contains all the commands for the khr_buffer_device_address extension
 //

@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_external_semaphore_capabilities
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_external_semaphore_capabilities
 
 // ExtensionDriver contains all commands for the khr_external_semaphore_capabilities extension
 type ExtensionDriver interface {

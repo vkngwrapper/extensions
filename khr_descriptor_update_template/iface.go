@@ -7,7 +7,7 @@ import (
 	"github.com/vkngwrapper/core/v3/loader"
 )
 
-//go:generate mockgen -source iface.go -destination ./mocks/extension.go -package mock_descriptor_update_template
+//go:generate go run go.uber.org/mock/mockgen -source iface.go -destination ./mocks/extension.go -package mock_descriptor_update_template
 
 type ExtensionDriver interface {
 	// CreateDescriptorUpdateTemplate creates a new DescriptorUpdateTemplate

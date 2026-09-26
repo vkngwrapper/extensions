@@ -5,7 +5,7 @@ import (
 	"github.com/vkngwrapper/core/v3/loader"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_deferred_host_operations
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_deferred_host_operations
 
 type ExtensionDriver interface {
 	CreateDeferredOperation(callbacks *loader.AllocationCallbacks) (DeferredOperation, common.VkResult, error)

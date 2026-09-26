@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v3/common"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_device_group_creation
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_device_group_creation
 
 // ExtensionDriver contains all the commands for the khr_device_group_creation extension
 //

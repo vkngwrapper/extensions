@@ -58,7 +58,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_debugutils
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_debugutils
 
 type CLoader struct {
 	createDebugUtilsMessenger  C.PFN_vkCreateDebugUtilsMessengerEXT

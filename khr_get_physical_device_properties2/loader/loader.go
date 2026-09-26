@@ -1,6 +1,6 @@
 package khr_get_physical_device_properties2_loader
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_get_physical_device_properties2
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_get_physical_device_properties2
 
 /*
 #include <stdlib.h>

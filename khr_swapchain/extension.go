@@ -1,6 +1,6 @@
 package khr_swapchain
 
-//go:generate mockgen -source extension.go -destination ./mocks/extension.go -package mock_swapchain
+//go:generate go run go.uber.org/mock/mockgen -source extension.go -destination ./mocks/extension.go -package mock_swapchain
 
 /*
 #include <stdlib.h>
@@ -16,7 +16,7 @@ import (
 	"github.com/vkngwrapper/core/v3/common"
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/core/v3/loader"
-	"github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
+	khr_swapchain_loader "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 )
 
 // VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This

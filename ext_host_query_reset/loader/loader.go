@@ -1,6 +1,6 @@
 package ext_host_query_reset_loader
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_host_query_reset
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_host_query_reset
 
 /*
 #include <stdlib.h>

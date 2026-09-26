@@ -1,6 +1,6 @@
 package khr_maintenance1_loader
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_maintenance1
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_maintenance1
 
 /*
 #include <stdlib.h>

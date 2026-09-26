@@ -17,7 +17,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_external_semaphore_capabilities
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_external_semaphore_capabilities
 
 type Loader interface {
 	VkGetPhysicalDeviceExternalSemaphorePropertiesKHR(physicalDevice loader.VkPhysicalDevice, pExternalSemaphoreInfo *VkPhysicalDeviceExternalSemaphoreInfoKHR, pExternalSemaphoreProperties *VkExternalSemaphorePropertiesKHR)

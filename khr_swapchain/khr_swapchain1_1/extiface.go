@@ -6,7 +6,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
 )
 
-//go:generate mockgen -source extiface.go -destination ../mocks/extension1_1.go -package mock_swapchain -mock_names Extension=MockExtension1_1
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ../mocks/extension1_1.go -package mock_swapchain -mock_names Extension=MockExtension1_1
 
 // ExtensionDriver contains all the core1.1-only commands for the khr_swapchain extension
 //

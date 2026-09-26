@@ -1,6 +1,6 @@
 package khr_dynamic_rendering_loader
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_dynamic_rendering
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_dynamic_rendering
 
 /*
 #include <stdlib.h>
