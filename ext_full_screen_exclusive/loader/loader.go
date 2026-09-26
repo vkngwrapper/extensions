@@ -37,7 +37,7 @@ import (
 	khr_swapchain_loader "github.com/vkngwrapper/extensions/v3/khr_swapchain/loader"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_full_screen_exclusive
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_full_screen_exclusive
 
 type Loader interface {
 	VkAcquireFullScreenExclusiveModeEXT(device loader.VkDevice, swapchain khr_swapchain_loader.VkSwapchainKHR) (common.VkResult, error)

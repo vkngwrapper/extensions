@@ -9,7 +9,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_acceleration_structure
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_acceleration_structure
 
 type ExtensionDriver interface {
 	BuildAccelerationStructure(deferredOperation khr_deferred_host_operations.DeferredOperation,

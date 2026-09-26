@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v3/common"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_bind_memory2
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_bind_memory2
 
 // ExtensionDriver contains all the commands for the khr_bind_memory2 extension
 //

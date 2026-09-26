@@ -34,7 +34,7 @@ import (
 	"github.com/vkngwrapper/core/v3/loader"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_deferred_host_operations
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_deferred_host_operations
 
 type Loader interface {
 	VkCreateDeferredOperationKHR(device loader.VkDevice, pAllocator *loader.VkAllocationCallbacks, pDeferredOperation *VkDeferredOperationKHR) (common.VkResult, error)

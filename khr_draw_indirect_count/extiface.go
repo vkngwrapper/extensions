@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_draw_indirect_count
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_draw_indirect_count
 
 // ExtensionDriver contains all the commands for the khr_draw_indirect_count extension
 type ExtensionDriver interface {

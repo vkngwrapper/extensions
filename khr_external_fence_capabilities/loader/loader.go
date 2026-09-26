@@ -17,7 +17,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_external_fence_capabilities
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_external_fence_capabilities
 
 type Loader interface {
 	VkGetPhysicalDeviceExternalFencePropertiesKHR(physicalDevice loader.VkPhysicalDevice, pExternalFenceInfo *VkPhysicalDeviceExternalFenceInfoKHR, pExternalFenceProperties *VkExternalFencePropertiesKHR)

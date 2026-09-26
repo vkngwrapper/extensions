@@ -1,6 +1,6 @@
 package khr_bind_memory2_loader
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_bind_memory2
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_bind_memory2
 
 /*
 #include <stdlib.h>

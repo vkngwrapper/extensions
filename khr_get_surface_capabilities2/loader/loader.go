@@ -21,7 +21,7 @@ import (
 	"github.com/vkngwrapper/core/v3/loader"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_get_surface_capabilities2
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_get_surface_capabilities2
 
 type Loader interface {
 	VkGetPhysicalDeviceSurfaceCapabilities2KHR(physicalDevice loader.VkPhysicalDevice, pSurfaceInfo *VkPhysicalDeviceSurfaceInfo2KHR, pSurfaceCapabilities *VkSurfaceCapabilities2KHR) (common.VkResult, error)

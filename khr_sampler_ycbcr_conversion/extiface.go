@@ -6,7 +6,7 @@ import (
 	"github.com/vkngwrapper/core/v3/loader"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_sampler_ycbcr_conversion
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_sampler_ycbcr_conversion
 
 // ExtensionDriver contains all commands for the khr_sampler_ycbcr_conversion extension
 //

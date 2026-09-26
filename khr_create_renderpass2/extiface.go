@@ -6,7 +6,7 @@ import (
 	"github.com/vkngwrapper/core/v3/loader"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_create_renderpass2
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_create_renderpass2
 
 // ExtensionDriver contains all the commands for the khr_create_renderpass2 extension
 //

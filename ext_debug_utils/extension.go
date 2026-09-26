@@ -9,7 +9,7 @@ import (
 	ext_driver "github.com/vkngwrapper/extensions/v3/ext_debug_utils/loader"
 )
 
-//go:generate mockgen -source extension.go -destination ./mocks/extension.go -package mock_debugutils
+//go:generate go run go.uber.org/mock/mockgen -source extension.go -destination ./mocks/extension.go -package mock_debugutils
 
 // VulkanExtensionDriver is an implementation of the ExtensionDriver interface that actually communicates with Vulkan. This
 // is the default implementation. See the interface for more documentation.

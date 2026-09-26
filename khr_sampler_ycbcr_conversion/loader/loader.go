@@ -22,7 +22,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_sampler_ycbcr_conversion
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_sampler_ycbcr_conversion
 
 type Loader interface {
 	VkCreateSamplerYcbcrConversionKHR(device loader.VkDevice, pCreateInfo *VkSamplerYcbcrConversionCreateInfoKHR, pAllocator *loader.VkAllocationCallbacks, pYcbcrConversion *VkSamplerYcbcrConversionKHR) (common.VkResult, error)

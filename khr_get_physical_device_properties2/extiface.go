@@ -1,6 +1,6 @@
 package khr_get_physical_device_properties2
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_get_physical_device_properties2
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_get_physical_device_properties2
 
 import (
 	"github.com/vkngwrapper/core/v3/common"

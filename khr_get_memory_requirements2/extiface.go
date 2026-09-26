@@ -1,6 +1,6 @@
 package khr_get_memory_requirements2
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_get_memory_requirements2
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_get_memory_requirements2
 
 // ExtensionDriver contains all commands for the khr_get_memory_requirements2 extension
 type ExtensionDriver interface {

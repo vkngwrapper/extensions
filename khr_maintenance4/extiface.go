@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v3/core1_1"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_maintenance4
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_maintenance4
 
 type ExtensionDriver interface {
 	// GetDeviceBufferMemoryRequirements returns the memory requirements for a specified Vulkan

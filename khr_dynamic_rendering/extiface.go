@@ -2,7 +2,7 @@ package khr_dynamic_rendering
 
 import "github.com/vkngwrapper/core/v3/core1_0"
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_dynamic_rendering
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_dynamic_rendering
 
 // ExtensionDriver contains all the commands for the khr_dynamic_rendering extension
 //

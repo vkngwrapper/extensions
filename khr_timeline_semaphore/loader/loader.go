@@ -26,7 +26,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_timeline_semaphore
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_timeline_semaphore
 
 type Loader interface {
 	VkGetSemaphoreCounterValueKHR(device loader.VkDevice, semaphore loader.VkSemaphore, pValue *loader.Uint64) (common.VkResult, error)

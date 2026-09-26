@@ -9,7 +9,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_full_screen_exclusive
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_full_screen_exclusive
 
 type ExtensionDriver interface {
 	AcquireFullScreenExclusiveMode(swapchain khr_swapchain.Swapchain) (common.VkResult, error)

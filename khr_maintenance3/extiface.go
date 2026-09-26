@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_maintenance3
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_maintenance3
 
 // ExtensionDriver contains all commands for the khr_maintenance3 extension
 //

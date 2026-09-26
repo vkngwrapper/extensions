@@ -1,6 +1,6 @@
 package khr_acceleration_structure_loader
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_acceleration_structure
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_acceleration_structure
 
 /*
 #include <stdlib.h>

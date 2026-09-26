@@ -30,7 +30,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_create_renderpass2
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_create_renderpass2
 
 type Loader interface {
 	VkCmdBeginRenderPass2KHR(commandBuffer loader.VkCommandBuffer, pRenderPassBegin *loader.VkRenderPassBeginInfo, pSubpassBeginInfo *VkSubpassBeginInfoKHR)

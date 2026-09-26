@@ -1,6 +1,6 @@
 package khr_surface_loader
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_surface
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_surface
 
 /*
 #include <stdlib.h>

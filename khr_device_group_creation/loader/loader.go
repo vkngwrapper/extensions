@@ -18,7 +18,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_device_group_creation
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_device_group_creation
 
 type Loader interface {
 	CoreLoader() loader.Loader

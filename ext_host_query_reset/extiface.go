@@ -4,7 +4,7 @@ import (
 	"github.com/vkngwrapper/core/v3/core1_0"
 )
 
-//go:generate mockgen -source extiface.go -destination ./mocks/extension.go -package mock_host_query_reset
+//go:generate go run go.uber.org/mock/mockgen -source extiface.go -destination ./mocks/extension.go -package mock_host_query_reset
 
 // ExtensionDriver contains all the commands for the ext_host_query_reset extension
 //

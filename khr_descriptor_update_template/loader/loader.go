@@ -30,7 +30,7 @@ import (
 	_ "github.com/vkngwrapper/extensions/v3/vulkan"
 )
 
-//go:generate mockgen -source loader.go -destination ../mocks/loader.go -package mock_descriptor_update_template
+//go:generate go run go.uber.org/mock/mockgen -source loader.go -destination ../mocks/loader.go -package mock_descriptor_update_template
 
 type Loader interface {
 	VkCreateDescriptorUpdateTemplateKHR(device loader.VkDevice, pCreateInfo *VkDescriptorUpdateTemplateCreateInfoKHR, pAllocator *loader.VkAllocationCallbacks, pDescriptorUpdateTemplate *VkDescriptorUpdateTemplateKHR) (common.VkResult, error)
