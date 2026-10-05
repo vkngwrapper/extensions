@@ -7,10 +7,10 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.12.1
-	github.com/vkngwrapper/core/v3 v3.1.3
+	github.com/vkngwrapper/core/v3 v3.1.5
 	go.uber.org/mock v0.6.0
 	golang.org/x/image v0.46.0
-	golang.org/x/tools v0.50.0
+	golang.org/x/tools v0.51.0
 )
 
 require (
