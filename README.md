@@ -27,15 +27,15 @@ For extensions that add new commands, you can create an `ExtensionDriver` object
 Example:
 
 ```go
-	extensionDriver := ext_debug_utils.CreateExtensionFromCoreDriver(instanceDriver)
-	debugMessenger, _, err := extensionDriver.CreateDebugUtilsMessenger(nil, ext_debug_utils.DebugUtilsMessengerCreateInfo{
-      MessageSeverity: ext_debug_utils.SeverityError | ext_debug_utils.SeverityWarning,
-      MessageType:     ext_debug_utils.TypeGeneral | ext_debug_utils.TypeValidation | ext_debug_utils.TypePerformance,
-      UserCallback:    logValidationFunc,
+    extensionDriver := ext_debug_utils.CreateExtensionFromCoreDriver(instanceDriver)
+    debugMessenger, _, err := extensionDriver.CreateDebugUtilsMessenger(nil, ext_debug_utils.DebugUtilsMessengerCreateInfo{
+        MessageSeverity: ext_debug_utils.SeverityError | ext_debug_utils.SeverityWarning,
+        MessageType:     ext_debug_utils.TypeGeneral | ext_debug_utils.TypeValidation | ext_debug_utils.TypePerformance,
+        UserCallback:    logValidationFunc,
     })
-	if err != nil {
-		return err
-	}
+    if err != nil {
+        return err
+    }
 ```
 
 ## ExtensionLibrary
@@ -50,7 +50,7 @@ Creating ExtensionDriver objects from a package function is convenient, but what
 * vk_khr_portability_subset and vk_khr_portability_enumeration, which can be used to add Mac/iOS support to your Vulkan applications
 * 23 extensions which were promoted to core 1.1
 * 24 extensions which were promoted to core 1.2
-* khr_dynamic_rendering, promoted to core 1.3
+* khr_dynamic_rendering and khr_synchronization2, promoted to core 1.3
 * Four extensions used by [arsenal/vam](https://github.com/vkngwrapper/arsenal/tree/main/vam) for memory management:
    amd_device_coherent_memory, ext_memory_budget, ext_memory_priority, and khr_maintenance4.
 
