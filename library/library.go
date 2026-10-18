@@ -10,6 +10,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
 	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
+	"github.com/vkngwrapper/extensions/v3/khr_copy_commands2"
 	"github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
 	"github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
@@ -28,6 +29,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion"
 	"github.com/vkngwrapper/extensions/v3/khr_surface"
 	"github.com/vkngwrapper/extensions/v3/khr_swapchain"
+	"github.com/vkngwrapper/extensions/v3/khr_synchronization2"
 	"github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore"
 )
 
@@ -71,6 +73,10 @@ func (l *extensionLibrary) KhrBindMemory2(driver core1_0.DeviceDriver) khr_bind_
 
 func (l *extensionLibrary) KhrBufferDeviceAddress(driver core1_0.DeviceDriver) khr_buffer_device_address.ExtensionDriver {
 	 return khr_buffer_device_address.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrCopyCommands2(driver core1_0.DeviceDriver) khr_copy_commands2.ExtensionDriver {
+	 return khr_copy_commands2.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrCreateRenderpass2(driver core1_0.DeviceDriver) khr_create_renderpass2.ExtensionDriver {
@@ -131,6 +137,10 @@ func (l *extensionLibrary) KhrSamplerYcbcrConversion(driver core1_0.DeviceDriver
 
 func (l *extensionLibrary) KhrSwapchain(driver core1_0.DeviceDriver) khr_swapchain.ExtensionDriver {
 	 return khr_swapchain.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrSynchronization2(driver core1_0.DeviceDriver) khr_synchronization2.ExtensionDriver {
+	 return khr_synchronization2.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrTimelineSemaphore(driver core1_0.DeviceDriver) khr_timeline_semaphore.ExtensionDriver {
