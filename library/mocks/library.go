@@ -19,6 +19,7 @@ import (
 	khr_acceleration_structure "github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
 	khr_bind_memory2 "github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	khr_buffer_device_address "github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
+	khr_copy_commands2 "github.com/vkngwrapper/extensions/v3/khr_copy_commands2"
 	khr_create_renderpass2 "github.com/vkngwrapper/extensions/v3/khr_create_renderpass2"
 	khr_deferred_host_operations "github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
@@ -37,6 +38,7 @@ import (
 	khr_sampler_ycbcr_conversion "github.com/vkngwrapper/extensions/v3/khr_sampler_ycbcr_conversion"
 	khr_surface "github.com/vkngwrapper/extensions/v3/khr_surface"
 	khr_swapchain "github.com/vkngwrapper/extensions/v3/khr_swapchain"
+	khr_synchronization2 "github.com/vkngwrapper/extensions/v3/khr_synchronization2"
 	khr_timeline_semaphore "github.com/vkngwrapper/extensions/v3/khr_timeline_semaphore"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -147,6 +149,20 @@ func (m *MockLibrary) KhrBufferDeviceAddress(driver core1_0.DeviceDriver) khr_bu
 func (mr *MockLibraryMockRecorder) KhrBufferDeviceAddress(driver any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrBufferDeviceAddress", reflect.TypeOf((*MockLibrary)(nil).KhrBufferDeviceAddress), driver)
+}
+
+// KhrCopyCommands2 mocks base method.
+func (m *MockLibrary) KhrCopyCommands2(driver core1_0.DeviceDriver) khr_copy_commands2.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KhrCopyCommands2", driver)
+	ret0, _ := ret[0].(khr_copy_commands2.ExtensionDriver)
+	return ret0
+}
+
+// KhrCopyCommands2 indicates an expected call of KhrCopyCommands2.
+func (mr *MockLibraryMockRecorder) KhrCopyCommands2(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrCopyCommands2", reflect.TypeOf((*MockLibrary)(nil).KhrCopyCommands2), driver)
 }
 
 // KhrCreateRenderpass2 mocks base method.
@@ -399,6 +415,20 @@ func (m *MockLibrary) KhrSwapchain(driver core1_0.DeviceDriver) khr_swapchain.Ex
 func (mr *MockLibraryMockRecorder) KhrSwapchain(driver any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrSwapchain", reflect.TypeOf((*MockLibrary)(nil).KhrSwapchain), driver)
+}
+
+// KhrSynchronization2 mocks base method.
+func (m *MockLibrary) KhrSynchronization2(driver core1_0.DeviceDriver) khr_synchronization2.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KhrSynchronization2", driver)
+	ret0, _ := ret[0].(khr_synchronization2.ExtensionDriver)
+	return ret0
+}
+
+// KhrSynchronization2 indicates an expected call of KhrSynchronization2.
+func (mr *MockLibraryMockRecorder) KhrSynchronization2(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrSynchronization2", reflect.TypeOf((*MockLibrary)(nil).KhrSynchronization2), driver)
 }
 
 // KhrTimelineSemaphore mocks base method.
