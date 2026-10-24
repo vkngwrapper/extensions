@@ -12,7 +12,14 @@ import (
 	"github.com/vkngwrapper/core/v3/common"
 )
 
+// PhysicalDeviceShaderIntegerDotProductFeatures describes integer dot product features
+// that can be supported by an implementation
+//
+// https://docs.vulkan.org/refpages/latest/refpages/source/VkPhysicalDeviceShaderIntegerDotProductFeatures.html
 type PhysicalDeviceShaderIntegerDotProductFeatures struct {
+	// ShaderIntegerDotProduct specifies whether shader modules can declare the
+	// DotProductInputAllKHR, DotProductInput4x8BitKHR, DotProductInput4x8BitPackedKHR and
+	// DotProductKHR capabilities.
 	ShaderIntegerDotProduct bool
 
 	common.NextOptions

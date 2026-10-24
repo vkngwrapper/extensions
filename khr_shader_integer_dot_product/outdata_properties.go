@@ -12,37 +12,127 @@ import (
 	"github.com/vkngwrapper/core/v3/common"
 )
 
+// PhysicalDeviceShaderIntegerDotProductProperties contains information about integer dot
+// product support for a physical device
+//
+// https://docs.vulkan.org/refpages/latest/refpages/source/VkPhysicalDeviceShaderIntegerDotProductProperties.html
 type PhysicalDeviceShaderIntegerDotProductProperties struct {
-	IntegerDotProduct8BitUnsignedAccelerated                                      bool
-	IntegerDotProduct8BitSignedAccelerated                                        bool
-	IntegerDotProduct8BitMixedSignednessAccelerated                               bool
-	IntegerDotProduct4x8BitPackedUnsignedAccelerated                              bool
-	IntegerDotProduct4x8BitPackedSignedAccelerated                                bool
-	IntegerDotProduct4x8BitPackedMixedSignednessAccelerated                       bool
-	IntegerDotProduct16BitUnsignedAccelerated                                     bool
-	IntegerDotProduct16BitSignedAccelerated                                       bool
-	IntegerDotProduct16BitMixedSignednessAccelerated                              bool
-	IntegerDotProduct32BitUnsignedAccelerated                                     bool
-	IntegerDotProduct32BitSignedAccelerated                                       bool
-	IntegerDotProduct32BitMixedSignednessAccelerated                              bool
-	IntegerDotProduct64BitUnsignedAccelerated                                     bool
-	IntegerDotProduct64BitSignedAccelerated                                       bool
-	IntegerDotProduct64BitMixedSignednessAccelerated                              bool
-	IntegerDotProductAccumulatingSaturating8BitUnsignedAccelerated                bool
-	IntegerDotProductAccumulatingSaturating8BitSignedAccelerated                  bool
-	IntegerDotProductAccumulatingSaturating8BitMixedSignednessAccelerated         bool
-	IntegerDotProductAccumulatingSaturating4x8BitPackedUnsignedAccelerated        bool
-	IntegerDotProductAccumulatingSaturating4x8BitPackedSignedAccelerated          bool
+	// IntegerDotProduct8BitUnsignedAccelerated is true if the support for 8-bit unsigned
+	// dot product operations using the OpUDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct8BitUnsignedAccelerated bool
+	// IntegerDotProduct8BitSignedAccelerated is true if the support for 8-bit signed dot
+	// product operations using the OpSDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct8BitSignedAccelerated bool
+	// IntegerDotProduct8BitMixedSignednessAccelerated is true if the support for 8-bit
+	// mixed signedness dot product operations using the OpSUDotKHR SPIR-V instruction is
+	// accelerated
+	IntegerDotProduct8BitMixedSignednessAccelerated bool
+	// IntegerDotProduct4x8BitPackedUnsignedAccelerated is true if the support for 8-bit
+	// unsigned dot product operations from operands packed into 32-bit integers using the
+	// OpUDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct4x8BitPackedUnsignedAccelerated bool
+	// IntegerDotProduct4x8BitPackedSignedAccelerated is true if the support for 8-bit
+	// signed dot product operations from operands packed into 32-bit integers using the
+	// OpSDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct4x8BitPackedSignedAccelerated bool
+	// IntegerDotProduct4x8BitPackedMixedSignednessAccelerated is true if the support for
+	// 8-bit mixed signedness dot product operations from operands packed into 32-bit
+	// integers using the OpSUDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct4x8BitPackedMixedSignednessAccelerated bool
+	// IntegerDotProduct16BitUnsignedAccelerated is true if the support for 16-bit unsigned
+	// dot product operations using the OpUDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct16BitUnsignedAccelerated bool
+	// IntegerDotProduct16BitSignedAccelerated is true if the support for 16-bit signed
+	// dot product operations using the OpSDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct16BitSignedAccelerated bool
+	// IntegerDotProduct16BitMixedSignednessAccelerated is true if the support for 16-bit
+	// mixed signedness dot product operations using the OpSUDotKHR SPIR-V instruction is
+	// accelerated
+	IntegerDotProduct16BitMixedSignednessAccelerated bool
+	// IntegerDotProduct32BitUnsignedAccelerated is true if the support for 32-bit unsigned
+	// dot product operations using the OpUDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct32BitUnsignedAccelerated bool
+	// IntegerDotProduct32BitSignedAccelerated is true if the support for 32-bit signed
+	// dot product operations using the OpSDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct32BitSignedAccelerated bool
+	// IntegerDotProduct32BitMixedSignednessAccelerated is true if the support for 32-bit
+	// mixed signedness dot product operations using the OpSUDotKHR SPIR-V instruction is
+	// accelerated
+	IntegerDotProduct32BitMixedSignednessAccelerated bool
+	// IntegerDotProduct64BitUnsignedAccelerated is true if if the support for 64-bit
+	// unsigned dot product operations using the OpUDotKHR SPIR-V instruction is
+	// accelerated
+	IntegerDotProduct64BitUnsignedAccelerated bool
+	// IntegerDotProduct64BitSignedAccelerated is true if the support for 64-bit signed
+	// dot product operations using the OpSDotKHR SPIR-V instruction is accelerated
+	IntegerDotProduct64BitSignedAccelerated bool
+	// IntegerDotProduct64BitMixedSignednessAccelerated is true if the support for 64-bit
+	// mixed signedness dot product operations using the OpSUDotKHR SPIR-V instruction is
+	// accelerated
+	IntegerDotProduct64BitMixedSignednessAccelerated bool
+	// IntegerDotProductAccumulatingSaturating8BitUnsignedAccelerated is true if the
+	// support for 8-bit unsigned accumulating saturating dot product operations using the
+	// OpUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating8BitUnsignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating8BitSignedAccelerated is true if the support
+	// for 8-bit signed accumulating saturating dot product operations using the
+	// OpSDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating8BitSignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating8BitMixedSignednessAccelerated is true if
+	// the support for 8-bit mixed signedness accumulating saturating dot product
+	// operations using the OpSUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating8BitMixedSignednessAccelerated bool
+	// IntegerDotProductAccumulatingSaturating4x8BitPackedUnsignedAccelerated is true if
+	// the support for 8-bit unsigned accumulating saturating dot product operations from
+	// operands packed into 32-bit integers using the OpUDotAccSatKHR SPIR-V instruction is
+	// accelerated
+	IntegerDotProductAccumulatingSaturating4x8BitPackedUnsignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating4x8BitPackedSignedAccelerated is true if the
+	// support for 8-bit signed accumulating saturating dot product operations from
+	// operands packed into 32-bit integers using the OpSDotAccSatKHR SPIR-V instruction is
+	// accelerated
+	IntegerDotProductAccumulatingSaturating4x8BitPackedSignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating4x8BitPackedMixedSignednessAccelerated is
+	// true if the support for 8-bit mixed signedness accumulating saturating dot product
+	// operations from operands packed into 32-bit integers using the OpSUDotAccSatKHR
+	// SPIR-V instruction is accelerated
 	IntegerDotProductAccumulatingSaturating4x8BitPackedMixedSignednessAccelerated bool
-	IntegerDotProductAccumulatingSaturating16BitUnsignedAccelerated               bool
-	IntegerDotProductAccumulatingSaturating16BitSignedAccelerated                 bool
-	IntegerDotProductAccumulatingSaturating16BitMixedSignednessAccelerated        bool
-	IntegerDotProductAccumulatingSaturating32BitUnsignedAccelerated               bool
-	IntegerDotProductAccumulatingSaturating32BitSignedAccelerated                 bool
-	IntegerDotProductAccumulatingSaturating32BitMixedSignednessAccelerated        bool
-	IntegerDotProductAccumulatingSaturating64BitUnsignedAccelerated               bool
-	IntegerDotProductAccumulatingSaturating64BitSignedAccelerated                 bool
-	IntegerDotProductAccumulatingSaturating64BitMixedSignednessAccelerated        bool
+	// IntegerDotProductAccumulatingSaturating16BitUnsignedAccelerated is true if the
+	// support for 16-bit unsigned accumulating saturating dot product operations using
+	// the OpUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating16BitUnsignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating16BitSignedAccelerated is true if the support
+	// for 16-bit signed accumulating saturating dot product operations using the
+	// OpSDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating16BitSignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating16BitMixedSignednessAccelerated is true if
+	// the support for 16-bit mixed signedness accumulating saturating dot product
+	// operations using the OpSUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating16BitMixedSignednessAccelerated bool
+	// IntegerDotProductAccumulatingSaturating32BitUnsignedAccelerated is true if the
+	// support for 32-bit unsigned accumulating saturating dot product operations using the
+	// OpUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating32BitUnsignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating32BitSignedAccelerated is true if the support
+	// for 32-bit signed accumulating saturating dot product operations using the
+	// OpSDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating32BitSignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating32BitMixedSignednessAccelerated is true if
+	// the support for 32-bit mixed signedness accumulating saturating dot product
+	// operations using the OpSUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating32BitMixedSignednessAccelerated bool
+	// IntegerDotProductAccumulatingSaturating64BitUnsignedAccelerated is true if the
+	// support for 64-bit unsigned accumulating saturating dot product operations using
+	// the OpUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating64BitUnsignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating64BitSignedAccelerated is true if the support
+	// for 64-bit signed accumulating saturating dot product operations using the
+	// OpSDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating64BitSignedAccelerated bool
+	// IntegerDotProductAccumulatingSaturating64BitMixedSignednessAccelerated is true if
+	// the support for 64-bit mixed signedness accumulating saturating dot product
+	// operations using the OpSUDotAccSatKHR SPIR-V instruction is accelerated
+	IntegerDotProductAccumulatingSaturating64BitMixedSignednessAccelerated bool
 
 	common.NextOutData
 }
