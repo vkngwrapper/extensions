@@ -5,6 +5,7 @@ package library
 import (
 	"github.com/vkngwrapper/core/v3/core1_0"
 	"github.com/vkngwrapper/extensions/v3/ext_debug_utils"
+	"github.com/vkngwrapper/extensions/v3/ext_extended_dynamic_state"
 	"github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	"github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
 	"github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
@@ -53,6 +54,10 @@ func (l *extensionLibrary) KhrGetSurfaceCapabilities2(driver core1_0.CoreInstanc
 
 func (l *extensionLibrary) KhrSurface(driver core1_0.CoreInstanceDriver) khr_surface.ExtensionDriver {
 	return khr_surface.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) ExtExtendedDynamicState(driver core1_0.DeviceDriver) ext_extended_dynamic_state.ExtensionDriver {
+	 return ext_extended_dynamic_state.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) ExtFullScreenExclusive(driver core1_0.DeviceDriver, instance core1_0.Instance) ext_full_screen_exclusive.ExtensionDriver {

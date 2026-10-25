@@ -14,6 +14,7 @@ import (
 
 	core1_0 "github.com/vkngwrapper/core/v3/core1_0"
 	ext_debug_utils "github.com/vkngwrapper/extensions/v3/ext_debug_utils"
+	ext_extended_dynamic_state "github.com/vkngwrapper/extensions/v3/ext_extended_dynamic_state"
 	ext_full_screen_exclusive "github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	ext_host_query_reset "github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
 	khr_acceleration_structure "github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
@@ -79,6 +80,20 @@ func (m *MockLibrary) ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_debug
 func (mr *MockLibraryMockRecorder) ExtDebugUtils(driver any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExtDebugUtils", reflect.TypeOf((*MockLibrary)(nil).ExtDebugUtils), driver)
+}
+
+// ExtExtendedDynamicState mocks base method.
+func (m *MockLibrary) ExtExtendedDynamicState(driver core1_0.DeviceDriver) ext_extended_dynamic_state.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ExtExtendedDynamicState", driver)
+	ret0, _ := ret[0].(ext_extended_dynamic_state.ExtensionDriver)
+	return ret0
+}
+
+// ExtExtendedDynamicState indicates an expected call of ExtExtendedDynamicState.
+func (mr *MockLibraryMockRecorder) ExtExtendedDynamicState(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExtExtendedDynamicState", reflect.TypeOf((*MockLibrary)(nil).ExtExtendedDynamicState), driver)
 }
 
 // ExtFullScreenExclusive mocks base method.
