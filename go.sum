@@ -10,6 +10,10 @@ github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWD
 github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
 github.com/vkngwrapper/core/v3 v3.1.5 h1:8axQwuq37Ql0QX2LW0CTTXQkzidnz/SFlZcFgyIe2ag=
 github.com/vkngwrapper/core/v3 v3.1.5/go.mod h1:/vcVlHG76TOka8pJOFE32+QIf9cO+Gn1F6VC6ZHJplw=
+github.com/vkngwrapper/core/v3 v3.1.7 h1:NR9mGhs6fU/RMS79fHo4VHG1J+xnVt95wHiEhjjS4dY=
+github.com/vkngwrapper/core/v3 v3.1.7/go.mod h1:/vcVlHG76TOka8pJOFE32+QIf9cO+Gn1F6VC6ZHJplw=
+github.com/vkngwrapper/core/v3 v3.1.8 h1:uwlSUycLRLxLDA8fimUkjmdKkwI+q6yr5fsXmtbncPE=
+github.com/vkngwrapper/core/v3 v3.1.8/go.mod h1:/vcVlHG76TOka8pJOFE32+QIf9cO+Gn1F6VC6ZHJplw=
 go.uber.org/mock v0.6.0 h1:hyF9dfmbgIX5EfOdasqLsWD6xqpNZlXblLB/Dbnwv3Y=
 go.uber.org/mock v0.6.0/go.mod h1:KiVJ4BqZJaMj4svdfmHM0AUx4NJYO8ZNpPnZn1Z+BBU=
 go.yaml.in/yaml/v3 v3.0.5 h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=
