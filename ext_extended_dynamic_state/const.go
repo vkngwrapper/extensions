@@ -89,3 +89,18 @@ const (
 	// https://docs.vulkan.org/refpages/latest/refpages/source/VkDynamicState.html
 	DynamicStateViewportWithCount core1_0.DynamicState = C.VK_DYNAMIC_STATE_VIEWPORT_WITH_COUNT_EXT
 )
+
+func init() {
+	DynamicStateCullMode.Register("CullMode")
+	DynamicStateDepthBoundsTestEnable.Register("DepthBoundsTestEnable")
+	DynamicStateDepthCompareOp.Register("DepthCompareOp")
+	DynamicStateDepthTestEnable.Register("DepthTestEnable")
+	DynamicStateDepthWriteEnable.Register("DepthWriteEnable")
+	DynamicStateFrontFace.Register("FrontFace")
+	DynamicStatePrimitiveTopology.Register("PrimitiveTopology")
+	DynamicStateScissorWithCount.Register("ScissorWithCount")
+	DynamicStateStencilOp.Register("StencilOp")
+	DynamicStateStencilTestEnable.Register("StencilTestEnable")
+	DynamicStateVertexInputBindingStride.Register("VertexInputBindingStride")
+	DynamicStateViewportWithCount.Register("ViewportWithCount")
+}

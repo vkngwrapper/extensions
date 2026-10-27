@@ -29,3 +29,8 @@ const (
 	// https://docs.vulkan.org/refpages/latest/refpages/source/VkFormat.html
 	FormatA4R4G4B4UnsignedNormalizedPacked16 core1_0.Format = C.VK_FORMAT_A4R4G4B4_UNORM_PACK16_EXT
 )
+
+func init() {
+	FormatA4B4G4R4UnsignedNormalizedPacked16.Register("A4B4G4R4UnsignedNormalizedPacked16")
+	FormatA4R4G4B4UnsignedNormalizedPacked16.Register("A4R4G4B4UnsignedNormalizedPacked16")
+}
