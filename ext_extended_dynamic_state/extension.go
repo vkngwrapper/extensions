@@ -20,7 +20,7 @@ type VulkanExtensionDriver struct {
 }
 
 // CreateExtensionDriverFromCoreDriver produces an ExtensionDriver object from a Device with
-// ext_host_query_reset loaded
+// ext_extended_dynamic_state loaded
 func CreateExtensionDriverFromCoreDriver(coreDriver core1_0.DeviceDriver) ExtensionDriver {
 	device := coreDriver.Device()
 
