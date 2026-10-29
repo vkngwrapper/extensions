@@ -16,6 +16,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	"github.com/vkngwrapper/extensions/v3/khr_device_group"
+	"github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
 	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
 	"github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
@@ -42,6 +43,10 @@ func NewLibrary() Library {
 
 func (l *extensionLibrary) ExtDebugUtils(driver core1_0.CoreInstanceDriver) ext_debug_utils.ExtensionDriver {
 	return ext_debug_utils.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) KhrDeviceGroupCreation(driver core1_0.CoreInstanceDriver) khr_device_group_creation.ExtensionDriver {
+	return khr_device_group_creation.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrGetPhysicalDeviceProperties2(driver core1_0.CoreInstanceDriver) khr_get_physical_device_properties2.ExtensionDriver {

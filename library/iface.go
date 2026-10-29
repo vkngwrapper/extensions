@@ -16,6 +16,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 	"github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	"github.com/vkngwrapper/extensions/v3/khr_device_group"
+	"github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
 	"github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
 	"github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering"
 	"github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
@@ -47,6 +48,7 @@ type Library interface {
 	KhrDeferredHostOperations(driver core1_0.DeviceDriver) khr_deferred_host_operations.ExtensionDriver
 	KhrDescriptorUpdateTemplate(driver core1_0.DeviceDriver) khr_descriptor_update_template.ExtensionDriver
 	KhrDeviceGroup(driver core1_0.DeviceDriver, instance core1_0.Instance) khr_device_group.ExtensionDriver
+	KhrDeviceGroupCreation(driver core1_0.CoreInstanceDriver) khr_device_group_creation.ExtensionDriver
 	KhrDrawIndirectCount(driver core1_0.DeviceDriver) khr_draw_indirect_count.ExtensionDriver
 	KhrDynamicRendering(driver core1_0.DeviceDriver) khr_dynamic_rendering.ExtensionDriver
 	KhrExternalFenceCapabilities(driver core1_0.DeviceDriver) khr_external_fence_capabilities.ExtensionDriver
