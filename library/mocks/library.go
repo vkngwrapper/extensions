@@ -25,6 +25,7 @@ import (
 	khr_deferred_host_operations "github.com/vkngwrapper/extensions/v3/khr_deferred_host_operations"
 	khr_descriptor_update_template "github.com/vkngwrapper/extensions/v3/khr_descriptor_update_template"
 	khr_device_group "github.com/vkngwrapper/extensions/v3/khr_device_group"
+	khr_device_group_creation "github.com/vkngwrapper/extensions/v3/khr_device_group_creation"
 	khr_draw_indirect_count "github.com/vkngwrapper/extensions/v3/khr_draw_indirect_count"
 	khr_dynamic_rendering "github.com/vkngwrapper/extensions/v3/khr_dynamic_rendering"
 	khr_external_fence_capabilities "github.com/vkngwrapper/extensions/v3/khr_external_fence_capabilities"
@@ -234,6 +235,20 @@ func (m *MockLibrary) KhrDeviceGroup(driver core1_0.DeviceDriver, instance core1
 func (mr *MockLibraryMockRecorder) KhrDeviceGroup(driver, instance any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrDeviceGroup", reflect.TypeOf((*MockLibrary)(nil).KhrDeviceGroup), driver, instance)
+}
+
+// KhrDeviceGroupCreation mocks base method.
+func (m *MockLibrary) KhrDeviceGroupCreation(driver core1_0.CoreInstanceDriver) khr_device_group_creation.ExtensionDriver {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KhrDeviceGroupCreation", driver)
+	ret0, _ := ret[0].(khr_device_group_creation.ExtensionDriver)
+	return ret0
+}
+
+// KhrDeviceGroupCreation indicates an expected call of KhrDeviceGroupCreation.
+func (mr *MockLibraryMockRecorder) KhrDeviceGroupCreation(driver any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KhrDeviceGroupCreation", reflect.TypeOf((*MockLibrary)(nil).KhrDeviceGroupCreation), driver)
 }
 
 // KhrDrawIndirectCount mocks base method.

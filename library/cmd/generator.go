@@ -244,7 +244,7 @@ func findRelevantPackages() PackageData {
 			})
 		}
 
-		lastRelevantPackagePath = path
+		lastRelevantPackagePath = path + "/"
 	}
 
 	return packageData
