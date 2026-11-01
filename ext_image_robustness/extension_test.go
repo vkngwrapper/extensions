@@ -18,7 +18,7 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func TestPhysicalDeviceExtendedDynamicStateFeatures_OutData(t *testing.T) {
+func TestPhysicalDeviceImageRobustnessFeatures_OutData(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -58,7 +58,7 @@ func TestPhysicalDeviceExtendedDynamicStateFeatures_OutData(t *testing.T) {
 	}, features)
 }
 
-func TestPhysicalDeviceExtendedDynamicStateFeatures_Options(t *testing.T) {
+func TestPhysicalDeviceImageRobustnessFeatures_Options(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
