@@ -9,6 +9,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/ext_extended_dynamic_state2"
 	"github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	"github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
+	"github.com/vkngwrapper/extensions/v3/ext_private_data"
 	"github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
 	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
@@ -42,6 +43,7 @@ type Library interface {
 	ExtExtendedDynamicState2(driver core1_0.DeviceDriver) ext_extended_dynamic_state2.ExtensionDriver
 	ExtFullScreenExclusive(driver core1_0.DeviceDriver, instance core1_0.Instance) ext_full_screen_exclusive.ExtensionDriver
 	ExtHostQueryReset(driver core1_0.DeviceDriver) ext_host_query_reset.ExtensionDriver
+	ExtPrivateData(driver core1_0.DeviceDriver) ext_private_data.ExtensionDriver
 	KhrAccelerationStructure(driver core1_0.DeviceDriver) khr_acceleration_structure.ExtensionDriver
 	KhrBindMemory2(driver core1_0.DeviceDriver) khr_bind_memory2.ExtensionDriver
 	KhrBufferDeviceAddress(driver core1_0.DeviceDriver) khr_buffer_device_address.ExtensionDriver

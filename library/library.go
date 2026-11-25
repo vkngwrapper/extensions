@@ -9,6 +9,7 @@ import (
 	"github.com/vkngwrapper/extensions/v3/ext_extended_dynamic_state2"
 	"github.com/vkngwrapper/extensions/v3/ext_full_screen_exclusive"
 	"github.com/vkngwrapper/extensions/v3/ext_host_query_reset"
+	"github.com/vkngwrapper/extensions/v3/ext_private_data"
 	"github.com/vkngwrapper/extensions/v3/khr_acceleration_structure"
 	"github.com/vkngwrapper/extensions/v3/khr_bind_memory2"
 	"github.com/vkngwrapper/extensions/v3/khr_buffer_device_address"
@@ -76,6 +77,10 @@ func (l *extensionLibrary) ExtFullScreenExclusive(driver core1_0.DeviceDriver, i
 
 func (l *extensionLibrary) ExtHostQueryReset(driver core1_0.DeviceDriver) ext_host_query_reset.ExtensionDriver {
 	 return ext_host_query_reset.CreateExtensionDriverFromCoreDriver(driver)
+}
+
+func (l *extensionLibrary) ExtPrivateData(driver core1_0.DeviceDriver) ext_private_data.ExtensionDriver {
+	 return ext_private_data.CreateExtensionDriverFromCoreDriver(driver)
 }
 
 func (l *extensionLibrary) KhrAccelerationStructure(driver core1_0.DeviceDriver) khr_acceleration_structure.ExtensionDriver {
